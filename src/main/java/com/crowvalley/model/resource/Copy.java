@@ -1,7 +1,5 @@
 package com.crowvalley.model.resource;
 
-import com.crowvalley.model.user.User;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +16,8 @@ public class Copy {
     private Long resourceId;
 
     private Integer loanDurationAsDays;
+
+    private String currentBorrower;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -62,5 +62,13 @@ public class Copy {
 
     public void setCopyRequestList(List<CopyRequest> copyRequestList) {
         this.copyRequestList = copyRequestList;
+    }
+
+    public String getCurrentBorrower() {
+        return currentBorrower;
+    }
+
+    public void setCurrentBorrower(String borrowerUsername) {
+        this.currentBorrower = borrowerUsername;
     }
 }

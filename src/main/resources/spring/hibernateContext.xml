@@ -22,8 +22,8 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="annotatedPackages">
             <list>
-                <value>com.crowvalley.model</value>
                 <value>com.crowvalley.model.resource</value>
+                <value>com.crowvalley.model.user</value>
             </list>
         </property>
         <property name="hibernateProperties">

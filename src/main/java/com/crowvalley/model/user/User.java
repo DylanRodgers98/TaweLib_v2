@@ -1,10 +1,6 @@
 package com.crowvalley.model.user;
 
-import com.crowvalley.model.resource.Copy;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -34,10 +30,6 @@ public class User {
     private Double balance;
 
     private String profileImagePath;
-
-    @OneToMany
-    @JoinColumn(name = "copy_id")
-    private List<Copy> copiesBorrowing = new ArrayList<>();
 
     /**
      * Creates a new user.
@@ -157,14 +149,6 @@ public class User {
 
     public void setProfileImagePath(String profileImagePath) {
         this.profileImagePath = profileImagePath;
-    }
-
-    public List<Copy> getCopiesBorrowing() {
-        return copiesBorrowing;
-    }
-
-    public void setCopiesBorrowing(List<Copy> copiesBorrowing) {
-        this.copiesBorrowing = copiesBorrowing;
     }
 }
 
