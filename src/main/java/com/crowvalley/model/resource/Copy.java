@@ -23,12 +23,10 @@ public class Copy {
 
     /**
      * Creates a copy.
-     * @param id the unique identifier of the copy
      * @param resourceId the resourceId of the copy
      * @param loanDurationAsDays The minimum duration of a loan in days
      */
-    public Copy(Long id, Long resourceId, Integer loanDurationAsDays) {
-        this.id = id;
+    public Copy(Long resourceId, Integer loanDurationAsDays) {
         this.resourceId = resourceId;
         this.loanDurationAsDays = loanDurationAsDays;
     }

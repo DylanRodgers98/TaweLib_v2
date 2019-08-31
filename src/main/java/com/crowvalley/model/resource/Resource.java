@@ -15,22 +15,26 @@ public abstract class Resource {
 
     private String year;
 
-    private String imageURL;
+    private String imageUrl;
 
     /**
      * Create a new resource.
      *
      * @param title    The title of the resource.
      * @param year     The year of the resource.
-     * @param imageURL The image url of the resource.
+     * @param imageUrl The image url of the resource.
      */
-    public Resource(String title, String year, String imageURL) {
+    public Resource(String title, String year, String imageUrl) {
         this.title = title;
         this.year = year;
-        this.imageURL = imageURL;
+        this.imageUrl = imageUrl;
     }
 
     public Resource() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -50,11 +54,11 @@ public abstract class Resource {
     }
 
     public String getImageUrl() {
-        return imageURL;
+        return imageUrl;
     }
 
     public void setImageUrl(String imageURL) {
-        this.imageURL = imageURL;
+        this.imageUrl = imageURL;
     }
 
 }

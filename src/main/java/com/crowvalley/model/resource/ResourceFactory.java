@@ -17,4 +17,8 @@ public class ResourceFactory {
         return new Laptop(title, year, imageUrl, manufacturer, model, os);
     }
 
+    public Copy createCopy(Resource resource, Integer loanDurationAsDays) {
+        return new Copy(resource.getId(), loanDurationAsDays);
+    }
+
 }
