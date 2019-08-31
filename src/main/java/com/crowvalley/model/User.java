@@ -1,29 +1,46 @@
 package com.crowvalley.model;
 
-import java.nio.file.Path;
+import com.crowvalley.model.resource.Copy;
 
-/**
- * Models a user. Each user has a username, a first name, a surname, a phone number, a house number, a street number, a street, a town, a county, a postcode, a balance, and a profile path.
- * @author Carlos
- */
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Inheritance(strategy =  InheritanceType.TABLE_PER_CLASS)
 public class User {
-    private String userName;
+
+    @Id
+    private String username;
+
     private String firstName;
-    private String surName;
+
+    private String surname;
+
     private String phoneNum;
+
     private String houseNum;
+
     private String street;
+
     private String town;
+
     private String county;
+
     private String postcode;
+
     private Float balance;
-    private Path profilePath;
+
+    private String profileImagePath;
+
+    @OneToMany
+    private List<Copy> copiesBorrowing = new ArrayList<>();
 
     /**
      * Creates a new user.
-     * @param userName The username of the user.
+     * @param username The username of the user.
      * @param firstName The first name of the user.
-     * @param surName The surname of the user.
+     * @param surname The surname of the user.
      * @param phoneNum The phone number of the user.
      * @param houseNum The house number of the user.
      * @param street The street of the user.
@@ -31,29 +48,32 @@ public class User {
      * @param county The county of the user.
      * @param postcode The postcode of the user.
      * @param balance The balance of the user.
-     * @param profilePath The profile path of the user.
+     * @param profileImagePath The profile path of the user.
      */
-    public User(String userName, String firstName, String surName, String phoneNum, String houseNum,
-                String street, String town, String county, String postcode, Path profilePath, Float balance){
-        this.userName = userName;
+    public User(String username, String firstName, String surname, String phoneNum, String houseNum,
+                String street, String town, String county, String postcode, String profileImagePath, Float balance){
+        this.username = username;
         this.firstName = firstName;
-        this.surName= surName;
+        this.surname = surname;
         this.phoneNum = phoneNum;
         this.houseNum = houseNum;
         this.street = street;
         this.town = town;
         this.county = county;
         this.postcode = postcode;
-        this.profilePath = profilePath;
+        this.profileImagePath = profileImagePath;
         this.balance = balance;
     }
 
-    public String getUserName() {
-        return userName;
+    public User() {
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFirstName() {
@@ -64,12 +84,12 @@ public class User {
         this.firstName = firstName;
     }
 
-    public String getSurName() {
-        return surName;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setSurName(String surName) {
-        this.surName = surName;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getPhoneNum() {
@@ -128,12 +148,20 @@ public class User {
         this.balance = balance;
     }
 
-    public Path getProfilePath() {
-        return profilePath.toAbsolutePath();
+    public String getProfileImagePath() {
+        return profileImagePath;
     }
 
-    public void setProfilePath(Path profilePath) {
-        this.profilePath = profilePath;
+    public void setProfileImagePath(String profileImagePath) {
+        this.profileImagePath = profileImagePath;
+    }
+
+    public List<Copy> getCopiesBorrowing() {
+        return copiesBorrowing;
+    }
+
+    public void setCopiesBorrowing(List<Copy> copiesBorrowing) {
+        this.copiesBorrowing = copiesBorrowing;
     }
 }
 

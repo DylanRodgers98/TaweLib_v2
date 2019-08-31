@@ -9,9 +9,13 @@ import java.nio.file.Path;
  */
 @Entity
 public class Dvd extends Resource {
+
     private String director;
+
     private String language;
+
     private Integer runtime;
+
     private String subLang;
 
     /**

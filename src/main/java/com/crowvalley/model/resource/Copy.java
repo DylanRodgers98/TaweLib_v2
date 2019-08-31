@@ -1,23 +1,17 @@
 package com.crowvalley.model.resource;
 
-import com.crowvalley.model.ResourceRequestQueue;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Copy {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
-    private int resourceId;
+    private Long resourceId;
 
-    private int loanDurationAsDays;
-
-    private String usernameOfCurrentOwner;
+    private Integer loanDurationAsDays;
 
     /**
      * Creates a copy.
@@ -25,7 +19,7 @@ public class Copy {
      * @param resourceId the resourceId of the copy
      * @param loanDurationAsDays The minimum duration of a loan in days
      */
-    public Copy(int id, int resourceId, int loanDurationAsDays) {
+    public Copy(Long id, Long resourceId, Integer loanDurationAsDays) {
         this.id = id;
         this.resourceId = resourceId;
         this.loanDurationAsDays = loanDurationAsDays;
@@ -34,27 +28,20 @@ public class Copy {
     public Copy() {
     }
 
-    public int getCopyId() {
+    public Long getCopyId() {
         return id;
     }
 
-    public int getResourceId() {
+    public Long getResourceId() {
         return resourceId;
     }
 
-    public int getLoanDurationAsDays() {
+    public Integer getLoanDurationAsDays() {
         return loanDurationAsDays;
     }
 
-    public void setLoanDurationAsDays(int loanDurationAsDays) {
+    public void setLoanDurationAsDays(Integer loanDurationAsDays) {
         this.loanDurationAsDays = loanDurationAsDays;
     }
 
-    public String getUsernameOfCurrentOwner() {
-        return usernameOfCurrentOwner;
-    }
-
-    public void setUsernameOfCurrentOwner(String usernameOfCurrentOwner) {
-        this.usernameOfCurrentOwner = usernameOfCurrentOwner;
-    }
 }

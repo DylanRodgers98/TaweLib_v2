@@ -8,8 +8,11 @@ import javax.persistence.Entity;
  */
 @Entity
 public class Laptop extends Resource{
+
     private String manufacturer;
+
     private String model;
+
     private String os;
 
     /**

@@ -8,10 +8,15 @@ import javax.persistence.Entity;
  */
 @Entity
 public class Book extends Resource {
+
     private String author;
+
     private String publisher;
+
     private String genre;
+
     private String isbn;
+
     private String language;
 
     /**
