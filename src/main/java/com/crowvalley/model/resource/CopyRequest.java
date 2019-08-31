@@ -9,10 +9,15 @@ public class CopyRequest {
 
     @Id
     @GeneratedValue
+    @Column(name = "copy_request_id")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="copy_id", nullable = false)
+    @JoinTable(
+            name="copy_copy_request",
+            joinColumns = @JoinColumn(name="copy_request_id", insertable = false, updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "copy_id", insertable = false, updatable = false)
+    )
     private Copy copy;
 
     private String username;

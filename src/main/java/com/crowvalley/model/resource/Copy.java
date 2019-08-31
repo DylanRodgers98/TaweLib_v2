@@ -12,13 +12,19 @@ public class Copy {
 
     @Id
     @GeneratedValue
+    @Column(name = "copy_id")
     private Long id;
 
     private Long resourceId;
 
     private Integer loanDurationAsDays;
 
-    @OneToMany(mappedBy = "copy", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "copy_copy_request",
+            joinColumns = @JoinColumn(name = "copy_id"),
+            inverseJoinColumns = @JoinColumn(name = "copy_request_id")
+    )
     private List<CopyRequest> copyRequestList = new ArrayList<>();
 
     /**

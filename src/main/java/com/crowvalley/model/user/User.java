@@ -8,10 +8,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "user")
-@Inheritance(strategy =  InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User {
 
     @Id
+    @Column(name = "username")
     private String username;
 
     private String firstName;
@@ -34,7 +35,8 @@ public class User {
 
     private String profileImagePath;
 
-    @OneToMany(mappedBy = "copy")
+    @OneToMany
+    @JoinColumn(name = "copy_id")
     private List<Copy> copiesBorrowing = new ArrayList<>();
 
     /**
