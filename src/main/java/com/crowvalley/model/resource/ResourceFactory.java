@@ -1,7 +1,5 @@
 package com.crowvalley.model.resource;
 
-import java.nio.file.Path;
-
 public class ResourceFactory {
 
     public Book createBook(String title, String year, String imageUrl, String author,
@@ -10,7 +8,7 @@ public class ResourceFactory {
     }
 
     public Dvd createDvd(String title, String year, String imageUrl,
-                         String director, String language, int runtime, String subtitleLang) {
+                         String director, String language, Integer runtime, String subtitleLang) {
         return new Dvd(title, year, imageUrl, director, language, runtime, subtitleLang);
     }
 
