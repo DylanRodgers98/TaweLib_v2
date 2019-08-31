@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
-public class BookDAOImpl implements ResourceDAO<Book> {
+public class BookDAO implements IResourceDAO<Book> {
 
     @Resource
     private SessionFactory sessionFactory;

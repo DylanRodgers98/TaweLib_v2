@@ -20,8 +20,8 @@
     </bean>
 
     <!-- DAO beans -->
-    <bean id="bookDAO" class="com.crowvalley.dao.BookDAOImpl" />
-    <bean id="laptopDAO" class="com.crowvalley.dao.LaptopDAOImpl" />
-    <bean id="dvdDAO" class="com.crowvalley.dao.DvdDAOImpl" />
+    <bean id="bookDAO" class="com.crowvalley.dao.BookDAO" />
+    <bean id="laptopDAO" class="com.crowvalley.dao.LaptopDAO" />
+    <bean id="dvdDAO" class="com.crowvalley.dao.DvdDAO" />
 
 </beans>

@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
-public class DvdDAOImpl implements ResourceDAO<Dvd> {
+public class DvdDAO implements IResourceDAO<Dvd> {
 
     @Resource
     private SessionFactory sessionFactory;

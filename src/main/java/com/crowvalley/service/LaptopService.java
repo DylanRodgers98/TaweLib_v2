@@ -1,16 +1,16 @@
 package com.crowvalley.service;
 
-import com.crowvalley.dao.ResourceDAO;
+import com.crowvalley.dao.IResourceDAO;
 import com.crowvalley.model.resource.Laptop;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
-public class LaptopService {
+public class LaptopService implements IResourceService<Laptop> {
 
     @Resource
-    private ResourceDAO DAO;
+    private IResourceDAO DAO;
 
     public Optional<Laptop> get(Long id) {
         return DAO.get(id);
@@ -32,7 +32,7 @@ public class LaptopService {
         DAO.delete(laptop);
     }
 
-    public void setDAO(ResourceDAO DAO) {
+    public void setDAO(IResourceDAO DAO) {
         this.DAO = DAO;
     }
 }
