@@ -4,11 +4,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-/**
- * Models a resource. Each resource has a resource identifier, a title, a year, a image url, a copy set,and a queue.
- *
- * @author Rob
- */
 @MappedSuperclass
 public abstract class Resource {
 

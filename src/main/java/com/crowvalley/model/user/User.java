@@ -1,4 +1,4 @@
-package com.crowvalley.model;
+package com.crowvalley.model.user;
 
 import com.crowvalley.model.resource.Copy;
 
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "user")
 @Inheritance(strategy =  InheritanceType.TABLE_PER_CLASS)
 public class User {
 
@@ -33,7 +34,7 @@ public class User {
 
     private String profileImagePath;
 
-    @OneToMany
+    @OneToMany(mappedBy = "copy")
     private List<Copy> copiesBorrowing = new ArrayList<>();
 
     /**

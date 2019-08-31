@@ -1,12 +1,8 @@
-package com.crowvalley.model;
+package com.crowvalley.model.user;
 
 import javax.persistence.Entity;
 import java.util.Date;
 
-/**
- * Models a librarian. Librarian extends User. Each Librarian has a employment date, and a staff number.
- * @author
- */
 @Entity
 public class Librarian extends User{
 

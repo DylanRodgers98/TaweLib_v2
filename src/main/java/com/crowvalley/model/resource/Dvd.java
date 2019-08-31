@@ -1,12 +1,7 @@
 package com.crowvalley.model.resource;
 
 import javax.persistence.Entity;
-import java.nio.file.Path;
 
-/**
- * Model of a DVD. DVD extends Resource.Each DVD has a maximum fine, a fine rate per day, a language, a runtime, and a subtitles language.
- * @author Lewis
- */
 @Entity
 public class Dvd extends Resource {
 

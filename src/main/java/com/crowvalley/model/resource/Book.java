@@ -2,10 +2,6 @@ package com.crowvalley.model.resource;
 
 import javax.persistence.Entity;
 
-/**
- * Model of a book.Book extends Resource. Each book has a maximum fine, a fine rate per day, an author, a genre, an isbn, and a language.
- * @author Dylan
- */
 @Entity
 public class Book extends Resource {
 

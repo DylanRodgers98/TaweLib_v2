@@ -2,10 +2,6 @@ package com.crowvalley.model.resource;
 
 import javax.persistence.Entity;
 
-/**
- * Model of a Laptop. Laptop extends Resource. Each Laptop has has a maximum fine, a fine rate per day, a manufacturer, a model, and a os.
- * @author Rob
- */
 @Entity
 public class Laptop extends Resource{
 
