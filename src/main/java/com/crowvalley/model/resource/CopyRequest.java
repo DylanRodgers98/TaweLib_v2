@@ -1,7 +1,7 @@
 package com.crowvalley.model.resource;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "copy_request")
@@ -22,9 +22,9 @@ public class CopyRequest {
 
     private String username;
 
-    private Date requestDate;
+    private Timestamp requestDate;
 
-    public CopyRequest (Copy copy, String username, Date requestDate) {
+    public CopyRequest (Copy copy, String username, Timestamp requestDate) {
         this.copy = copy;
         this.username = username;
         this.requestDate = requestDate;
@@ -45,7 +45,7 @@ public class CopyRequest {
         return username;
     }
 
-    public Date getRequestDate() {
+    public Timestamp getRequestDate() {
         return requestDate;
     }
 

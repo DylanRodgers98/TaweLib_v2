@@ -2,7 +2,7 @@ package com.crowvalley.model.user;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Table(name = "librarian")

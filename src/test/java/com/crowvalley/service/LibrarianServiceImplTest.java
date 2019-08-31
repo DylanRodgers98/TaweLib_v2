@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,9 +42,9 @@ public class LibrarianServiceImplTest {
 
     @Before
     public void setup() {
-        librarian1 = new Librarian("Librarian 1", "", "", "", "", "", "", "", "", "", 0.0, new Date(), Long.valueOf(1));
-        librarian2 = new Librarian("Librarian 2", "", "", "", "", "", "", "", "", "", 0.0, new Date(), Long.valueOf(2));
-        librarian3 = new Librarian("Librarian 3", "", "", "", "", "", "", "", "", "", 0.0, new Date(), Long.valueOf(3));
+        librarian1 = new Librarian("Librarian 1", "", "", "", "", "", "", "", "", "", 0.0, new Date(System.currentTimeMillis()), Long.valueOf(1));
+        librarian2 = new Librarian("Librarian 2", "", "", "", "", "", "", "", "", "", 0.0, new Date(System.currentTimeMillis()), Long.valueOf(2));
+        librarian3 = new Librarian("Librarian 3", "", "", "", "", "", "", "", "", "", 0.0, new Date(System.currentTimeMillis()), Long.valueOf(3));
         optionalLibrarian1 = Optional.of(librarian1);
         optionalLibrarian2 = Optional.of(librarian2);
         optionalLibrarian3 = Optional.of(librarian3);
