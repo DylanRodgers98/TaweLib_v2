@@ -9,9 +9,9 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
-public class BookService implements IResourceService<Book> {
+public class BookServiceImpl implements IResourceService<Book> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BookService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BookServiceImpl.class);
 
     @Resource
     private IResourceDAO DAO;
@@ -33,7 +33,7 @@ public class BookService implements IResourceService<Book> {
             LOGGER.info("All books retrieved successfully");
             return books;
         } else {
-            LOGGER.warn("No books found in database");
+            LOGGER.warn("No books found");
             return books;
         }
     }
@@ -55,6 +55,6 @@ public class BookService implements IResourceService<Book> {
 
     public void setDAO(IResourceDAO DAO) {
         this.DAO = DAO;
-        LOGGER.info("BookService DAO set to {}", DAO.getClass());
+        LOGGER.info("BookServiceImpl DAO set to {}", DAO.getClass());
     }
 }

@@ -9,9 +9,9 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
-public class DvdService implements IResourceService<Dvd>{
+public class DvdServiceImpl implements IResourceService<Dvd>{
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DvdService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DvdServiceImpl.class);
 
     @Resource
     private IResourceDAO DAO;
@@ -19,10 +19,10 @@ public class DvdService implements IResourceService<Dvd>{
     public Optional<Dvd> get(Long id) {
         Optional<Dvd> dvd = DAO.get(id);
         if (dvd.isPresent()) {
-            LOGGER.info("Dvd with id {} retrieved successfully", id);
+            LOGGER.info("DVD with id {} retrieved successfully", id);
             return dvd;
         } else {
-            LOGGER.warn("Could not find dvd with id {}", id);
+            LOGGER.warn("Could not find DVD with id {}", id);
             return Optional.empty();
         }
     }
@@ -30,31 +30,31 @@ public class DvdService implements IResourceService<Dvd>{
     public List<Dvd> getAll() {
         List<Dvd> dvds = DAO.getAll();
         if (!dvds.isEmpty()) {
-            LOGGER.info("All dvds retrieved successfully");
+            LOGGER.info("All DVDs retrieved successfully");
             return dvds;
         } else {
-            LOGGER.warn("No dvds found in database");
+            LOGGER.warn("No DVDs found");
             return dvds;
         }
     }
 
     public void save(Dvd dvd){
         DAO.save(dvd);
-        LOGGER.info("Dvd with id {} saved successfully", dvd.getId());
+        LOGGER.info("DVD with id {} saved successfully", dvd.getId());
     }
 
     public void update(Dvd dvd) {
         DAO.update(dvd);
-        LOGGER.info("Dvd with id {} updated successfully", dvd.getId());
+        LOGGER.info("DVD with id {} updated successfully", dvd.getId());
     }
 
     public void delete(Dvd dvd) {
         DAO.delete(dvd);
-        LOGGER.info("Dvd with id {} saved successfully", dvd.getId());
+        LOGGER.info("DVD with id {} saved successfully", dvd.getId());
     }
 
     public void setDAO(IResourceDAO DAO) {
         this.DAO = DAO;
-        LOGGER.info("DvdService DAO set to {}", DAO.getClass());
+        LOGGER.info("DvdServiceImpl DAO set to {}", DAO.getClass());
     }
 }

@@ -1,9 +1,11 @@
 package com.crowvalley.model.user;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
+@Table(name = "librarian")
 public class Librarian extends User{
 
     private Long staffNum;
@@ -28,7 +30,7 @@ public class Librarian extends User{
      */
     public Librarian(String username, String firstName, String surname, String phoneNum,
                      String houseNum, String street, String town, String county, String postcode,
-                     Float balance, String profileImagePath, Date employmentDate, Long staffNum){
+                     String profileImagePath, Double balance, Date employmentDate, Long staffNum){
         super(username, firstName, surname, phoneNum, houseNum, street, town, county, postcode, profileImagePath, balance);
         this.employmentDate = employmentDate;
         this.staffNum = staffNum;

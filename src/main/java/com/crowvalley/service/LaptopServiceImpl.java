@@ -9,9 +9,9 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
-public class LaptopService implements IResourceService<Laptop> {
+public class LaptopServiceImpl implements IResourceService<Laptop> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LaptopService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LaptopServiceImpl.class);
 
     @Resource
     private IResourceDAO DAO;
@@ -33,7 +33,7 @@ public class LaptopService implements IResourceService<Laptop> {
             LOGGER.info("All laptops retrieved successfully");
             return laptops;
         } else {
-            LOGGER.warn("No laptops found in database");
+            LOGGER.warn("No laptops found");
             return laptops;
         }
     }
@@ -55,6 +55,6 @@ public class LaptopService implements IResourceService<Laptop> {
 
     public void setDAO(IResourceDAO DAO) {
         this.DAO = DAO;
-        LOGGER.info("LaptopService DAO set to {}", DAO.getClass());
+        LOGGER.info("LaptopServiceImpl DAO set to {}", DAO.getClass());
     }
 }

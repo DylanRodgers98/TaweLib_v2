@@ -1,8 +1,10 @@
 package com.crowvalley.model.resource;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "laptop")
 public class Laptop extends Resource{
 
     private String manufacturer;

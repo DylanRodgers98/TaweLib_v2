@@ -1,8 +1,10 @@
 package com.crowvalley.model.resource;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "book")
 public class Book extends Resource {
 
     private String author;

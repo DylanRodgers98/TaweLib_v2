@@ -7,21 +7,21 @@
     <import resource="hibernateContext.xml" />
 
     <!-- Service beans -->
-    <bean id="bookService" class="com.crowvalley.service.BookService" >
+    <bean id="bookService" class="com.crowvalley.service.BookServiceImpl" >
         <property name="DAO" ref="bookDAO" />
     </bean>
 
-    <bean id="laptopService" class="com.crowvalley.service.LaptopService" >
+    <bean id="laptopService" class="com.crowvalley.service.LaptopServiceImpl" >
         <property name="DAO" ref="laptopDAO" />
     </bean>
 
-    <bean id="dvdService" class="com.crowvalley.service.DvdService" >
+    <bean id="dvdService" class="com.crowvalley.service.DvdServiceImpl" >
         <property name="DAO" ref="dvdDAO" />
     </bean>
 
     <!-- DAO beans -->
-    <bean id="bookDAO" class="com.crowvalley.dao.BookDAO" />
-    <bean id="laptopDAO" class="com.crowvalley.dao.LaptopDAO" />
-    <bean id="dvdDAO" class="com.crowvalley.dao.DvdDAO" />
+    <bean id="bookDAO" class="com.crowvalley.dao.BookDAOImpl" />
+    <bean id="laptopDAO" class="com.crowvalley.dao.LaptopDAOImpl" />
+    <bean id="dvdDAO" class="com.crowvalley.dao.DvdDAOImpl" />
 
 </beans>

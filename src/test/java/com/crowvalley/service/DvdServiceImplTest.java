@@ -1,6 +1,6 @@
 package com.crowvalley.service;
 
-import com.crowvalley.dao.DvdDAO;
+import com.crowvalley.dao.DvdDAOImpl;
 import com.crowvalley.model.resource.Dvd;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,13 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DvdServiceTest {
+public class DvdServiceImplTest {
 
     @Mock
-    private DvdDAO DAO;
+    private DvdDAOImpl DAO;
 
     @InjectMocks
-    private DvdService dvdService;
+    private DvdServiceImpl dvdService;
 
     private Dvd dvd1;
 

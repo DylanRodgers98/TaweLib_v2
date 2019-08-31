@@ -31,7 +31,7 @@ public class User {
 
     private String postcode;
 
-    private Float balance;
+    private Double balance;
 
     private String profileImagePath;
 
@@ -54,7 +54,7 @@ public class User {
      * @param profileImagePath The profile path of the user.
      */
     public User(String username, String firstName, String surname, String phoneNum, String houseNum,
-                String street, String town, String county, String postcode, String profileImagePath, Float balance){
+                String street, String town, String county, String postcode, String profileImagePath, Double balance){
         this.username = username;
         this.firstName = firstName;
         this.surname = surname;
@@ -143,11 +143,11 @@ public class User {
         this.postcode = postcode;
     }
 
-    public Float getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalance(Float balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 

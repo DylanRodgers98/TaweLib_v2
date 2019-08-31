@@ -3,7 +3,7 @@ package com.crowvalley.service;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.crowvalley.dao.BookDAO;
+import com.crowvalley.dao.BookDAOImpl;
 import com.crowvalley.model.resource.Book;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,13 +17,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BookServiceTest {
+public class BookServiceImplTest {
 
     @Mock
-    private BookDAO DAO;
+    private BookDAOImpl DAO;
 
     @InjectMocks
-    private BookService bookService;
+    private BookServiceImpl bookService;
 
     private Book book1;
 

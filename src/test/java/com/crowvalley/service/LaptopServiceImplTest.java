@@ -1,8 +1,7 @@
 package com.crowvalley.service;
 
-import com.crowvalley.dao.LaptopDAO;
+import com.crowvalley.dao.LaptopDAOImpl;
 import com.crowvalley.model.resource.Laptop;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,13 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LaptopServiceTest {
+public class LaptopServiceImplTest {
 
     @Mock
-    private LaptopDAO DAO;
+    private LaptopDAOImpl DAO;
 
     @InjectMocks
-    private LaptopService laptopService;
+    private LaptopServiceImpl laptopService;
 
     private Laptop laptop1;
 

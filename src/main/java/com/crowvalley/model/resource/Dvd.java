@@ -1,8 +1,10 @@
 package com.crowvalley.model.resource;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "dvd")
 public class Dvd extends Resource {
 
     private String director;
