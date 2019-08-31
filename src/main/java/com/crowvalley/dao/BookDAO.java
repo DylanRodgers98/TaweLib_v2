@@ -2,6 +2,8 @@ package com.crowvalley.dao;
 
 import com.crowvalley.model.resource.Book;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import java.util.List;
