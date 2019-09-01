@@ -27,8 +27,6 @@ public class User {
 
     private String postcode;
 
-    private Double balance;
-
     private String profileImagePath;
 
     /**
@@ -42,11 +40,10 @@ public class User {
      * @param town The town of the user.
      * @param county The county of the user.
      * @param postcode The postcode of the user.
-     * @param balance The balance of the user.
      * @param profileImagePath The profile path of the user.
      */
     public User(String username, String firstName, String surname, String phoneNum, String houseNum,
-                String street, String town, String county, String postcode, String profileImagePath, Double balance){
+                String street, String town, String county, String postcode, String profileImagePath){
         this.username = username;
         this.firstName = firstName;
         this.surname = surname;
@@ -57,7 +54,6 @@ public class User {
         this.county = county;
         this.postcode = postcode;
         this.profileImagePath = profileImagePath;
-        this.balance = balance;
     }
 
     public User() {
@@ -133,14 +129,6 @@ public class User {
 
     public void setPostcode(String postcode) {
         this.postcode = postcode;
-    }
-
-    public Double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Double balance) {
-        this.balance = balance;
     }
 
     public String getProfileImagePath() {

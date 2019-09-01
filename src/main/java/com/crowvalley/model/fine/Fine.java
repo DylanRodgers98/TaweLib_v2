@@ -25,6 +25,9 @@ public class Fine {
         this.amount = amount;
     }
 
+    public Fine() {
+    }
+
     public Long getId() {
         return id;
     }

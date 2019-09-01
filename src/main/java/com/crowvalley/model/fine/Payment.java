@@ -22,6 +22,9 @@ public class Payment {
         this.amount = amount;
     }
 
+    public Payment() {
+    }
+
     public Long getId() {
         return id;
     }

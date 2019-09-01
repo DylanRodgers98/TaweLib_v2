@@ -42,9 +42,9 @@ public class UserServiceImplTest {
 
     @Before
     public void setup() {
-        user1 = new User("User 1", "", "", "", "", "", "", "", "", "", 0.0);
-        user2 = new User("User 2", "", "", "", "", "", "", "", "", "", 0.0);
-        user3 = new User("User 3", "", "", "", "", "", "", "", "", "", 0.0);
+        user1 = new User("User 1", "", "", "", "", "", "", "", "", "");
+        user2 = new User("User 2", "", "", "", "", "", "", "", "", "");
+        user3 = new User("User 3", "", "", "", "", "", "", "", "", "");
         optionalUser1 = Optional.of(user1);
         optionalUser2 = Optional.of(user2);
         optionalUser3 = Optional.of(user3);

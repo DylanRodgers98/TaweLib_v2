@@ -23,15 +23,14 @@ public class Librarian extends User{
      * @param town The town of the librarian.
      * @param county The county of the librarian.
      * @param postcode The postcode of the librarian.
-     * @param balance The balance of the librarian.
      * @param profileImagePath The profile path of the librarian.
      * @param employmentDate The employment date of the librarian.
      * @param staffNum The staff number of the librarian.
      */
     public Librarian(String username, String firstName, String surname, String phoneNum,
                      String houseNum, String street, String town, String county, String postcode,
-                     String profileImagePath, Double balance, Date employmentDate, Long staffNum){
-        super(username, firstName, surname, phoneNum, houseNum, street, town, county, postcode, profileImagePath, balance);
+                     String profileImagePath, Date employmentDate, Long staffNum){
+        super(username, firstName, surname, phoneNum, houseNum, street, town, county, postcode, profileImagePath);
         this.employmentDate = employmentDate;
         this.staffNum = staffNum;
     }
