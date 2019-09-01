@@ -5,7 +5,7 @@ import com.crowvalley.model.user.User;
 import java.util.List;
 import java.util.Optional;
 
-public interface IUserDAO {
+public interface UserDAO {
 
     Optional<User> get(String username);
 

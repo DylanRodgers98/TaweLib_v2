@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
-public class LaptopDAOImpl implements IResourceDAO<Laptop> {
+public class LaptopDAOImpl implements ResourceDAO<Laptop> {
 
     @Resource
     private SessionFactory sessionFactory;

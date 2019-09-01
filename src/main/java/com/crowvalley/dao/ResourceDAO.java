@@ -3,7 +3,7 @@ package com.crowvalley.dao;
 import java.util.List;
 import java.util.Optional;
 
-public interface IResourceDAO<Resource> {
+public interface ResourceDAO<Resource> {
 
     Optional<Resource> get(Long id);
 

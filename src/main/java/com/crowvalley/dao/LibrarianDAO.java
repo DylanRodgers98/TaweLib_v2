@@ -5,7 +5,7 @@ import com.crowvalley.model.user.Librarian;
 import java.util.List;
 import java.util.Optional;
 
-public interface ILibrarianDAO {
+public interface LibrarianDAO {
 
     Optional<Librarian> getWithUsername(String username);
 

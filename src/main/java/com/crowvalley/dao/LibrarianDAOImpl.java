@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
-public class LibrarianDAOImpl implements ILibrarianDAO {
+public class LibrarianDAOImpl implements LibrarianDAO {
 
     @Resource
     private SessionFactory sessionFactory;

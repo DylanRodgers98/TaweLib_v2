@@ -1,6 +1,6 @@
 package com.crowvalley.service;
 
-import com.crowvalley.dao.IResourceDAO;
+import com.crowvalley.dao.ResourceDAO;
 import com.crowvalley.model.resource.Dvd;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,12 +9,12 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
-public class DvdServiceImpl implements IResourceService<Dvd>{
+public class DvdServiceImpl implements ResourceService<Dvd> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DvdServiceImpl.class);
 
     @Resource
-    private IResourceDAO DAO;
+    private ResourceDAO DAO;
 
     public Optional<Dvd> get(Long id) {
         Optional<Dvd> dvd = DAO.get(id);
@@ -53,7 +53,7 @@ public class DvdServiceImpl implements IResourceService<Dvd>{
         LOGGER.info("DVD with id {} saved successfully", dvd.getId());
     }
 
-    public void setDAO(IResourceDAO DAO) {
+    public void setDAO(ResourceDAO DAO) {
         this.DAO = DAO;
         LOGGER.info("DvdServiceImpl DAO set to {}", DAO.getClass());
     }

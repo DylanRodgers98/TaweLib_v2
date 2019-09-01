@@ -2,14 +2,12 @@ package com.crowvalley.dao;
 
 import com.crowvalley.model.resource.Book;
 import org.hibernate.SessionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
-public class BookDAOImpl implements IResourceDAO<Book> {
+public class BookDAOImpl implements ResourceDAO<Book> {
 
     @Resource
     private SessionFactory sessionFactory;

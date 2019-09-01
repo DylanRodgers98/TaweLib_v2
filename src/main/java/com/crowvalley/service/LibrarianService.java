@@ -1,12 +1,12 @@
 package com.crowvalley.service;
 
-import com.crowvalley.dao.ILibrarianDAO;
+import com.crowvalley.dao.LibrarianDAO;
 import com.crowvalley.model.user.Librarian;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ILibrarianService {
+public interface LibrarianService {
 
     public Optional<Librarian> getWithUsername(String username);
 
@@ -20,5 +20,5 @@ public interface ILibrarianService {
 
     public void delete(Librarian librarian);
 
-    public void setDAO(ILibrarianDAO DAO);
+    public void setDAO(LibrarianDAO DAO);
 }

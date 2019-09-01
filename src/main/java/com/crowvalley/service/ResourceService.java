@@ -1,11 +1,11 @@
 package com.crowvalley.service;
 
-import com.crowvalley.dao.IResourceDAO;
+import com.crowvalley.dao.ResourceDAO;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface IResourceService<Resource> {
+public interface ResourceService<Resource> {
 
     public Optional<Resource> get(Long id);
 
@@ -17,5 +17,5 @@ public interface IResourceService<Resource> {
 
     public void delete(Resource resource);
 
-    public void setDAO(IResourceDAO DAO);
+    public void setDAO(ResourceDAO DAO);
 }

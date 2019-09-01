@@ -1,6 +1,6 @@
 package com.crowvalley.service;
 
-import com.crowvalley.dao.IUserDAO;
+import com.crowvalley.dao.UserDAO;
 import com.crowvalley.model.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,12 +9,12 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Resource
-    private IUserDAO DAO;
+    private UserDAO DAO;
 
     public Optional<User> get(String username) {
         Optional<User> user = DAO.get(username);
@@ -53,7 +53,7 @@ public class UserServiceImpl implements IUserService {
         LOGGER.info("User with username {} deleted successfully", user.getUsername());
     }
 
-    public void setDAO(IUserDAO DAO) {
+    public void setDAO(UserDAO DAO) {
         this.DAO = DAO;
         LOGGER.info("UserServiceImpl DAO set to {}", DAO.getClass());
     }

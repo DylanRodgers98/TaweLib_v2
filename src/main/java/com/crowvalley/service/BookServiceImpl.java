@@ -1,6 +1,6 @@
 package com.crowvalley.service;
 
-import com.crowvalley.dao.IResourceDAO;
+import com.crowvalley.dao.ResourceDAO;
 import com.crowvalley.model.resource.Book;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,12 +9,12 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
-public class BookServiceImpl implements IResourceService<Book> {
+public class BookServiceImpl implements ResourceService<Book> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BookServiceImpl.class);
 
     @Resource
-    private IResourceDAO DAO;
+    private ResourceDAO DAO;
 
     public Optional<Book> get(Long id) {
         Optional<Book> book = DAO.get(id);
@@ -53,7 +53,7 @@ public class BookServiceImpl implements IResourceService<Book> {
         LOGGER.info("Book with id {} deleted successfully", book.getId());
     }
 
-    public void setDAO(IResourceDAO DAO) {
+    public void setDAO(ResourceDAO DAO) {
         this.DAO = DAO;
         LOGGER.info("BookServiceImpl DAO set to {}", DAO.getClass());
     }

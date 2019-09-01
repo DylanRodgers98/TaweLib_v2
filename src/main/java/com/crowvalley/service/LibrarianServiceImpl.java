@@ -1,6 +1,6 @@
 package com.crowvalley.service;
 
-import com.crowvalley.dao.ILibrarianDAO;
+import com.crowvalley.dao.LibrarianDAO;
 import com.crowvalley.model.user.Librarian;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,12 +9,12 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
-public class LibrarianServiceImpl implements ILibrarianService {
+public class LibrarianServiceImpl implements LibrarianService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LibrarianServiceImpl.class);
 
     @Resource
-    private ILibrarianDAO DAO;
+    private LibrarianDAO DAO;
 
     public Optional<Librarian> getWithUsername(String username) {
         Optional<Librarian> librarian = DAO.getWithUsername(username);
@@ -67,7 +67,7 @@ public class LibrarianServiceImpl implements ILibrarianService {
                 librarian.getUsername(), librarian.getStaffNum());
     }
 
-    public void setDAO(ILibrarianDAO DAO) {
+    public void setDAO(LibrarianDAO DAO) {
         this.DAO = DAO;
         LOGGER.info("UserServiceImpl DAO set to {}", DAO.getClass());
     }

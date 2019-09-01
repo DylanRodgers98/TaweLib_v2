@@ -1,12 +1,12 @@
 package com.crowvalley.service;
 
-import com.crowvalley.dao.IUserDAO;
+import com.crowvalley.dao.UserDAO;
 import com.crowvalley.model.user.User;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface IUserService {
+public interface UserService {
 
     public Optional<User> get(String username);
 
@@ -18,5 +18,5 @@ public interface IUserService {
 
     public void delete(User user);
 
-    public void setDAO(IUserDAO DAO);
+    public void setDAO(UserDAO DAO);
 }

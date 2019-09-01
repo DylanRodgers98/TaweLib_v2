@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
-public class UserDAOImpl implements IUserDAO {
+public class UserDAOImpl implements UserDAO {
 
     @Resource
     private SessionFactory sessionFactory;
