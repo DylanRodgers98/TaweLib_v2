@@ -18,7 +18,17 @@ public class ResourceFactory {
     }
 
     public Copy createCopy(Resource resource, Integer loanDurationAsDays) {
-        return new Copy(resource.getId(), loanDurationAsDays);
+        String resourceType = "[WARN] TYPE NOT SET";
+        if (resource instanceof Book) {
+            resourceType = "Book";
+        }
+        if (resource instanceof Dvd) {
+            resourceType = "Dvd";
+        }
+        if (resource instanceof Laptop) {
+            resourceType = "Laptop";
+        }
+        return new Copy(resource.getId(), resourceType, loanDurationAsDays);
     }
 
 }
