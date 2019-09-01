@@ -15,6 +15,8 @@ public class Copy {
 
     private Long resourceId;
 
+    private String resourceType;
+
     private Integer loanDurationAsDays;
 
     private String currentBorrower;
@@ -30,14 +32,25 @@ public class Copy {
     /**
      * Creates a copy.
      * @param resourceId the resourceId of the copy
+     * @param resourceType The type of resource of the copy
      * @param loanDurationAsDays The minimum duration of a loan in days
      */
-    public Copy(Long resourceId, Integer loanDurationAsDays) {
+    public Copy(Long resourceId, String resourceType, Integer loanDurationAsDays) {
         this.resourceId = resourceId;
+        this.resourceType = resourceType;
         this.loanDurationAsDays = loanDurationAsDays;
     }
 
     public Copy() {
+    }
+
+    public void addCopyRequest(CopyRequest copyRequest) {
+        List<CopyRequest> newCopyRequestList = new ArrayList<>();
+        for (CopyRequest cr : copyRequestList) {
+            newCopyRequestList.add(cr);
+        }
+        newCopyRequestList.add(copyRequest);
+        this.copyRequestList = newCopyRequestList;
     }
 
     public Long getId() {
@@ -47,6 +60,8 @@ public class Copy {
     public Long getResourceId() {
         return resourceId;
     }
+
+    public String getResourceType() { return resourceType; }
 
     public Integer getLoanDurationAsDays() {
         return loanDurationAsDays;
