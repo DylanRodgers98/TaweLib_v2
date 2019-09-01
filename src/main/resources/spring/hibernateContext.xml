@@ -9,9 +9,9 @@
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost/tawelib"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/tawelib"/>
         <property name="username" value="root"/>
-        <property name="password" value="welcome"/>
+        <property name="password" value="root"/>
         <property name="maxActive" value="100"/>
         <property name="maxIdle" value="30"/>
         <property name="maxWait" value="16000"/>
@@ -22,13 +22,15 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="annotatedPackages">
             <list>
+                <value>com.crowvalley.model</value>
                 <value>com.crowvalley.model.resource</value>
                 <value>com.crowvalley.model.user</value>
+                <value>com.crowvalley.model.fine</value>
             </list>
         </property>
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.format_sql">false</prop>
                 <prop key="hibernate.generate_statistics">true</prop>
