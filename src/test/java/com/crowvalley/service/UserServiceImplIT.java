@@ -22,15 +22,26 @@ public class UserServiceImplIT {
 
     @Test
     @Transactional
-    public void testSaveUserToDatabase_ThenRetrieveUserFromDatabase() {
-        User userToSave = new User("DylanRodgers98", "Dylan", "Rodgers",
+    public void testCRUDOperationsOnUser() {
+        User user = new User("DylanRodgers98", "Dylan", "Rodgers",
                 "07866345602", "5 Bowood", "Harford Drive", "Bristol",
                 "South Gloucestershire", "BS16 1NS", "");
 
-        userService.save(userToSave);
-        Optional<User> retrievedUser = userService.get("DylanRodgers98");
+        userService.save(user);
+        Optional<User> userToRetrieve = userService.get("DylanRodgers98");
 
-        assertThat(retrievedUser.get()).as("Retrieve user from database with username DylanRodgers98")
-                .isEqualTo(userToSave);
+        assertThat(userToRetrieve.get()).as("Retrieve user from database with username DylanRodgers98")
+                .isEqualTo(user);
+
+        User userToUpdate = userToRetrieve.get();
+        userToUpdate.setPhoneNum("07866 123456");
+        userService.update(userToUpdate);
+
+        assertThat(userToRetrieve.get()).as("Retrieve user from database with username DylanRodgers98 with updated phone number")
+                .isEqualTo(userToUpdate);
+
+        userService.delete(user);
+        assertThat(userService.getAll()).as("List of all users does not contain user DylanRodgers98 after deleting is")
+                .doesNotContain(user);
     }
 }
