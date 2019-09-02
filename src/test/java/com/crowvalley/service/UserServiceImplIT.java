@@ -27,21 +27,28 @@ public class UserServiceImplIT {
                 "07866345602", "5 Bowood", "Harford Drive", "Bristol",
                 "South Gloucestershire", "BS16 1NS", "");
 
+        //Test Create and Retrieve operations
         userService.save(user);
         Optional<User> userToRetrieve = userService.get("DylanRodgers98");
 
-        assertThat(userToRetrieve.get()).as("Retrieve user from database with username DylanRodgers98")
+        assertThat(userToRetrieve.get())
+                .as("Retrieve user from database with username DylanRodgers98")
                 .isEqualTo(user);
 
+        //Test Update operation
         User userToUpdate = userToRetrieve.get();
         userToUpdate.setPhoneNum("07866 123456");
         userService.update(userToUpdate);
 
-        assertThat(userToRetrieve.get()).as("Retrieve user from database with username DylanRodgers98 with updated phone number")
+        assertThat(userToRetrieve.get())
+                .as("Retrieve user from database with username DylanRodgers98 with updated phone number")
                 .isEqualTo(user);
-        
+
+        //Test Delete operation
         userService.delete(user);
-        assertThat(userService.getAll()).as("List of all users does not contain user DylanRodgers98 after deleting it")
+
+        assertThat(userService.getAll())
+                .as("List of all users does not contain user DylanRodgers98 after deleting it")
                 .doesNotContain(user);
     }
 }
