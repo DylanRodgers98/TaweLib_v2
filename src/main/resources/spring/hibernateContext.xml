@@ -23,9 +23,6 @@
         <property name="packagesToScan">
             <list>
                 <value>com.crowvalley.model</value>
-                <value>com.crowvalley.model.resource</value>
-                <value>com.crowvalley.model.user</value>
-                <value>com.crowvalley.model.fine</value>
             </list>
         </property>
         <property name="hibernateProperties">
