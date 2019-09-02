@@ -38,10 +38,10 @@ public class UserServiceImplIT {
         userService.update(userToUpdate);
 
         assertThat(userToRetrieve.get()).as("Retrieve user from database with username DylanRodgers98 with updated phone number")
-                .isEqualTo(userToUpdate);
-
+                .isEqualTo(user);
+        
         userService.delete(user);
-        assertThat(userService.getAll()).as("List of all users does not contain user DylanRodgers98 after deleting is")
+        assertThat(userService.getAll()).as("List of all users does not contain user DylanRodgers98 after deleting it")
                 .doesNotContain(user);
     }
 }
