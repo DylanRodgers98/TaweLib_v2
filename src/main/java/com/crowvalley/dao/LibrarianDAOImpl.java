@@ -4,14 +4,14 @@ import com.crowvalley.model.user.Librarian;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
 public class LibrarianDAOImpl implements LibrarianDAO {
 
-    @Resource
+    @Autowired
     private SessionFactory sessionFactory;
 
     @Override

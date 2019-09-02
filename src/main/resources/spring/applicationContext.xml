@@ -19,9 +19,39 @@
         <property name="DAO" ref="dvdDAO" />
     </bean>
 
+    <bean id="copyService" class="com.crowvalley.service.CopyServiceImpl" >
+        <property name="DAO" ref="copyDAO" />
+    </bean>
+
+    <bean id="userService" class="com.crowvalley.service.UserServiceImpl" >
+        <property name="DAO" ref="userDAO" />
+    </bean>
+
+    <bean id="librarianService" class="com.crowvalley.service.LibrarianServiceImpl" >
+        <property name="DAO" ref="librarianDAO" />
+    </bean>
+
+    <bean id="loanService" class="com.crowvalley.service.LoanServiceImpl" >
+        <property name="DAO" ref="loanDAO" />
+    </bean>
+
+    <bean id="fineService" class="com.crowvalley.service.FineServiceImpl" >
+        <property name="DAO" ref="fineDAO" />
+    </bean>
+
+    <bean id="paymentService" class="com.crowvalley.service.PaymentServiceImpl" >
+        <property name="DAO" ref="paymentDAO" />
+    </bean>
+
     <!-- DAO beans -->
     <bean id="bookDAO" class="com.crowvalley.dao.BookDAOImpl" />
     <bean id="laptopDAO" class="com.crowvalley.dao.LaptopDAOImpl" />
     <bean id="dvdDAO" class="com.crowvalley.dao.DvdDAOImpl" />
+    <bean id="copyDAO" class="com.crowvalley.dao.CopyDAOImpl" />
+    <bean id="userDAO" class="com.crowvalley.dao.UserDAOImpl" />
+    <bean id="librarianDAO" class="com.crowvalley.dao.LibrarianDAOImpl" />
+    <bean id="loanDAO" class="com.crowvalley.dao.LoanDAOImpl" />
+    <bean id="fineDAO" class="com.crowvalley.dao.FineDAOImpl" />
+    <bean id="paymentDAO" class="com.crowvalley.dao.PaymentDAOImpl" />
 
 </beans>

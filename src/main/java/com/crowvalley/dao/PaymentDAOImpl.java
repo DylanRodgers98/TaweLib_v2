@@ -2,14 +2,14 @@ package com.crowvalley.dao;
 
 import com.crowvalley.model.fine.Payment;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
 public class PaymentDAOImpl implements PaymentDAO {
 
-    @Resource
+    @Autowired
     private SessionFactory sessionFactory;
 
     @Override

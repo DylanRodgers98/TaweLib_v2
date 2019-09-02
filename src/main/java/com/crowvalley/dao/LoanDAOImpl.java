@@ -2,14 +2,14 @@ package com.crowvalley.dao;
 
 import com.crowvalley.model.Loan;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
 public class LoanDAOImpl implements LoanDAO {
 
-    @Resource
+    @Autowired
     private SessionFactory sessionFactory;
 
     @Override

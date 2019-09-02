@@ -8,8 +8,8 @@
 			               http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/tawelib"/>
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/tawelib?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=CONVERT_TO_NULL&amp;serverTimezone=GMT"/>
         <property name="username" value="root"/>
         <property name="password" value="root"/>
         <property name="maxActive" value="100"/>
@@ -18,9 +18,9 @@
         <property name="minIdle" value="0"/>
     </bean>
 
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="annotatedPackages">
+        <property name="packagesToScan">
             <list>
                 <value>com.crowvalley.model</value>
                 <value>com.crowvalley.model.resource</value>

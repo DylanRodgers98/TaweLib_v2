@@ -2,6 +2,7 @@ package com.crowvalley.dao;
 
 import com.crowvalley.model.user.User;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Optional;
 
 public class UserDAOImpl implements UserDAO {
 
-    @Resource
+    @Autowired
     private SessionFactory sessionFactory;
 
     @Override
