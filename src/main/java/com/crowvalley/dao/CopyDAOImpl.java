@@ -14,7 +14,12 @@ public class CopyDAOImpl implements CopyDAO {
 
     @Override
     public Optional<Copy> get(Long id) {
-        return Optional.of(sessionFactory.getCurrentSession().get(Copy.class, id));
+        Copy copy = sessionFactory.getCurrentSession().get(Copy.class, id);
+        if (copy != null) {
+            return Optional.of(copy);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override

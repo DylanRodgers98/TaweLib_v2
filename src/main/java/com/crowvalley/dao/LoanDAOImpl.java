@@ -14,7 +14,12 @@ public class LoanDAOImpl implements LoanDAO {
 
     @Override
     public Optional<Loan> get(Long id) {
-        return Optional.of(sessionFactory.getCurrentSession().get(Loan.class, id));
+        Loan loan = sessionFactory.getCurrentSession().get(Loan.class, id);
+        if (loan != null) {
+            return Optional.of(loan);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override

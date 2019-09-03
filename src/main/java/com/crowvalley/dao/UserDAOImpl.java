@@ -15,7 +15,12 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Optional<User> get(String username) {
-        return Optional.of(sessionFactory.getCurrentSession().get(User.class, username));
+        User user = sessionFactory.getCurrentSession().get(User.class, username);
+        if (user != null) {
+            return Optional.of(user);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override

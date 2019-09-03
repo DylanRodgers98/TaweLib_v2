@@ -31,7 +31,11 @@ public class LibrarianDAOImpl implements LibrarianDAO {
                 .add(Restrictions.eq("staffNum", staffNum))
                 .setMaxResults(1)
                 .uniqueResult();
-        return Optional.of(librarian);
+        if (librarian != null) {
+            return Optional.of(librarian);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override

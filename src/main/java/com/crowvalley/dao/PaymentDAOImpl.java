@@ -14,7 +14,12 @@ public class PaymentDAOImpl implements PaymentDAO {
 
     @Override
     public Optional<Payment> get(Long id) {
-        return Optional.of(sessionFactory.getCurrentSession().get(Payment.class, id));
+        Payment payment = sessionFactory.getCurrentSession().get(Payment.class, id);
+        if (payment != null) {
+            return Optional.of(payment);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override

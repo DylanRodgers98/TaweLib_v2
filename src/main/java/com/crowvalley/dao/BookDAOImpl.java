@@ -14,7 +14,12 @@ public class BookDAOImpl implements ResourceDAO<Book> {
 
     @Override
     public Optional<Book> get(Long id) {
-        return Optional.of(sessionFactory.getCurrentSession().get(Book.class, id));
+        Book book = sessionFactory.getCurrentSession().get(Book.class, id);
+        if (book != null) {
+            return Optional.of(book);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override

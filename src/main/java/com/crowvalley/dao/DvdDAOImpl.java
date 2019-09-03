@@ -14,7 +14,12 @@ public class DvdDAOImpl implements ResourceDAO<Dvd> {
 
     @Override
     public Optional<Dvd> get(Long id) {
-        return Optional.of(sessionFactory.getCurrentSession().get(Dvd.class, id));
+        Dvd dvd = sessionFactory.getCurrentSession().get(Dvd.class, id);
+        if (dvd != null) {
+            return Optional.of(dvd);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
