@@ -47,8 +47,8 @@ public class UserServiceImplIT {
         //Test Delete operation
         userService.delete(user);
 
-        assertThat(userService.getAll())
-                .as("List of all users does not contain user DylanRodgers98 after deleting it")
-                .doesNotContain(user);
+        assertThat(userService.get("DylanRodgers98"))
+                .as("User DylanRodgers98 deleted")
+                .isEqualTo(Optional.empty());
     }
 }

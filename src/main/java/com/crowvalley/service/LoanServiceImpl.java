@@ -22,7 +22,7 @@ public class LoanServiceImpl implements LoanService {
             LOGGER.info("Loan with ID {} retrieved successfully", id);
             return loan;
         } else {
-            LOGGER.warn("Could not find loan with username {}", id);
+            LOGGER.warn("Could not find loan with ID {}", id);
             return Optional.empty();
         }
     }
@@ -40,17 +40,17 @@ public class LoanServiceImpl implements LoanService {
 
     public void save(Loan loan){
         DAO.save(loan);
-        LOGGER.info("Loan with username {} saved successfully", loan.getId());
+        LOGGER.info("Loan with ID {} saved successfully", loan.getId());
     }
 
     public void update(Loan loan) {
         DAO.update(loan);
-        LOGGER.info("Loan with username {} updated successfully", loan.getId());
+        LOGGER.info("Loan with ID {} updated successfully", loan.getId());
     }
 
     public void delete(Loan loan) {
         DAO.delete(loan);
-        LOGGER.info("Loan with username {} deleted successfully", loan.getId());
+        LOGGER.info("Loan with ID {} deleted successfully", loan.getId());
     }
 
     public void setDAO(LoanDAO DAO) {

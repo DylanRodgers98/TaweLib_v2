@@ -19,10 +19,10 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
     public Optional<Laptop> get(Long id) {
         Optional<Laptop> laptop = DAO.get(id);
         if (laptop.isPresent()) {
-            LOGGER.info("Laptop with id {} retrieved successfully", id);
+            LOGGER.info("Laptop with ID {} retrieved successfully", id);
             return laptop;
         } else {
-            LOGGER.warn("Could not find laptop with id {}", id);
+            LOGGER.warn("Could not find laptop with ID {}", id);
             return Optional.empty();
         }
     }
@@ -40,17 +40,17 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
 
     public void save(Laptop laptop){
         DAO.save(laptop);
-        LOGGER.info("Laptop with id {} saved successfully", laptop.getId());
+        LOGGER.info("Laptop with ID {} saved successfully", laptop.getId());
     }
 
     public void update(Laptop laptop) {
         DAO.update(laptop);
-        LOGGER.info("Laptop with id {} updated successfully", laptop.getId());
+        LOGGER.info("Laptop with ID {} updated successfully", laptop.getId());
     }
 
     public void delete(Laptop laptop) {
         DAO.delete(laptop);
-        LOGGER.info("Laptop with id {} deleted successfully", laptop.getId());
+        LOGGER.info("Laptop with ID {} deleted successfully", laptop.getId());
     }
 
     public void setDAO(ResourceDAO DAO) {

@@ -22,7 +22,7 @@ public class PaymentServiceImpl implements PaymentService {
             LOGGER.info("Payment with ID {} retrieved successfully", id);
             return payment;
         } else {
-            LOGGER.warn("Could not payment fine with username {}", id);
+            LOGGER.warn("Could not payment fine with ID {}", id);
             return Optional.empty();
         }
     }
@@ -40,17 +40,17 @@ public class PaymentServiceImpl implements PaymentService {
 
     public void save(Payment payment){
         DAO.save(payment);
-        LOGGER.info("Payment with username {} saved successfully", payment.getId());
+        LOGGER.info("Payment with ID {} saved successfully", payment.getId());
     }
 
     public void update(Payment payment) {
         DAO.update(payment);
-        LOGGER.info("Payment with username {} updated successfully", payment.getId());
+        LOGGER.info("Payment with ID {} updated successfully", payment.getId());
     }
 
     public void delete(Payment payment) {
         DAO.delete(payment);
-        LOGGER.info("Payment with username {} deleted successfully", payment.getId());
+        LOGGER.info("Payment with ID {} deleted successfully", payment.getId());
     }
 
     public void setDAO(PaymentDAO DAO) {

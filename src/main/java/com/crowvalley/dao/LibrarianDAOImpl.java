@@ -16,13 +16,21 @@ public class LibrarianDAOImpl implements LibrarianDAO {
 
     @Override
     public Optional<Librarian> getWithUsername(String username) {
-        return Optional.of(sessionFactory.getCurrentSession().get(Librarian.class, username));
+        Librarian librarian = sessionFactory.getCurrentSession().get(Librarian.class, username);
+        if (librarian != null) {
+            return Optional.of(librarian);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<Librarian> getWithStaffNumber(Long staffNum) {
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Librarian.class);
-        Librarian librarian = (Librarian) criteria.add(Restrictions.eq("staffNum", staffNum));
+        Librarian librarian = (Librarian) sessionFactory.getCurrentSession()
+                .createCriteria(Librarian.class)
+                .add(Restrictions.eq("staffNum", staffNum))
+                .setMaxResults(1)
+                .uniqueResult();
         return Optional.of(librarian);
     }
 

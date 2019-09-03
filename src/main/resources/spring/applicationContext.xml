@@ -6,6 +6,8 @@
 
     <import resource="hibernateContext.xml" />
 
+    <bean id="resourceFactory" class="com.crowvalley.model.resource.ResourceFactoryImpl"/>
+
     <!-- Service beans -->
     <bean id="bookService" class="com.crowvalley.service.BookServiceImpl" >
         <property name="DAO" ref="bookDAO" />

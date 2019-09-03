@@ -19,10 +19,10 @@ public class DvdServiceImpl implements ResourceService<Dvd> {
     public Optional<Dvd> get(Long id) {
         Optional<Dvd> dvd = DAO.get(id);
         if (dvd.isPresent()) {
-            LOGGER.info("DVD with id {} retrieved successfully", id);
+            LOGGER.info("DVD with ID {} retrieved successfully", id);
             return dvd;
         } else {
-            LOGGER.warn("Could not find DVD with id {}", id);
+            LOGGER.warn("Could not find DVD with ID {}", id);
             return Optional.empty();
         }
     }
@@ -40,17 +40,17 @@ public class DvdServiceImpl implements ResourceService<Dvd> {
 
     public void save(Dvd dvd){
         DAO.save(dvd);
-        LOGGER.info("DVD with id {} saved successfully", dvd.getId());
+        LOGGER.info("DVD with ID {} saved successfully", dvd.getId());
     }
 
     public void update(Dvd dvd) {
         DAO.update(dvd);
-        LOGGER.info("DVD with id {} updated successfully", dvd.getId());
+        LOGGER.info("DVD with ID {} updated successfully", dvd.getId());
     }
 
     public void delete(Dvd dvd) {
         DAO.delete(dvd);
-        LOGGER.info("DVD with id {} saved successfully", dvd.getId());
+        LOGGER.info("DVD with ID {} saved successfully", dvd.getId());
     }
 
     public void setDAO(ResourceDAO DAO) {

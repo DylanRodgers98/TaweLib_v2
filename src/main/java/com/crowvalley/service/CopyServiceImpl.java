@@ -25,7 +25,7 @@ public class CopyServiceImpl implements CopyService {
             LOGGER.info("Copy with ID {} retrieved successfully", id);
             return copy;
         } else {
-            LOGGER.warn("Could not find copy with username {}", id);
+            LOGGER.warn("Could not find copy with ID {}", id);
             return Optional.empty();
         }
     }
@@ -43,17 +43,17 @@ public class CopyServiceImpl implements CopyService {
 
     public void save(Copy copy){
         DAO.save(copy);
-        LOGGER.info("Copy with username {} saved successfully", copy.getId());
+        LOGGER.info("Copy (ID: {}) of {} (ID: {}) saved successfully", copy.getId(), copy.getResourceType(), copy.getResourceId());
     }
 
     public void update(Copy copy) {
         DAO.update(copy);
-        LOGGER.info("Copy with username {} updated successfully", copy.getId());
+        LOGGER.info("Copy (ID: {}) of {} (ID: {}) updated successfully", copy.getId(), copy.getResourceType(), copy.getResourceId());
     }
 
     public void delete(Copy copy) {
         DAO.delete(copy);
-        LOGGER.info("Copy with username {} deleted successfully", copy.getId());
+        LOGGER.info("Copy (ID: {}) of {} (ID: {}) deleted successfully", copy.getId(), copy.getResourceType(), copy.getResourceId());
     }
 
     public void setDAO(CopyDAO DAO) {

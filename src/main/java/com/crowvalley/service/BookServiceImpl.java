@@ -19,10 +19,10 @@ public class BookServiceImpl implements ResourceService<Book> {
     public Optional<Book> get(Long id) {
         Optional<Book> book = DAO.get(id);
         if (book.isPresent()) {
-            LOGGER.info("Book with id {} retrieved successfully", id);
+            LOGGER.info("Book with ID {} retrieved successfully", id);
             return book;
         } else {
-            LOGGER.warn("Could not find book with id {}", id);
+            LOGGER.warn("Could not find book with ID {}", id);
             return Optional.empty();
         }
     }
@@ -40,17 +40,17 @@ public class BookServiceImpl implements ResourceService<Book> {
 
     public void save(Book book){
         DAO.save(book);
-        LOGGER.info("Book with id {} saved successfully", book.getId());
+        LOGGER.info("Book with ID {} saved successfully", book.getId());
     }
 
     public void update(Book book) {
         DAO.update(book);
-        LOGGER.info("Book with id {} updated successfully", book.getId());
+        LOGGER.info("Book with ID {} updated successfully", book.getId());
     }
 
     public void delete(Book book) {
         DAO.delete(book);
-        LOGGER.info("Book with id {} deleted successfully", book.getId());
+        LOGGER.info("Book with ID {} deleted successfully", book.getId());
     }
 
     public void setDAO(ResourceDAO DAO) {
