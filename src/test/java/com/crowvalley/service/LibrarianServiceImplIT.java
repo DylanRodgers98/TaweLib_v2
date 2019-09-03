@@ -30,31 +30,38 @@ public class LibrarianServiceImplIT {
 
         //Test Create and Retrieve operations
         librarianService.save(librarian);
-        Optional<Librarian> librarianToRetrieveByUsername = librarianService.getWithUsername("DylanRodgers98");
 
-        softly.assertThat(librarianToRetrieveByUsername.get())
+        softly.assertThat(librarianService.getWithUsername("DylanRodgers98").get())
                 .as("Retrieve librarian user from database with username DylanRodgers98")
                 .isEqualTo(librarian);
 
-        Optional<Librarian> librarianToRetrieveByStaffNum = librarianService.getWithStaffNumber(Long.valueOf(1));
-        softly.assertThat(librarianToRetrieveByStaffNum.get())
+        softly.assertThat(librarianService.getWithStaffNumber(Long.valueOf(1)).get())
                 .as("Retrieve librarian user from database with staff number of 1")
                 .isEqualTo(librarian);
 
         //Test Update operation
-        Librarian librarianToUpdate = librarianToRetrieveByUsername.get();
-        librarianToUpdate.setPhoneNum("07866 123456");
+        Librarian librarianToUpdate = librarianService.getWithUsername("DylanRodgers98").get();
+        String newPhoneNumber = "07866 123456";
+        librarianToUpdate.setPhoneNum(newPhoneNumber);
         librarianService.update(librarianToUpdate);
 
-        softly.assertThat(librarianToRetrieveByUsername.get())
+        softly.assertThat(librarianService.getWithUsername("DylanRodgers98").get())
                 .as("Retrieve librarian user from database with username DylanRodgers98 with updated phone number")
                 .isEqualTo(librarian);
+
+        softly.assertThat(librarianService.getWithUsername("DylanRodgers98").get().getPhoneNum())
+                .as("Updated librarian user's phone number")
+                .isEqualTo(newPhoneNumber);
 
         //Test Delete operation
         librarianService.delete(librarian);
 
         softly.assertThat(librarianService.getWithUsername("DylanRodgers98"))
                 .as("Librarian user DylanRodgers98 deleted")
+                .isEqualTo(Optional.empty());
+
+        softly.assertThat(librarianService.getWithStaffNumber(Long.valueOf(1)))
+                .as("Librarian user with staff number of 1 deleted")
                 .isEqualTo(Optional.empty());
     }
 }
