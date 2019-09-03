@@ -1,6 +1,17 @@
 package com.crowvalley.model.resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ResourceFactory {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResourceFactory.class);
+
+    private static final String RESOURCE_HAS_NO_ID_ERROR_MESSAGE = "Cannot create copy. The resource has no ID, so a " +
+            "copy instance cannot reference it. Likely cause is that the resource hasn't been persisted to the database yet.";
+
+    private static final String CANNOT_GET_RESOURCE_TYPE_ERROR_MESSAGE =
+            "Resource type is empty. Copy needs to know what type of resource it is a copy of.";
 
     public Book createBook(String title, String year, String imageUrl, String author,
                            String publisher, String genre, String isbn, String language) {
@@ -18,16 +29,25 @@ public class ResourceFactory {
     }
 
     public Copy createCopy(Resource resource, Integer loanDurationAsDays) {
-        String resourceType = "[WARN] TYPE NOT SET";
+        if (resource.getId() == null) {
+            LOGGER.error(RESOURCE_HAS_NO_ID_ERROR_MESSAGE);
+            throw new IllegalArgumentException(RESOURCE_HAS_NO_ID_ERROR_MESSAGE);
+        }
+
+        String resourceType = "";
         if (resource instanceof Book) {
             resourceType = "Book";
-        }
-        if (resource instanceof Dvd) {
+        } else if (resource instanceof Dvd) {
             resourceType = "Dvd";
-        }
-        if (resource instanceof Laptop) {
+        } else if (resource instanceof Laptop) {
             resourceType = "Laptop";
         }
+
+        if (resourceType.isEmpty()){
+            LOGGER.error(CANNOT_GET_RESOURCE_TYPE_ERROR_MESSAGE);
+            throw new IllegalArgumentException(CANNOT_GET_RESOURCE_TYPE_ERROR_MESSAGE);
+        }
+
         return new Copy(resource.getId(), resourceType, loanDurationAsDays);
     }
 
