@@ -34,11 +34,6 @@ public class PaymentDAOImpl implements PaymentDAO {
     }
 
     @Override
-    public void update(Payment payment) {
-        sessionFactory.getCurrentSession().update(payment);
-    }
-
-    @Override
     public void delete(Payment payment) {
         sessionFactory.getCurrentSession().delete(payment);
     }

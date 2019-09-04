@@ -92,12 +92,6 @@ public class FineServiceImplTest {
     }
 
     @Test
-    public void test_verifyUpdate() {
-        fineService.update(fine2);
-        verify(DAO).update(eq(fine2));
-    }
-
-    @Test
     public void test_verifyDelete() {
         fineService.delete(fine3);
         verify(DAO).delete(eq(fine3));

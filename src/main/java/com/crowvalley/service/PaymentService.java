@@ -14,8 +14,6 @@ public interface PaymentService {
 
     public void save(Payment payment);
 
-    public void update(Payment payment);
-
     public void delete(Payment payment);
 
     public void setDAO(PaymentDAO DAO);

@@ -47,12 +47,6 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void update(Payment payment) {
-        DAO.update(payment);
-        LOGGER.info("Payment with ID {} updated successfully", payment.getId());
-    }
-
-    @Override
     public void delete(Payment payment) {
         DAO.delete(payment);
         LOGGER.info("Payment with ID {} deleted successfully", payment.getId());

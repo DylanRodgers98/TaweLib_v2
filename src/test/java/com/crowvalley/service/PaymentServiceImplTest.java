@@ -92,12 +92,6 @@ public class PaymentServiceImplTest {
     }
 
     @Test
-    public void test_verifyUpdate() {
-        paymentService.update(payment2);
-        verify(DAO).update(eq(payment2));
-    }
-
-    @Test
     public void test_verifyDelete() {
         paymentService.delete(payment3);
         verify(DAO).delete(eq(payment3));

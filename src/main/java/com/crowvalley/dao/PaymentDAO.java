@@ -13,8 +13,6 @@ public interface PaymentDAO {
 
     void save(Payment payment);
 
-    void update(Payment payment);
-
     void delete(Payment payment);
 
 }

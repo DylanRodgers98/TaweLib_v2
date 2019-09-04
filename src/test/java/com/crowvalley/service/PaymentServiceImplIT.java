@@ -1,6 +1,7 @@
 package com.crowvalley.service;
 
 import com.crowvalley.model.fine.Fine;
+import com.crowvalley.model.fine.Payment;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,33 +15,33 @@ import java.util.Optional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml "})
-public class FineServiceImplIT {
+public class PaymentServiceImplIT {
 
     @Autowired
-    private FineService fineService;
+    private PaymentService paymentService;
 
     @Test
     @Transactional
     public void testCRDOperationsOnFine() {
         SoftAssertions softly = new SoftAssertions();
-        Fine fine = new Fine("DylanRodgers98", Long.valueOf(1), 2.50);
+        Payment payment = new Payment("DylanRodgers98", 2.50);
 
         //Test Create and Retrieve operations
-        fineService.save(fine);
-        List<Fine> fines = fineService.getAll();
-        Long id = fines.get(0).getId();
+        paymentService.save(payment);
+        List<Payment> payments = paymentService.getAll();
+        Long id = payments.get(0).getId();
 
-        softly.assertThat(fineService.get(id).get())
-                .as("Retrieve fine from database")
-                .isEqualTo(fine);
+        softly.assertThat(paymentService.get(id).get())
+                .as("Retrieve payment from database")
+                .isEqualTo(payment);
 
-        //FINE HAS NO SETTER METHODS, SO UPDATE NEED NOT BE TESTED
+        //PAYMENT HAS NO SETTER METHODS, SO UPDATE NEED NOT BE TESTED
 
         //Test Delete operation
-        fineService.delete(fine);
+        paymentService.delete(payment);
 
-        softly.assertThat(fineService.get(id))
-                .as("Fine deleted")
+        softly.assertThat(paymentService.get(id))
+                .as("Payment deleted")
                 .isEqualTo(Optional.empty());
     }
 }
