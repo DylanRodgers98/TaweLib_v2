@@ -13,8 +13,6 @@ public interface FineDAO {
 
     void save(Fine fine);
 
-    void update(Fine fine);
-
     void delete(Fine fine);
 
 }

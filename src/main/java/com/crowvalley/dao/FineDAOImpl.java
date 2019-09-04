@@ -34,11 +34,6 @@ public class FineDAOImpl implements FineDAO {
     }
 
     @Override
-    public void update(Fine fine) {
-        sessionFactory.getCurrentSession().update(fine);
-    }
-
-    @Override
     public void delete(Fine fine) {
         sessionFactory.getCurrentSession().delete(fine);
     }

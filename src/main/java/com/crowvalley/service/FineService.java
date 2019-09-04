@@ -14,8 +14,6 @@ public interface FineService {
 
     public void save(Fine fine);
 
-    public void update(Fine fine);
-
     public void delete(Fine fine);
 
     public void setDAO(FineDAO DAO);

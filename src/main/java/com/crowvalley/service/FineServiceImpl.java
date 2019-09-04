@@ -43,11 +43,6 @@ public class FineServiceImpl implements FineService {
         LOGGER.info("Fine with username {} saved successfully", fine.getId());
     }
 
-    public void update(Fine fine) {
-        DAO.update(fine);
-        LOGGER.info("Fine with username {} updated successfully", fine.getId());
-    }
-
     public void delete(Fine fine) {
         DAO.delete(fine);
         LOGGER.info("Fine with username {} deleted successfully", fine.getId());
