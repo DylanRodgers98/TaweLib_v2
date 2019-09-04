@@ -16,6 +16,7 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserDAO DAO;
 
+    @Override
     public Optional<User> get(String username) {
         Optional<User> user = DAO.get(username);
         if (user.isPresent()) {
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
     public List<User> getAll() {
         List<User> users = DAO.getAll();
         if (!users.isEmpty()) {
@@ -38,21 +40,25 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
     public void save(User user){
         DAO.save(user);
         LOGGER.info("User with username {} saved successfully", user.getUsername());
     }
 
+    @Override
     public void update(User user) {
         DAO.update(user);
         LOGGER.info("User with username {} updated successfully", user.getUsername());
     }
 
+    @Override
     public void delete(User user) {
         DAO.delete(user);
         LOGGER.info("User with username {} deleted successfully", user.getUsername());
     }
 
+    @Override
     public void setDAO(UserDAO DAO) {
         this.DAO = DAO;
         LOGGER.info("UserServiceImpl DAO set to {}", DAO.getClass());

@@ -16,6 +16,7 @@ public class LibrarianServiceImpl implements LibrarianService {
     @Resource
     private LibrarianDAO DAO;
 
+    @Override
     public Optional<Librarian> getWithUsername(String username) {
         Optional<Librarian> librarian = DAO.getWithUsername(username);
         if (librarian.isPresent()) {
@@ -27,6 +28,7 @@ public class LibrarianServiceImpl implements LibrarianService {
         }
     }
 
+    @Override
     public Optional<Librarian> getWithStaffNumber(Long staffNum) {
         Optional<Librarian> librarian = DAO.getWithStaffNumber(staffNum);
         if (librarian.isPresent()) {
@@ -38,6 +40,7 @@ public class LibrarianServiceImpl implements LibrarianService {
         }
     }
 
+    @Override
     public List<Librarian> getAll() {
         List<Librarian> users = DAO.getAll();
         if (!users.isEmpty()) {
@@ -49,24 +52,28 @@ public class LibrarianServiceImpl implements LibrarianService {
         }
     }
 
+    @Override
     public void save(Librarian librarian){
         DAO.save(librarian);
         LOGGER.info("Librarian with username {} and staff number {} saved successfully",
                 librarian.getUsername(), librarian.getStaffNum());
     }
 
+    @Override
     public void update(Librarian librarian) {
         DAO.update(librarian);
         LOGGER.info("Librarian with username {} and staff number {} updated successfully",
                 librarian.getUsername(), librarian.getStaffNum());
     }
 
+    @Override
     public void delete(Librarian librarian) {
         DAO.delete(librarian);
         LOGGER.info("Librarian with username {} and staff number {} deleted successfully",
                 librarian.getUsername(), librarian.getStaffNum());
     }
 
+    @Override
     public void setDAO(LibrarianDAO DAO) {
         this.DAO = DAO;
         LOGGER.info("UserServiceImpl DAO set to {}", DAO.getClass());

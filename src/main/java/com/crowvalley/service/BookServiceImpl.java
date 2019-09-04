@@ -16,6 +16,7 @@ public class BookServiceImpl implements ResourceService<Book> {
     @Resource
     private ResourceDAO DAO;
 
+    @Override
     public Optional<Book> get(Long id) {
         Optional<Book> book = DAO.get(id);
         if (book.isPresent()) {
@@ -27,6 +28,7 @@ public class BookServiceImpl implements ResourceService<Book> {
         }
     }
 
+    @Override
     public List<Book> getAll() {
         List<Book> books = DAO.getAll();
         if (!books.isEmpty()) {
@@ -38,21 +40,25 @@ public class BookServiceImpl implements ResourceService<Book> {
         }
     }
 
+    @Override
     public void save(Book book){
         DAO.save(book);
         LOGGER.info("Book with ID {} saved successfully", book.getId());
     }
 
+    @Override
     public void update(Book book) {
         DAO.update(book);
         LOGGER.info("Book with ID {} updated successfully", book.getId());
     }
 
+    @Override
     public void delete(Book book) {
         DAO.delete(book);
         LOGGER.info("Book with ID {} deleted successfully", book.getId());
     }
 
+    @Override
     public void setDAO(ResourceDAO DAO) {
         this.DAO = DAO;
         LOGGER.info("BookServiceImpl DAO set to {}", DAO.getClass());

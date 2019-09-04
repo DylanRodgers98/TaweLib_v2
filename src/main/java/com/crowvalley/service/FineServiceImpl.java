@@ -16,6 +16,7 @@ public class FineServiceImpl implements FineService {
     @Resource
     private FineDAO DAO;
 
+    @Override
     public Optional<Fine> get(Long id) {
         Optional<Fine> fine = DAO.get(id);
         if (fine.isPresent()) {
@@ -27,6 +28,7 @@ public class FineServiceImpl implements FineService {
         }
     }
 
+    @Override
     public List<Fine> getAll() {
         List<Fine> fines = DAO.getAll();
         if (!fines.isEmpty()) {
@@ -38,16 +40,19 @@ public class FineServiceImpl implements FineService {
         }
     }
 
+    @Override
     public void save(Fine fine){
         DAO.save(fine);
         LOGGER.info("Fine with username {} saved successfully", fine.getId());
     }
 
+    @Override
     public void delete(Fine fine) {
         DAO.delete(fine);
         LOGGER.info("Fine with username {} deleted successfully", fine.getId());
     }
 
+    @Override
     public void setDAO(FineDAO DAO) {
         this.DAO = DAO;
         LOGGER.info("FineServiceImpl DAO set to {}", DAO.getClass());

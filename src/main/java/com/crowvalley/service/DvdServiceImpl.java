@@ -16,6 +16,7 @@ public class DvdServiceImpl implements ResourceService<Dvd> {
     @Resource
     private ResourceDAO DAO;
 
+    @Override
     public Optional<Dvd> get(Long id) {
         Optional<Dvd> dvd = DAO.get(id);
         if (dvd.isPresent()) {
@@ -27,6 +28,7 @@ public class DvdServiceImpl implements ResourceService<Dvd> {
         }
     }
 
+    @Override
     public List<Dvd> getAll() {
         List<Dvd> dvds = DAO.getAll();
         if (!dvds.isEmpty()) {
@@ -38,21 +40,25 @@ public class DvdServiceImpl implements ResourceService<Dvd> {
         }
     }
 
+    @Override
     public void save(Dvd dvd){
         DAO.save(dvd);
         LOGGER.info("DVD with ID {} saved successfully", dvd.getId());
     }
 
+    @Override
     public void update(Dvd dvd) {
         DAO.update(dvd);
         LOGGER.info("DVD with ID {} updated successfully", dvd.getId());
     }
 
+    @Override
     public void delete(Dvd dvd) {
         DAO.delete(dvd);
         LOGGER.info("DVD with ID {} saved successfully", dvd.getId());
     }
 
+    @Override
     public void setDAO(ResourceDAO DAO) {
         this.DAO = DAO;
         LOGGER.info("DvdServiceImpl DAO set to {}", DAO.getClass());

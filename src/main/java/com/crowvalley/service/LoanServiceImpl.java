@@ -16,6 +16,7 @@ public class LoanServiceImpl implements LoanService {
     @Resource
     private LoanDAO DAO;
 
+    @Override
     public Optional<Loan> get(Long id) {
         Optional<Loan> loan = DAO.get(id);
         if (loan.isPresent()) {
@@ -27,6 +28,7 @@ public class LoanServiceImpl implements LoanService {
         }
     }
 
+    @Override
     public List<Loan> getAll() {
         List<Loan> loans = DAO.getAll();
         if (!loans.isEmpty()) {
@@ -38,21 +40,25 @@ public class LoanServiceImpl implements LoanService {
         }
     }
 
+    @Override
     public void save(Loan loan){
         DAO.save(loan);
         LOGGER.info("Loan with ID {} saved successfully", loan.getId());
     }
 
+    @Override
     public void update(Loan loan) {
         DAO.update(loan);
         LOGGER.info("Loan with ID {} updated successfully", loan.getId());
     }
 
+    @Override
     public void delete(Loan loan) {
         DAO.delete(loan);
         LOGGER.info("Loan with ID {} deleted successfully", loan.getId());
     }
 
+    @Override
     public void setDAO(LoanDAO DAO) {
         this.DAO = DAO;
         LOGGER.info("LoanServiceImpl DAO set to {}", DAO.getClass());

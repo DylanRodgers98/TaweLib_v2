@@ -16,6 +16,7 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
     @Resource
     private ResourceDAO DAO;
 
+    @Override
     public Optional<Laptop> get(Long id) {
         Optional<Laptop> laptop = DAO.get(id);
         if (laptop.isPresent()) {
@@ -27,6 +28,7 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
         }
     }
 
+    @Override
     public List<Laptop> getAll() {
         List<Laptop> laptops = DAO.getAll();
         if (!laptops.isEmpty()) {
@@ -38,21 +40,25 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
         }
     }
 
+    @Override
     public void save(Laptop laptop){
         DAO.save(laptop);
         LOGGER.info("Laptop with ID {} saved successfully", laptop.getId());
     }
 
+    @Override
     public void update(Laptop laptop) {
         DAO.update(laptop);
         LOGGER.info("Laptop with ID {} updated successfully", laptop.getId());
     }
 
+    @Override
     public void delete(Laptop laptop) {
         DAO.delete(laptop);
         LOGGER.info("Laptop with ID {} deleted successfully", laptop.getId());
     }
 
+    @Override
     public void setDAO(ResourceDAO DAO) {
         this.DAO = DAO;
         LOGGER.info("LaptopServiceImpl DAO set to {}", DAO.getClass());

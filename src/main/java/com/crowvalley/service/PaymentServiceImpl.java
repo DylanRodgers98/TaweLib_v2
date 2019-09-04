@@ -16,6 +16,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Resource
     private PaymentDAO DAO;
 
+    @Override
     public Optional<Payment> get(Long id) {
         Optional<Payment> payment = DAO.get(id);
         if (payment.isPresent()) {
@@ -27,6 +28,7 @@ public class PaymentServiceImpl implements PaymentService {
         }
     }
 
+    @Override
     public List<Payment> getAll() {
         List<Payment> payments = DAO.getAll();
         if (!payments.isEmpty()) {
@@ -38,21 +40,25 @@ public class PaymentServiceImpl implements PaymentService {
         }
     }
 
+    @Override
     public void save(Payment payment){
         DAO.save(payment);
         LOGGER.info("Payment with ID {} saved successfully", payment.getId());
     }
 
+    @Override
     public void update(Payment payment) {
         DAO.update(payment);
         LOGGER.info("Payment with ID {} updated successfully", payment.getId());
     }
 
+    @Override
     public void delete(Payment payment) {
         DAO.delete(payment);
         LOGGER.info("Payment with ID {} deleted successfully", payment.getId());
     }
 
+    @Override
     public void setDAO(PaymentDAO DAO) {
         this.DAO = DAO;
         LOGGER.info("PaymentServiceImpl DAO set to {}", DAO.getClass());

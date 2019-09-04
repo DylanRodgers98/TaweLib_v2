@@ -19,6 +19,7 @@ public class CopyServiceImpl implements CopyService {
     @Resource
     private CopyDAO DAO;
 
+    @Override
     public Optional<Copy> get(Long id) {
         Optional<Copy> copy = DAO.get(id);
         if (copy.isPresent()) {
@@ -30,6 +31,7 @@ public class CopyServiceImpl implements CopyService {
         }
     }
 
+    @Override
     public List<Copy> getAll() {
         List<Copy> copies = DAO.getAll();
         if (!copies.isEmpty()) {
@@ -41,21 +43,25 @@ public class CopyServiceImpl implements CopyService {
         }
     }
 
+    @Override
     public void save(Copy copy){
         DAO.save(copy);
         LOGGER.info("Copy (ID: {}) of {} (ID: {}) saved successfully", copy.getId(), copy.getResourceType(), copy.getResourceId());
     }
 
+    @Override
     public void update(Copy copy) {
         DAO.update(copy);
         LOGGER.info("Copy (ID: {}) of {} (ID: {}) updated successfully", copy.getId(), copy.getResourceType(), copy.getResourceId());
     }
 
+    @Override
     public void delete(Copy copy) {
         DAO.delete(copy);
         LOGGER.info("Copy (ID: {}) of {} (ID: {}) deleted successfully", copy.getId(), copy.getResourceType(), copy.getResourceId());
     }
 
+    @Override
     public void setDAO(CopyDAO DAO) {
         this.DAO = DAO;
         LOGGER.info("CopyServiceImpl DAO set to {}", DAO.getClass());
