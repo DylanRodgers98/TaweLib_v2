@@ -2,7 +2,7 @@ package com.crowvalley.model.resource;
 
 import com.crowvalley.service.CopyService;
 import com.crowvalley.service.ResourceService;
-import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ public class ResourceFactoryImplIT {
 
         Copy copy = copyService.getAll().get(0);
 
-        SoftAssertions softly = new SoftAssertions();
+        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         softly.assertThat(copy.getResourceId()).as("Resource ID of the copy persisted to database").isEqualTo(book.getId());
         softly.assertThat(copy.getResourceType()).as("Resource type of the copy persisted to database").isEqualTo("Book");
     }
@@ -60,7 +60,7 @@ public class ResourceFactoryImplIT {
 
         Copy copy = copyService.getAll().get(0);
 
-        SoftAssertions softly = new SoftAssertions();
+        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         softly.assertThat(copy.getResourceId()).as("Resource ID of the copy persisted to database").isEqualTo(dvd.getId());
         softly.assertThat(copy.getResourceType()).as("Resource type of the copy persisted to database").isEqualTo("Dvd");
     }
@@ -77,7 +77,7 @@ public class ResourceFactoryImplIT {
 
         Copy copy = copyService.getAll().get(0);
 
-        SoftAssertions softly = new SoftAssertions();
+        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         softly.assertThat(copy.getResourceId()).as("Resource ID of the copy persisted to database").isEqualTo(laptop.getId());
         softly.assertThat(copy.getResourceType()).as("Resource type of the copy persisted to database").isEqualTo("Laptop");
     }

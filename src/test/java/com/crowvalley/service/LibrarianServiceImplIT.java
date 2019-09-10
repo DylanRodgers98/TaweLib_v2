@@ -1,7 +1,7 @@
 package com.crowvalley.service;
 
 import com.crowvalley.model.user.Librarian;
-import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class LibrarianServiceImplIT {
     @Test
     @Transactional
     public void testCRUDOperationsOnLibrarian() {
-        SoftAssertions softly = new SoftAssertions();
+        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         Librarian librarian = new Librarian("DylanRodgers98", "Dylan", "Rodgers",
                 "07866345602", "5 Bowood", "Harford Drive", "Bristol",
                 "South Gloucestershire", "BS16 1NS", "",

@@ -1,8 +1,7 @@
 package com.crowvalley.service;
 
-import com.crowvalley.model.resource.Book;
 import com.crowvalley.model.resource.Laptop;
-import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class LaptopServiceImplIT {
     @Test
     @Transactional
     public void testCRUDOperationsOnLaptop() {
-        SoftAssertions softly = new SoftAssertions();
+        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         Laptop laptop = new Laptop("Laptop 1", "2019", "URL",
                 "HP", "Ultrabook", "Windows 10");
 

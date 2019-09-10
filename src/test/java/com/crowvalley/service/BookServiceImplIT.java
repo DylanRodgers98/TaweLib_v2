@@ -1,7 +1,7 @@
 package com.crowvalley.service;
 
 import com.crowvalley.model.resource.Book;
-import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class BookServiceImplIT {
     @Test
     @Transactional
     public void testCRUDOperationsOnBook() {
-        SoftAssertions softly = new SoftAssertions();
+        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         Book book = new Book("Book 1", "2019", "URL", "Dylan Rodgers",
                 "Penguin", "Sci-fi", "ISBN", "English");
 

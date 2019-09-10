@@ -1,8 +1,7 @@
 package com.crowvalley.service;
 
-import com.crowvalley.model.fine.Fine;
 import com.crowvalley.model.fine.Payment;
-import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class PaymentServiceImplIT {
     @Test
     @Transactional
     public void testCRDOperationsOnFine() {
-        SoftAssertions softly = new SoftAssertions();
+        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         Payment payment = new Payment("DylanRodgers98", 2.50);
 
         //Test Create and Retrieve operations

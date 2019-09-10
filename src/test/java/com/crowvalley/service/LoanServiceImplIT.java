@@ -1,8 +1,7 @@
 package com.crowvalley.service;
 
 import com.crowvalley.model.Loan;
-import com.crowvalley.model.resource.Book;
-import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class LoanServiceImplIT {
     @Test
     @Transactional
     public void testCRUDOperationsOnBook() {
-        SoftAssertions softly = new SoftAssertions();
+        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         Loan loan = new Loan(Long.valueOf(1), "DylanRodgers98",
                 new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 1000000));
 

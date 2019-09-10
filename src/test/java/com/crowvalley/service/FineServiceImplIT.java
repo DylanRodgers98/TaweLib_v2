@@ -1,7 +1,7 @@
 package com.crowvalley.service;
 
 import com.crowvalley.model.fine.Fine;
-import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class FineServiceImplIT {
     @Test
     @Transactional
     public void testCRDOperationsOnFine() {
-        SoftAssertions softly = new SoftAssertions();
+        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         Fine fine = new Fine("DylanRodgers98", Long.valueOf(1), 2.50);
 
         //Test Create and Retrieve operations

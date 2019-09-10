@@ -1,8 +1,7 @@
 package com.crowvalley.service;
 
-import com.crowvalley.model.resource.Book;
 import com.crowvalley.model.resource.Dvd;
-import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class DvdServiceImplIT {
     @Test
     @Transactional
     public void testCRUDOperationsOnDvd() {
-        SoftAssertions softly = new SoftAssertions();
+        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         Dvd dvd = new Dvd("DVD 1", "2019", "URL", "Dylan Rodgers",
                 "English", 120, "English");
 
