@@ -6,54 +6,54 @@
 
     <import resource="hibernateContext.xml" />
 
-    <bean id="resourceFactory" class="com.crowvalley.model.resource.ResourceFactoryImpl"/>
+    <bean id="resourceFactory" class="com.crowvalley.tawelib.model.resource.ResourceFactoryImpl"/>
 
     <!-- Service beans -->
-    <bean id="bookService" class="com.crowvalley.service.BookServiceImpl" >
+    <bean id="bookService" class="com.crowvalley.tawelib.service.BookServiceImpl" >
         <property name="DAO" ref="bookDAO" />
     </bean>
 
-    <bean id="laptopService" class="com.crowvalley.service.LaptopServiceImpl" >
+    <bean id="laptopService" class="com.crowvalley.tawelib.service.LaptopServiceImpl" >
         <property name="DAO" ref="laptopDAO" />
     </bean>
 
-    <bean id="dvdService" class="com.crowvalley.service.DvdServiceImpl" >
+    <bean id="dvdService" class="com.crowvalley.tawelib.service.DvdServiceImpl" >
         <property name="DAO" ref="dvdDAO" />
     </bean>
 
-    <bean id="copyService" class="com.crowvalley.service.CopyServiceImpl" >
+    <bean id="copyService" class="com.crowvalley.tawelib.service.CopyServiceImpl" >
         <property name="DAO" ref="copyDAO" />
     </bean>
 
-    <bean id="userService" class="com.crowvalley.service.UserServiceImpl" >
+    <bean id="userService" class="com.crowvalley.tawelib.service.UserServiceImpl" >
         <property name="DAO" ref="userDAO" />
     </bean>
 
-    <bean id="librarianService" class="com.crowvalley.service.LibrarianServiceImpl" >
+    <bean id="librarianService" class="com.crowvalley.tawelib.service.LibrarianServiceImpl" >
         <property name="DAO" ref="librarianDAO" />
     </bean>
 
-    <bean id="loanService" class="com.crowvalley.service.LoanServiceImpl" >
+    <bean id="loanService" class="com.crowvalley.tawelib.service.LoanServiceImpl" >
         <property name="DAO" ref="loanDAO" />
     </bean>
 
-    <bean id="fineService" class="com.crowvalley.service.FineServiceImpl" >
+    <bean id="fineService" class="com.crowvalley.tawelib.service.FineServiceImpl" >
         <property name="DAO" ref="fineDAO" />
     </bean>
 
-    <bean id="paymentService" class="com.crowvalley.service.PaymentServiceImpl" >
+    <bean id="paymentService" class="com.crowvalley.tawelib.service.PaymentServiceImpl" >
         <property name="DAO" ref="paymentDAO" />
     </bean>
 
     <!-- DAO beans -->
-    <bean id="bookDAO" class="com.crowvalley.dao.BookDAOImpl" />
-    <bean id="laptopDAO" class="com.crowvalley.dao.LaptopDAOImpl" />
-    <bean id="dvdDAO" class="com.crowvalley.dao.DvdDAOImpl" />
-    <bean id="copyDAO" class="com.crowvalley.dao.CopyDAOImpl" />
-    <bean id="userDAO" class="com.crowvalley.dao.UserDAOImpl" />
-    <bean id="librarianDAO" class="com.crowvalley.dao.LibrarianDAOImpl" />
-    <bean id="loanDAO" class="com.crowvalley.dao.LoanDAOImpl" />
-    <bean id="fineDAO" class="com.crowvalley.dao.FineDAOImpl" />
-    <bean id="paymentDAO" class="com.crowvalley.dao.PaymentDAOImpl" />
+    <bean id="bookDAO" class="com.crowvalley.tawelib.dao.BookDAOImpl" />
+    <bean id="laptopDAO" class="com.crowvalley.tawelib.dao.LaptopDAOImpl" />
+    <bean id="dvdDAO" class="com.crowvalley.tawelib.dao.DvdDAOImpl" />
+    <bean id="copyDAO" class="com.crowvalley.tawelib.dao.CopyDAOImpl" />
+    <bean id="userDAO" class="com.crowvalley.tawelib.dao.UserDAOImpl" />
+    <bean id="librarianDAO" class="com.crowvalley.tawelib.dao.LibrarianDAOImpl" />
+    <bean id="loanDAO" class="com.crowvalley.tawelib.dao.LoanDAOImpl" />
+    <bean id="fineDAO" class="com.crowvalley.tawelib.dao.FineDAOImpl" />
+    <bean id="paymentDAO" class="com.crowvalley.tawelib.dao.PaymentDAOImpl" />
 
 </beans>
