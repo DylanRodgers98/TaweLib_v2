@@ -17,15 +17,7 @@ public class User {
 
     private String phoneNum;
 
-    private String houseNum;
-
-    private String street;
-
-    private String town;
-
-    private String county;
-
-    private String postcode;
+    private Address address;
 
     private String profileImagePath;
 
@@ -48,11 +40,17 @@ public class User {
         this.firstName = firstName;
         this.surname = surname;
         this.phoneNum = phoneNum;
-        this.houseNum = houseNum;
-        this.street = street;
-        this.town = town;
-        this.county = county;
-        this.postcode = postcode;
+        this.address = new Address(houseNum, street, town, county, postcode);
+        this.profileImagePath = profileImagePath;
+    }
+
+    public User(String username, String firstName, String surname, String phoneNum,
+                Address address, String profileImagePath){
+        this.username = username;
+        this.firstName = firstName;
+        this.surname = surname;
+        this.phoneNum = phoneNum;
+        this.address = address;
         this.profileImagePath = profileImagePath;
     }
 
@@ -91,44 +89,12 @@ public class User {
         this.phoneNum = phoneNum;
     }
 
-    public String getHouseNum() {
-        return houseNum;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setHouseNum(String houseNum) {
-        this.houseNum = houseNum;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getTown() {
-        return town;
-    }
-
-    public void setTown(String town) {
-        this.town = town;
-    }
-
-    public String getCounty() {
-        return county;
-    }
-
-    public void setCounty(String county) {
-        this.county = county;
-    }
-
-    public String getPostcode() {
-        return postcode;
-    }
-
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public String getProfileImagePath() {

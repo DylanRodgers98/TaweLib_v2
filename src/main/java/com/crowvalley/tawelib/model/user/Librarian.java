@@ -35,6 +35,13 @@ public class Librarian extends User{
         this.staffNum = staffNum;
     }
 
+    public Librarian(String username, String firstName, String surname, String phoneNum,
+                     Address address, String profileImagePath, Date employmentDate, Long staffNum){
+        super(username, firstName, surname, phoneNum, address, profileImagePath);
+        this.employmentDate = employmentDate;
+        this.staffNum = staffNum;
+    }
+
     public Librarian() {
         super();
     }
