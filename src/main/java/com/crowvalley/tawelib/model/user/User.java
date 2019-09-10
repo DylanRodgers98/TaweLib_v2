@@ -17,6 +17,7 @@ public class User {
 
     private String phoneNum;
 
+    @Embedded
     private Address address;
 
     private String profileImagePath;

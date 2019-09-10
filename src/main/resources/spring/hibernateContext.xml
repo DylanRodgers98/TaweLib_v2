@@ -22,7 +22,7 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan">
             <list>
-                <value>com.crowvalley.model</value>
+                <value>com.crowvalley.tawelib.model</value>
             </list>
         </property>
         <property name="hibernateProperties">
