@@ -42,6 +42,11 @@ public class Librarian extends User{
         this.staffNum = staffNum;
     }
 
+    public Librarian(User user, Date employmentDate, Long staffNum) {
+        this(user.getUsername(), user.getFirstName(), user.getSurname(), user.getPhoneNum(),
+                user.getAddress(), user.getProfileImagePath(), employmentDate, staffNum);
+    }
+
     public Librarian() {
         super();
     }

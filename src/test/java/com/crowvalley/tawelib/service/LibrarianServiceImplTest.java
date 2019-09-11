@@ -1,7 +1,9 @@
 package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.LibrarianDAOImpl;
+import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.Librarian;
+import com.crowvalley.tawelib.model.user.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,9 +44,9 @@ public class LibrarianServiceImplTest {
 
     @Before
     public void setup() {
-        librarian1 = new Librarian("Librarian 1", "", "", "", "", "", "", "", "", "", new Date(System.currentTimeMillis()), Long.valueOf(1));
-        librarian2 = new Librarian("Librarian 2", "", "", "", "", "", "", "", "", "", new Date(System.currentTimeMillis()), Long.valueOf(2));
-        librarian3 = new Librarian("Librarian 3", "", "", "", "", "", "", "", "", "", new Date(System.currentTimeMillis()), Long.valueOf(3));
+        librarian1 = new Librarian("Librarian (Standard constructor)", "", "", "", "", "", "", "", "", "", new Date(System.currentTimeMillis()), Long.valueOf(1));
+        librarian2 = new Librarian("Librarian (Address constructor)", "", "", "", new Address("", "", "", "", ""), "", new Date(System.currentTimeMillis()), Long.valueOf(2));
+        librarian3 = new Librarian(new User("Librarian (User constructor)", "", "", "", new Address("", "", "", "", ""), ""), new Date(System.currentTimeMillis()), Long.valueOf(3));
         optionalLibrarian1 = Optional.of(librarian1);
         optionalLibrarian2 = Optional.of(librarian2);
         optionalLibrarian3 = Optional.of(librarian3);
