@@ -13,11 +13,7 @@ public class CopyRequest {
     private Long id;
 
     @ManyToOne
-    @JoinTable(
-            name="copy_copy_request",
-            joinColumns = @JoinColumn(name="copy_request_id", insertable = false, updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "copy_id", insertable = false, updatable = false)
-    )
+    @JoinColumn(name = "copy_id")
     private Copy copy;
 
     private String username;

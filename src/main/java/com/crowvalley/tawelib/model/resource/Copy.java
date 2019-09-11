@@ -21,12 +21,7 @@ public class Copy {
 
     private String currentBorrower;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "copy_copy_request",
-            joinColumns = @JoinColumn(name = "copy_id"),
-            inverseJoinColumns = @JoinColumn(name = "copy_request_id")
-    )
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "copy")
     private List<CopyRequest> copyRequestList = new ArrayList<>();
 
     /**
