@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.model.resource;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,11 @@ public class Copy {
     }
 
     public Copy() {
+    }
+
+    public void createCopyRequest(String username) {
+        CopyRequest copyRequest = new CopyRequest(this, username, new Timestamp(System.currentTimeMillis()));
+        addCopyRequest(copyRequest);
     }
 
     public void addCopyRequest(CopyRequest copyRequest) {
