@@ -1,5 +1,7 @@
 package com.crowvalley.tawelib.model.resource;
 
+import com.crowvalley.tawelib.model.Loan;
+
 public interface ResourceFactory {
 
     public Book createBook(String title, String year, String imageUrl, String author,
@@ -12,5 +14,7 @@ public interface ResourceFactory {
                                String manufacturer, String model, String os);
 
     public Copy createCopy(Resource resource, Integer loanDurationAsDays);
+
+    public Loan createLoanForCopy(Copy copy, String borrowerUsername);
 
 }

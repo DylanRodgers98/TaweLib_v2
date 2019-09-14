@@ -1,7 +1,12 @@
 package com.crowvalley.tawelib.model.resource;
 
+import com.crowvalley.tawelib.model.Loan;
+import com.crowvalley.tawelib.service.CopyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.sql.Date;
 
 public class ResourceFactoryImpl implements ResourceFactory {
 
@@ -12,6 +17,9 @@ public class ResourceFactoryImpl implements ResourceFactory {
 
     private static final String CANNOT_GET_RESOURCE_TYPE_ERROR_MESSAGE =
             "Resource type is empty. Copy needs to know what type of resource it is a copy of.";
+
+    private static final String COPY_HAS_NO_ID_ERROR_MESSAGE = "Cannot create loan. The copy has no ID, so a " +
+            "loan instance cannot reference it. Likely cause is that the copy hasn't been persisted to the database yet.";
 
     public Book createBook(String title, String year, String imageUrl, String author,
                            String publisher, String genre, String isbn, String language) {
@@ -49,6 +57,18 @@ public class ResourceFactoryImpl implements ResourceFactory {
         }
 
         return new Copy(resource.getId(), resourceType, loanDurationAsDays);
+    }
+
+    public Loan createLoanForCopy(Copy copy, String borrowerUsername) {
+        if (copy.getId() == null) {
+            LOGGER.error(COPY_HAS_NO_ID_ERROR_MESSAGE);
+            throw new IllegalArgumentException(COPY_HAS_NO_ID_ERROR_MESSAGE);
+        }
+
+        Date startDate = new Date(System.currentTimeMillis());
+        Date endDate = new Date(System.currentTimeMillis() + copy.getLoanDurationAsDays());
+
+        return new Loan(copy.getId(), borrowerUsername, startDate, endDate);
     }
 
 }

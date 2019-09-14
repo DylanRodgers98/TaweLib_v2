@@ -20,8 +20,6 @@ public class Copy {
 
     private Integer loanDurationAsDays;
 
-    private String currentBorrower;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "copy")
     private List<CopyRequest> copyRequestList = new ArrayList<>();
 
@@ -80,11 +78,4 @@ public class Copy {
         this.copyRequestList = copyRequestList;
     }
 
-    public String getCurrentBorrower() {
-        return currentBorrower;
-    }
-
-    public void setCurrentBorrower(String borrowerUsername) {
-        this.currentBorrower = borrowerUsername;
-    }
 }

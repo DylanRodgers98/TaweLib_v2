@@ -20,7 +20,7 @@ public class LoanServiceImpl implements LoanService {
     public Optional<Loan> get(Long id) {
         Optional<Loan> loan = DAO.get(id);
         if (loan.isPresent()) {
-            LOGGER.info("Loan with ID {} retrieved successfully", id);
+            LOGGER.info("Loan (ID: {}) for copy (ID: {}) retrieved successfully", id, loan.get().getCopyId());
             return loan;
         } else {
             LOGGER.warn("Could not find loan with ID {}", id);

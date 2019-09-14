@@ -51,11 +51,11 @@ public class CopyServiceImplIT {
 
         //Test Update operation
         Copy copyToUpdate = copyService.get(id).get();
-        copyToUpdate.setCurrentBorrower("DylanRodgers98");
+        copyToUpdate.setLoanDurationAsDays(7);
         copyService.update(copyToUpdate);
 
         softly.assertThat(copyService.get(id).get())
-                .as("Retrieve copy from database with updated current borrower")
+                .as("Retrieve copy from database with updated loan duration")
                 .isEqualTo(copyOfBook);
 
         //Test Delete operation
