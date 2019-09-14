@@ -6,6 +6,7 @@ import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.model.resource.Loan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
 import java.sql.Date;
@@ -20,10 +21,10 @@ public class LoanServiceImpl implements LoanService {
     @Resource
     private LoanDAO DAO;
 
-    @Resource
+    @Autowired
     private FineService fineService;
 
-    @Resource
+    @Autowired
     private CopyService copyService;
 
     @Override

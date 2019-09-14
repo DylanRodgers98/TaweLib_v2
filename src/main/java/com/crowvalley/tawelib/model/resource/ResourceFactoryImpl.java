@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Date;
+import java.util.concurrent.TimeUnit;
 
 public class ResourceFactoryImpl implements ResourceFactory {
 
@@ -63,7 +64,8 @@ public class ResourceFactoryImpl implements ResourceFactory {
         }
 
         Date startDate = new Date(System.currentTimeMillis());
-        Date endDate = new Date(System.currentTimeMillis() + copy.getLoanDurationAsDays());
+
+        Date endDate = new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(copy.getLoanDurationAsDays()));
 
         return new Loan(copy.getId(), borrowerUsername, startDate, endDate);
     }
