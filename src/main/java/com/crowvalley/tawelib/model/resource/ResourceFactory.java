@@ -1,7 +1,5 @@
 package com.crowvalley.tawelib.model.resource;
 
-import com.crowvalley.tawelib.model.Loan;
-
 public interface ResourceFactory {
 
     public Book createBook(String title, String year, String imageUrl, String author,

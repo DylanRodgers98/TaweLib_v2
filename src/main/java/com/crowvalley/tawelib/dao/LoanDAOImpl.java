@@ -1,7 +1,9 @@
 package com.crowvalley.tawelib.dao;
 
-import com.crowvalley.tawelib.model.Loan;
+import com.crowvalley.tawelib.model.resource.Copy;
+import com.crowvalley.tawelib.model.resource.Loan;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -13,13 +15,21 @@ public class LoanDAOImpl implements LoanDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public Optional<Loan> get(Long id) {
-        Loan loan = sessionFactory.getCurrentSession().get(Loan.class, id);
+    public Optional<Loan> get(Long loanId) {
+        Loan loan = sessionFactory.getCurrentSession().get(Loan.class, loanId);
         if (loan != null) {
             return Optional.of(loan);
         } else {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<Loan> getAllLoansForCopy(Long copyId) {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(Loan.class)
+                .add(Restrictions.eq("copyId", copyId))
+                .list();
     }
 
     @Override

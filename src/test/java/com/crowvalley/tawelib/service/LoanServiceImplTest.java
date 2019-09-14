@@ -1,7 +1,7 @@
 package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.LoanDAOImpl;
-import com.crowvalley.tawelib.model.Loan;
+import com.crowvalley.tawelib.model.resource.Loan;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,7 +60,9 @@ public class LoanServiceImplTest {
 
         when(DAO.get(id)).thenReturn(optionalLoan1);
 
-        assertThat(loanService.get(id)).as("Retrieve loan from database with ID 1").isEqualTo(optionalLoan1);
+        assertThat(loanService.get(id))
+                .as("Retrieve loan from database with ID 1")
+                .isEqualTo(optionalLoan1);
     }
 
     @Test
@@ -69,21 +71,49 @@ public class LoanServiceImplTest {
 
         when(DAO.get(id)).thenReturn(Optional.empty());
 
-        assertThat(loanService.get(id)).as("Retrieve empty Optional from DAO").isEqualTo(Optional.empty());
+        assertThat(loanService.get(id))
+                .as("Retrieve empty Optional from DAO")
+                .isEqualTo(Optional.empty());
+    }
+
+    @Test
+    public void testGetAllLoansForCopy() {
+        Long copyId = Long.valueOf(1);
+
+        when(DAO.getAllLoansForCopy(copyId)).thenReturn(loans);
+
+        assertThat(loanService.getAllLoansForCopy(copyId))
+                .as("Retrieve all loans for a certain copy stored in the database")
+                .isEqualTo(loans);
+    }
+
+    @Test
+    public void testGetAllLoansForCopy_noLoansFromDAO() {
+        Long copyId = Long.valueOf(1);
+
+        when(DAO.getAllLoansForCopy(copyId)).thenReturn(new ArrayList<>());
+
+        assertThat(loanService.getAllLoansForCopy(copyId).isEmpty())
+                .as("Retrieve no loans for a certain copy from DAO")
+                .isTrue();
     }
 
     @Test
     public void testGetAll() {
         when(DAO.getAll()).thenReturn(loans);
 
-        assertThat(loanService.getAll()).as("Retrieve all loans stored in the database").isEqualTo(loans);
+        assertThat(loanService.getAll())
+                .as("Retrieve all loans stored in the database")
+                .isEqualTo(loans);
     }
 
     @Test
     public void testGetAll_noLoansFromDAO() {
         when(DAO.getAll()).thenReturn(new ArrayList<>());
 
-        assertThat(loanService.getAll().isEmpty()).as("Retrieve no loans from DAO").isTrue();
+        assertThat(loanService.getAll().isEmpty())
+                .as("Retrieve no loans from DAO")
+                .isTrue();
     }
 
     @Test

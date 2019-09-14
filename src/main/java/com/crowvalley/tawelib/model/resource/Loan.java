@@ -1,4 +1,4 @@
-package com.crowvalley.tawelib.model;
+package com.crowvalley.tawelib.model.resource;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

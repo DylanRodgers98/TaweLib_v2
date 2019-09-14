@@ -1,10 +1,7 @@
 package com.crowvalley.tawelib.model.resource;
 
-import com.crowvalley.tawelib.model.Loan;
-import com.crowvalley.tawelib.service.CopyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Date;
 

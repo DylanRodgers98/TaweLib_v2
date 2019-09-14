@@ -1,6 +1,5 @@
 package com.crowvalley.tawelib.model.resource;
 
-import com.crowvalley.tawelib.model.Loan;
 import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.LoanService;
 import com.crowvalley.tawelib.service.ResourceService;
