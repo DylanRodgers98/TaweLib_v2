@@ -9,6 +9,12 @@ import java.util.List;
 @Table(name = "copy")
 public class Copy {
 
+    public static final String BOOK_TYPE = "Book";
+
+    public static final String DVD_TYPE = "Dvd";
+
+    public static final String LAPTOP_TYPE = "Laptop";
+
     @Id
     @GeneratedValue
     @Column(name = "copy_id")

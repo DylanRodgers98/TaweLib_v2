@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.LoanDAO;
+import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.resource.Loan;
 
 import java.util.List;

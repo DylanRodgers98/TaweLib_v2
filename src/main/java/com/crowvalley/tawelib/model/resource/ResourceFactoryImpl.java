@@ -41,11 +41,11 @@ public class ResourceFactoryImpl implements ResourceFactory {
 
         String resourceType = "";
         if (resource instanceof Book) {
-            resourceType = "Book";
+            resourceType = Copy.BOOK_TYPE;
         } else if (resource instanceof Dvd) {
-            resourceType = "Dvd";
+            resourceType = Copy.DVD_TYPE;
         } else if (resource instanceof Laptop) {
-            resourceType = "Laptop";
+            resourceType = Copy.LAPTOP_TYPE;
         }
 
         if (resourceType.isEmpty()){

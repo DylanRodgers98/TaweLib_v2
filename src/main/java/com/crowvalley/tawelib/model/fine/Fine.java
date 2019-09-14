@@ -9,6 +9,12 @@ import javax.persistence.Table;
 @Table(name = "fine")
 public class Fine {
 
+    public static final Double BOOK_FINE_AMOUNT_PER_DAY = 2.0;
+
+    public static final Double DVD_FINE_AMOUNT_PER_DAY = 2.0;
+
+    public static final Double LAPTOP_FINE_AMOUNT_PER_DAY = 10.0;
+
     @Id
     @GeneratedValue
     private Long id;
