@@ -59,7 +59,9 @@ public class CopyServiceImplTest {
 
         when(DAO.get(id)).thenReturn(optionalCopy1);
 
-        assertThat(copyService.get(id)).as("Retrieve copy from database with ID 1").isEqualTo(optionalCopy1);
+        assertThat(copyService.get(id))
+                .as("Retrieve copy from database with ID 1")
+                .isEqualTo(optionalCopy1);
     }
 
     @Test
@@ -68,21 +70,27 @@ public class CopyServiceImplTest {
 
         when(DAO.get(id)).thenReturn(Optional.empty());
 
-        assertThat(copyService.get(id)).as("Retrieve empty Optional from DAO").isEqualTo(Optional.empty());
+        assertThat(copyService.get(id))
+                .as("Retrieve empty Optional from DAO")
+                .isEqualTo(Optional.empty());
     }
 
     @Test
     public void testGetAll() {
         when(DAO.getAll()).thenReturn(copies);
 
-        assertThat(copyService.getAll()).as("Retrieve all copies stored in the database").isEqualTo(copies);
+        assertThat(copyService.getAll())
+                .as("Retrieve all copies stored in the database")
+                .isEqualTo(copies);
     }
 
     @Test
     public void testGetAll_noCopiesFromDAO() {
         when(DAO.getAll()).thenReturn(new ArrayList<>());
 
-        assertThat(copyService.getAll().isEmpty()).as("Retrieve no copies from DAO").isTrue();
+        assertThat(copyService.getAll().isEmpty())
+                .as("Retrieve no copies from DAO")
+                .isTrue();
     }
 
     @Test

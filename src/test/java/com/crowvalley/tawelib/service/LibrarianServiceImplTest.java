@@ -62,7 +62,9 @@ public class LibrarianServiceImplTest {
 
         when(DAO.getWithUsername(username)).thenReturn(optionalLibrarian1);
 
-        assertThat(librarianService.getWithUsername(username)).as("Retrieve user from database with username 'Librarian 1'").isEqualTo(optionalLibrarian1);
+        assertThat(librarianService.getWithUsername(username))
+                .as("Retrieve user from database with username 'Librarian 1'")
+                .isEqualTo(optionalLibrarian1);
     }
 
     @Test
@@ -71,7 +73,9 @@ public class LibrarianServiceImplTest {
 
         when(DAO.getWithStaffNumber(staffNum)).thenReturn(optionalLibrarian2);
 
-        assertThat(librarianService.getWithStaffNumber(staffNum)).as("Retrieve user from database with staff number 2").isEqualTo(optionalLibrarian2);
+        assertThat(librarianService.getWithStaffNumber(staffNum))
+                .as("Retrieve user from database with staff number 2")
+                .isEqualTo(optionalLibrarian2);
     }
 
     @Test
@@ -80,7 +84,9 @@ public class LibrarianServiceImplTest {
 
         when(DAO.getWithUsername(username)).thenReturn(Optional.empty());
 
-        assertThat(librarianService.getWithUsername(username)).as("Retrieve empty Optional from DAO").isEqualTo(Optional.empty());
+        assertThat(librarianService.getWithUsername(username))
+                .as("Retrieve empty Optional from DAO")
+                .isEqualTo(Optional.empty());
     }
 
     @Test
@@ -89,21 +95,27 @@ public class LibrarianServiceImplTest {
 
         when(DAO.getWithStaffNumber(staffNum)).thenReturn(Optional.empty());
 
-        assertThat(librarianService.getWithStaffNumber(staffNum)).as("Retrieve empty Optional from DAO").isEqualTo(Optional.empty());
+        assertThat(librarianService.getWithStaffNumber(staffNum))
+                .as("Retrieve empty Optional from DAO")
+                .isEqualTo(Optional.empty());
     }
 
     @Test
     public void testGetAll() {
         when(DAO.getAll()).thenReturn(librarians);
 
-        assertThat(librarianService.getAll()).as("Retrieve all librarians stored in the database").isEqualTo(librarians);
+        assertThat(librarianService.getAll())
+                .as("Retrieve all librarians stored in the database")
+                .isEqualTo(librarians);
     }
 
     @Test
     public void testGetAll_noUsersFromDAO() {
         when(DAO.getAll()).thenReturn(new ArrayList<>());
 
-        assertThat(librarianService.getAll().isEmpty()).as("Retrieve no librarians from DAO").isTrue();
+        assertThat(librarianService.getAll().isEmpty())
+                .as("Retrieve no librarians from DAO")
+                .isTrue();
     }
 
     @Test

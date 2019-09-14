@@ -59,7 +59,9 @@ public class BookServiceImplTest {
 
         when(DAO.get(id)).thenReturn(optionalBook1);
 
-        assertThat(bookService.get(id)).as("Retrieve book from database with ID of 1").isEqualTo(optionalBook1);
+        assertThat(bookService.get(id))
+                .as("Retrieve book from database with ID of 1")
+                .isEqualTo(optionalBook1);
     }
 
     @Test
@@ -68,21 +70,27 @@ public class BookServiceImplTest {
 
         when(DAO.get(id)).thenReturn(Optional.empty());
 
-        assertThat(bookService.get(id)).as("Retrieve empty Optional from DAO").isEqualTo(Optional.empty());
+        assertThat(bookService.get(id))
+                .as("Retrieve empty Optional from DAO")
+                .isEqualTo(Optional.empty());
     }
 
     @Test
     public void testGetAll() {
         when(DAO.getAll()).thenReturn(books);
 
-        assertThat(bookService.getAll()).as("Retrieve all books stored in the database").isEqualTo(books);
+        assertThat(bookService.getAll())
+                .as("Retrieve all books stored in the database")
+                .isEqualTo(books);
     }
 
     @Test
     public void testGetAll_noBooksFromDAO() {
         when(DAO.getAll()).thenReturn(new ArrayList<>());
 
-        assertThat(bookService.getAll().isEmpty()).as("Retrieve no books from DAO").isTrue();
+        assertThat(bookService.getAll().isEmpty())
+                .as("Retrieve no books from DAO")
+                .isTrue();
     }
 
     @Test

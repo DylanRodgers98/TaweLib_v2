@@ -59,7 +59,9 @@ public class DvdServiceImplTest {
 
         when(DAO.get(id)).thenReturn(optionalDvd1);
 
-        assertThat(dvdService.get(id)).as("Retrieve dvd from database with ID of 1").isEqualTo(optionalDvd1);
+        assertThat(dvdService.get(id))
+                .as("Retrieve dvd from database with ID of 1")
+                .isEqualTo(optionalDvd1);
     }
 
     @Test
@@ -68,21 +70,27 @@ public class DvdServiceImplTest {
 
         when(DAO.get(id)).thenReturn(Optional.empty());
 
-        assertThat(dvdService.get(id)).as("Retrieve empty Optional from DAO").isEqualTo(Optional.empty());
+        assertThat(dvdService.get(id))
+                .as("Retrieve empty Optional from DAO")
+                .isEqualTo(Optional.empty());
     }
 
     @Test
     public void testGetAll() {
         when(DAO.getAll()).thenReturn(dvds);
 
-        assertThat(dvdService.getAll()).as("Retrieve all dvds stored in the database").isEqualTo(dvds);
+        assertThat(dvdService.getAll())
+                .as("Retrieve all dvds stored in the database")
+                .isEqualTo(dvds);
     }
 
     @Test
     public void testGetAll_noDvdsFromDAO() {
         when(DAO.getAll()).thenReturn(new ArrayList<>());
 
-        assertThat(dvdService.getAll().isEmpty()).as("Retrieve no dvds from DAO").isTrue();
+        assertThat(dvdService.getAll().isEmpty())
+                .as("Retrieve no dvds from DAO")
+                .isTrue();
     }
 
     @Test

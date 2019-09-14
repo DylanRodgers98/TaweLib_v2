@@ -59,7 +59,9 @@ public class PaymentServiceImplTest {
 
         when(DAO.get(id)).thenReturn(optionalPayment1);
 
-        assertThat(paymentService.get(id)).as("Retrieve payment from database with ID 1").isEqualTo(optionalPayment1);
+        assertThat(paymentService.get(id))
+                .as("Retrieve payment from database with ID 1")
+                .isEqualTo(optionalPayment1);
     }
 
     @Test
@@ -68,21 +70,27 @@ public class PaymentServiceImplTest {
 
         when(DAO.get(id)).thenReturn(Optional.empty());
 
-        assertThat(paymentService.get(id)).as("Retrieve empty Optional from DAO").isEqualTo(Optional.empty());
+        assertThat(paymentService.get(id))
+                .as("Retrieve empty Optional from DAO")
+                .isEqualTo(Optional.empty());
     }
 
     @Test
     public void testGetAll() {
         when(DAO.getAll()).thenReturn(payments);
 
-        assertThat(paymentService.getAll()).as("Retrieve all payments stored in the database").isEqualTo(payments);
+        assertThat(paymentService.getAll())
+                .as("Retrieve all payments stored in the database")
+                .isEqualTo(payments);
     }
 
     @Test
     public void testGetAll_noPaymentsFromDAO() {
         when(DAO.getAll()).thenReturn(new ArrayList<>());
 
-        assertThat(paymentService.getAll().isEmpty()).as("Retrieve no payments from DAO").isTrue();
+        assertThat(paymentService.getAll().isEmpty())
+                .as("Retrieve no payments from DAO")
+                .isTrue();
     }
 
     @Test

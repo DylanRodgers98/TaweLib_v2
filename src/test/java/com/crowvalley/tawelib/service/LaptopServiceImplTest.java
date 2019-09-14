@@ -59,7 +59,9 @@ public class LaptopServiceImplTest {
 
         when(DAO.get(id)).thenReturn(optionalLaptop1);
 
-        assertThat(laptopService.get(id)).as("Retrieve laptop from DAO with ID of 1").isEqualTo(optionalLaptop1);
+        assertThat(laptopService.get(id))
+                .as("Retrieve laptop from DAO with ID of 1")
+                .isEqualTo(optionalLaptop1);
     }
 
     @Test
@@ -68,21 +70,27 @@ public class LaptopServiceImplTest {
 
         when(DAO.get(id)).thenReturn(Optional.empty());
 
-        assertThat(laptopService.get(id)).as("Retrieve empty Optional from DAO").isEqualTo(Optional.empty());
+        assertThat(laptopService.get(id))
+                .as("Retrieve empty Optional from DAO")
+                .isEqualTo(Optional.empty());
     }
 
     @Test
     public void testGetAll() {
         when(DAO.getAll()).thenReturn(laptops);
 
-        assertThat(laptopService.getAll()).as("Retrieve all laptops from DAO").isEqualTo(laptops);
+        assertThat(laptopService.getAll())
+                .as("Retrieve all laptops from DAO")
+                .isEqualTo(laptops);
     }
 
     @Test
     public void testGetAll_noLaptopsFromDAO() {
         when(DAO.getAll()).thenReturn(new ArrayList<>());
 
-        assertThat(laptopService.getAll().isEmpty()).as("Retrieve no laptops from DAO").isTrue();
+        assertThat(laptopService.getAll().isEmpty())
+                .as("Retrieve no laptops from DAO")
+                .isTrue();
     }
 
     @Test

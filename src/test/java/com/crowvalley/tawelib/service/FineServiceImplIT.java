@@ -34,8 +34,6 @@ public class FineServiceImplIT {
                 .as("Retrieve fine from database")
                 .isEqualTo(fine);
 
-        //FINE HAS NO SETTER METHODS, SO UPDATE NEED NOT BE TESTED
-
         //Test Delete operation
         fineService.delete(fine);
 

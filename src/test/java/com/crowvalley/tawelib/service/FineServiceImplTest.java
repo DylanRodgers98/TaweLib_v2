@@ -59,7 +59,9 @@ public class FineServiceImplTest {
 
         when(DAO.get(id)).thenReturn(optionalFine1);
 
-        assertThat(fineService.get(id)).as("Retrieve fine from database with ID 1").isEqualTo(optionalFine1);
+        assertThat(fineService.get(id))
+                .as("Retrieve fine from database with ID 1")
+                .isEqualTo(optionalFine1);
     }
 
     @Test
@@ -68,21 +70,27 @@ public class FineServiceImplTest {
 
         when(DAO.get(id)).thenReturn(Optional.empty());
 
-        assertThat(fineService.get(id)).as("Retrieve empty Optional from DAO").isEqualTo(Optional.empty());
+        assertThat(fineService.get(id))
+                .as("Retrieve empty Optional from DAO")
+                .isEqualTo(Optional.empty());
     }
 
     @Test
     public void testGetAll() {
         when(DAO.getAll()).thenReturn(fines);
 
-        assertThat(fineService.getAll()).as("Retrieve all fines stored in the database").isEqualTo(fines);
+        assertThat(fineService.getAll())
+                .as("Retrieve all fines stored in the database")
+                .isEqualTo(fines);
     }
 
     @Test
     public void testGetAll_noFinesFromDAO() {
         when(DAO.getAll()).thenReturn(new ArrayList<>());
 
-        assertThat(fineService.getAll().isEmpty()).as("Retrieve no fines from DAO").isTrue();
+        assertThat(fineService.getAll().isEmpty())
+                .as("Retrieve no fines from DAO")
+                .isTrue();
     }
 
     @Test

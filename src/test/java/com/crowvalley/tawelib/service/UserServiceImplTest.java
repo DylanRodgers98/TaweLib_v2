@@ -59,7 +59,9 @@ public class UserServiceImplTest {
 
         when(DAO.get(username)).thenReturn(optionalUser1);
 
-        assertThat(userService.get(username)).as("Retrieve user from database with username 'User 1'").isEqualTo(optionalUser1);
+        assertThat(userService.get(username))
+                .as("Retrieve user from database with username 'User 1'")
+                .isEqualTo(optionalUser1);
     }
 
     @Test
@@ -68,21 +70,27 @@ public class UserServiceImplTest {
 
         when(DAO.get(username)).thenReturn(Optional.empty());
 
-        assertThat(userService.get(username)).as("Retrieve empty Optional from DAO").isEqualTo(Optional.empty());
+        assertThat(userService.get(username))
+                .as("Retrieve empty Optional from DAO")
+                .isEqualTo(Optional.empty());
     }
 
     @Test
     public void testGetAll() {
         when(DAO.getAll()).thenReturn(users);
 
-        assertThat(userService.getAll()).as("Retrieve all users stored in the database").isEqualTo(users);
+        assertThat(userService.getAll())
+                .as("Retrieve all users stored in the database")
+                .isEqualTo(users);
     }
 
     @Test
     public void testGetAll_noUsersFromDAO() {
         when(DAO.getAll()).thenReturn(new ArrayList<>());
 
-        assertThat(userService.getAll().isEmpty()).as("Retrieve no users from DAO").isTrue();
+        assertThat(userService.getAll().isEmpty())
+                .as("Retrieve no users from DAO")
+                .isTrue();
     }
 
     @Test
