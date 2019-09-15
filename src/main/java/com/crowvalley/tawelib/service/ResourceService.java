@@ -7,15 +7,15 @@ import java.util.Optional;
 
 public interface ResourceService<Resource> {
 
-    public Optional<Resource> get(Long id);
+    Optional<Resource> get(Long id);
 
-    public List<Resource> getAll();
+    List<Resource> getAll();
 
-    public void save(Resource resource);
+    void save(Resource resource);
 
-    public void update(Resource resource);
+    void update(Resource resource);
 
-    public void delete(Resource resource);
+    void delete(Resource resource);
 
-    public void setDAO(ResourceDAO DAO);
+    void setDAO(ResourceDAO DAO);
 }

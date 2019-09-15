@@ -8,15 +8,15 @@ import java.util.Optional;
 
 public interface CopyService {
 
-    public Optional<Copy> get(Long id);
+    Optional<Copy> get(Long id);
 
-    public List<Copy> getAll();
+    List<Copy> getAll();
 
-    public void save(Copy copy);
+    void save(Copy copy);
 
-    public void update(Copy copy);
+    void update(Copy copy);
 
-    public void delete(Copy copy);
+    void delete(Copy copy);
 
-    public void setDAO(CopyDAO DAO);
+    void setDAO(CopyDAO DAO);
 }

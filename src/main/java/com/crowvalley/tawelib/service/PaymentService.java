@@ -8,13 +8,13 @@ import java.util.Optional;
 
 public interface PaymentService {
 
-    public Optional<Payment> get(Long id);
+    Optional<Payment> get(Long id);
 
-    public List<Payment> getAll();
+    List<Payment> getAll();
 
-    public void save(Payment payment);
+    void save(Payment payment);
 
-    public void delete(Payment payment);
+    void delete(Payment payment);
 
-    public void setDAO(PaymentDAO DAO);
+    void setDAO(PaymentDAO DAO);
 }

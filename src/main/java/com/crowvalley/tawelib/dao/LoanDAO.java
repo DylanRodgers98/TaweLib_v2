@@ -1,6 +1,5 @@
 package com.crowvalley.tawelib.dao;
 
-import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.model.resource.Loan;
 
 import java.util.List;

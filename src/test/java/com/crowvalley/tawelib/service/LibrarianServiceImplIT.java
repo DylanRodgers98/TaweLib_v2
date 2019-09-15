@@ -26,7 +26,7 @@ public class LibrarianServiceImplIT {
         Librarian librarian = new Librarian("DylanRodgers98", "Dylan", "Rodgers",
                 "07866345602", "5 Bowood", "Harford Drive", "Bristol",
                 "South Gloucestershire", "BS16 1NS", "",
-                new Date(System.currentTimeMillis()), Long.valueOf(1));
+                new Date(System.currentTimeMillis()), 1L);
 
         //Test Create and Retrieve operations
         librarianService.save(librarian);
@@ -35,7 +35,7 @@ public class LibrarianServiceImplIT {
                 .as("Retrieve librarian user from database with username DylanRodgers98")
                 .isEqualTo(librarian);
 
-        softly.assertThat(librarianService.getWithStaffNumber(Long.valueOf(1)).get())
+        softly.assertThat(librarianService.getWithStaffNumber(1L).get())
                 .as("Retrieve librarian user from database with staff number of 1")
                 .isEqualTo(librarian);
 
@@ -60,7 +60,7 @@ public class LibrarianServiceImplIT {
                 .as("Librarian user DylanRodgers98 deleted")
                 .isEqualTo(Optional.empty());
 
-        softly.assertThat(librarianService.getWithStaffNumber(Long.valueOf(1)))
+        softly.assertThat(librarianService.getWithStaffNumber(1L))
                 .as("Librarian user with staff number of 1 deleted")
                 .isEqualTo(Optional.empty());
     }

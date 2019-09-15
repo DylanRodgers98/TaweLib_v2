@@ -42,9 +42,9 @@ public class LoanServiceImplTest {
 
     @Before
     public void setup() {
-        loan1 = new Loan(Long.valueOf(1), "", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
-        loan2 = new Loan(Long.valueOf(2), "", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
-        loan3 = new Loan(Long.valueOf(3), "", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
+        loan1 = new Loan(1L, "", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
+        loan2 = new Loan(2L, "", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
+        loan3 = new Loan(3L, "", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
         optionalLoan1 = Optional.of(loan1);
         optionalLoan2 = Optional.of(loan2);
         optionalLoan3 = Optional.of(loan3);
@@ -56,7 +56,7 @@ public class LoanServiceImplTest {
 
     @Test
     public void testGet() {
-        Long id = Long.valueOf(1);
+        Long id = 1L;
 
         when(DAO.get(id)).thenReturn(optionalLoan1);
 
@@ -67,7 +67,7 @@ public class LoanServiceImplTest {
 
     @Test
     public void testGet_noLoanFromDAO() {
-        Long id = Long.valueOf(4);
+        Long id = 4L;
 
         when(DAO.get(id)).thenReturn(Optional.empty());
 
@@ -78,7 +78,7 @@ public class LoanServiceImplTest {
 
     @Test
     public void testGetAllLoansForCopy() {
-        Long copyId = Long.valueOf(1);
+        Long copyId = 1L;
 
         when(DAO.getAllLoansForCopy(copyId)).thenReturn(loans);
 
@@ -89,7 +89,7 @@ public class LoanServiceImplTest {
 
     @Test
     public void testGetAllLoansForCopy_noLoansFromDAO() {
-        Long copyId = Long.valueOf(1);
+        Long copyId = 1L;
 
         when(DAO.getAllLoansForCopy(copyId)).thenReturn(new ArrayList<>());
 

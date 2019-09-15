@@ -8,17 +8,17 @@ import java.util.Optional;
 
 public interface LibrarianService {
 
-    public Optional<Librarian> getWithUsername(String username);
+    Optional<Librarian> getWithUsername(String username);
 
-    public Optional<Librarian> getWithStaffNumber(Long staffNum);
+    Optional<Librarian> getWithStaffNumber(Long staffNum);
 
-    public List<Librarian> getAll();
+    List<Librarian> getAll();
 
-    public void save(Librarian librarian);
+    void save(Librarian librarian);
 
-    public void update(Librarian librarian);
+    void update(Librarian librarian);
 
-    public void delete(Librarian librarian);
+    void delete(Librarian librarian);
 
-    public void setDAO(LibrarianDAO DAO);
+    void setDAO(LibrarianDAO DAO);
 }

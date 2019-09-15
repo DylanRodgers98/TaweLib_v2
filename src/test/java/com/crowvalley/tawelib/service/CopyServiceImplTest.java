@@ -41,9 +41,9 @@ public class CopyServiceImplTest {
 
     @Before
     public void setup() {
-        copy1 = new Copy(Long.valueOf(1), "Book",7);
-        copy2 = new Copy(Long.valueOf(2), "Dvd", 3);
-        copy3 = new Copy(Long.valueOf(3), "Laptop", 14);
+        copy1 = new Copy(1L, "Book",7);
+        copy2 = new Copy(2L, "Dvd", 3);
+        copy3 = new Copy(3L, "Laptop", 14);
         optionalCopy1 = Optional.of(copy1);
         optionalCopy2 = Optional.of(copy2);
         optionalCopy3 = Optional.of(copy3);
@@ -55,7 +55,7 @@ public class CopyServiceImplTest {
 
     @Test
     public void testGet() {
-        Long id = Long.valueOf(1);
+        Long id = 1L;
 
         when(DAO.get(id)).thenReturn(optionalCopy1);
 
@@ -66,7 +66,7 @@ public class CopyServiceImplTest {
 
     @Test
     public void testGet_noCopyFromDAO() {
-        Long id = Long.valueOf(4);
+        Long id = 4L;
 
         when(DAO.get(id)).thenReturn(Optional.empty());
 

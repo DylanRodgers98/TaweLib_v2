@@ -34,8 +34,6 @@ public class PaymentServiceImplIT {
                 .as("Retrieve payment from database")
                 .isEqualTo(payment);
 
-        //PAYMENT HAS NO SETTER METHODS, SO UPDATE NEED NOT BE TESTED
-
         //Test Delete operation
         paymentService.delete(payment);
 

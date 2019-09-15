@@ -12,7 +12,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,9 +91,9 @@ public class CopyServiceImplIT {
                 .as("Retrieve copy from database")
                 .isEqualTo(copyOfBook);
 
-        CopyRequest expectedCopyRequest = copyOfBook.getCopyRequestList().get(0);
+        CopyRequest expectedCopyRequest = copyOfBook.getCopyRequests().get(0);
 
-        softly.assertThat(retrievedCopy.get().getCopyRequestList())
+        softly.assertThat(retrievedCopy.get().getCopyRequests())
                 .as("Retrieve list of copy requests for copy retrieved from database")
                 .contains(expectedCopyRequest);
     }

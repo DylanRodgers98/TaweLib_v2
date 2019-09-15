@@ -23,7 +23,7 @@ public class FineServiceImplIT {
     @Transactional
     public void testCRDOperationsOnFine() {
         JUnitSoftAssertions softly = new JUnitSoftAssertions();
-        Fine fine = new Fine("DylanRodgers98", Long.valueOf(1), 2.50);
+        Fine fine = new Fine("DylanRodgers98", 1L, 2.50);
 
         //Test Create and Retrieve operations
         fineService.save(fine);

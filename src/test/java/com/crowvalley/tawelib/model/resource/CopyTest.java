@@ -1,9 +1,10 @@
 package com.crowvalley.tawelib.model.resource;
 
-import static org.assertj.core.api.Assertions.*;
-
 import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.Test;
+
+import java.sql.Date;
+import java.sql.Timestamp;
 
 public class CopyTest {
 
@@ -15,24 +16,36 @@ public class CopyTest {
         Copy copy = new Copy();
         copy.createCopyRequest(username);
 
-        softly.assertThat(copy.getCopyRequestList().get(0).getCopy())
+        softly.assertThat(copy.getCopyRequests().get(0).getCopy())
                 .as("Copy request list contains copy request for correct copy")
                 .isEqualTo(copy);
 
-        softly.assertThat(copy.getCopyRequestList().get(0).getUsername())
+        softly.assertThat(copy.getCopyRequests().get(0).getUsername())
                 .as("Copy request list contains copy request with correct username")
                 .isEqualTo(username);
+
+        softly.assertThat(copy.getCopyRequests().get(0).getRequestDate().toLocalDateTime().toLocalDate())
+                .as("Copy request list contains copy request with today's date")
+                .isEqualTo(new Date(System.currentTimeMillis()));
     }
 
     @Test
-    public void testAddCopyRequest() {
+    public void testDeleteCopyRequest() {
+        JUnitSoftAssertions softly = new JUnitSoftAssertions();
+
+        String username = "DylanRodgers98";
         Copy copy = new Copy();
-        CopyRequest copyRequest = new CopyRequest();
+        CopyRequest copyRequest = new CopyRequest(copy, username, new Timestamp(System.currentTimeMillis()));
+        copy.getCopyRequests().add(copyRequest);
 
-        copy.addCopyRequest(copyRequest);
-
-        assertThat(copy.getCopyRequestList())
-                .as("Copy request list contains new copy request")
+        softly.assertThat(copy.getCopyRequests())
+                .as("Copy's copy request list containing new copy request")
                 .contains(copyRequest);
+
+        copy.deleteCopyRequestForUser(username);
+        softly.assertThat(copy.getCopyRequests()).
+                as("Copy's copy request list after deleting the copy request from the list")
+                .doesNotContain(copyRequest);
     }
+
 }

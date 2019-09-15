@@ -132,7 +132,7 @@ public class ResourceFactoryImplIT {
     @Test(expected = IllegalArgumentException.class)
     @Transactional
     public void testCreateLoanWithNoCopyID() {
-        Copy copy = new Copy(Long.valueOf(1), "Book", 4);
+        Copy copy = new Copy(1L, "Book", 4);
         resourceFactory.createLoanForCopy(copy, "DylanRodgers98");
     }
 }

@@ -55,7 +55,7 @@ public class LaptopServiceImplTest {
 
     @Test
     public void testGet() {
-        Long id = Long.valueOf(1);
+        Long id = 1L;
 
         when(DAO.get(id)).thenReturn(optionalLaptop1);
 
@@ -66,7 +66,7 @@ public class LaptopServiceImplTest {
 
     @Test
     public void testGet_noLaptopFromDAO() {
-        Long id = Long.valueOf(2);
+        Long id = 2L;
 
         when(DAO.get(id)).thenReturn(Optional.empty());
 

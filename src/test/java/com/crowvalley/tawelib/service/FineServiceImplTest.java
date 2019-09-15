@@ -41,9 +41,9 @@ public class FineServiceImplTest {
 
     @Before
     public void setup() {
-        fine1 = new Fine("User 1", Long.valueOf(1), 2.50);
-        fine2 = new Fine("User 2", Long.valueOf(2), 0.90);
-        fine3 = new Fine("User 3", Long.valueOf(3), 10.00);
+        fine1 = new Fine("User 1", 1L, 2.50);
+        fine2 = new Fine("User 2", 2L, 0.90);
+        fine3 = new Fine("User 3", 3L, 10.00);
         optionalFine1 = Optional.of(fine1);
         optionalFine2 = Optional.of(fine2);
         optionalFine3 = Optional.of(fine3);
@@ -55,7 +55,7 @@ public class FineServiceImplTest {
 
     @Test
     public void testGet() {
-        Long id = Long.valueOf(1);
+        Long id = 1L;
 
         when(DAO.get(id)).thenReturn(optionalFine1);
 
@@ -66,7 +66,7 @@ public class FineServiceImplTest {
 
     @Test
     public void testGet_noFineFromDAO() {
-        Long id = Long.valueOf(4);
+        Long id = 4L;
 
         when(DAO.get(id)).thenReturn(Optional.empty());
 

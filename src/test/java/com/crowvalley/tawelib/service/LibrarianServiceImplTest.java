@@ -44,9 +44,9 @@ public class LibrarianServiceImplTest {
 
     @Before
     public void setup() {
-        librarian1 = new Librarian("Librarian (Standard constructor)", "", "", "", "", "", "", "", "", "", new Date(System.currentTimeMillis()), Long.valueOf(1));
-        librarian2 = new Librarian("Librarian (Address constructor)", "", "", "", new Address("", "", "", "", ""), "", new Date(System.currentTimeMillis()), Long.valueOf(2));
-        librarian3 = new Librarian(new User("Librarian (User constructor)", "", "", "", new Address("", "", "", "", ""), ""), new Date(System.currentTimeMillis()), Long.valueOf(3));
+        librarian1 = new Librarian("Librarian (Standard constructor)", "", "", "", "", "", "", "", "", "", new Date(System.currentTimeMillis()), 1L);
+        librarian2 = new Librarian("Librarian (Address constructor)", "", "", "", new Address("", "", "", "", ""), "", new Date(System.currentTimeMillis()), 2L);
+        librarian3 = new Librarian(new User("Librarian (User constructor)", "", "", "", new Address("", "", "", "", ""), ""), new Date(System.currentTimeMillis()), 3L);
         optionalLibrarian1 = Optional.of(librarian1);
         optionalLibrarian2 = Optional.of(librarian2);
         optionalLibrarian3 = Optional.of(librarian3);
@@ -69,7 +69,7 @@ public class LibrarianServiceImplTest {
 
     @Test
     public void testGetWithStaffNumber() {
-        Long staffNum = Long.valueOf(2);
+        Long staffNum = 2L;
 
         when(DAO.getWithStaffNumber(staffNum)).thenReturn(optionalLibrarian2);
 
@@ -91,7 +91,7 @@ public class LibrarianServiceImplTest {
 
     @Test
     public void testGetWithStaffNumber_noUserFromDAO() {
-        Long staffNum = Long.valueOf(4);
+        Long staffNum = 4L;
 
         when(DAO.getWithStaffNumber(staffNum)).thenReturn(Optional.empty());
 

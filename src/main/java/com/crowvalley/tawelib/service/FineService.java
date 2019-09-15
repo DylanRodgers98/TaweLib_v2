@@ -8,13 +8,13 @@ import java.util.Optional;
 
 public interface FineService {
 
-    public Optional<Fine> get(Long id);
+    Optional<Fine> get(Long id);
 
-    public List<Fine> getAll();
+    List<Fine> getAll();
 
-    public void save(Fine fine);
+    void save(Fine fine);
 
-    public void delete(Fine fine);
+    void delete(Fine fine);
 
-    public void setDAO(FineDAO DAO);
+    void setDAO(FineDAO DAO);
 }

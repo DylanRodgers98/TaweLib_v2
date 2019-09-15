@@ -8,15 +8,15 @@ import java.util.Optional;
 
 public interface UserService {
 
-    public Optional<User> get(String username);
+    Optional<User> get(String username);
 
-    public List<User> getAll();
+    List<User> getAll();
 
-    public void save(User user);
+    void save(User user);
 
-    public void update(User user);
+    void update(User user);
 
-    public void delete(User user);
+    void delete(User user);
 
-    public void setDAO(UserDAO DAO);
+    void setDAO(UserDAO DAO);
 }

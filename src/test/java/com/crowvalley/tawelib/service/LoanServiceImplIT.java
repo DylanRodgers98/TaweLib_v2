@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +40,7 @@ public class LoanServiceImplIT {
     @Transactional
     public void testCRUDOperationsOnLoan() {
         JUnitSoftAssertions softly = new JUnitSoftAssertions();
-        Loan loan = new Loan(Long.valueOf(1), "DylanRodgers98",
+        Loan loan = new Loan(1L, "DylanRodgers98",
                 new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 1000000));
 
         //Test Create and Retrieve operations
@@ -75,14 +74,12 @@ public class LoanServiceImplIT {
     public void testCreateLoanForACopy() {
         Book book = resourceFactory.createBook("Book", "", "", "", "", "", "", "");
         bookService.save(book);
-        Book bookRetrievedFromDatabase = bookService.getAll().get(0);
 
-        Copy copy = resourceFactory.createCopy(bookRetrievedFromDatabase, 4);
+        Copy copy = resourceFactory.createCopy(book, 4);
         copyService.save(copy);
-        Copy copyRetrievedFromDatabase = copyService.getAll().get(0);
 
         String borrower = "DylanRodgers98";
-        Loan loan = resourceFactory.createLoanForCopy(copyRetrievedFromDatabase, borrower);
+        Loan loan = resourceFactory.createLoanForCopy(copy, borrower);
         loanService.save(loan);
 
         Loan loanRetrievedFromDatabase = loanService.getAll().get(0);
@@ -94,7 +91,7 @@ public class LoanServiceImplIT {
 
         softly.assertThat(loanRetrievedFromDatabase.getCopyId())
                 .as("The ID of the copy is the same as the one stored in the loan")
-                .isEqualTo(copyRetrievedFromDatabase.getId());
+                .isEqualTo(copy.getId());
     }
 
     //TODO: FINISH THIS TEST CASE
@@ -137,25 +134,21 @@ public class LoanServiceImplIT {
     public void testReturnCopyAndEndLoan() {
         Book book = resourceFactory.createBook("Book", "", "", "", "", "", "", "");
         bookService.save(book);
-        Book bookRetrievedFromDatabase = bookService.getAll().get(0);
 
-        Copy copy = resourceFactory.createCopy(bookRetrievedFromDatabase, 4);
+        Copy copy = resourceFactory.createCopy(book, 4);
         copyService.save(copy);
-        Copy copyRetrievedFromDatabase = copyService.getAll().get(0);
 
         String borrower = "DylanRodgers98";
         Loan loan = resourceFactory.createLoanForCopy(copy, borrower);
         loanService.save(loan);
 
-        Loan loanRetrievedFromDatabase = loanService.getAll().get(0);
-
         JUnitSoftAssertions softly = new JUnitSoftAssertions();
-        softly.assertThat(loanRetrievedFromDatabase.getReturnDate())
+        softly.assertThat(loan.getReturnDate())
                 .as("Loan retrieved from database with copy not yet returned")
                 .isNull();
 
         loanService.endLoan(loan);
-        softly.assertThat(loanRetrievedFromDatabase.getReturnDate())
+        softly.assertThat(loan.getReturnDate())
                 .as("Loan retrieved from database with copy now returned, with return date equal to today's date")
                 .isEqualTo(new Date(System.currentTimeMillis()));
     }
@@ -165,13 +158,11 @@ public class LoanServiceImplIT {
     public void testGetAllLoansForACopy() {
         Book book = resourceFactory.createBook("Book", "", "", "", "", "", "", "");
         bookService.save(book);
-        Book bookRetrievedFromDatabase = bookService.getAll().get(0);
 
-        Copy copy1 = resourceFactory.createCopy(bookRetrievedFromDatabase, 4);
-        Copy copy2 = resourceFactory.createCopy(bookRetrievedFromDatabase, 7);
+        Copy copy1 = resourceFactory.createCopy(book, 4);
+        Copy copy2 = resourceFactory.createCopy(book, 7);
         copyService.save(copy1);
         copyService.save(copy2);
-        Copy copy1RetrievedFromDatabase = copyService.getAll().get(0);
 
         Loan loan1 = resourceFactory.createLoanForCopy(copy1, "One");
         Loan loan2 = resourceFactory.createLoanForCopy(copy1, "Two");
@@ -182,7 +173,7 @@ public class LoanServiceImplIT {
         loanService.save(loan3);
         loanService.save(loan4);
 
-        List<Loan> loansFromDatabase = loanService.getAllLoansForCopy(copy1RetrievedFromDatabase.getId());
+        List<Loan> loansFromDatabase = loanService.getAllLoansForCopy(copy1.getId());
 
         JUnitSoftAssertions softly = new JUnitSoftAssertions();
         softly.assertThat(loansFromDatabase)

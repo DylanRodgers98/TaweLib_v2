@@ -55,7 +55,7 @@ public class DvdServiceImplTest {
 
     @Test
     public void testGet() {
-        Long id = Long.valueOf(1);
+        Long id = 1L;
 
         when(DAO.get(id)).thenReturn(optionalDvd1);
 
@@ -66,7 +66,7 @@ public class DvdServiceImplTest {
 
     @Test
     public void testGet_noDvdFromDAO() {
-        Long id = Long.valueOf(2);
+        Long id = 2L;
 
         when(DAO.get(id)).thenReturn(Optional.empty());
 

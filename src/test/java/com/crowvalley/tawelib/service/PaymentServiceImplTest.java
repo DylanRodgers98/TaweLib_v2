@@ -55,7 +55,7 @@ public class PaymentServiceImplTest {
 
     @Test
     public void testGet() {
-        Long id = Long.valueOf(1);
+        Long id = 1L;
 
         when(DAO.get(id)).thenReturn(optionalPayment1);
 
@@ -66,7 +66,7 @@ public class PaymentServiceImplTest {
 
     @Test
     public void testGet_noPaymentFromDAO() {
-        Long id = Long.valueOf(4);
+        Long id = 4L;
 
         when(DAO.get(id)).thenReturn(Optional.empty());
 
