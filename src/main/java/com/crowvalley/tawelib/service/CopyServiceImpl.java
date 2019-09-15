@@ -64,4 +64,16 @@ public class CopyServiceImpl implements CopyService {
         LOGGER.info("CopyServiceImpl DAO set to {}", DAO.getClass());
     }
 
+    @Override
+    public void createCopyRequestForPersistedCopy(Copy copy, String username) {
+        copy.createCopyRequest(username);
+        update(copy);
+    }
+
+    @Override
+    public void deleteCopyRequestFromPersistedCopy(Copy copy, String username) {
+        copy.deleteCopyRequestForUser(username);
+        update(copy);
+    }
+
 }

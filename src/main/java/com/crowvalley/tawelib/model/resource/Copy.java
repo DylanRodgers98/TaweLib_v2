@@ -51,7 +51,7 @@ public class Copy {
 
     public void createCopyRequest(String username) {
         boolean containsCopyRequestFromUser = false;
-        
+
         for (CopyRequest copyRequest : copyRequests) {
             if (copyRequest.getUsername().equals(username)) {
                 containsCopyRequestFromUser = true;
