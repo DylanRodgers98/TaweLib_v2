@@ -20,7 +20,11 @@ public interface CopyService {
 
     void setDAO(CopyDAO DAO);
 
+    void createCopyRequestForPersistedCopy(Long id, String username);
+
     void createCopyRequestForPersistedCopy(Copy copy, String username);
+
+    void deleteCopyRequestFromPersistedCopy(Long id, String username);
 
     void deleteCopyRequestFromPersistedCopy(Copy copy, String username);
 }

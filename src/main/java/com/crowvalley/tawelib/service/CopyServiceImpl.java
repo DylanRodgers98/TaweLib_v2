@@ -65,9 +65,25 @@ public class CopyServiceImpl implements CopyService {
     }
 
     @Override
+    public void createCopyRequestForPersistedCopy(Long id, String username) {
+        Optional<Copy> copy = get(id);
+        if (copy.isPresent()) {
+            createCopyRequestForPersistedCopy(copy.get(), username);
+        }
+    }
+
+    @Override
     public void createCopyRequestForPersistedCopy(Copy copy, String username) {
         copy.createCopyRequest(username);
         update(copy);
+    }
+
+    @Override
+    public void deleteCopyRequestFromPersistedCopy(Long id, String username) {
+        Optional<Copy> copy = get(id);
+        if (copy.isPresent()) {
+            deleteCopyRequestFromPersistedCopy(copy.get(), username);
+        }
     }
 
     @Override
