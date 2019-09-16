@@ -16,5 +16,5 @@ public interface PaymentService {
 
     void delete(Payment payment);
 
-    void setDAO(PaymentDAO DAO);
+    void setPaymentDAO(PaymentDAO paymentDAO);
 }

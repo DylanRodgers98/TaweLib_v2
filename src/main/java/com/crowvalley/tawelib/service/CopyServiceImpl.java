@@ -4,8 +4,8 @@ import com.crowvalley.tawelib.dao.CopyDAO;
 import com.crowvalley.tawelib.model.resource.Copy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,12 +13,12 @@ public class CopyServiceImpl implements CopyService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CopyServiceImpl.class);
 
-    @Resource
-    private CopyDAO DAO;
+    @Autowired
+    private CopyDAO copyDAO;
 
     @Override
     public Optional<Copy> get(Long id) {
-        Optional<Copy> copy = DAO.get(id);
+        Optional<Copy> copy = copyDAO.get(id);
         if (copy.isPresent()) {
             LOGGER.info("Copy with ID {} retrieved successfully", id);
             return copy;
@@ -30,7 +30,7 @@ public class CopyServiceImpl implements CopyService {
 
     @Override
     public List<Copy> getAll() {
-        List<Copy> copies = DAO.getAll();
+        List<Copy> copies = copyDAO.getAll();
         if (!copies.isEmpty()) {
             LOGGER.info("All copies retrieved successfully");
             return copies;
@@ -42,26 +42,26 @@ public class CopyServiceImpl implements CopyService {
 
     @Override
     public void save(Copy copy){
-        DAO.save(copy);
+        copyDAO.save(copy);
         LOGGER.info("Copy (ID: {}) of {} (ID: {}) saved successfully", copy.getId(), copy.getResourceType(), copy.getResourceId());
     }
 
     @Override
     public void update(Copy copy) {
-        DAO.update(copy);
+        copyDAO.update(copy);
         LOGGER.info("Copy (ID: {}) of {} (ID: {}) updated successfully", copy.getId(), copy.getResourceType(), copy.getResourceId());
     }
 
     @Override
     public void delete(Copy copy) {
-        DAO.delete(copy);
+        copyDAO.delete(copy);
         LOGGER.info("Copy (ID: {}) of {} (ID: {}) deleted successfully", copy.getId(), copy.getResourceType(), copy.getResourceId());
     }
 
     @Override
-    public void setDAO(CopyDAO DAO) {
-        this.DAO = DAO;
-        LOGGER.info("CopyServiceImpl DAO set to {}", DAO.getClass());
+    public void setCopyDAO(CopyDAO copyDAO) {
+        this.copyDAO = copyDAO;
+        LOGGER.info("CopyServiceImpl DAO set to {}", copyDAO.getClass());
     }
 
     @Override

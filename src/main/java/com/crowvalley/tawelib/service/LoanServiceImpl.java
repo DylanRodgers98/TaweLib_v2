@@ -18,7 +18,7 @@ public class LoanServiceImpl implements LoanService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoanServiceImpl.class);
 
-    @Resource
+    @Autowired
     private LoanDAO DAO;
 
     @Autowired

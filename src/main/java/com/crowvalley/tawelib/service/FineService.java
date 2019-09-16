@@ -16,5 +16,5 @@ public interface FineService {
 
     void delete(Fine fine);
 
-    void setDAO(FineDAO DAO);
+    void setFineDAO(FineDAO fineDAO);
 }

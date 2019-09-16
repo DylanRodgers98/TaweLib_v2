@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml "})
@@ -41,7 +42,8 @@ public class LoanServiceImplIT {
     public void testCRUDOperationsOnLoan() {
         JUnitSoftAssertions softly = new JUnitSoftAssertions();
         Loan loan = new Loan(1L, "DylanRodgers98",
-                new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 1000000));
+                new Date(System.currentTimeMillis()),
+                new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(4)));
 
         //Test Create and Retrieve operations
         loanService.save(loan);
@@ -54,7 +56,7 @@ public class LoanServiceImplIT {
 
         //Test Update operation
         Loan loanToUpdate = loanService.get(id).get();
-        loanToUpdate.setReturnDate(new Date(System.currentTimeMillis() + 9000000));
+        loanToUpdate.setReturnDate(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7)));
         loanService.update(loanToUpdate);
 
         softly.assertThat(loanService.get(id).get())

@@ -4,8 +4,8 @@ import com.crowvalley.tawelib.dao.ResourceDAO;
 import com.crowvalley.tawelib.model.resource.Book;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,12 +13,12 @@ public class BookServiceImpl implements ResourceService<Book> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BookServiceImpl.class);
 
-    @Resource
-    private ResourceDAO DAO;
+    @Autowired
+    private ResourceDAO bookDAO;
 
     @Override
     public Optional<Book> get(Long id) {
-        Optional<Book> book = DAO.get(id);
+        Optional<Book> book = bookDAO.get(id);
         if (book.isPresent()) {
             LOGGER.info("Book with ID {} retrieved successfully", id);
             return book;
@@ -30,7 +30,7 @@ public class BookServiceImpl implements ResourceService<Book> {
 
     @Override
     public List<Book> getAll() {
-        List<Book> books = DAO.getAll();
+        List<Book> books = bookDAO.getAll();
         if (!books.isEmpty()) {
             LOGGER.info("All books retrieved successfully");
             return books;
@@ -42,25 +42,25 @@ public class BookServiceImpl implements ResourceService<Book> {
 
     @Override
     public void save(Book book){
-        DAO.save(book);
+        bookDAO.save(book);
         LOGGER.info("Book with ID {} saved successfully", book.getId());
     }
 
     @Override
     public void update(Book book) {
-        DAO.update(book);
+        bookDAO.update(book);
         LOGGER.info("Book with ID {} updated successfully", book.getId());
     }
 
     @Override
     public void delete(Book book) {
-        DAO.delete(book);
+        bookDAO.delete(book);
         LOGGER.info("Book with ID {} deleted successfully", book.getId());
     }
 
     @Override
-    public void setDAO(ResourceDAO DAO) {
-        this.DAO = DAO;
-        LOGGER.info("BookServiceImpl DAO set to {}", DAO.getClass());
+    public void setLaptopDAO(ResourceDAO laptopDAO) {
+        this.bookDAO = laptopDAO;
+        LOGGER.info("BookServiceImpl DAO set to {}", laptopDAO.getClass());
     }
 }

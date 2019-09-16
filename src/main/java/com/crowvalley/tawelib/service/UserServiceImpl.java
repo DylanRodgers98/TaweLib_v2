@@ -4,8 +4,8 @@ import com.crowvalley.tawelib.dao.UserDAO;
 import com.crowvalley.tawelib.model.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,12 +13,12 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    @Resource
-    private UserDAO DAO;
+    @Autowired
+    private UserDAO userDAO;
 
     @Override
     public Optional<User> get(String username) {
-        Optional<User> user = DAO.get(username);
+        Optional<User> user = userDAO.get(username);
         if (user.isPresent()) {
             LOGGER.info("User with username {} retrieved successfully", username);
             return user;
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAll() {
-        List<User> users = DAO.getAll();
+        List<User> users = userDAO.getAll();
         if (!users.isEmpty()) {
             LOGGER.info("All users retrieved successfully");
             return users;
@@ -42,26 +42,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user){
-        DAO.save(user);
+        userDAO.save(user);
         LOGGER.info("User with username {} saved successfully", user.getUsername());
     }
 
     @Override
     public void update(User user) {
-        DAO.update(user);
+        userDAO.update(user);
         LOGGER.info("User with username {} updated successfully", user.getUsername());
     }
 
     @Override
     public void delete(User user) {
-        DAO.delete(user);
+        userDAO.delete(user);
         LOGGER.info("User with username {} deleted successfully", user.getUsername());
     }
 
     @Override
-    public void setDAO(UserDAO DAO) {
-        this.DAO = DAO;
-        LOGGER.info("UserServiceImpl DAO set to {}", DAO.getClass());
+    public void setUserDAO(UserDAO userDAO) {
+        this.userDAO = userDAO;
+        LOGGER.info("UserServiceImpl DAO set to {}", userDAO.getClass());
     }
 
 }

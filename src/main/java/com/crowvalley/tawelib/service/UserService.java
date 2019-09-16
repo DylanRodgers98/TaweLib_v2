@@ -18,5 +18,5 @@ public interface UserService {
 
     void delete(User user);
 
-    void setDAO(UserDAO DAO);
+    void setUserDAO(UserDAO userDAO);
 }

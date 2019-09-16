@@ -18,7 +18,7 @@ public interface CopyService {
 
     void delete(Copy copy);
 
-    void setDAO(CopyDAO DAO);
+    void setCopyDAO(CopyDAO copyDAO);
 
     void createCopyRequestForPersistedCopy(Long id, String username);
 

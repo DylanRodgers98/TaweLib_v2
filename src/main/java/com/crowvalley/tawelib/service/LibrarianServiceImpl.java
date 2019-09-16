@@ -4,8 +4,8 @@ import com.crowvalley.tawelib.dao.LibrarianDAO;
 import com.crowvalley.tawelib.model.user.Librarian;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,12 +13,12 @@ public class LibrarianServiceImpl implements LibrarianService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LibrarianServiceImpl.class);
 
-    @Resource
-    private LibrarianDAO DAO;
+    @Autowired
+    private LibrarianDAO librarianDAO;
 
     @Override
     public Optional<Librarian> getWithUsername(String username) {
-        Optional<Librarian> librarian = DAO.getWithUsername(username);
+        Optional<Librarian> librarian = librarianDAO.getWithUsername(username);
         if (librarian.isPresent()) {
             LOGGER.info("Librarian with username {} retrieved successfully", username);
             return librarian;
@@ -30,7 +30,7 @@ public class LibrarianServiceImpl implements LibrarianService {
 
     @Override
     public Optional<Librarian> getWithStaffNumber(Long staffNum) {
-        Optional<Librarian> librarian = DAO.getWithStaffNumber(staffNum);
+        Optional<Librarian> librarian = librarianDAO.getWithStaffNumber(staffNum);
         if (librarian.isPresent()) {
             LOGGER.info("Librarian with staff number {} retrieved successfully", staffNum);
             return librarian;
@@ -42,7 +42,7 @@ public class LibrarianServiceImpl implements LibrarianService {
 
     @Override
     public List<Librarian> getAll() {
-        List<Librarian> users = DAO.getAll();
+        List<Librarian> users = librarianDAO.getAll();
         if (!users.isEmpty()) {
             LOGGER.info("All users retrieved successfully");
             return users;
@@ -54,29 +54,29 @@ public class LibrarianServiceImpl implements LibrarianService {
 
     @Override
     public void save(Librarian librarian){
-        DAO.save(librarian);
+        librarianDAO.save(librarian);
         LOGGER.info("Librarian with username {} and staff number {} saved successfully",
                 librarian.getUsername(), librarian.getStaffNum());
     }
 
     @Override
     public void update(Librarian librarian) {
-        DAO.update(librarian);
+        librarianDAO.update(librarian);
         LOGGER.info("Librarian with username {} and staff number {} updated successfully",
                 librarian.getUsername(), librarian.getStaffNum());
     }
 
     @Override
     public void delete(Librarian librarian) {
-        DAO.delete(librarian);
+        librarianDAO.delete(librarian);
         LOGGER.info("Librarian with username {} and staff number {} deleted successfully",
                 librarian.getUsername(), librarian.getStaffNum());
     }
 
     @Override
-    public void setDAO(LibrarianDAO DAO) {
-        this.DAO = DAO;
-        LOGGER.info("UserServiceImpl DAO set to {}", DAO.getClass());
+    public void setLibrarianDAO(LibrarianDAO librarianDAO) {
+        this.librarianDAO = librarianDAO;
+        LOGGER.info("UserServiceImpl DAO set to {}", librarianDAO.getClass());
     }
 
 }

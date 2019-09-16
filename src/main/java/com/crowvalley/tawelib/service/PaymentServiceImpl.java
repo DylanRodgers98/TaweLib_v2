@@ -4,8 +4,8 @@ import com.crowvalley.tawelib.dao.PaymentDAO;
 import com.crowvalley.tawelib.model.fine.Payment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,12 +13,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentServiceImpl.class);
 
-    @Resource
-    private PaymentDAO DAO;
+    @Autowired
+    private PaymentDAO paymentDAO;
 
     @Override
     public Optional<Payment> get(Long id) {
-        Optional<Payment> payment = DAO.get(id);
+        Optional<Payment> payment = paymentDAO.get(id);
         if (payment.isPresent()) {
             LOGGER.info("Payment with ID {} retrieved successfully", id);
             return payment;
@@ -30,7 +30,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<Payment> getAll() {
-        List<Payment> payments = DAO.getAll();
+        List<Payment> payments = paymentDAO.getAll();
         if (!payments.isEmpty()) {
             LOGGER.info("All payments retrieved successfully");
             return payments;
@@ -42,20 +42,20 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void save(Payment payment){
-        DAO.save(payment);
+        paymentDAO.save(payment);
         LOGGER.info("Payment with ID {} saved successfully", payment.getId());
     }
 
     @Override
     public void delete(Payment payment) {
-        DAO.delete(payment);
+        paymentDAO.delete(payment);
         LOGGER.info("Payment with ID {} deleted successfully", payment.getId());
     }
 
     @Override
-    public void setDAO(PaymentDAO DAO) {
-        this.DAO = DAO;
-        LOGGER.info("PaymentServiceImpl DAO set to {}", DAO.getClass());
+    public void setPaymentDAO(PaymentDAO paymentDAO) {
+        this.paymentDAO = paymentDAO;
+        LOGGER.info("PaymentServiceImpl DAO set to {}", paymentDAO.getClass());
     }
 
 }
