@@ -67,4 +67,21 @@ public class LibrarianServiceImplIT {
                 .as("Librarian user with staff number of 1 deleted")
                 .isEqualTo(Optional.empty());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    @Transactional
+    public void testSaveLibrarianWithDuplicateStaffNumber() {
+        Librarian librarian1 = new Librarian("DylanRodgers98", "Dylan", "Rodgers",
+                "07866345602", "5 Bowood", "Harford Drive", "Bristol",
+                "South Gloucestershire", "BS16 1NS", "",
+                new Date(System.currentTimeMillis()), 1L);
+
+        Librarian librarian2 = new Librarian("Nenner11", "Eleanor", "Maltby",
+                "07866345602", "28", "Parnell Road", "Bristol",
+                "South Gloucestershire", "BS16 1WA", "",
+                new Date(System.currentTimeMillis()), 1L);
+
+        librarianService.save(librarian1);
+        librarianService.save(librarian2);
+    }
 }

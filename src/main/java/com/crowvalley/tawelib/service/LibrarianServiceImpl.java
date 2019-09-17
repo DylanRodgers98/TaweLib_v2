@@ -54,9 +54,15 @@ public class LibrarianServiceImpl implements LibrarianService {
 
     @Override
     public void save(Librarian librarian) {
-        DAO.save(librarian);
-        LOGGER.info("Librarian with username {} and staff number {} saved successfully",
-                librarian.getUsername(), librarian.getStaffNum());
+        Optional<Librarian> librarianForCheckingDuplicateStaffNumber = DAO.getWithStaffNumber(librarian.getStaffNum());
+        if (librarianForCheckingDuplicateStaffNumber.isPresent()) {
+            LOGGER.warn("A librarian already has staff number {}", librarian.getStaffNum());
+            throw new IllegalArgumentException("Trying to create Librarian with duplicate staff number");
+        } else {
+            DAO.save(librarian);
+            LOGGER.info("Librarian with username {} and staff number {} saved successfully",
+                    librarian.getUsername(), librarian.getStaffNum());
+        }
     }
 
     @Override

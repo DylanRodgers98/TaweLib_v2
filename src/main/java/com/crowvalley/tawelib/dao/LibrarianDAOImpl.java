@@ -25,13 +25,17 @@ public class LibrarianDAOImpl implements LibrarianDAO {
 
     @Override
     public Optional<Librarian> getWithStaffNumber(Long staffNum) {
-        Librarian librarian = (Librarian) sessionFactory.getCurrentSession()
+        List<Librarian> librarians = sessionFactory.getCurrentSession()
                 .createCriteria(Librarian.class)
                 .add(Restrictions.eq("staffNum", staffNum))
-                .setMaxResults(1)
-                .uniqueResult();
-        if (librarian != null) {
-            return Optional.of(librarian);
+                .list();
+
+        if (librarians.size() > 1) {
+            throw new IllegalStateException("More than one Librarian retrieved from database with same staff number");
+        }
+
+        if (!librarians.isEmpty()) {
+            return Optional.of(librarians.get(0));
         } else {
             return Optional.empty();
         }
