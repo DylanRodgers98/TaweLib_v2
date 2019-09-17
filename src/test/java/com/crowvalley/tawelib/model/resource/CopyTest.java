@@ -28,7 +28,7 @@ public class CopyTest {
 
         softly.assertThat(copy.getCopyRequests().get(0).getRequestDate().toLocalDateTime().toLocalDate())
                 .as("Copy request list contains copy request with today's date")
-                .isEqualTo(new Date(System.currentTimeMillis()));
+                .isEqualTo(new Date(System.currentTimeMillis()).toLocalDate());
     }
 
     @Test

@@ -41,9 +41,9 @@ public class PaymentServiceImplTest {
 
     @Before
     public void setup() {
-        payment1 = new Payment("User 1",2.50);
-        payment2 = new Payment("User 2",0.90);
-        payment3 = new Payment("User 3",10.00);
+        payment1 = new Payment("User 1", 2.50);
+        payment2 = new Payment("User 2", 0.90);
+        payment3 = new Payment("User 3", 10.00);
         optionalPayment1 = Optional.of(payment1);
         optionalPayment2 = Optional.of(payment2);
         optionalPayment3 = Optional.of(payment3);

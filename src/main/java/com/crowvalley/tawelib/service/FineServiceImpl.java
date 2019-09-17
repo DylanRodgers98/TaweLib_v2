@@ -41,7 +41,7 @@ public class FineServiceImpl implements FineService {
     }
 
     @Override
-    public void save(Fine fine){
+    public void save(Fine fine) {
         DAO.save(fine);
         LOGGER.info("Fine with ID {} saved successfully", fine.getId());
     }

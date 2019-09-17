@@ -14,14 +14,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml "})
+@ContextConfiguration(locations = {"classpath:/spring/applicationContext.xml "})
 public class FineServiceImplIT {
-
-    @Autowired
-    private FineService fineService;
 
     @Rule
     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+    @Autowired
+    private FineService fineService;
 
     @Test
     @Transactional

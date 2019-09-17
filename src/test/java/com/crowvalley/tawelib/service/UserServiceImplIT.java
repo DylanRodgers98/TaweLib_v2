@@ -13,14 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml" })
+@ContextConfiguration(locations = {"classpath:/spring/applicationContext.xml"})
 public class UserServiceImplIT {
-
-    @Autowired
-    private UserService userService;
 
     @Rule
     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+    @Autowired
+    private UserService userService;
 
     @Test
     @Transactional

@@ -19,16 +19,17 @@ public class Book extends Resource {
 
     /**
      * Create a new book.
-     * @param title The title of the book.
-     * @param year The year of the book.
+     *
+     * @param title    The title of the book.
+     * @param year     The year of the book.
      * @param imageUrl The image location of the book.
-     * @param author The author of the book.
-     * @param genre The genre of the book.
-     * @param isbn The ISBN of the book.
+     * @param author   The author of the book.
+     * @param genre    The genre of the book.
+     * @param isbn     The ISBN of the book.
      * @param language The language of the book.
      */
     public Book(String title, String year, String imageUrl, String author,
-                String publisher, String genre, String isbn, String language){
+                String publisher, String genre, String isbn, String language) {
         super(title, year, imageUrl);
         this.author = author;
         this.publisher = publisher;

@@ -18,20 +18,17 @@ import java.util.List;
 import java.util.Optional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml "})
+@ContextConfiguration(locations = {"classpath:/spring/applicationContext.xml "})
 public class CopyServiceImplIT {
-
-    @Autowired
-    private ResourceFactory resourceFactory;
-
-    @Autowired
-    private ResourceService bookService;
-
-    @Autowired
-    private CopyService copyService;
 
     @Rule
     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+    @Autowired
+    private ResourceFactory resourceFactory;
+    @Autowired
+    private ResourceService bookService;
+    @Autowired
+    private CopyService copyService;
 
     @Test
     @Transactional
@@ -128,7 +125,7 @@ public class CopyServiceImplIT {
 
         softly.assertThat(copyRequest.getRequestDate().toLocalDateTime().toLocalDate())
                 .as("Copy request created for copy by user")
-                .isEqualTo(new Date(System.currentTimeMillis()));
+                .isEqualTo(new Date(System.currentTimeMillis()).toLocalDate());
 
         //Delete copy request from the Copy
         copyService.deleteCopyRequestFromPersistedCopy(copyOfBook, username);

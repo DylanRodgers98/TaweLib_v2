@@ -24,19 +24,20 @@ public class User {
 
     /**
      * Creates a new user.
-     * @param username The username of the user.
-     * @param firstName The first name of the user.
-     * @param surname The surname of the user.
-     * @param phoneNum The phone number of the user.
-     * @param houseNum The house number of the user.
-     * @param street The street of the user.
-     * @param town The town of the user.
-     * @param county The county of the user.
-     * @param postcode The postcode of the user.
+     *
+     * @param username         The username of the user.
+     * @param firstName        The first name of the user.
+     * @param surname          The surname of the user.
+     * @param phoneNum         The phone number of the user.
+     * @param houseNum         The house number of the user.
+     * @param street           The street of the user.
+     * @param town             The town of the user.
+     * @param county           The county of the user.
+     * @param postcode         The postcode of the user.
      * @param profileImagePath The profile path of the user.
      */
     public User(String username, String firstName, String surname, String phoneNum, String houseNum,
-                String street, String town, String county, String postcode, String profileImagePath){
+                String street, String town, String county, String postcode, String profileImagePath) {
         this.username = username;
         this.firstName = firstName;
         this.surname = surname;
@@ -46,7 +47,7 @@ public class User {
     }
 
     public User(String username, String firstName, String surname, String phoneNum,
-                Address address, String profileImagePath){
+                Address address, String profileImagePath) {
         this.username = username;
         this.firstName = firstName;
         this.surname = surname;

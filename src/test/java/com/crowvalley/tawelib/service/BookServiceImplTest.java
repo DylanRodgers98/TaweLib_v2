@@ -1,8 +1,5 @@
 package com.crowvalley.tawelib.service;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
 import com.crowvalley.tawelib.dao.BookDAOImpl;
 import com.crowvalley.tawelib.model.resource.Book;
 import org.junit.Before;
@@ -15,6 +12,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BookServiceImplTest {

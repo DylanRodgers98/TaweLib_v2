@@ -17,32 +17,25 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml "})
+@ContextConfiguration(locations = {"classpath:/spring/applicationContext.xml "})
 public class LoanServiceImplIT {
-
-    @Autowired
-    private LoanService loanService;
-
-    @Autowired
-    private BookServiceImpl bookService;
-
-    @Autowired
-    private DvdServiceImpl dvdService;
-
-    @Autowired
-    private LaptopServiceImpl laptopService;
-
-    @Autowired
-    private CopyService copyService;
-
-    @Autowired
-    private FineService fineService;
-
-    @Autowired
-    private ResourceFactory resourceFactory;
 
     @Rule
     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+    @Autowired
+    private LoanService loanService;
+    @Autowired
+    private BookServiceImpl bookService;
+    @Autowired
+    private DvdServiceImpl dvdService;
+    @Autowired
+    private LaptopServiceImpl laptopService;
+    @Autowired
+    private CopyService copyService;
+    @Autowired
+    private FineService fineService;
+    @Autowired
+    private ResourceFactory resourceFactory;
 
     @Test
     @Transactional

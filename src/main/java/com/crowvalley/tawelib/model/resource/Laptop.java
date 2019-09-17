@@ -5,7 +5,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "laptop")
-public class Laptop extends Resource{
+public class Laptop extends Resource {
 
     private String manufacturer;
 
@@ -15,14 +15,15 @@ public class Laptop extends Resource{
 
     /**
      * This creates a new Laptop.
-     * @param title The of the Laptop.
-     * @param year The of the Laptop.
-     * @param imageUrl The of the Laptop.
+     *
+     * @param title        The of the Laptop.
+     * @param year         The of the Laptop.
+     * @param imageUrl     The of the Laptop.
      * @param manufacturer The of the Laptop.
-     * @param model The of the Laptop.
-     * @param os The of the Laptop.
+     * @param model        The of the Laptop.
+     * @param os           The of the Laptop.
      */
-    public Laptop(String title, String year, String imageUrl, String manufacturer, String model, String os){
+    public Laptop(String title, String year, String imageUrl, String manufacturer, String model, String os) {
         super(title, year, imageUrl);
         this.manufacturer = manufacturer;
         this.model = model;

@@ -41,7 +41,7 @@ public class CopyServiceImplTest {
 
     @Before
     public void setup() {
-        copy1 = new Copy(1L, "Book",7);
+        copy1 = new Copy(1L, "Book", 7);
         copy2 = new Copy(2L, "Dvd", 3);
         copy3 = new Copy(3L, "Laptop", 14);
         optionalCopy1 = Optional.of(copy1);

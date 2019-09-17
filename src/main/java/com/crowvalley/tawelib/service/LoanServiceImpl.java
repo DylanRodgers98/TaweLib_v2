@@ -63,7 +63,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public void save(Loan loan){
+    public void save(Loan loan) {
         DAO.save(loan);
         LOGGER.info("Loan (ID: {}) for copy (ID: {}) saved successfully", loan.getId(), loan.getCopyId());
     }

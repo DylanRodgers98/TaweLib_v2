@@ -14,14 +14,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml "})
+@ContextConfiguration(locations = {"classpath:/spring/applicationContext.xml "})
 public class LaptopServiceImplIT {
-
-    @Autowired
-    private ResourceService laptopService;
 
     @Rule
     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+    @Autowired
+    private ResourceService laptopService;
 
     @Test
     @Transactional

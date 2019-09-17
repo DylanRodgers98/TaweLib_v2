@@ -49,7 +49,7 @@ public class ResourceFactoryImpl implements ResourceFactory {
             resourceType = Copy.LAPTOP_TYPE;
         }
 
-        if (resourceType.isEmpty()){
+        if (resourceType.isEmpty()) {
             LOGGER.error(CANNOT_GET_RESOURCE_TYPE_ERROR_MESSAGE);
             throw new IllegalArgumentException(CANNOT_GET_RESOURCE_TYPE_ERROR_MESSAGE);
         }

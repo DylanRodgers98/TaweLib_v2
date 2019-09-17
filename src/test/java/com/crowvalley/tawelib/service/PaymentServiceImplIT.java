@@ -14,14 +14,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml "})
+@ContextConfiguration(locations = {"classpath:/spring/applicationContext.xml "})
 public class PaymentServiceImplIT {
-
-    @Autowired
-    private PaymentService paymentService;
 
     @Rule
     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+    @Autowired
+    private PaymentService paymentService;
 
     @Test
     @Transactional

@@ -41,7 +41,7 @@ public class CopyServiceImpl implements CopyService {
     }
 
     @Override
-    public void save(Copy copy){
+    public void save(Copy copy) {
         DAO.save(copy);
         LOGGER.info("Copy (ID: {}) of {} (ID: {}) saved successfully", copy.getId(), copy.getResourceType(), copy.getResourceId());
     }

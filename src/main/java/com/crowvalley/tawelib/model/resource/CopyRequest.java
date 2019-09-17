@@ -20,13 +20,13 @@ public class CopyRequest {
 
     private Timestamp requestDate;
 
-    public CopyRequest (Copy copy, String username, Timestamp requestDate) {
+    public CopyRequest(Copy copy, String username, Timestamp requestDate) {
         this.copy = copy;
         this.username = username;
         this.requestDate = requestDate;
     }
 
-    public CopyRequest () {
+    public CopyRequest() {
     }
 
     public Long getId() {

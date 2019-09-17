@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(User user){
+    public void save(User user) {
         DAO.save(user);
         LOGGER.info("User with username {} saved successfully", user.getUsername());
     }

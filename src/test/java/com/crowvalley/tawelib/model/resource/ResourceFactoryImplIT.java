@@ -15,34 +15,28 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml "})
+@ContextConfiguration(locations = {"classpath:/spring/applicationContext.xml "})
 public class ResourceFactoryImplIT {
-
-    @Autowired
-    private ResourceService bookService;
-
-    @Autowired
-    private ResourceService dvdService;
-
-    @Autowired
-    private ResourceService laptopService;
-
-    @Autowired
-    private LoanService loanService;
-
-    @Autowired
-    private CopyService copyService;
-
-    @Autowired
-    private ResourceFactory resourceFactory;
 
     @Rule
     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+    @Autowired
+    private ResourceService bookService;
+    @Autowired
+    private ResourceService dvdService;
+    @Autowired
+    private ResourceService laptopService;
+    @Autowired
+    private LoanService loanService;
+    @Autowired
+    private CopyService copyService;
+    @Autowired
+    private ResourceFactory resourceFactory;
 
     @Test
     @Transactional
     public void testAddBookToDatabase_CreateCopyOfBook() {
-        bookService.save(resourceFactory.createBook("","","","","","","",""));
+        bookService.save(resourceFactory.createBook("", "", "", "", "", "", "", ""));
 
         List<Book> books = bookService.getAll();
         Book book = books.get(0);
@@ -63,7 +57,7 @@ public class ResourceFactoryImplIT {
     @Test
     @Transactional
     public void testAddDvdToDatabase_CreateCopyOfDvd() {
-        dvdService.save(resourceFactory.createDvd("","","","","",120,""));
+        dvdService.save(resourceFactory.createDvd("", "", "", "", "", 120, ""));
 
         List<Dvd> dvds = dvdService.getAll();
         Dvd dvd = dvds.get(0);
@@ -84,7 +78,7 @@ public class ResourceFactoryImplIT {
     @Test
     @Transactional
     public void testAddLaptopToDatabase_CreateCopyOfLaptop() {
-        laptopService.save(resourceFactory.createLaptop("","","","","",""));
+        laptopService.save(resourceFactory.createLaptop("", "", "", "", "", ""));
 
         List<Laptop> laptops = laptopService.getAll();
         Laptop laptop = laptops.get(0);
@@ -105,14 +99,14 @@ public class ResourceFactoryImplIT {
     @Test(expected = IllegalArgumentException.class)
     @Transactional
     public void testCreateCopyWithNoResourceID() {
-        Book book = resourceFactory.createBook("","","","","","","","");
+        Book book = resourceFactory.createBook("", "", "", "", "", "", "", "");
         resourceFactory.createCopy(book, 4);
     }
 
     @Test
     @Transactional
     public void testAddCopyToDatabase_CreateLoanOfCopy() {
-        laptopService.save(resourceFactory.createLaptop("","","","","",""));
+        laptopService.save(resourceFactory.createLaptop("", "", "", "", "", ""));
 
         List<Laptop> laptops = laptopService.getAll();
         Laptop laptop = laptops.get(0);

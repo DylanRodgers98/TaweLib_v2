@@ -53,7 +53,7 @@ public class LibrarianServiceImpl implements LibrarianService {
     }
 
     @Override
-    public void save(Librarian librarian){
+    public void save(Librarian librarian) {
         DAO.save(librarian);
         LOGGER.info("Librarian with username {} and staff number {} saved successfully",
                 librarian.getUsername(), librarian.getStaffNum());

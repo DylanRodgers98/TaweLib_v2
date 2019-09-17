@@ -43,7 +43,7 @@ public class DvdServiceImpl implements ResourceService<Dvd> {
     }
 
     @Override
-    public void save(Dvd dvd){
+    public void save(Dvd dvd) {
         DAO.save(dvd);
         LOGGER.info("DVD with ID {} saved successfully", dvd.getId());
     }

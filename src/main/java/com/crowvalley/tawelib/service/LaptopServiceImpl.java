@@ -43,7 +43,7 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
     }
 
     @Override
-    public void save(Laptop laptop){
+    public void save(Laptop laptop) {
         DAO.save(laptop);
         LOGGER.info("Laptop with ID {} saved successfully", laptop.getId());
     }

@@ -43,7 +43,7 @@ public class BookServiceImpl implements ResourceService<Book> {
     }
 
     @Override
-    public void save(Book book){
+    public void save(Book book) {
         DAO.save(book);
         LOGGER.info("Book with ID {} saved successfully", book.getId());
     }

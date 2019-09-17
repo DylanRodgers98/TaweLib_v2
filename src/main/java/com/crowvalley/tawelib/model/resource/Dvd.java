@@ -17,15 +17,16 @@ public class Dvd extends Resource {
 
     /**
      * Create a new DVD.
-     * @param title The title of the DVD.
-     * @param year The year of the DVD.
+     *
+     * @param title    The title of the DVD.
+     * @param year     The year of the DVD.
      * @param imageUrl The image location of the DVD.
      * @param language The language of the DVD.
-     * @param runtime The runtime of the DVD.
-     * @param subLang The subtitles language of the DVD.
+     * @param runtime  The runtime of the DVD.
+     * @param subLang  The subtitles language of the DVD.
      */
     public Dvd(String title, String year, String imageUrl,
-               String director, String language, Integer runtime, String subLang){
+               String director, String language, Integer runtime, String subLang) {
         super(title, year, imageUrl);
         this.director = director;
         this.language = language;

@@ -41,7 +41,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void save(Payment payment){
+    public void save(Payment payment) {
         DAO.save(payment);
         LOGGER.info("Payment with ID {} saved successfully", payment.getId());
     }

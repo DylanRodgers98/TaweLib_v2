@@ -12,14 +12,10 @@ import java.util.List;
 @Table(name = "copy")
 public class Copy {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Copy.class);
-
     public static final String BOOK_TYPE = "Book";
-
     public static final String DVD_TYPE = "Dvd";
-
     public static final String LAPTOP_TYPE = "Laptop";
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(Copy.class);
     @Id
     @GeneratedValue
     @Column(name = "copy_id")
@@ -36,8 +32,9 @@ public class Copy {
 
     /**
      * Creates a copy.
-     * @param resourceId the resourceId of the copy
-     * @param resourceType The type of resource of the copy
+     *
+     * @param resourceId         the resourceId of the copy
+     * @param resourceType       The type of resource of the copy
      * @param loanDurationAsDays The minimum duration of a loan in days
      */
     public Copy(Long resourceId, String resourceType, Integer loanDurationAsDays) {
@@ -96,7 +93,9 @@ public class Copy {
         return resourceId;
     }
 
-    public String getResourceType() { return resourceType; }
+    public String getResourceType() {
+        return resourceType;
+    }
 
     public Integer getLoanDurationAsDays() {
         return loanDurationAsDays;
