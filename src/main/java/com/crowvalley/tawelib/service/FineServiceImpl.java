@@ -14,11 +14,11 @@ public class FineServiceImpl implements FineService {
     private static final Logger LOGGER = LoggerFactory.getLogger(FineServiceImpl.class);
 
     @Autowired
-    private FineDAO fineDAO;
+    private FineDAO DAO;
 
     @Override
     public Optional<Fine> get(Long id) {
-        Optional<Fine> fine = fineDAO.get(id);
+        Optional<Fine> fine = DAO.get(id);
         if (fine.isPresent()) {
             LOGGER.info("Fine with ID {} retrieved successfully", id);
             return fine;
@@ -30,7 +30,7 @@ public class FineServiceImpl implements FineService {
 
     @Override
     public List<Fine> getAll() {
-        List<Fine> fines = fineDAO.getAll();
+        List<Fine> fines = DAO.getAll();
         if (!fines.isEmpty()) {
             LOGGER.info("All fines retrieved successfully");
             return fines;
@@ -42,20 +42,20 @@ public class FineServiceImpl implements FineService {
 
     @Override
     public void save(Fine fine){
-        fineDAO.save(fine);
+        DAO.save(fine);
         LOGGER.info("Fine with ID {} saved successfully", fine.getId());
     }
 
     @Override
     public void delete(Fine fine) {
-        fineDAO.delete(fine);
+        DAO.delete(fine);
         LOGGER.info("Fine with ID {} deleted successfully", fine.getId());
     }
 
     @Override
-    public void setFineDAO(FineDAO fineDAO) {
-        this.fineDAO = fineDAO;
-        LOGGER.info("FineServiceImpl DAO set to {}", fineDAO.getClass());
+    public void setDAO(FineDAO DAO) {
+        this.DAO = DAO;
+        LOGGER.info("FineServiceImpl DAO set to {}", DAO.getClass());
     }
 
 }

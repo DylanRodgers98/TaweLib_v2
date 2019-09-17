@@ -17,5 +17,5 @@ public interface ResourceService<Resource> {
 
     void delete(Resource resource);
 
-    void setLaptopDAO(ResourceDAO laptopDAO);
+    void setDAO(ResourceDAO DAO);
 }

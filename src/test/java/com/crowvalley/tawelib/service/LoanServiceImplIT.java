@@ -1,10 +1,7 @@
 package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.model.fine.Fine;
-import com.crowvalley.tawelib.model.resource.Loan;
-import com.crowvalley.tawelib.model.resource.Book;
-import com.crowvalley.tawelib.model.resource.Copy;
-import com.crowvalley.tawelib.model.resource.ResourceFactory;
+import com.crowvalley.tawelib.model.resource.*;
 import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +24,12 @@ public class LoanServiceImplIT {
 
     @Autowired
     private BookServiceImpl bookService;
+
+    @Autowired
+    private DvdServiceImpl dvdService;
+
+    @Autowired
+    private LaptopServiceImpl laptopService;
 
     @Autowired
     private CopyService copyService;
@@ -96,10 +99,9 @@ public class LoanServiceImplIT {
                 .isEqualTo(copy.getId());
     }
 
-    //TODO: FINISH THIS TEST CASE
     @Test
     @Transactional
-    public void testCopyReturnedLateAndFineCreated() {
+    public void testBookReturnedLateAndFineCreated() {
         Book book = resourceFactory.createBook("Book", "", "", "", "", "", "", "");
         bookService.save(book);
 
@@ -107,7 +109,10 @@ public class LoanServiceImplIT {
         copyService.save(copy);
 
         String borrower = "DylanRodgers98";
-        Loan loan = new Loan(copy.getId(), borrower, new Date(119, 8, 9), new Date(119, 8,13)); //Year 119 due to how Date calculates year as year+1970, and month 8 for Sept due to how Date starts the months at 0
+        int daysLate = 2;
+        Loan loan = new Loan(copy.getId(), borrower,
+                new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(5)),
+                new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(daysLate)));
         loanService.save(loan);
 
         JUnitSoftAssertions softly = new JUnitSoftAssertions();
@@ -129,6 +134,95 @@ public class LoanServiceImplIT {
         softly.assertThat(fines.get(0).getUsername())
                 .as("New fine for user")
                 .isEqualTo(loan.getBorrowerUsername());
+
+        Double expectedAmount = Fine.BOOK_FINE_AMOUNT_PER_DAY * daysLate;
+        softly.assertThat(fines.get(0).getAmount())
+                .as("New fine amount")
+                .isEqualTo(expectedAmount);
+    }
+
+    @Test
+    @Transactional
+    public void testDvdReturnedLateAndFineCreated() {
+        Dvd dvd = resourceFactory.createDvd("Dvd", "", "", "", "", 120, "");
+        dvdService.save(dvd);
+
+        Copy copy = resourceFactory.createCopy(dvd, 4);
+        copyService.save(copy);
+
+        String borrower = "DylanRodgers98";
+        int daysLate = 2;
+        Loan loan = new Loan(copy.getId(), borrower,
+                new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(5)),
+                new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(daysLate)));
+        loanService.save(loan);
+
+        JUnitSoftAssertions softly = new JUnitSoftAssertions();
+        softly.assertThat(loan.getEndDate())
+                .as("Loan retrieved from database with end date before current time")
+                .isBefore(new Date(System.currentTimeMillis()));
+
+        softly.assertThat(loan.getReturnDate())
+                .as("Loan retrieved from database with copy not yet returned")
+                .isNull();
+
+        loanService.endLoan(loan);
+        List<Fine> fines = fineService.getAll();
+
+        softly.assertThat(fines.get(0).getLoanId())
+                .as("New fine created for late return of copy")
+                .isEqualTo(loan.getId());
+
+        softly.assertThat(fines.get(0).getUsername())
+                .as("New fine for user")
+                .isEqualTo(loan.getBorrowerUsername());
+
+        Double expectedAmount = Fine.DVD_FINE_AMOUNT_PER_DAY * daysLate;
+        softly.assertThat(fines.get(0).getAmount())
+                .as("New fine amount")
+                .isEqualTo(expectedAmount);
+    }
+
+    @Test
+    @Transactional
+    public void testLaptopReturnedLateAndFineCreated() {
+        Laptop laptop = resourceFactory.createLaptop("Laptop", "", "", "", "", "");
+        laptopService.save(laptop);
+
+        Copy copy = resourceFactory.createCopy(laptop, 4);
+        copyService.save(copy);
+
+        String borrower = "DylanRodgers98";
+        int daysLate = 2;
+        Loan loan = new Loan(copy.getId(), borrower,
+                new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(5)),
+                new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(daysLate)));
+        loanService.save(loan);
+
+        JUnitSoftAssertions softly = new JUnitSoftAssertions();
+        softly.assertThat(loan.getEndDate())
+                .as("Loan retrieved from database with end date before current time")
+                .isBefore(new Date(System.currentTimeMillis()));
+
+        softly.assertThat(loan.getReturnDate())
+                .as("Loan retrieved from database with copy not yet returned")
+                .isNull();
+
+        loanService.endLoan(loan);
+        List<Fine> fines = fineService.getAll();
+
+        softly.assertThat(fines.get(0).getLoanId())
+                .as("New fine created for late return of copy")
+                .isEqualTo(loan.getId());
+
+        softly.assertThat(fines.get(0).getUsername())
+                .as("New fine for user")
+                .isEqualTo(loan.getBorrowerUsername());
+
+        Double expectedAmount = Fine.LAPTOP_FINE_AMOUNT_PER_DAY * daysLate;
+        softly.assertThat(fines.get(0).getAmount())
+                .as("New fine amount")
+                .isEqualTo(expectedAmount);
     }
 
     @Test

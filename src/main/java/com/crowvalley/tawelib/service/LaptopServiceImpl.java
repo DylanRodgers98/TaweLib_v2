@@ -5,6 +5,7 @@ import com.crowvalley.tawelib.model.resource.Laptop;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,12 +14,13 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LaptopServiceImpl.class);
 
+    @Qualifier("laptopDAO")
     @Autowired
-    private ResourceDAO laptopDAO;
+    private ResourceDAO DAO;
 
     @Override
     public Optional<Laptop> get(Long id) {
-        Optional<Laptop> laptop = laptopDAO.get(id);
+        Optional<Laptop> laptop = DAO.get(id);
         if (laptop.isPresent()) {
             LOGGER.info("Laptop with ID {} retrieved successfully", id);
             return laptop;
@@ -30,7 +32,7 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
 
     @Override
     public List<Laptop> getAll() {
-        List<Laptop> laptops = laptopDAO.getAll();
+        List<Laptop> laptops = DAO.getAll();
         if (!laptops.isEmpty()) {
             LOGGER.info("All laptops retrieved successfully");
             return laptops;
@@ -42,25 +44,25 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
 
     @Override
     public void save(Laptop laptop){
-        laptopDAO.save(laptop);
+        DAO.save(laptop);
         LOGGER.info("Laptop with ID {} saved successfully", laptop.getId());
     }
 
     @Override
     public void update(Laptop laptop) {
-        laptopDAO.update(laptop);
+        DAO.update(laptop);
         LOGGER.info("Laptop with ID {} updated successfully", laptop.getId());
     }
 
     @Override
     public void delete(Laptop laptop) {
-        laptopDAO.delete(laptop);
+        DAO.delete(laptop);
         LOGGER.info("Laptop with ID {} deleted successfully", laptop.getId());
     }
 
     @Override
-    public void setLaptopDAO(ResourceDAO laptopDAO) {
-        this.laptopDAO = laptopDAO;
-        LOGGER.info("LaptopServiceImpl DAO set to {}", laptopDAO.getClass());
+    public void setDAO(ResourceDAO DAO) {
+        this.DAO = DAO;
+        LOGGER.info("LaptopServiceImpl DAO set to {}", DAO.getClass());
     }
 }

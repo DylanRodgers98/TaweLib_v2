@@ -20,5 +20,5 @@ public interface LibrarianService {
 
     void delete(Librarian librarian);
 
-    void setLibrarianDAO(LibrarianDAO librarianDAO);
+    void setDAO(LibrarianDAO DAO);
 }

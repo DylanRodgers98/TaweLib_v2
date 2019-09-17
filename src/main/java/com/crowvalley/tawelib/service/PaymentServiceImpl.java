@@ -14,11 +14,11 @@ public class PaymentServiceImpl implements PaymentService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentServiceImpl.class);
 
     @Autowired
-    private PaymentDAO paymentDAO;
+    private PaymentDAO DAO;
 
     @Override
     public Optional<Payment> get(Long id) {
-        Optional<Payment> payment = paymentDAO.get(id);
+        Optional<Payment> payment = DAO.get(id);
         if (payment.isPresent()) {
             LOGGER.info("Payment with ID {} retrieved successfully", id);
             return payment;
@@ -30,7 +30,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<Payment> getAll() {
-        List<Payment> payments = paymentDAO.getAll();
+        List<Payment> payments = DAO.getAll();
         if (!payments.isEmpty()) {
             LOGGER.info("All payments retrieved successfully");
             return payments;
@@ -42,20 +42,20 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void save(Payment payment){
-        paymentDAO.save(payment);
+        DAO.save(payment);
         LOGGER.info("Payment with ID {} saved successfully", payment.getId());
     }
 
     @Override
     public void delete(Payment payment) {
-        paymentDAO.delete(payment);
+        DAO.delete(payment);
         LOGGER.info("Payment with ID {} deleted successfully", payment.getId());
     }
 
     @Override
-    public void setPaymentDAO(PaymentDAO paymentDAO) {
-        this.paymentDAO = paymentDAO;
-        LOGGER.info("PaymentServiceImpl DAO set to {}", paymentDAO.getClass());
+    public void setDAO(PaymentDAO DAO) {
+        this.DAO = DAO;
+        LOGGER.info("PaymentServiceImpl DAO set to {}", DAO.getClass());
     }
 
 }

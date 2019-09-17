@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.sql.Date;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -66,19 +65,19 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public void save(Loan loan){
         DAO.save(loan);
-        LOGGER.info("Loan with ID {} saved successfully", loan.getId());
+        LOGGER.info("Loan (ID: {}) for copy (ID: {}) saved successfully", loan.getId(), loan.getCopyId());
     }
 
     @Override
     public void update(Loan loan) {
         DAO.update(loan);
-        LOGGER.info("Loan with ID {} updated successfully", loan.getId());
+        LOGGER.info("Loan (ID: {}) for copy (ID: {}) updated successfully", loan.getId(), loan.getCopyId());
     }
 
     @Override
     public void delete(Loan loan) {
         DAO.delete(loan);
-        LOGGER.info("Loan with ID {} deleted successfully", loan.getId());
+        LOGGER.info("Loan (ID: {}) for copy (ID: {}) deleted successfully", loan.getId(), loan.getCopyId());
     }
 
     @Override
@@ -91,6 +90,8 @@ public class LoanServiceImpl implements LoanService {
     public void endLoan(Loan loan) {
         loan.setReturnDate(new Date(System.currentTimeMillis()));
         update(loan);
+        LOGGER.info("Copy (ID: {}) returned by {} on {}",
+                loan.getCopyId(), loan.getBorrowerUsername(), loan.getReturnDate());
 
         Date endDate = loan.getEndDate();
         Date returnDate = loan.getReturnDate();
@@ -99,7 +100,7 @@ public class LoanServiceImpl implements LoanService {
             Optional<Copy> copy = copyService.get(loan.getCopyId());
             String copyType = copy.get().getResourceType();
 
-            Double fineAmount = 0.0;
+            Double fineAmount = 0.00;
             switch (copyType) {
                 case Copy.BOOK_TYPE:
                     fineAmount = Fine.BOOK_FINE_AMOUNT_PER_DAY;
@@ -113,7 +114,10 @@ public class LoanServiceImpl implements LoanService {
             }
             Long dayDiffBetweenEndAndReturnDates = ChronoUnit.DAYS.between(endDate.toLocalDate(), returnDate.toLocalDate());
             fineAmount *= dayDiffBetweenEndAndReturnDates;
-            fineService.save(new Fine(loan.getBorrowerUsername(), loan.getId(), fineAmount));
+            Fine fine = new Fine(loan.getBorrowerUsername(), loan.getId(), fineAmount);
+            fineService.save(fine);
+            LOGGER.info("£{} fine (ID: {}) issued to {}",
+                    String.format("%.2f", fine.getAmount()), fine.getId(), fine.getUsername());
         }
     }
 

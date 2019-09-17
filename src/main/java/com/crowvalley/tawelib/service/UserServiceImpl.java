@@ -14,11 +14,11 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
-    private UserDAO userDAO;
+    private UserDAO DAO;
 
     @Override
     public Optional<User> get(String username) {
-        Optional<User> user = userDAO.get(username);
+        Optional<User> user = DAO.get(username);
         if (user.isPresent()) {
             LOGGER.info("User with username {} retrieved successfully", username);
             return user;
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAll() {
-        List<User> users = userDAO.getAll();
+        List<User> users = DAO.getAll();
         if (!users.isEmpty()) {
             LOGGER.info("All users retrieved successfully");
             return users;
@@ -42,26 +42,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user){
-        userDAO.save(user);
+        DAO.save(user);
         LOGGER.info("User with username {} saved successfully", user.getUsername());
     }
 
     @Override
     public void update(User user) {
-        userDAO.update(user);
+        DAO.update(user);
         LOGGER.info("User with username {} updated successfully", user.getUsername());
     }
 
     @Override
     public void delete(User user) {
-        userDAO.delete(user);
+        DAO.delete(user);
         LOGGER.info("User with username {} deleted successfully", user.getUsername());
     }
 
     @Override
-    public void setUserDAO(UserDAO userDAO) {
-        this.userDAO = userDAO;
-        LOGGER.info("UserServiceImpl DAO set to {}", userDAO.getClass());
+    public void setDAO(UserDAO DAO) {
+        this.DAO = DAO;
+        LOGGER.info("UserServiceImpl DAO set to {}", DAO.getClass());
     }
 
 }
