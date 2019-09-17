@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.model.resource;
 
 import org.assertj.core.api.JUnitSoftAssertions;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.sql.Date;
@@ -8,10 +9,11 @@ import java.sql.Timestamp;
 
 public class CopyTest {
 
+    @Rule
+    public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+
     @Test
     public void testCreateCopyRequest() {
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
-
         String username = "DylanRodgers98";
         Copy copy = new Copy();
         copy.createCopyRequest(username);
@@ -31,8 +33,6 @@ public class CopyTest {
 
     @Test
     public void testDeleteCopyRequest() {
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
-
         String username = "DylanRodgers98";
         Copy copy = new Copy();
         CopyRequest copyRequest = new CopyRequest(copy, username, new Timestamp(System.currentTimeMillis()));

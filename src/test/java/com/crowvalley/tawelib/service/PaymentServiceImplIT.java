@@ -2,6 +2,7 @@ package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.model.fine.Payment;
 import org.assertj.core.api.JUnitSoftAssertions;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,12 @@ public class PaymentServiceImplIT {
     @Autowired
     private PaymentService paymentService;
 
+    @Rule
+    public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+
     @Test
     @Transactional
     public void testCRDOperationsOnFine() {
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         Payment payment = new Payment("DylanRodgers98", 2.50);
 
         //Test Create and Retrieve operations

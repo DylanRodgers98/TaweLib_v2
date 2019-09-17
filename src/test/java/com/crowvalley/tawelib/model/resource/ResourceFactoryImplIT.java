@@ -4,6 +4,7 @@ import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.LoanService;
 import com.crowvalley.tawelib.service.ResourceService;
 import org.assertj.core.api.JUnitSoftAssertions;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class ResourceFactoryImplIT {
     @Autowired
     private ResourceFactory resourceFactory;
 
+    @Rule
+    public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+
     @Test
     @Transactional
     public void testAddBookToDatabase_CreateCopyOfBook() {
@@ -47,7 +51,6 @@ public class ResourceFactoryImplIT {
 
         Copy copy = copyService.getAll().get(0);
 
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         softly.assertThat(copy.getResourceId())
                 .as("Resource ID of the copy persisted to database")
                 .isEqualTo(book.getId());
@@ -69,7 +72,6 @@ public class ResourceFactoryImplIT {
 
         Copy copy = copyService.getAll().get(0);
 
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         softly.assertThat(copy.getResourceId())
                 .as("Resource ID of the copy persisted to database")
                 .isEqualTo(dvd.getId());
@@ -91,7 +93,6 @@ public class ResourceFactoryImplIT {
 
         Copy copy = copyService.getAll().get(0);
 
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         softly.assertThat(copy.getResourceId())
                 .as("Resource ID of the copy persisted to database")
                 .isEqualTo(laptop.getId());
@@ -123,7 +124,6 @@ public class ResourceFactoryImplIT {
         loanService.save(resourceFactory.createLoanForCopy(copy, "DylanRodgers98"));
         Loan loan = loanService.getAll().get(0);
 
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         softly.assertThat(loan.getCopyId())
                 .as("Copy ID of the loan persisted to database")
                 .isEqualTo(copy.getId());

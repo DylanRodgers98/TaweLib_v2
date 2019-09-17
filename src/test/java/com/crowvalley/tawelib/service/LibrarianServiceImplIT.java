@@ -2,6 +2,7 @@ package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.model.user.Librarian;
 import org.assertj.core.api.JUnitSoftAssertions;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,12 @@ public class LibrarianServiceImplIT {
     @Autowired
     private LibrarianService librarianService;
 
+    @Rule
+    public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+
     @Test
     @Transactional
     public void testCRUDOperationsOnLibrarian() {
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         Librarian librarian = new Librarian("DylanRodgers98", "Dylan", "Rodgers",
                 "07866345602", "5 Bowood", "Harford Drive", "Bristol",
                 "South Gloucestershire", "BS16 1NS", "",

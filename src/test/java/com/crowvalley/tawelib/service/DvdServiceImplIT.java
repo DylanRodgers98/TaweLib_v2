@@ -2,6 +2,7 @@ package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.model.resource.Dvd;
 import org.assertj.core.api.JUnitSoftAssertions;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,12 @@ public class DvdServiceImplIT {
     @Autowired
     private ResourceService dvdService;
 
+    @Rule
+    public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+
     @Test
     @Transactional
     public void testCRUDOperationsOnDvd() {
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         Dvd dvd = new Dvd("DVD 1", "2019", "URL", "Dylan Rodgers",
                 "English", 120, "English");
 

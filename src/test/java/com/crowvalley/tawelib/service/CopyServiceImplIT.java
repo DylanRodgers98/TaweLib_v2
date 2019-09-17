@@ -5,6 +5,7 @@ import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.model.resource.CopyRequest;
 import com.crowvalley.tawelib.model.resource.ResourceFactory;
 import org.assertj.core.api.JUnitSoftAssertions;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,12 @@ public class CopyServiceImplIT {
     @Autowired
     private CopyService copyService;
 
+    @Rule
+    public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+
     @Test
     @Transactional
     public void testCRUDOperationsOnCopy() {
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
-
         //Create Copy of a book
         Book book = resourceFactory.createBook("Book 1", "2019", "URL", "Dylan Rodgers",
                 "Penguin", "Sci-fi", "ISBN", "English");
@@ -69,8 +71,6 @@ public class CopyServiceImplIT {
     @Test
     @Transactional
     public void testCreateCopyRequestForCopyAndSaveToDatabase() {
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
-
         //Create Copy of a book
         Book book = resourceFactory.createBook("Book 1", "2019", "URL", "Dylan Rodgers",
                 "Penguin", "Sci-fi", "ISBN", "English");
@@ -116,8 +116,6 @@ public class CopyServiceImplIT {
         //Retrieve Copy and newly created CopyRequest from database
         Copy retrievedCopy = copyService.getAll().get(0);
         CopyRequest copyRequest = retrievedCopy.getCopyRequests().get(0);
-
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
 
         //Test Copy saved the copy request correctly
         softly.assertThat(copyRequest.getUsername())

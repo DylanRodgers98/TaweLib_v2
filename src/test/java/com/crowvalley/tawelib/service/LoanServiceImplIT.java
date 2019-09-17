@@ -3,6 +3,7 @@ package com.crowvalley.tawelib.service;
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.resource.*;
 import org.assertj.core.api.JUnitSoftAssertions;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +41,12 @@ public class LoanServiceImplIT {
     @Autowired
     private ResourceFactory resourceFactory;
 
+    @Rule
+    public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+
     @Test
     @Transactional
     public void testCRUDOperationsOnLoan() {
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         Loan loan = new Loan(1L, "DylanRodgers98",
                 new Date(System.currentTimeMillis()),
                 new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(4)));
@@ -89,7 +92,6 @@ public class LoanServiceImplIT {
 
         Loan loanRetrievedFromDatabase = loanService.getAll().get(0);
 
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         softly.assertThat(loanRetrievedFromDatabase)
                 .as("Loan retrieved from database is equal to the one saved to the database")
                 .isEqualTo(loan);
@@ -115,7 +117,6 @@ public class LoanServiceImplIT {
                 new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(daysLate)));
         loanService.save(loan);
 
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         softly.assertThat(loan.getEndDate())
                 .as("Loan retrieved from database with end date before current time")
                 .isBefore(new Date(System.currentTimeMillis()));
@@ -157,7 +158,6 @@ public class LoanServiceImplIT {
                 new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(daysLate)));
         loanService.save(loan);
 
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         softly.assertThat(loan.getEndDate())
                 .as("Loan retrieved from database with end date before current time")
                 .isBefore(new Date(System.currentTimeMillis()));
@@ -199,7 +199,6 @@ public class LoanServiceImplIT {
                 new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(daysLate)));
         loanService.save(loan);
 
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         softly.assertThat(loan.getEndDate())
                 .as("Loan retrieved from database with end date before current time")
                 .isBefore(new Date(System.currentTimeMillis()));
@@ -238,7 +237,6 @@ public class LoanServiceImplIT {
         Loan loan = resourceFactory.createLoanForCopy(copy, borrower);
         loanService.save(loan);
 
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         softly.assertThat(loan.getReturnDate())
                 .as("Loan retrieved from database with copy not yet returned")
                 .isNull();
@@ -271,7 +269,6 @@ public class LoanServiceImplIT {
 
         List<Loan> loansFromDatabase = loanService.getAllLoansForCopy(copy1.getId());
 
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         softly.assertThat(loansFromDatabase)
                 .as("Loans retrieved from database for the copy ID passed in")
                 .containsExactly(loan1, loan2, loan3)

@@ -2,6 +2,7 @@ package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.model.resource.Laptop;
 import org.assertj.core.api.JUnitSoftAssertions;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,12 @@ public class LaptopServiceImplIT {
     @Autowired
     private ResourceService laptopService;
 
+    @Rule
+    public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+
     @Test
     @Transactional
     public void testCRUDOperationsOnLaptop() {
-        JUnitSoftAssertions softly = new JUnitSoftAssertions();
         Laptop laptop = new Laptop("Laptop 1", "2019", "URL",
                 "HP", "Ultrabook", "Windows 10");
 
