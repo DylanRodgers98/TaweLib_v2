@@ -15,11 +15,7 @@ public class LaptopDAOImpl implements ResourceDAO<Laptop> {
     @Override
     public Optional<Laptop> get(Long id) {
         Laptop laptop = sessionFactory.getCurrentSession().get(Laptop.class, id);
-        if (laptop != null) {
-            return Optional.of(laptop);
-        } else {
-            return Optional.empty();
-        }
+        return Optional.ofNullable(laptop);
     }
 
     @Override

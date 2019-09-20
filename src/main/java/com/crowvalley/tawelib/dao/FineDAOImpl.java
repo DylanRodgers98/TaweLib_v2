@@ -15,11 +15,7 @@ public class FineDAOImpl implements FineDAO {
     @Override
     public Optional<Fine> get(Long id) {
         Fine fine = sessionFactory.getCurrentSession().get(Fine.class, id);
-        if (fine != null) {
-            return Optional.of(fine);
-        } else {
-            return Optional.empty();
-        }
+        return Optional.ofNullable(fine);
     }
 
     @Override

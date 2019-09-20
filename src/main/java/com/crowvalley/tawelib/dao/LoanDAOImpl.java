@@ -16,11 +16,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public Optional<Loan> get(Long loanId) {
         Loan loan = sessionFactory.getCurrentSession().get(Loan.class, loanId);
-        if (loan != null) {
-            return Optional.of(loan);
-        } else {
-            return Optional.empty();
-        }
+        return Optional.ofNullable(loan);
     }
 
     @Override
@@ -28,6 +24,14 @@ public class LoanDAOImpl implements LoanDAO {
         return sessionFactory.getCurrentSession()
                 .createCriteria(Loan.class)
                 .add(Restrictions.eq("copyId", copyId))
+                .list();
+    }
+
+    @Override
+    public List<Loan> getAllLoansForUser(String username) {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(Loan.class)
+                .add(Restrictions.eq("borrowerUsername", username))
                 .list();
     }
 

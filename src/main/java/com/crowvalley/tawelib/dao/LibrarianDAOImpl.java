@@ -16,11 +16,7 @@ public class LibrarianDAOImpl implements LibrarianDAO {
     @Override
     public Optional<Librarian> getWithUsername(String username) {
         Librarian librarian = sessionFactory.getCurrentSession().get(Librarian.class, username);
-        if (librarian != null) {
-            return Optional.of(librarian);
-        } else {
-            return Optional.empty();
-        }
+        return Optional.ofNullable(librarian);
     }
 
     @Override

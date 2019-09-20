@@ -11,6 +11,8 @@ public interface LoanDAO {
 
     List<Loan> getAllLoansForCopy(Long copyId);
 
+    List<Loan> getAllLoansForUser(String username);
+
     List<Loan> getAll();
 
     void save(Loan loan);
