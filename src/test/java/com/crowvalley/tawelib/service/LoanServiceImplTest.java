@@ -99,6 +99,28 @@ public class LoanServiceImplTest {
     }
 
     @Test
+    public void testGetAllLoansForUser() {
+        String username = "DylanRodgers98";
+
+        when(DAO.getAllLoansForUser(username)).thenReturn(loans);
+
+        assertThat(loanService.getAllLoansForUser(username))
+                .as("Retrieve all loans for a certain user stored in the database")
+                .isEqualTo(loans);
+    }
+
+    @Test
+    public void testGetAllLoansForUser_noLoansFromDAO() {
+        String username = "DylanRodgers98";
+
+        when(DAO.getAllLoansForUser(username)).thenReturn(new ArrayList<>());
+
+        assertThat(loanService.getAllLoansForUser(username).isEmpty())
+                .as("Retrieve no loans for a certain user from DAO")
+                .isTrue();
+    }
+
+    @Test
     public void testGetAll() {
         when(DAO.getAll()).thenReturn(loans);
 

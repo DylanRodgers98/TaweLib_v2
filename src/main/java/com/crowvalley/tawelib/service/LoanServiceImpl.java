@@ -51,6 +51,18 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
+    public List<Loan> getAllLoansForUser(String username) {
+        List<Loan> loans = DAO.getAllLoansForUser(username);
+        if (!loans.isEmpty()) {
+            LOGGER.info("All loans for user {} retrieved successfully", username);
+            return loans;
+        } else {
+            LOGGER.warn("No loans found for user {}", username);
+            return loans;
+        }
+    }
+
+    @Override
     public List<Loan> getAll() {
         List<Loan> loans = DAO.getAll();
         if (!loans.isEmpty()) {

@@ -267,4 +267,42 @@ public class LoanServiceImplIT {
                 .containsExactly(loan1, loan2, loan3)
                 .doesNotContain(loan4);
     }
+
+    @Test
+    @Transactional
+    public void testGetAllLoansForUser() {
+        Book book1 = resourceFactory.createBook("Book 1", "", "", "", "", "", "", "");
+        Book book2 = resourceFactory.createBook("Book 2", "", "", "", "", "", "", "");
+        Book book3 = resourceFactory.createBook("Book 3", "", "", "", "", "", "", "");
+        bookService.save(book1);
+        bookService.save(book2);
+        bookService.save(book3);
+
+        Copy copy1 = resourceFactory.createCopy(book1, 4);
+        Copy copy2 = resourceFactory.createCopy(book2, 7);
+        Copy copy3 = resourceFactory.createCopy(book3, 14);
+        copyService.save(copy1);
+        copyService.save(copy2);
+        copyService.save(copy3);
+
+        String username = "DylanRodgers98";
+        Loan loan1 = resourceFactory.createLoanForCopy(copy1, username);
+        Loan loan2 = resourceFactory.createLoanForCopy(copy2, username);
+        Loan loan3 = resourceFactory.createLoanForCopy(copy3, username);
+        loanService.save(loan1);
+        loanService.save(loan2);
+        loanService.save(loan3);
+
+        loanService.endLoan(loan1);
+        
+        Loan loanNotByUser = resourceFactory.createLoanForCopy(copy1, "Other User");
+        loanService.save(loanNotByUser);
+
+        List<Loan> loansFromDatabase = loanService.getAllLoansForUser(username);
+
+        softly.assertThat(loansFromDatabase)
+                .as("Loans retrieved from database for the username passed in")
+                .containsExactly(loan1, loan2, loan3)
+                .doesNotContain(loanNotByUser);
+    }
 }
