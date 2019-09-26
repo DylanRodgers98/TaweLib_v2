@@ -119,19 +119,29 @@ public class LibrarianServiceImplTest {
     }
 
     @Test
-    public void test_verifySave() {
+    public void testSave_HappyPath() {
+        when(DAO.getWithStaffNumber(librarian1.getStaffNum())).thenReturn(Optional.empty());
+
         librarianService.save(librarian1);
         verify(DAO).save(eq(librarian1));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testSaveLibrarianWithSameStaffNumberAsExistingLibrarian() {
+        Librarian librarianWithSameStaffNumber = new Librarian("", "", "", "", "", "", "", "", "", "", new Date(System.currentTimeMillis()), 1L);
+        when(DAO.getWithStaffNumber(librarian1.getStaffNum())).thenReturn(Optional.of(librarianWithSameStaffNumber));
+
+        librarianService.save(librarian1);
+    }
+
     @Test
-    public void test_verifyUpdate() {
+    public void testUpdate() {
         librarianService.update(librarian2);
         verify(DAO).update(eq(librarian2));
     }
 
     @Test
-    public void test_verifyDelete() {
+    public void testDelete() {
         librarianService.delete(librarian3);
         verify(DAO).delete(eq(librarian3));
     }

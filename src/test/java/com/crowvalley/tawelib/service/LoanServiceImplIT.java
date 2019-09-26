@@ -235,9 +235,9 @@ public class LoanServiceImplIT {
                 .isNull();
 
         loanService.endLoan(loan);
-        softly.assertThat(loan.getReturnDate())
+        softly.assertThat(loan.getReturnDate().toLocalDate())
                 .as("Loan retrieved from database with copy now returned, with return date equal to today's date")
-                .isEqualTo(new Date(System.currentTimeMillis()));
+                .isEqualTo(new Date(System.currentTimeMillis()).toLocalDate());
     }
 
     @Test
