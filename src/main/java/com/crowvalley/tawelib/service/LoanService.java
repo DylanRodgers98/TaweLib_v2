@@ -6,6 +6,12 @@ import com.crowvalley.tawelib.model.resource.Loan;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Interface for service classes to implement that deal with
+ * {@link Loan} objects persisted in a database.
+ *
+ * @author Dylan Rodgers
+ */
 public interface LoanService {
 
     Optional<Loan> get(Long loanId);

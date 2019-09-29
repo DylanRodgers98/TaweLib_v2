@@ -6,6 +6,12 @@ import com.crowvalley.tawelib.model.user.Librarian;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Interface for service classes to implement that deal with
+ * {@link Librarian} objects persisted in a database.
+ *
+ * @author Dylan Rodgers
+ */
 public interface LibrarianService {
 
     Optional<Librarian> getWithUsername(String username);

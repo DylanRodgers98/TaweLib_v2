@@ -4,6 +4,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+/**
+ * Resource abstract class to be used as a superclass for creating
+ * objects to store information about resources to be persisted in
+ * a database.
+ *
+ * @author Dylan Rodgers
+ */
 @MappedSuperclass
 public abstract class Resource {
 
@@ -17,13 +24,6 @@ public abstract class Resource {
 
     private String imageUrl;
 
-    /**
-     * Create a new resource.
-     *
-     * @param title    The title of the resource.
-     * @param year     The year of the resource.
-     * @param imageUrl The image url of the resource.
-     */
     public Resource(String title, String year, String imageUrl) {
         this.title = title;
         this.year = year;

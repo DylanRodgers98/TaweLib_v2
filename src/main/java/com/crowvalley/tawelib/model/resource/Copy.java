@@ -1,5 +1,6 @@
 package com.crowvalley.tawelib.model.resource;
 
+import com.crowvalley.tawelib.model.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,14 +9,24 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Copy class for creating objects to store information about copies
+ * to be persisted in a database.
+ *
+ * @author Dylan Rodgers
+ */
 @Entity
 @Table(name = "copy")
 public class Copy {
 
-    public static final String BOOK_TYPE = "Book";
-    public static final String DVD_TYPE = "Dvd";
-    public static final String LAPTOP_TYPE = "Laptop";
     private static final Logger LOGGER = LoggerFactory.getLogger(Copy.class);
+
+    public static final String BOOK_TYPE = "Book";
+
+    public static final String DVD_TYPE = "Dvd";
+
+    public static final String LAPTOP_TYPE = "Laptop";
+
     @Id
     @GeneratedValue
     @Column(name = "copy_id")
@@ -30,13 +41,6 @@ public class Copy {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "copy")
     private List<CopyRequest> copyRequests = new ArrayList<>();
 
-    /**
-     * Creates a copy.
-     *
-     * @param resourceId         the resourceId of the copy
-     * @param resourceType       The type of resource of the copy
-     * @param loanDurationAsDays The minimum duration of a loan in days
-     */
     public Copy(Long resourceId, String resourceType, Integer loanDurationAsDays) {
         this.resourceId = resourceId;
         this.resourceType = resourceType;
@@ -46,6 +50,13 @@ public class Copy {
     public Copy() {
     }
 
+    /**
+     * Creates a {@link CopyRequest} for this copy for a {@link User}
+     * identified by the {@code username} passed in.
+     *
+     * @param username The username of the user for which to create a
+     *                 {@link CopyRequest} for this Copy for.
+     */
     public void createCopyRequest(String username) {
         boolean containsCopyRequestFromUser = false;
 
@@ -63,6 +74,13 @@ public class Copy {
         }
     }
 
+    /**
+     * Deletes a {@link CopyRequest} for this copy created by the
+     * {@link User} identified by the {@code username} passed in.
+     *
+     * @param username The username of the user for which to delete the
+     *                 {@link CopyRequest} for this Copy for.
+     */
     public void deleteCopyRequestForUser(String username) {
         boolean containsCopyRequestFromUser = false;
         List<CopyRequest> newCopyRequests = new ArrayList<>();

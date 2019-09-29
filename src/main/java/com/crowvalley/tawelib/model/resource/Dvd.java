@@ -3,6 +3,12 @@ package com.crowvalley.tawelib.model.resource;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * Dvd class for creating objects to store information about DVDs
+ * to be persisted in a database.
+ *
+ * @author Dylan Rodgers
+ */
 @Entity
 @Table(name = "dvd")
 public class Dvd extends Resource {
@@ -15,16 +21,6 @@ public class Dvd extends Resource {
 
     private String subLang;
 
-    /**
-     * Create a new DVD.
-     *
-     * @param title    The title of the DVD.
-     * @param year     The year of the DVD.
-     * @param imageUrl The image location of the DVD.
-     * @param language The language of the DVD.
-     * @param runtime  The runtime of the DVD.
-     * @param subLang  The subtitles language of the DVD.
-     */
     public Dvd(String title, String year, String imageUrl,
                String director, String language, Integer runtime, String subLang) {
         super(title, year, imageUrl);

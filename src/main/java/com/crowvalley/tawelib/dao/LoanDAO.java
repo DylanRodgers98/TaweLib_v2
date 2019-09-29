@@ -5,6 +5,12 @@ import com.crowvalley.tawelib.model.resource.Loan;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Data Access Object interface for classes to implement that deal with
+ * {@link Loan} objects persisted in a database.
+ *
+ * @author Dylan Rodgers
+ */
 public interface LoanDAO {
 
     Optional<Loan> get(Long loanId);

@@ -6,6 +6,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Date;
 
+/**
+ * Loan class for creating objects to store information about loans
+ * to be persisted in a database.
+ *
+ * @author Dylan Rodgers
+ */
 @Entity
 @Table(name = "loan")
 public class Loan {

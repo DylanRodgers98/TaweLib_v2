@@ -3,6 +3,12 @@ package com.crowvalley.tawelib.model.resource;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+/**
+ * CopyRequest class for creating objects to store information about
+ * copy requests to be persisted in a database.
+ *
+ * @author Dylan Rodgers
+ */
 @Entity
 @Table(name = "copy_request")
 public class CopyRequest {

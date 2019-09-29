@@ -4,6 +4,7 @@ import com.crowvalley.tawelib.dao.LoanDAO;
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.model.resource.Loan;
+import com.crowvalley.tawelib.model.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service class for retrieving data about {@link Loan} objects
+ * persisted in a database, using a Data Access Object (DAO) to perform
+ * CRUD operations.
+ *
+ * @author Dylan Rodgers
+ */
 public class LoanServiceImpl implements LoanService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoanServiceImpl.class);
@@ -26,6 +34,16 @@ public class LoanServiceImpl implements LoanService {
     @Autowired
     private CopyService copyService;
 
+    /**
+     * Retrieves a {@link Loan} from the DAO using the {@link Loan}'s
+     * {@code id} and returns it wrapped in an {@link Optional}. If a
+     * {@link Loan} with the passed {@code id} isn't retrieved from the
+     * DAO, an empty {@link Optional} is returned.
+     *
+     * @param loanId The ID of the {@link Loan} to be retrieved.
+     * @return The requested {@link Loan} wrapped in an {@link Optional}
+     * if it isn't retrieved by the DAO, or an empty {@link Optional} if not.
+     */
     @Override
     public Optional<Loan> get(Long loanId) {
         Optional<Loan> loan = DAO.get(loanId);
@@ -38,6 +56,15 @@ public class LoanServiceImpl implements LoanService {
         }
     }
 
+    /**
+     * Retrieves a {@link List} of all {@link Loan}s created, past and present,
+     * for a given {@link Copy} stored in the database.
+     *
+     * @param copyId The ID of the {@link Copy} for which to generate the
+     *               list of {@link Loan}s for.
+     * @return A {@link List} of all {@link Loan}s stored in the database
+     * for a given {@link Copy}.
+     */
     @Override
     public List<Loan> getAllLoansForCopy(Long copyId) {
         List<Loan> loans = DAO.getAllLoansForCopy(copyId);
@@ -50,6 +77,15 @@ public class LoanServiceImpl implements LoanService {
         }
     }
 
+    /**
+     * Retrieves a {@link List} of all {@link Loan}s created, past and present,
+     * for a given {@link User} stored in the database.
+     *
+     * @param username The ID of the {@link User} for which to generate the
+     *               list of {@link Loan}s for.
+     * @return A {@link List} of all {@link Loan}s stored in the database
+     * for a given {@link User}.
+     */
     @Override
     public List<Loan> getAllLoansForUser(String username) {
         List<Loan> loans = DAO.getAllLoansForUser(username);
@@ -62,6 +98,9 @@ public class LoanServiceImpl implements LoanService {
         }
     }
 
+    /**
+     * @return A {@link List} of all {@link Loan}s retrieved by the DAO.
+     */
     @Override
     public List<Loan> getAll() {
         List<Loan> loans = DAO.getAll();
@@ -74,30 +113,49 @@ public class LoanServiceImpl implements LoanService {
         }
     }
 
+    /**
+     * Persists a {@link Loan} object to the database through the DAO.
+     *
+     * @param loan The {@link Loan} object to be saved to the database.
+     */
     @Override
     public void save(Loan loan) {
         DAO.save(loan);
         LOGGER.info("Loan (ID: {}) for copy (ID: {}) saved successfully", loan.getId(), loan.getCopyId());
     }
 
+    /**
+     * Updates a {@link Loan} object already persisted in the database
+     * with new data after being changed by the application.
+     *
+     * @param loan The {@link Loan} object to be updated in the database.
+     */
     @Override
     public void update(Loan loan) {
         DAO.update(loan);
         LOGGER.info("Loan (ID: {}) for copy (ID: {}) updated successfully", loan.getId(), loan.getCopyId());
     }
 
+    /**
+     * Deletes a {@link Loan} object from the database through the DAO.
+     *
+     * @param loan The {@link Loan} object to be deleted from the database.
+     */
     @Override
     public void delete(Loan loan) {
         DAO.delete(loan);
         LOGGER.info("Loan (ID: {}) for copy (ID: {}) deleted successfully", loan.getId(), loan.getCopyId());
     }
 
-    @Override
-    public void setDAO(LoanDAO DAO) {
-        this.DAO = DAO;
-        LOGGER.info("LoanServiceImpl DAO set to {}", DAO.getClass());
-    }
-
+    /**
+     * Carries out the process of ending a loan for the passed in {@link Loan}
+     * object. "Ending a loan" means setting the {@code returnDate} to
+     * {@code System.getCurrentTimeMillis()} and determining whether any
+     * {@link Fine}s need to be created for the {@link User} returning the
+     * {@link Copy}.
+     *
+     * @param loan The {@link Loan} object for which to end the loan
+     */
     @Override
     public void endLoan(Loan loan) {
         loan.setReturnDate(new Date(System.currentTimeMillis()));
@@ -131,6 +189,12 @@ public class LoanServiceImpl implements LoanService {
             LOGGER.info("£{} fine (ID: {}) issued to {}",
                     String.format("%.2f", fine.getAmount()), fine.getId(), fine.getUsername());
         }
+    }
+
+    @Override
+    public void setDAO(LoanDAO DAO) {
+        this.DAO = DAO;
+        LOGGER.info("LoanServiceImpl DAO set to {}", DAO.getClass());
     }
 
 }

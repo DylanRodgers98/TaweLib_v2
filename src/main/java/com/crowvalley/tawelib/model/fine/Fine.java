@@ -1,10 +1,18 @@
 package com.crowvalley.tawelib.model.fine;
 
+import com.crowvalley.tawelib.model.user.User;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Fine class for creating objects to store information about fines
+ * given to {@link User}s.
+ *
+ * @author Dylan Rodgers
+ */
 @Entity
 @Table(name = "fine")
 public class Fine {

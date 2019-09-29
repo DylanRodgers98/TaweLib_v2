@@ -3,6 +3,12 @@ package com.crowvalley.tawelib.model.resource;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * Book class for creating objects to store information about books
+ * to be persisted in a database.
+ *
+ * @author Dylan Rodgers
+ */
 @Entity
 @Table(name = "book")
 public class Book extends Resource {
@@ -17,17 +23,6 @@ public class Book extends Resource {
 
     private String language;
 
-    /**
-     * Create a new book.
-     *
-     * @param title    The title of the book.
-     * @param year     The year of the book.
-     * @param imageUrl The image location of the book.
-     * @param author   The author of the book.
-     * @param genre    The genre of the book.
-     * @param isbn     The ISBN of the book.
-     * @param language The language of the book.
-     */
     public Book(String title, String year, String imageUrl, String author,
                 String publisher, String genre, String isbn, String language) {
         super(title, year, imageUrl);

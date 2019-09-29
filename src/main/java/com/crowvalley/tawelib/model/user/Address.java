@@ -2,6 +2,12 @@ package com.crowvalley.tawelib.model.user;
 
 import javax.persistence.Embeddable;
 
+/**
+ * Address object for storing information about a {@link User}'s address,
+ * extracted to avoid having to store it in the {@link User} class.
+ *
+ * @author Dylan Rodgers
+ */
 @Embeddable
 public class Address {
 

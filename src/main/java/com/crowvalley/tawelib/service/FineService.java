@@ -6,6 +6,12 @@ import com.crowvalley.tawelib.model.fine.Fine;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Interface for service classes to implement that deal with
+ * {@link Fine} objects persisted in a database.
+ *
+ * @author Dylan Rodgers
+ */
 public interface FineService {
 
     Optional<Fine> get(Long id);

@@ -3,6 +3,12 @@ package com.crowvalley.tawelib.model.resource;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * Laptop class for creating objects to store information about laptops
+ * to be persisted in a database.
+ *
+ * @author Dylan Rodgers
+ */
 @Entity
 @Table(name = "laptop")
 public class Laptop extends Resource {
@@ -13,16 +19,6 @@ public class Laptop extends Resource {
 
     private String os;
 
-    /**
-     * This creates a new Laptop.
-     *
-     * @param title        The of the Laptop.
-     * @param year         The of the Laptop.
-     * @param imageUrl     The of the Laptop.
-     * @param manufacturer The of the Laptop.
-     * @param model        The of the Laptop.
-     * @param os           The of the Laptop.
-     */
     public Laptop(String title, String year, String imageUrl, String manufacturer, String model, String os) {
         super(title, year, imageUrl);
         this.manufacturer = manufacturer;

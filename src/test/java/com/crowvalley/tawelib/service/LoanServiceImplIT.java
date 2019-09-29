@@ -294,7 +294,7 @@ public class LoanServiceImplIT {
         loanService.save(loan3);
 
         loanService.endLoan(loan1);
-        
+
         Loan loanNotByUser = resourceFactory.createLoanForCopy(copy1, "Other User");
         loanService.save(loanNotByUser);
 

@@ -9,6 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service class for retrieving data about {@link Librarian} objects
+ * persisted in a database, using a Data Access Object (DAO) to perform
+ * CRUD operations.
+ *
+ * @author Dylan Rodgers
+ */
 public class LibrarianServiceImpl implements LibrarianService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LibrarianServiceImpl.class);
@@ -16,6 +23,16 @@ public class LibrarianServiceImpl implements LibrarianService {
     @Autowired
     private LibrarianDAO DAO;
 
+    /**
+     * Retrieves a {@link Librarian} from the DAO using the {@link Librarian}'s
+     * {@code username} and returns it wrapped in an {@link Optional}. If a
+     * {@link Librarian} with the passed {@code username} isn't retrieved from
+     * the DAO, an empty {@link Optional} is returned.
+     *
+     * @param username The username of the {@link Librarian} to be retrieved.
+     * @return The requested {@link Librarian} wrapped in an {@link Optional}
+     * if it isn't retrieved by the DAO, or an empty {@link Optional} if not.
+     */
     @Override
     public Optional<Librarian> getWithUsername(String username) {
         Optional<Librarian> librarian = DAO.getWithUsername(username);
@@ -28,6 +45,17 @@ public class LibrarianServiceImpl implements LibrarianService {
         }
     }
 
+    /**
+     * Retrieves a {@link Librarian} from the DAO using the {@link Librarian}'s
+     * {@code staffNum} and returns it wrapped in an {@link Optional}. If a
+     * {@link Librarian} with the passed {@code staffNum} isn't retrieved from
+     * the DAO, an empty {@link Optional} is returned.
+     *
+     * @param staffNum The {@code staffNum} of the {@link Librarian} to be
+     *                 retrieved.
+     * @return The requested {@link Librarian} wrapped in an {@link Optional}
+     * if it isn't retrieved by the DAO, or an empty {@link Optional} if not.
+     */
     @Override
     public Optional<Librarian> getWithStaffNumber(Long staffNum) {
         Optional<Librarian> librarian = DAO.getWithStaffNumber(staffNum);
@@ -40,6 +68,9 @@ public class LibrarianServiceImpl implements LibrarianService {
         }
     }
 
+    /**
+     * @return A {@link List} of all {@link Librarian}s retrieved by the DAO.
+     */
     @Override
     public List<Librarian> getAll() {
         List<Librarian> users = DAO.getAll();
@@ -52,6 +83,13 @@ public class LibrarianServiceImpl implements LibrarianService {
         }
     }
 
+    /**
+     * Persists a {@link Librarian} object to the database through the DAO,
+     * firstly checking is the passed in {@link Librarian}'s {@code staffNum}
+     * isn't a duplicate of an existing {@link Librarian}'s {@code staffNum}.
+     *
+     * @param librarian The {@link Librarian} object to be saved to the database.
+     */
     @Override
     public void save(Librarian librarian) {
         Optional<Librarian> librarianForCheckingDuplicateStaffNumber = DAO.getWithStaffNumber(librarian.getStaffNum());
@@ -65,6 +103,12 @@ public class LibrarianServiceImpl implements LibrarianService {
         }
     }
 
+    /**
+     * Updates a {@link Librarian} object already persisted in the database
+     * with new data after being changed by the application.
+     *
+     * @param librarian The {@link Librarian} object to be updated in the database.
+     */
     @Override
     public void update(Librarian librarian) {
         DAO.update(librarian);
@@ -72,6 +116,11 @@ public class LibrarianServiceImpl implements LibrarianService {
                 librarian.getUsername(), librarian.getStaffNum());
     }
 
+    /**
+     * Deletes a {@link Librarian} object from the database through the DAO.
+     *
+     * @param librarian The {@link Librarian} object to be deleted from the database.
+     */
     @Override
     public void delete(Librarian librarian) {
         DAO.delete(librarian);

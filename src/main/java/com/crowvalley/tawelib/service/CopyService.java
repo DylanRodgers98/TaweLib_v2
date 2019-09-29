@@ -6,6 +6,12 @@ import com.crowvalley.tawelib.model.resource.Copy;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Interface for service classes to implement that deal with
+ * {@link Copy} objects persisted in a database.
+ *
+ * @author Dylan Rodgers
+ */
 public interface CopyService {
 
     Optional<Copy> get(Long id);
@@ -18,8 +24,6 @@ public interface CopyService {
 
     void delete(Copy copy);
 
-    void setDAO(CopyDAO DAO);
-
     void createCopyRequestForPersistedCopy(Long id, String username);
 
     void createCopyRequestForPersistedCopy(Copy copy, String username);
@@ -27,4 +31,7 @@ public interface CopyService {
     void deleteCopyRequestFromPersistedCopy(Long id, String username);
 
     void deleteCopyRequestFromPersistedCopy(Copy copy, String username);
+
+    void setDAO(CopyDAO DAO);
+
 }
