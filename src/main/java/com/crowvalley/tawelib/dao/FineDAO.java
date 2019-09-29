@@ -15,6 +15,8 @@ public interface FineDAO {
 
     Optional<Fine> get(Long id);
 
+    List<Fine> getAllFinesForUser(String username);
+
     List<Fine> getAll();
 
     void save(Fine fine);

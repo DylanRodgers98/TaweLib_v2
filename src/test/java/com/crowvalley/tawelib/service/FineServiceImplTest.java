@@ -76,6 +76,17 @@ public class FineServiceImplTest {
     }
 
     @Test
+    public void testGetAllFinesForUser() {
+        String username = "DylanRodgers98";
+
+        when(DAO.getAllFinesForUser(username)).thenReturn(fines);
+
+        assertThat(fineService.getAllFinesForUser(username))
+                .as("Retrieve all fines stored in the database for the given user")
+                .isEqualTo(fines);
+    }
+
+    @Test
     public void testGetAll() {
         when(DAO.getAll()).thenReturn(fines);
 

@@ -43,4 +43,23 @@ public class FineServiceImplIT {
                 .as("Fine deleted")
                 .isEqualTo(Optional.empty());
     }
+
+    @Test
+    @Transactional
+    public void testGetAllFinesForUser() {
+        String username = "DylanRodgers98";
+
+        Fine fine1 = new Fine(username, 1L, 2.50);
+        Fine fine2 = new Fine("Definitely not DylanRodgers98", 2L, 4.50);
+        Fine fine3 = new Fine(username, 3L, 7.50);
+        fineService.save(fine1);
+        fineService.save(fine2);
+        fineService.save(fine3);
+
+        List<Fine> fines = fineService.getAllFinesForUser(username);
+        softly.assertThat(fines)
+                .as("List of fines retrieved from database for a given user")
+                .contains(fine1, fine3)
+                .doesNotContain(fine2);
+    }
 }

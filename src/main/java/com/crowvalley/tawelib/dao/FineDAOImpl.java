@@ -1,7 +1,9 @@
 package com.crowvalley.tawelib.dao;
 
 import com.crowvalley.tawelib.model.fine.Fine;
+import com.crowvalley.tawelib.model.user.User;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -35,6 +37,23 @@ public class FineDAOImpl implements FineDAO {
     public Optional<Fine> get(Long id) {
         Fine fine = sessionFactory.getCurrentSession().get(Fine.class, id);
         return Optional.ofNullable(fine);
+    }
+
+    /**
+     * Retrieves a {@link List} of all {@link Fine}s created for a given
+     * {@link User} stored in the database.
+     *
+     * @param username The ID of the {@link User} for which to generate the
+     *               list of {@link Fine}s for.
+     * @return A {@link List} of all {@link Fine}s stored in the database
+     * for a given {@link User}.
+     */
+    @Override
+    public List<Fine> getAllFinesForUser(String username) {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(Fine.class)
+                .add(Restrictions.eq("username", username))
+                .list();
     }
 
     /**

@@ -2,6 +2,7 @@ package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.FineDAO;
 import com.crowvalley.tawelib.model.fine.Fine;
+import com.crowvalley.tawelib.model.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,27 @@ public class FineServiceImpl implements FineService {
         } else {
             LOGGER.warn("Could not find fine with ID {}", id);
             return Optional.empty();
+        }
+    }
+
+    /**
+     * Retrieves a {@link List} of all {@link Fine}s created, past and present,
+     * for a given {@link User} stored in the database.
+     *
+     * @param username The ID of the {@link User} for which to generate the
+     *               list of {@link Fine}s for.
+     * @return A {@link List} of all {@link Fine}s stored in the database
+     * for a given {@link User}.
+     */
+    @Override
+    public List<Fine> getAllFinesForUser(String username) {
+        List<Fine> fines = DAO.getAllFinesForUser(username);
+        if (!fines.isEmpty()) {
+            LOGGER.info("All fines for user {} retrieved successfully", username);
+            return fines;
+        } else {
+            LOGGER.warn("No fines found for user {}", username);
+            return fines;
         }
     }
 
