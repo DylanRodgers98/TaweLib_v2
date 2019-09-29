@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -34,6 +35,11 @@ public class UserServiceImplIT {
         softly.assertThat(userService.get("DylanRodgers98").get())
                 .as("Retrieve user from database with username DylanRodgers98")
                 .isEqualTo(user);
+
+        List<User> users = userService.getAll();
+        softly.assertThat(users)
+                .as("List of all users retrieved from database")
+                .containsExactly(user);
 
         //Test Update operation
         User userToUpdate = userService.get("DylanRodgers98").get();

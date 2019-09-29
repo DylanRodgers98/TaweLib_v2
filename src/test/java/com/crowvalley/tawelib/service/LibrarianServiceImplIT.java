@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -41,6 +42,11 @@ public class LibrarianServiceImplIT {
         softly.assertThat(librarianService.getWithStaffNumber(1L).get())
                 .as("Retrieve librarian user from database with staff number of 1")
                 .isEqualTo(librarian);
+
+        List<Librarian> librarians = librarianService.getAll();
+        softly.assertThat(librarians)
+                .as("List of all librarians retrieved from database")
+                .containsExactly(librarian);
 
         //Test Update operation
         Librarian librarianToUpdate = librarianService.getWithUsername("DylanRodgers98").get();

@@ -49,6 +49,11 @@ public class FineServiceImplIT {
     public void testGetAllFinesForUser() {
         String username = "DylanRodgers98";
 
+        List<Fine> fines = fineService.getAllFinesForUser(username);
+        softly.assertThat(fines)
+                .as("List of fines retrieved from database for a given user")
+                .isEmpty();
+
         Fine fine1 = new Fine(username, 1L, 2.50);
         Fine fine2 = new Fine("Definitely not DylanRodgers98", 2L, 4.50);
         Fine fine3 = new Fine(username, 3L, 7.50);
@@ -56,7 +61,7 @@ public class FineServiceImplIT {
         fineService.save(fine2);
         fineService.save(fine3);
 
-        List<Fine> fines = fineService.getAllFinesForUser(username);
+        fines = fineService.getAllFinesForUser(username);
         softly.assertThat(fines)
                 .as("List of fines retrieved from database for a given user")
                 .contains(fine1, fine3)
