@@ -5,6 +5,7 @@ import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.LibrarianService;
 import com.crowvalley.tawelib.service.UserService;
+import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -90,15 +91,7 @@ public class LoginController {
     }
 
     private void loadNewScene(String fxml) {
-        try {
-            Stage stage = (Stage) btnLogin.getScene().getWindow();
-            stage.close();
-            Scene scene = new Scene(FXMLLoader.load(getClass().getResource(fxml)));
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            LOGGER.error("IOException caught when loading page after logging in. Stacktrace as follows: ", e);
-        }
+        FXMLUtils.loadNewScene(btnLogin, fxml);
     }
 
     public void setUserService(UserService userService) {
