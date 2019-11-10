@@ -15,8 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -24,10 +22,6 @@ import java.util.Optional;
 public class LoginController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
-
-    public static final String TAWELIB = "TaweLib";
-
-    public static final String LOGIN_PAGE_FXML = "/fxml/login.fxml";
 
     public static final String LIBRARIAN_HOME_FXML = "/fxml/librarianHome.fxml";
 
@@ -46,15 +40,6 @@ public class LoginController {
     private TextField txtUsername;
 
     public LoginController() {
-    }
-
-    public void showLoginPage(ApplicationContext applicationContext, Stage primaryStage) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource(LOGIN_PAGE_FXML));
-        loader.setControllerFactory(applicationContext::getBean);
-        primaryStage.setScene(new Scene(loader.load()));
-        primaryStage.setTitle(TAWELIB);
-        primaryStage.show();
     }
 
     public void initialize() {
@@ -78,24 +63,21 @@ public class LoginController {
         }
     }
 
-    private void librarianLogInWithUsername(String username) {
-        Optional<Librarian> librarian = librarianService.getWithUsername(username);
-        if (librarian.isPresent()) {
-            librarianLogIn(librarian.get());
-        }
-    }
-
     private void logInWithUsername(String username) {
         Optional<Librarian> librarian = librarianService.getWithUsername(username);
         if (librarian.isPresent()) {
-            librarianLogInWithUsername(username);
+            librarianLogIn(username);
         } else {
             userLogIn(username);
         }
     }
 
     private void librarianLogIn(Librarian librarian) {
-        Main.currentUser = librarian.getUsername();
+        librarianLogIn(librarian.getUsername());
+    }
+
+    private void librarianLogIn(String username) {
+        Main.currentUser = username;
         loadNewScene(LIBRARIAN_HOME_FXML);
     }
 
