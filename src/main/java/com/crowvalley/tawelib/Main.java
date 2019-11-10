@@ -1,25 +1,26 @@
 package com.crowvalley.tawelib;
 
+import com.crowvalley.tawelib.controller.LoginController;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Main extends Application {
-
-    public static final String LOGIN_PAGE_FXML = "/fxml/login.fxml";
 
     public static String currentUser;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource(LOGIN_PAGE_FXML));
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/spring/applicationContext.xml");
+        LoginController loginController = applicationContext.getBean("loginController", LoginController.class);
+        loginController.showLoginPage(applicationContext, primaryStage);
     }
 
     public static void main(String[] args) {
         launch(args);
     }
+
 }

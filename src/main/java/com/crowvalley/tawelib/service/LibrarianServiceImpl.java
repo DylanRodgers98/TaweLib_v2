@@ -5,6 +5,7 @@ import com.crowvalley.tawelib.model.user.Librarian;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
@@ -131,7 +132,7 @@ public class LibrarianServiceImpl implements LibrarianService {
     @Override
     public void setDAO(LibrarianDAO DAO) {
         this.DAO = DAO;
-        LOGGER.info("UserServiceImpl DAO set to {}", DAO.getClass());
+        LOGGER.info("LibrarianServiceImpl DAO set to {}", DAO.getClass());
     }
 
 }
