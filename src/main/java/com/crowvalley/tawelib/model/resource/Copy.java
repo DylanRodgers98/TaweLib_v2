@@ -34,14 +34,14 @@ public class Copy {
 
     private Long resourceId;
 
-    private String resourceType;
+    private ResourceType resourceType;
 
     private Integer loanDurationAsDays;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "copy")
     private List<CopyRequest> copyRequests = new ArrayList<>();
 
-    public Copy(Long resourceId, String resourceType, Integer loanDurationAsDays) {
+    public Copy(Long resourceId, ResourceType resourceType, Integer loanDurationAsDays) {
         this.resourceId = resourceId;
         this.resourceType = resourceType;
         this.loanDurationAsDays = loanDurationAsDays;
@@ -111,7 +111,7 @@ public class Copy {
         return resourceId;
     }
 
-    public String getResourceType() {
+    public ResourceType getResourceType() {
         return resourceType;
     }
 

@@ -34,8 +34,6 @@ public class LoanServiceImplIT {
     private CopyService copyService;
     @Autowired
     private FineService fineService;
-    @Autowired
-    private ResourceFactory resourceFactory;
 
     @Test
     @Transactional
@@ -73,14 +71,14 @@ public class LoanServiceImplIT {
     @Test
     @Transactional
     public void testCreateLoanForACopy() {
-        Book book = resourceFactory.createBook("Book", "", "", "", "", "", "", "");
+        Book book = ResourceFactory.createBook("Book", "", "", "", "", "", "", "");
         bookService.save(book);
 
-        Copy copy = resourceFactory.createCopy(book, 4);
+        Copy copy = ResourceFactory.createCopy(book, 4);
         copyService.save(copy);
 
         String borrower = "DylanRodgers98";
-        Loan loan = resourceFactory.createLoanForCopy(copy, borrower);
+        Loan loan = ResourceFactory.createLoanForCopy(copy, borrower);
         loanService.save(loan);
 
         Loan loanRetrievedFromDatabase = loanService.getAll().get(0);
@@ -97,10 +95,10 @@ public class LoanServiceImplIT {
     @Test
     @Transactional
     public void testBookReturnedLateAndFineCreated() {
-        Book book = resourceFactory.createBook("Book", "", "", "", "", "", "", "");
+        Book book = ResourceFactory.createBook("Book", "", "", "", "", "", "", "");
         bookService.save(book);
 
-        Copy copy = resourceFactory.createCopy(book, 4);
+        Copy copy = ResourceFactory.createCopy(book, 4);
         copyService.save(copy);
 
         String borrower = "DylanRodgers98";
@@ -138,10 +136,10 @@ public class LoanServiceImplIT {
     @Test
     @Transactional
     public void testDvdReturnedLateAndFineCreated() {
-        Dvd dvd = resourceFactory.createDvd("Dvd", "", "", "", "", 120, "");
+        Dvd dvd = ResourceFactory.createDvd("Dvd", "", "", "", "", 120, "");
         dvdService.save(dvd);
 
-        Copy copy = resourceFactory.createCopy(dvd, 4);
+        Copy copy = ResourceFactory.createCopy(dvd, 4);
         copyService.save(copy);
 
         String borrower = "DylanRodgers98";
@@ -179,10 +177,10 @@ public class LoanServiceImplIT {
     @Test
     @Transactional
     public void testLaptopReturnedLateAndFineCreated() {
-        Laptop laptop = resourceFactory.createLaptop("Laptop", "", "", "", "", "");
+        Laptop laptop = ResourceFactory.createLaptop("Laptop", "", "", "", "", "");
         laptopService.save(laptop);
 
-        Copy copy = resourceFactory.createCopy(laptop, 4);
+        Copy copy = ResourceFactory.createCopy(laptop, 4);
         copyService.save(copy);
 
         String borrower = "DylanRodgers98";
@@ -220,14 +218,14 @@ public class LoanServiceImplIT {
     @Test
     @Transactional
     public void testReturnCopyAndEndLoan() {
-        Book book = resourceFactory.createBook("Book", "", "", "", "", "", "", "");
+        Book book = ResourceFactory.createBook("Book", "", "", "", "", "", "", "");
         bookService.save(book);
 
-        Copy copy = resourceFactory.createCopy(book, 4);
+        Copy copy = ResourceFactory.createCopy(book, 4);
         copyService.save(copy);
 
         String borrower = "DylanRodgers98";
-        Loan loan = resourceFactory.createLoanForCopy(copy, borrower);
+        Loan loan = ResourceFactory.createLoanForCopy(copy, borrower);
         loanService.save(loan);
 
         softly.assertThat(loan.getReturnDate())
@@ -243,18 +241,18 @@ public class LoanServiceImplIT {
     @Test
     @Transactional
     public void testGetAllLoansForACopy() {
-        Book book = resourceFactory.createBook("Book", "", "", "", "", "", "", "");
+        Book book = ResourceFactory.createBook("Book", "", "", "", "", "", "", "");
         bookService.save(book);
 
-        Copy copy1 = resourceFactory.createCopy(book, 4);
-        Copy copy2 = resourceFactory.createCopy(book, 7);
+        Copy copy1 = ResourceFactory.createCopy(book, 4);
+        Copy copy2 = ResourceFactory.createCopy(book, 7);
         copyService.save(copy1);
         copyService.save(copy2);
 
-        Loan loan1 = resourceFactory.createLoanForCopy(copy1, "One");
-        Loan loan2 = resourceFactory.createLoanForCopy(copy1, "Two");
-        Loan loan3 = resourceFactory.createLoanForCopy(copy1, "Three");
-        Loan loan4 = resourceFactory.createLoanForCopy(copy2, "Four");
+        Loan loan1 = ResourceFactory.createLoanForCopy(copy1, "One");
+        Loan loan2 = ResourceFactory.createLoanForCopy(copy1, "Two");
+        Loan loan3 = ResourceFactory.createLoanForCopy(copy1, "Three");
+        Loan loan4 = ResourceFactory.createLoanForCopy(copy2, "Four");
         loanService.save(loan1);
         loanService.save(loan2);
         loanService.save(loan3);
@@ -271,31 +269,31 @@ public class LoanServiceImplIT {
     @Test
     @Transactional
     public void testGetAllLoansForUser() {
-        Book book1 = resourceFactory.createBook("Book 1", "", "", "", "", "", "", "");
-        Book book2 = resourceFactory.createBook("Book 2", "", "", "", "", "", "", "");
-        Book book3 = resourceFactory.createBook("Book 3", "", "", "", "", "", "", "");
+        Book book1 = ResourceFactory.createBook("Book 1", "", "", "", "", "", "", "");
+        Book book2 = ResourceFactory.createBook("Book 2", "", "", "", "", "", "", "");
+        Book book3 = ResourceFactory.createBook("Book 3", "", "", "", "", "", "", "");
         bookService.save(book1);
         bookService.save(book2);
         bookService.save(book3);
 
-        Copy copy1 = resourceFactory.createCopy(book1, 4);
-        Copy copy2 = resourceFactory.createCopy(book2, 7);
-        Copy copy3 = resourceFactory.createCopy(book3, 14);
+        Copy copy1 = ResourceFactory.createCopy(book1, 4);
+        Copy copy2 = ResourceFactory.createCopy(book2, 7);
+        Copy copy3 = ResourceFactory.createCopy(book3, 14);
         copyService.save(copy1);
         copyService.save(copy2);
         copyService.save(copy3);
 
         String username = "DylanRodgers98";
-        Loan loan1 = resourceFactory.createLoanForCopy(copy1, username);
-        Loan loan2 = resourceFactory.createLoanForCopy(copy2, username);
-        Loan loan3 = resourceFactory.createLoanForCopy(copy3, username);
+        Loan loan1 = ResourceFactory.createLoanForCopy(copy1, username);
+        Loan loan2 = ResourceFactory.createLoanForCopy(copy2, username);
+        Loan loan3 = ResourceFactory.createLoanForCopy(copy3, username);
         loanService.save(loan1);
         loanService.save(loan2);
         loanService.save(loan3);
 
         loanService.endLoan(loan1);
 
-        Loan loanNotByUser = resourceFactory.createLoanForCopy(copy1, "Other User");
+        Loan loanNotByUser = ResourceFactory.createLoanForCopy(copy1, "Other User");
         loanService.save(loanNotByUser);
 
         List<Loan> loansFromDatabase = loanService.getAllLoansForUser(username);

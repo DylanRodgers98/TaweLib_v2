@@ -2,6 +2,7 @@ package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.CopyDAOImpl;
 import com.crowvalley.tawelib.model.resource.Copy;
+import com.crowvalley.tawelib.model.resource.ResourceType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,9 +42,9 @@ public class CopyServiceImplTest {
 
     @Before
     public void setup() {
-        copy1 = new Copy(1L, "Book", 7);
-        copy2 = new Copy(2L, "Dvd", 3);
-        copy3 = new Copy(3L, "Laptop", 14);
+        copy1 = new Copy(1L, ResourceType.BOOK, 7);
+        copy2 = new Copy(2L, ResourceType.DVD, 3);
+        copy3 = new Copy(3L, ResourceType.LAPTOP, 14);
         optionalCopy1 = Optional.of(copy1);
         optionalCopy2 = Optional.of(copy2);
         optionalCopy3 = Optional.of(copy3);

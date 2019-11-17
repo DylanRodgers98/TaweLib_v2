@@ -4,6 +4,7 @@ import com.crowvalley.tawelib.dao.LoanDAO;
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.model.resource.Loan;
+import com.crowvalley.tawelib.model.resource.ResourceType;
 import com.crowvalley.tawelib.model.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -168,22 +169,19 @@ public class LoanServiceImpl implements LoanService {
 
         if (returnDate.after(endDate)) {
             Optional<Copy> copy = copyService.get(loan.getCopyId());
-            String copyType = copy.get().getResourceType();
+            ResourceType copyType = copy.get().getResourceType();
 
             Double fineAmount = 0.00;
-            switch (copyType) {
-                case Copy.BOOK_TYPE:
-                    fineAmount = Fine.BOOK_FINE_AMOUNT_PER_DAY;
-                    break;
-                case Copy.DVD_TYPE:
-                    fineAmount = Fine.DVD_FINE_AMOUNT_PER_DAY;
-                    break;
-                case Copy.LAPTOP_TYPE:
-                    fineAmount = Fine.LAPTOP_FINE_AMOUNT_PER_DAY;
-                    break;
+            if (copyType.equals(ResourceType.BOOK)) {
+                fineAmount = Fine.BOOK_FINE_AMOUNT_PER_DAY;
+            } else if (copyType.equals(ResourceType.DVD)) {
+                fineAmount = Fine.DVD_FINE_AMOUNT_PER_DAY;
+            } else if (copyType.equals(ResourceType.LAPTOP)) {
+                fineAmount = Fine.LAPTOP_FINE_AMOUNT_PER_DAY;
             }
             Long dayDiffBetweenEndAndReturnDates = ChronoUnit.DAYS.between(endDate.toLocalDate(), returnDate.toLocalDate());
             fineAmount *= dayDiffBetweenEndAndReturnDates;
+
             Fine fine = new Fine(loan.getBorrowerUsername(), loan.getId(), fineAmount);
             fineService.save(fine);
             LOGGER.info("£{} fine (ID: {}) issued to {}",

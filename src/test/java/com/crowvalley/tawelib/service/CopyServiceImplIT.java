@@ -24,8 +24,6 @@ public class CopyServiceImplIT {
     @Rule
     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
     @Autowired
-    private ResourceFactory resourceFactory;
-    @Autowired
     private ResourceService bookService;
     @Autowired
     private CopyService copyService;
@@ -34,10 +32,10 @@ public class CopyServiceImplIT {
     @Transactional
     public void testCRUDOperationsOnCopy() {
         //Create Copy of a book
-        Book book = resourceFactory.createBook("Book 1", "2019", "URL", "Dylan Rodgers",
+        Book book = ResourceFactory.createBook("Book 1", "2019", "URL", "Dylan Rodgers",
                 "Penguin", "Sci-fi", "ISBN", "English");
         bookService.save(book);
-        Copy copyOfBook = resourceFactory.createCopy(book, 4);
+        Copy copyOfBook = ResourceFactory.createCopy(book, 4);
 
         //Test Create and Retrieve operations
         copyService.save(copyOfBook);
@@ -69,10 +67,10 @@ public class CopyServiceImplIT {
     @Transactional
     public void testCreateCopyRequestForCopyAndSaveToDatabase() {
         //Create Copy of a book
-        Book book = resourceFactory.createBook("Book 1", "2019", "URL", "Dylan Rodgers",
+        Book book = ResourceFactory.createBook("Book 1", "2019", "URL", "Dylan Rodgers",
                 "Penguin", "Sci-fi", "ISBN", "English");
         bookService.save(book);
-        Copy copyOfBook = resourceFactory.createCopy(book, 4);
+        Copy copyOfBook = ResourceFactory.createCopy(book, 4);
 
         //Create CopyRequest for the Copy
         copyOfBook.createCopyRequest("DylanRodgers98");
@@ -100,10 +98,10 @@ public class CopyServiceImplIT {
     @Test
     public void testCreateAndDeleteCopyRequestOnPersistedCopy() {
         //Create Copy of a book
-        Book book = resourceFactory.createBook("Book 1", "2019", "URL", "Dylan Rodgers",
+        Book book = ResourceFactory.createBook("Book 1", "2019", "URL", "Dylan Rodgers",
                 "Penguin", "Sci-fi", "ISBN", "English");
         bookService.save(book);
-        Copy copyOfBook = resourceFactory.createCopy(book, 4);
+        Copy copyOfBook = ResourceFactory.createCopy(book, 4);
         copyService.save(copyOfBook);
 
         //Create CopyRequest for the Copy
@@ -140,10 +138,10 @@ public class CopyServiceImplIT {
     @Test
     public void testCreateAndDeleteCopyRequestOnPersistedCopy_UsingCopyId() {
         //Create Copy of a book
-        Book book = resourceFactory.createBook("Book 1", "2019", "URL", "Dylan Rodgers",
+        Book book = ResourceFactory.createBook("Book 1", "2019", "URL", "Dylan Rodgers",
                 "Penguin", "Sci-fi", "ISBN", "English");
         bookService.save(book);
-        Copy copyOfBook = resourceFactory.createCopy(book, 4);
+        Copy copyOfBook = ResourceFactory.createCopy(book, 4);
         copyService.save(copyOfBook);
 
         //Create CopyRequest for the Copy
