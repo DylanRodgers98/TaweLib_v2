@@ -28,7 +28,7 @@ public class LoginController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
-    public static final String LIBRARIAN_HOME_FXML = "/fxml/librarianHome.fxml";
+    public static final String LIBRARIAN_HOME_FXML = "/fxml/librarian.fxml";
 
     public static final String USER_HOME_FXML = "/fxml/userHome.fxml";
 

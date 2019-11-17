@@ -24,6 +24,7 @@ public class FXMLUtils {
 
     public static void loadNewScene(Node arbitraryNodeFromCurrentScene, String fxmlOfNewScene) {
         Stage stage = (Stage) arbitraryNodeFromCurrentScene.getScene().getWindow();
+        stage.close();
         URL fxml = FXMLUtils.class.getResource(fxmlOfNewScene);
         try {
             Scene scene = new Scene(FXMLLoader.load(fxml));
