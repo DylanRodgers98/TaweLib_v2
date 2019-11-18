@@ -17,6 +17,8 @@
         <property name="librarianService" ref="librarianService" />
     </bean>
 
+    <bean id="librarianHomeController" class="com.crowvalley.tawelib.controller.LibrarianHomeController" />
+
     <!-- Service beans -->
     <bean id="bookService" class="com.crowvalley.tawelib.service.BookServiceImpl">
         <property name="DAO" ref="bookDAO"/>
