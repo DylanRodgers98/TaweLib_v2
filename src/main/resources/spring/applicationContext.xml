@@ -32,7 +32,14 @@
         <property name="laptopService" ref="laptopService" />
     </bean>
 
-    <bean id="librarianLoansTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianLoansTabController" />
+    <bean id="librarianLoansTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianLoansTabController" >
+        <property name="loanService" ref="loanService" />
+        <property name="copyService" ref="copyService" />
+        <property name="bookService" ref="bookService" />
+        <property name="dvdService" ref="dvdService" />
+        <property name="laptopService" ref="laptopService" />
+    </bean>
+    
     <bean id="librarianUsersTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianUsersTabController" />
     <bean id="librarianFinesAndPaymentsTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianFinesAndPaymentsTabController" />
     <bean id="librarianProfileTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianProfileTabController" />

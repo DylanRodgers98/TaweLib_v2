@@ -7,7 +7,7 @@
 <Tab xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" closable="false" text="Resources"
      fx:controller="com.crowvalley.tawelib.controller.librarian.LibrarianResourcesTabController">
     <content>
-        <BorderPane prefHeight="200.0" prefWidth="200.0">
+        <BorderPane>
             <bottom>
                 <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                     <buttons>
@@ -24,9 +24,9 @@
             <center>
                 <TableView fx:id="tblResources" prefHeight="302.0" prefWidth="416.0" BorderPane.alignment="CENTER">
                     <columns>
-                        <TableColumn fx:id="clmType" prefWidth="70.0" resizable="false" text="Type" />
-                        <TableColumn fx:id="clmTitle" prefWidth="479.0" resizable="false" text="Title" />
-                        <TableColumn fx:id="clmYear" prefWidth="70.0" resizable="false" text="Year" />
+                        <TableColumn fx:id="colType" prefWidth="70.0" resizable="false" text="Type" />
+                        <TableColumn fx:id="colTitle" prefWidth="479.0" resizable="false" text="Title" />
+                        <TableColumn fx:id="colYear" prefWidth="70.0" resizable="false" text="Year" />
                     </columns>
                     <BorderPane.margin>
                         <Insets left="10.0" right="10.0" top="10.0" />

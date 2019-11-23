@@ -14,7 +14,6 @@ import javafx.scene.input.KeyCode;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
@@ -22,7 +21,7 @@ public class LoginController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
-    public static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarian.fxml";
+    public static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
 
     public static final String USER_HOME_FXML = "/fxml/userHome.fxml";
 

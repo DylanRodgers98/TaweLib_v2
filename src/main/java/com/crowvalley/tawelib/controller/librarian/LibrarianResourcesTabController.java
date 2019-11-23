@@ -14,31 +14,31 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class LibrarianResourcesTabController {
 
-    private ResourceService bookService;
+    private ResourceService<Book> bookService;
 
-    private ResourceService dvdService;
+    private ResourceService<Dvd> dvdService;
 
-    private ResourceService laptopService;
+    private ResourceService<Laptop> laptopService;
 
     @FXML
     private TableView<Resource> tblResources;
 
     @FXML
-    private TableColumn<Resource, ResourceType> clmType;
+    private TableColumn<Resource, ResourceType> colType;
 
     @FXML
-    private TableColumn<Resource, String> clmTitle;
+    private TableColumn<Resource, String> colTitle;
 
     @FXML
-    private TableColumn<Resource, String> clmYear;
+    private TableColumn<Resource, String> colYear;
 
     public LibrarianResourcesTabController() {
     }
 
     public void initialize() {
-        clmType.setCellValueFactory(this::getResourceType);
-        clmTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-        clmYear.setCellValueFactory(new PropertyValueFactory<>("year"));
+        colType.setCellValueFactory(this::getResourceType);
+        colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        colYear.setCellValueFactory(new PropertyValueFactory<>("year"));
         tblResources.setItems(getResources());
     }
 
@@ -54,15 +54,15 @@ public class LibrarianResourcesTabController {
         return resources;
     }
 
-    public void setBookService(ResourceService bookService) {
+    public void setBookService(ResourceService<Book> bookService) {
         this.bookService = bookService;
     }
 
-    public void setDvdService(ResourceService dvdService) {
+    public void setDvdService(ResourceService<Dvd> dvdService) {
         this.dvdService = dvdService;
     }
 
-    public void setLaptopService(ResourceService laptopService) {
+    public void setLaptopService(ResourceService<Laptop> laptopService) {
         this.laptopService = laptopService;
     }
 
