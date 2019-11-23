@@ -26,7 +26,12 @@
         <property name="logOutController" ref="LibrarianLogOutController" />
     </bean>
 
-    <bean id="librarianResourcesTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianResourcesTabController" />
+    <bean id="librarianResourcesTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianResourcesTabController" >
+        <property name="bookService" ref="bookService" />
+        <property name="dvdService" ref="dvdService" />
+        <property name="laptopService" ref="laptopService" />
+    </bean>
+
     <bean id="librarianLoansTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianLoansTabController" />
     <bean id="librarianUsersTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianUsersTabController" />
     <bean id="librarianFinesAndPaymentsTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianFinesAndPaymentsTabController" />

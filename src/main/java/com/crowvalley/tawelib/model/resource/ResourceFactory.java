@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.model.resource;
 
 import com.crowvalley.tawelib.model.user.User;
+import com.crowvalley.tawelib.util.ResourceUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,14 +56,7 @@ public class ResourceFactory {
         }
 
         //Sets the resource type to help with database queries
-        ResourceType resourceType = null;
-        if (resource instanceof Book) {
-            resourceType = ResourceType.BOOK;
-        } else if (resource instanceof Dvd) {
-            resourceType = ResourceType.DVD;
-        } else if (resource instanceof Laptop) {
-            resourceType = ResourceType.LAPTOP;
-        }
+        ResourceType resourceType = ResourceUtils.getResourceType(resource);
 
         if (resourceType == null) {
             LOGGER.error(CANNOT_GET_RESOURCE_TYPE_ERROR_MESSAGE);

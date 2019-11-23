@@ -2,7 +2,6 @@ package com.crowvalley.tawelib.util;
 
 import static javafx.scene.control.Alert.AlertType;
 
-import com.crowvalley.tawelib.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;

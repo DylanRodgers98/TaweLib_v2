@@ -26,10 +26,8 @@ public class LoginController {
 
     public static final String USER_HOME_FXML = "/fxml/userHome.fxml";
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
     private LibrarianService librarianService;
 
     @FXML
