@@ -107,5 +107,5 @@ public class LibrarianLoansTabController {
     public void setLaptopService(ResourceService<Laptop> laptopService) {
         this.laptopService = laptopService;
     }
-    
+
 }

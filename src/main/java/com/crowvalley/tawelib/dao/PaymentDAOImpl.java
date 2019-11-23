@@ -1,7 +1,9 @@
 package com.crowvalley.tawelib.dao;
 
 import com.crowvalley.tawelib.model.fine.Payment;
+import com.crowvalley.tawelib.model.user.User;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +49,23 @@ public class PaymentDAOImpl implements PaymentDAO {
     @SuppressWarnings("unchecked")
     public List<Payment> getAll() {
         return sessionFactory.getCurrentSession().createQuery("from Payment").list();
+    }
+
+    /**
+     * Retrieves a {@link List} of all {@link Payment}s created for a given
+     * {@link User} stored in the database.
+     *
+     * @param username The ID of the {@link User} for which to generate the
+     *               list of {@link Payment}s for.
+     * @return A {@link List} of all {@link Payment}s stored in the database
+     * for a given {@link User}.
+     */
+    @Override
+    public List<Payment> getAllPaymentsForUser(String username) {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(Payment.class)
+                .add(Restrictions.eq("username", username))
+                .list();
     }
 
     /**

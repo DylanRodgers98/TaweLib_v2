@@ -17,6 +17,8 @@ public interface PaymentDAO {
 
     List<Payment> getAll();
 
+    List<Payment> getAllPaymentsForUser(String username);
+
     void save(Payment payment);
 
     void delete(Payment payment);

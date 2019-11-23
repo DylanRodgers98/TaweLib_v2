@@ -18,6 +18,8 @@ public interface PaymentService {
 
     List<Payment> getAll();
 
+    List<Payment> getAllPaymentsForUser(String username);
+
     void save(Payment payment);
 
     void delete(Payment payment);
