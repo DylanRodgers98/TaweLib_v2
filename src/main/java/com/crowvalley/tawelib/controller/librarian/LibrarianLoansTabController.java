@@ -14,6 +14,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.Date;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Optional;
 
 public class LibrarianLoansTabController {
@@ -85,7 +87,9 @@ public class LibrarianLoansTabController {
     }
 
     private ObservableList<Loan> getLoans() {
-        return FXCollections.observableArrayList(loanService.getAll());
+        ObservableList<Loan> loans = FXCollections.observableArrayList(loanService.getAll());
+        Collections.sort(loans, Comparator.comparing(Loan::getReturnDate, Comparator.nullsFirst(Comparator.reverseOrder())));
+        return loans;
     }
 
     public void setLoanService(LoanService loanService) {

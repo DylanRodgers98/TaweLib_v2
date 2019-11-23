@@ -21,6 +21,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -82,7 +84,9 @@ public class LibrarianUsersTabController {
     }
 
     private ObservableList<User> getUsers() {
-        return FXCollections.observableArrayList(userService.getAll());
+        ObservableList<User> users = FXCollections.observableArrayList(userService.getAll());
+        Collections.sort(users, Comparator.comparing(User::getUsername));
+        return users;
     }
 
     public void setUserService(UserService userService) {

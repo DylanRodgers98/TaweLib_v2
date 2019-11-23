@@ -12,6 +12,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 public class LibrarianResourcesTabController {
 
     private ResourceService<Book> bookService;
@@ -51,6 +54,7 @@ public class LibrarianResourcesTabController {
         resources.addAll(bookService.getAll());
         resources.addAll(dvdService.getAll());
         resources.addAll(laptopService.getAll());
+        Collections.sort(resources, Comparator.comparingLong(Resource::getId));
         return resources;
     }
 
