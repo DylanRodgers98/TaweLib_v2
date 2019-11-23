@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Tab xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" closable="false" text="Fines &amp; Payments"
+     fx:controller="com.crowvalley.tawelib.controller.librarian.LibrarianFinesAndPaymentsTabController">
+    <content>
+        <BorderPane prefHeight="200.0" prefWidth="200.0">
+            <center>
+                <TableView fx:id="tblFines" prefHeight="302.0" prefWidth="622.0" BorderPane.alignment="CENTER">
+                    <columns>
+                        <TableColumn prefWidth="280.0" resizable="false" text="Username" />
+                        <TableColumn prefWidth="170.0" resizable="false" text="Amount" />
+                        <TableColumn prefWidth="170.0" resizable="false" text="Fine or Payment?" />
+                    </columns>
+                    <BorderPane.margin>
+                        <Insets left="10.0" right="10.0" top="10.0" />
+                    </BorderPane.margin>
+                </TableView>
+            </center>
+            <bottom>
+                <Button fx:id="btnPayment" disable="true" mnemonicParsing="false" text="Record a Payment" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets bottom="7.0" top="8.0" />
+                    </BorderPane.margin>
+                </Button>
+            </bottom>
+        </BorderPane>
+    </content>
+</Tab>

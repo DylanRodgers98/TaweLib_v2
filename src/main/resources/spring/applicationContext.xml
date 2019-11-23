@@ -17,7 +17,21 @@
         <property name="librarianService" ref="librarianService" />
     </bean>
 
-    <bean id="librarianHomeController" class="com.crowvalley.tawelib.controller.LibrarianHomeController" />
+    <bean id="librarianHomeController" class="com.crowvalley.tawelib.controller.librarian.LibrarianHomeController" >
+        <property name="resourcesTabController" ref="librarianResourcesTabController" />
+        <property name="loansTabController" ref="librarianLoansTabController" />
+        <property name="usersTabController" ref="librarianUsersTabController" />
+        <property name="finesAndPaymentsTabController" ref="librarianFinesAndPaymentsTabController" />
+        <property name="profileTabController" ref="librarianProfileTabController" />
+        <property name="logOutController" ref="LibrarianLogOutController" />
+    </bean>
+
+    <bean id="librarianResourcesTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianResourcesTabController" />
+    <bean id="librarianLoansTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianLoansTabController" />
+    <bean id="librarianUsersTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianUsersTabController" />
+    <bean id="librarianFinesAndPaymentsTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianFinesAndPaymentsTabController" />
+    <bean id="librarianProfileTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianProfileTabController" />
+    <bean id="LibrarianLogOutController" class="com.crowvalley.tawelib.controller.librarian.LibrarianLogOutController" />
 
     <!-- Service beans -->
     <bean id="bookService" class="com.crowvalley.tawelib.service.BookServiceImpl">

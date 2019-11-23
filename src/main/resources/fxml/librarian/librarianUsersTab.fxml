@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Tab xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" closable="false" text="Users"
+     fx:controller="com.crowvalley.tawelib.controller.librarian.LibrarianUsersTabController">
+    <content>
+        <BorderPane prefHeight="200.0" prefWidth="200.0">
+            <bottom>
+                <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                    <buttons>
+                        <Button fx:id="btnNewUser" mnemonicParsing="false" prefHeight="25.0" prefWidth="270.0" text="Create New User" />
+                        <Button fx:id="btnViewUser" disable="true" mnemonicParsing="false" text="View User" />
+                        <Button fx:id="btnAmendUser" disable="true" mnemonicParsing="false" text="Amend User" />
+                        <Button fx:id="btnDeleteUser" disable="true" mnemonicParsing="false" text="Delete User" />
+                    </buttons>
+                    <BorderPane.margin>
+                        <Insets right="20.0" />
+                    </BorderPane.margin>
+                </ButtonBar>
+            </bottom>
+            <center>
+                <TableView fx:id="tblUsers" prefHeight="302.0" prefWidth="416.0" BorderPane.alignment="CENTER">
+                    <columns>
+                        <TableColumn prefWidth="80.0" resizable="false" text="Username" />
+                        <TableColumn prefWidth="200.0" resizable="false" text="Name" />
+                        <TableColumn prefWidth="100.0" resizable="false" text="Phone Number" />
+                        <TableColumn prefWidth="180.0" resizable="false" text="Address" />
+                        <TableColumn prefWidth="60.0" resizable="false" text="Balance" />
+                    </columns>
+                    <BorderPane.margin>
+                        <Insets left="10.0" right="10.0" top="10.0" />
+                    </BorderPane.margin>
+                </TableView>
+            </center>
+        </BorderPane>
+    </content>
+</Tab>

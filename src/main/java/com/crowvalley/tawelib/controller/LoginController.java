@@ -7,28 +7,22 @@ import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.LibrarianService;
 import com.crowvalley.tawelib.service.UserService;
 import com.crowvalley.tawelib.util.FXMLUtils;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
 import java.util.Optional;
 
 public class LoginController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
-    public static final String LIBRARIAN_HOME_FXML = "/fxml/librarian.fxml";
+    public static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarian.fxml";
 
     public static final String USER_HOME_FXML = "/fxml/userHome.fxml";
 

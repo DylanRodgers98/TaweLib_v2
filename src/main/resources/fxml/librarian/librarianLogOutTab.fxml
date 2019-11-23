@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<Tab xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" text="Log Out"
+     fx:controller="com.crowvalley.tawelib.controller.librarian.LibrarianLogOutController">
+    <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <children>
+                <Label layoutX="176.0" layoutY="151.0" text="Are you sure you want to log out?" textFill="#4400ff">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+                <Button fx:id="btnLogOut" layoutX="259.0" layoutY="191.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0" text="Yes, log me out">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Button>
+            </children>
+        </AnchorPane>
+    </content>
+</Tab>
