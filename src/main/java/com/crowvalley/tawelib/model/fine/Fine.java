@@ -15,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "fine")
-public class Fine {
+public class Fine extends Transaction {
 
     public static final Double BOOK_FINE_AMOUNT_PER_DAY = 2.00;
 
@@ -23,38 +23,18 @@ public class Fine {
 
     public static final Double LAPTOP_FINE_AMOUNT_PER_DAY = 10.00;
 
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    private String username;
-
     private Long loanId;
 
-    private Double amount;
-
     public Fine(String username, Long loanId, Double amount) {
-        this.username = username;
+        super(username, amount);
         this.loanId = loanId;
-        this.amount = amount;
     }
 
     public Fine() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     public Long getLoanId() {
         return loanId;
     }
 
-    public Double getAmount() {
-        return amount;
-    }
 }

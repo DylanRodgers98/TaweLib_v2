@@ -46,7 +46,11 @@
         <property name="paymentService" ref="paymentService" />
     </bean>
 
-    <bean id="librarianFinesAndPaymentsTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianFinesAndPaymentsTabController" />
+    <bean id="librarianFinesAndPaymentsTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianFinesAndPaymentsTabController" >
+        <property name="fineService" ref="fineService" />
+        <property name="paymentService" ref="paymentService" />
+    </bean>
+
     <bean id="librarianProfileTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianProfileTabController" />
     <bean id="LibrarianLogOutController" class="com.crowvalley.tawelib.controller.librarian.LibrarianLogOutController" />
 

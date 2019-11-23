@@ -15,33 +15,13 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "payment")
-public class Payment {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    private String username;
-
-    private Double amount;
+public class Payment extends Transaction {
 
     public Payment(String username, Double amount) {
-        this.username = username;
-        this.amount = amount;
+        super(username, amount);
     }
 
     public Payment() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
 }
