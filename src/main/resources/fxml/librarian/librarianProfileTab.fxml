@@ -29,7 +29,7 @@
                         <TextField fx:id="txtTown" layoutX="161.0" layoutY="216.0" />
                         <TextField fx:id="txtCounty" layoutX="161.0" layoutY="247.0" />
                         <TextField fx:id="txtPostcode" layoutX="161.0" layoutY="278.0" />
-                        <Button fx:id="btnSaveOrUpdate" layoutX="153.0" layoutY="323.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Edit Profile" />
+                        <Button fx:id="btnSaveOrUpdate" layoutX="153.0" layoutY="323.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Update Profile" />
                     </children>
                 </AnchorPane>
             </center>

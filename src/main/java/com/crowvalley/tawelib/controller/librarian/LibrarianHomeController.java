@@ -1,5 +1,9 @@
 package com.crowvalley.tawelib.controller.librarian;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+
 public class LibrarianHomeController {
 
     private LibrarianResourcesTabController resourcesTabController;
@@ -13,6 +17,44 @@ public class LibrarianHomeController {
     private LibrarianProfileTabController profileTabController;
 
     private LibrarianLogOutController logOutController;
+
+    @FXML
+    private TabPane tabPane;
+
+    @FXML
+    private Tab tabResources;
+
+    @FXML
+    private Tab tabLoans;
+
+    @FXML
+    private Tab tabUsers;
+
+    @FXML
+    private Tab tabFinesAndPayments;
+
+    @FXML
+    private Tab tabProfile;
+
+    public void initialize() {
+        tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
+            if (newTab == tabResources) {
+                resourcesTabController.initialize();
+            }
+            if (newTab == tabLoans) {
+                loansTabController.initialize();
+            }
+            if (newTab == tabUsers) {
+                usersTabController.initialize();
+            }
+            if (newTab == tabFinesAndPayments) {
+                finesAndPaymentsTabController.initialize();
+            }
+            if (newTab == tabProfile) {
+                profileTabController.initialize();
+            }
+        });
+    }
 
     public void setResourcesTabController(LibrarianResourcesTabController resourcesTabController) {
         this.resourcesTabController = resourcesTabController;
