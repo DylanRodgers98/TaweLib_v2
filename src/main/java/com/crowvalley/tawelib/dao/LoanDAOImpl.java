@@ -3,8 +3,8 @@ package com.crowvalley.tawelib.dao;
 import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.model.resource.Loan;
 import com.crowvalley.tawelib.model.user.User;
+import com.crowvalley.tawelib.util.DatabaseUtils;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,10 +53,7 @@ public class LoanDAOImpl implements LoanDAO {
      */
     @Override
     public List<Loan> getAllLoansForCopy(Long copyId) {
-        return sessionFactory.getCurrentSession()
-                .createCriteria(Loan.class)
-                .add(Restrictions.eq("copyId", copyId))
-                .list();
+        return DatabaseUtils.getAll(Loan.class, "copyId", copyId, sessionFactory);
     }
 
     /**
@@ -70,10 +67,7 @@ public class LoanDAOImpl implements LoanDAO {
      */
     @Override
     public List<Loan> getAllLoansForUser(String username) {
-        return sessionFactory.getCurrentSession()
-                .createCriteria(Loan.class)
-                .add(Restrictions.eq("borrowerUsername", username))
-                .list();
+        return DatabaseUtils.getAll(Loan.class, "borrowerUsername", username, sessionFactory);
     }
 
     /**

@@ -6,10 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.net.URL;
 
 public class Main extends Application {
 
@@ -24,6 +20,7 @@ public class Main extends Application {
         FXMLLoader loader = FXMLUtils.prepareFXMLLoader(LOGIN_PAGE_FXML);
         primaryStage.setScene(new Scene(loader.load()));
         primaryStage.setTitle(TAWELIB_STAGE_TITLE);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

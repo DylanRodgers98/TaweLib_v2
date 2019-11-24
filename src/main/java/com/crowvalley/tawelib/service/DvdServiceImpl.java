@@ -23,7 +23,7 @@ public class DvdServiceImpl implements ResourceService<Dvd> {
 
     @Qualifier("dvdDAO")
     @Autowired
-    private ResourceDAO DAO;
+    private ResourceDAO<Dvd> DAO;
 
     /**
      * Retrieves a {@link Dvd} from the DAO using the {@link Dvd}'s
@@ -97,7 +97,7 @@ public class DvdServiceImpl implements ResourceService<Dvd> {
     }
 
     @Override
-    public void setDAO(ResourceDAO DAO) {
+    public void setDAO(ResourceDAO<Dvd> DAO) {
         this.DAO = DAO;
         LOGGER.info("DvdServiceImpl DAO set to {}", DAO.getClass());
     }

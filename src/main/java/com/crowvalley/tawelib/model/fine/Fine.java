@@ -3,8 +3,6 @@ package com.crowvalley.tawelib.model.fine;
 import com.crowvalley.tawelib.model.user.User;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**

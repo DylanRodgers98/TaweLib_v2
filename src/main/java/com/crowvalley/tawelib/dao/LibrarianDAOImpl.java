@@ -1,9 +1,9 @@
 package com.crowvalley.tawelib.dao;
 
 import com.crowvalley.tawelib.model.user.Librarian;
+import com.crowvalley.tawelib.util.DatabaseUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,10 +53,7 @@ public class LibrarianDAOImpl implements LibrarianDAO {
      */
     @Override
     public Optional<Librarian> getWithStaffNumber(Long staffNum) {
-        List<Librarian> librarians = sessionFactory.getCurrentSession()
-                .createCriteria(Librarian.class)
-                .add(Restrictions.eq("staffNum", staffNum))
-                .list();
+        List<Librarian> librarians = DatabaseUtils.getAll(Librarian.class, "staffNum", staffNum, sessionFactory);
 
         if (librarians.size() > 1) {
             throw new HibernateException("More than one Librarian retrieved from database with same staff number");

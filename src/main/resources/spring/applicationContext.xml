@@ -23,7 +23,7 @@
         <property name="usersTabController" ref="librarianUsersTabController" />
         <property name="finesAndPaymentsTabController" ref="librarianFinesAndPaymentsTabController" />
         <property name="profileTabController" ref="librarianProfileTabController" />
-        <property name="logOutController" ref="LibrarianLogOutController" />
+        <property name="logOutController" ref="librarianLogOutController" />
     </bean>
 
     <bean id="librarianResourcesTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianResourcesTabController" >
@@ -55,7 +55,7 @@
         <property name="librarianService" ref="librarianService" />
     </bean>
 
-    <bean id="LibrarianLogOutController" class="com.crowvalley.tawelib.controller.librarian.LibrarianLogOutController" />
+    <bean id="librarianLogOutController" class="com.crowvalley.tawelib.controller.librarian.LibrarianLogOutController" />
 
     <!-- Service beans -->
     <bean id="bookService" class="com.crowvalley.tawelib.service.BookServiceImpl">

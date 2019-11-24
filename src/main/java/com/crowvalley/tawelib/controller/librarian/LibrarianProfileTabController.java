@@ -6,7 +6,6 @@ import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.service.LibrarianService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 
 import java.util.Optional;
@@ -138,7 +137,7 @@ public class LibrarianProfileTabController {
         address.setStreet(txtStreet.getText());
         address.setTown(txtTown.getText());
         address.setCounty(txtCounty.getText());
-        address.setPostcode(txtPhoneNum.getText());
+        address.setPostcode(txtPostcode.getText());
     }
 
     public void setLibrarianService(LibrarianService librarianService) {

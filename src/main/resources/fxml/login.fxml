@@ -9,17 +9,14 @@
 
 <VBox prefHeight="221.0" prefWidth="453.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.crowvalley.tawelib.controller.LoginController">
-  <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="305.0" prefWidth="178.0" VBox.vgrow="ALWAYS">
-      <children>
-          <Text fill="#4400ff" layoutX="97.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TaweLib">
-              <font>
-                  <Font name="Modern No. 20" size="72.0" />
-              </font>
-          </Text>
-          <TextField fx:id="txtUsername" layoutX="97.0" layoutY="141.0" prefHeight="25.0" prefWidth="200.0" promptText="Username/Staff Number" />
-          <Button fx:id="btnLogin" layoutX="306.0" layoutY="141.0" mnemonicParsing="false" text="Log In" />
-      </children>
+    <AnchorPane prefHeight="305.0" prefWidth="178.0" VBox.vgrow="ALWAYS">
+        <Text fill="#4400ff" layoutX="97.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TaweLib">
+            <font>
+                <Font name="Modern No. 20" size="72.0"/>
+            </font>
+        </Text>
+        <TextField fx:id="txtUsername" layoutX="97.0" layoutY="141.0" prefHeight="25.0" prefWidth="200.0"
+                   promptText="Username/Staff Number"/>
+        <Button fx:id="btnLogin" layoutX="306.0" layoutY="141.0" mnemonicParsing="false" text="Log In"/>
     </AnchorPane>
-  </children>
 </VBox>

@@ -2,8 +2,8 @@ package com.crowvalley.tawelib.dao;
 
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.user.User;
+import com.crowvalley.tawelib.util.DatabaseUtils;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,10 +52,7 @@ public class FineDAOImpl implements FineDAO {
      */
     @Override
     public List<Fine> getAllFinesForUser(String username) {
-        return sessionFactory.getCurrentSession()
-                .createCriteria(Fine.class)
-                .add(Restrictions.eq("username", username))
-                .list();
+        return DatabaseUtils.getAll(Fine.class, "username", username, sessionFactory);
     }
 
     /**

@@ -106,10 +106,8 @@ public class CopyServiceImpl implements CopyService {
      */
     @Override
     public void createCopyRequestForPersistedCopy(Long id, String username) {
-        Optional<Copy> copy = get(id);
-        if (copy.isPresent()) {
-            createCopyRequestForPersistedCopy(copy.get(), username);
-        }
+        Optional<Copy> optionalCopy = get(id);
+        optionalCopy.ifPresent(copy -> createCopyRequestForPersistedCopy(copy, username));
     }
 
     /**
@@ -137,10 +135,8 @@ public class CopyServiceImpl implements CopyService {
      */
     @Override
     public void deleteCopyRequestFromPersistedCopy(Long id, String username) {
-        Optional<Copy> copy = get(id);
-        if (copy.isPresent()) {
-            deleteCopyRequestFromPersistedCopy(copy.get(), username);
-        }
+        Optional<Copy> optionalCopy = get(id);
+        optionalCopy.ifPresent(copy -> deleteCopyRequestFromPersistedCopy(copy, username));
     }
 
     /**

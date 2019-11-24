@@ -1,6 +1,5 @@
 package com.crowvalley.tawelib.model.user;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.Embeddable;

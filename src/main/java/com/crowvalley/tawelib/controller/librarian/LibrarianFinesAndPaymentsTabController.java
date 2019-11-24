@@ -17,7 +17,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -70,7 +69,7 @@ public class LibrarianFinesAndPaymentsTabController {
         ObservableList<Transaction> transactions = FXCollections.observableArrayList();
         transactions.addAll(fines);
         transactions.addAll(payments);
-        Collections.sort(transactions, Comparator.comparingLong(Transaction::getId));
+        transactions.sort(Comparator.comparingLong(Transaction::getId));
         return transactions;
     }
 

@@ -169,23 +169,28 @@ public class LoanServiceImpl implements LoanService {
 
         if (returnDate.after(endDate)) {
             Optional<Copy> copy = copyService.get(loan.getCopyId());
-            ResourceType copyType = copy.get().getResourceType();
+            if (!copy.isPresent()) {
+                LOGGER.error("Could not retrieve copy (ID: {}) from database", loan.getCopyId());
+                throw new IllegalStateException("Could not retrieve copy from database");
+            } else {
+                ResourceType copyType = copy.get().getResourceType();
 
-            Double fineAmount = 0.00;
-            if (copyType.equals(ResourceType.BOOK)) {
-                fineAmount = Fine.BOOK_FINE_AMOUNT_PER_DAY;
-            } else if (copyType.equals(ResourceType.DVD)) {
-                fineAmount = Fine.DVD_FINE_AMOUNT_PER_DAY;
-            } else if (copyType.equals(ResourceType.LAPTOP)) {
-                fineAmount = Fine.LAPTOP_FINE_AMOUNT_PER_DAY;
+                Double fineAmount = 0.00;
+                if (copyType.equals(ResourceType.BOOK)) {
+                    fineAmount = Fine.BOOK_FINE_AMOUNT_PER_DAY;
+                } else if (copyType.equals(ResourceType.DVD)) {
+                    fineAmount = Fine.DVD_FINE_AMOUNT_PER_DAY;
+                } else if (copyType.equals(ResourceType.LAPTOP)) {
+                    fineAmount = Fine.LAPTOP_FINE_AMOUNT_PER_DAY;
+                }
+                Long dayDiffBetweenEndAndReturnDates = ChronoUnit.DAYS.between(endDate.toLocalDate(), returnDate.toLocalDate());
+                fineAmount *= dayDiffBetweenEndAndReturnDates;
+
+                Fine fine = new Fine(loan.getBorrowerUsername(), loan.getId(), fineAmount);
+                fineService.save(fine);
+                LOGGER.info("£{} fine (ID: {}) issued to {}",
+                        String.format("%.2f", fine.getAmount()), fine.getId(), fine.getUsername());
             }
-            Long dayDiffBetweenEndAndReturnDates = ChronoUnit.DAYS.between(endDate.toLocalDate(), returnDate.toLocalDate());
-            fineAmount *= dayDiffBetweenEndAndReturnDates;
-
-            Fine fine = new Fine(loan.getBorrowerUsername(), loan.getId(), fineAmount);
-            fineService.save(fine);
-            LOGGER.info("£{} fine (ID: {}) issued to {}",
-                    String.format("%.2f", fine.getAmount()), fine.getId(), fine.getUsername());
         }
     }
 

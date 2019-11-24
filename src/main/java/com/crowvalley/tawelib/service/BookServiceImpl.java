@@ -23,7 +23,7 @@ public class BookServiceImpl implements ResourceService<Book> {
 
     @Qualifier("bookDAO")
     @Autowired
-    private ResourceDAO DAO;
+    private ResourceDAO<Book> DAO;
 
     /**
      * Retrieves a {@link Book} from the DAO using the {@link Book}'s
@@ -97,7 +97,7 @@ public class BookServiceImpl implements ResourceService<Book> {
     }
 
     @Override
-    public void setDAO(ResourceDAO DAO) {
+    public void setDAO(ResourceDAO<Book> DAO) {
         this.DAO = DAO;
         LOGGER.info("BookServiceImpl DAO set to {}", DAO.getClass());
     }

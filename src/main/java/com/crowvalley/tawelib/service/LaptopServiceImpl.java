@@ -23,7 +23,7 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
 
     @Qualifier("laptopDAO")
     @Autowired
-    private ResourceDAO DAO;
+    private ResourceDAO<Laptop> DAO;
 
     /**
      * Retrieves a {@link Laptop} from the DAO using the {@link Laptop}'s
@@ -97,7 +97,7 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
     }
 
     @Override
-    public void setDAO(ResourceDAO DAO) {
+    public void setDAO(ResourceDAO<Laptop> DAO) {
         this.DAO = DAO;
         LOGGER.info("LaptopServiceImpl DAO set to {}", DAO.getClass());
     }

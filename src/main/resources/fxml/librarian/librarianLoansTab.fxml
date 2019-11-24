@@ -6,38 +6,36 @@
 
 <Tab xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" closable="false" text="Loans"
      fx:controller="com.crowvalley.tawelib.controller.librarian.LibrarianLoansTabController">
-    <content>
-        <BorderPane>
-            <center>
-                <TableView fx:id="tblLoans" prefHeight="298.0" prefWidth="640.0" BorderPane.alignment="CENTER">
-                    <columns>
-                        <TableColumn fx:id="colCopy" prefWidth="273.0" resizable="false" text="Copy" />
-                        <TableColumn fx:id="colBorrower" prefWidth="100.0" resizable="false" text="Borrower" />
-                        <TableColumn fx:id="colStartDate" prefWidth="82.0" resizable="false" text="Start Date" />
-                        <TableColumn fx:id="colEndDate" prefWidth="82.0" resizable="false" text="End Date" />
-                        <TableColumn fx:id="colReturnDate" prefWidth="82.0" resizable="false" text="Return Date" />
-                    </columns>
-                    <BorderPane.margin>
-                        <Insets left="10.0" right="10.0" top="10.0" />
-                    </BorderPane.margin>
-                </TableView>
-            </center>
-            <bottom>
-                <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                    <buttons>
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" text="Create New Loan" />
-                        <Button disable="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" text="View Loan" />
-                        <Button disable="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" text="Amend Loan" />
-                        <Button disable="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" text="End Loan" />
-                    </buttons>
-                    <opaqueInsets>
-                        <Insets />
-                    </opaqueInsets>
-                    <BorderPane.margin>
-                        <Insets right="20.0" />
-                    </BorderPane.margin>
-                </ButtonBar>
-            </bottom>
-        </BorderPane>
-    </content>
+    <BorderPane>
+        <center>
+            <TableView fx:id="tblLoans" prefHeight="298.0" prefWidth="640.0" BorderPane.alignment="CENTER">
+                <columns>
+                    <TableColumn fx:id="colCopy" prefWidth="273.0" text="Copy"/>
+                    <TableColumn fx:id="colBorrower" prefWidth="100.0" text="Borrower"/>
+                    <TableColumn fx:id="colStartDate" prefWidth="82.0" text="Start Date"/>
+                    <TableColumn fx:id="colEndDate" prefWidth="82.0" text="End Date"/>
+                    <TableColumn fx:id="colReturnDate" prefWidth="82.0" text="Return Date"/>
+                </columns>
+                <BorderPane.margin>
+                    <Insets left="10.0" right="10.0" top="10.0"/>
+                </BorderPane.margin>
+            </TableView>
+        </center>
+        <bottom>
+            <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                <buttons>
+                    <Button prefHeight="25.0" prefWidth="143.0" text="Create New Loan"/>
+                    <Button disable="true" prefHeight="25.0" prefWidth="143.0" text="View Loan"/>
+                    <Button disable="true" prefHeight="25.0" prefWidth="143.0" text="Amend Loan"/>
+                    <Button disable="true" prefHeight="25.0" prefWidth="143.0" text="End Loan"/>
+                </buttons>
+                <opaqueInsets>
+                    <Insets/>
+                </opaqueInsets>
+                <BorderPane.margin>
+                    <Insets right="20.0"/>
+                </BorderPane.margin>
+            </ButtonBar>
+        </bottom>
+    </BorderPane>
 </Tab>
