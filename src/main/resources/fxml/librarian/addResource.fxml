@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.crowvalley.tawelib.model.resource.ResourceType?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.crowvalley.tawelib.controller.librarian.AddResourceController">
+    <BorderPane prefHeight="200.0" prefWidth="200.0">
+        <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                <Label layoutX="74.0" layoutY="71.0" text="Resource Type:" />
+                <ChoiceBox fx:id="cmbType" layoutX="162.0" layoutY="67.0" prefWidth="150.0" >
+                    <items>
+                        <FXCollections fx:factory="observableArrayList" >
+                            <ResourceType fx:value="BOOK" />
+                            <ResourceType fx:value="DVD" />
+                            <ResourceType fx:value="LAPTOP" />
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
+
+                <Label fx:id="lblTitle" layoutX="128.0" layoutY="102.0" text="Title:" visible="false" />
+                <Label fx:id="lblYear" layoutX="128.0" layoutY="133.0" text="Year:" visible="false" />
+                <Label fx:id="lblOptional1" layoutX="114.0" layoutY="164.0" visible="false" />
+                <Label fx:id="lblOptional2" layoutX="102.0" layoutY="195.0" visible="false" />
+                <Label fx:id="lblOptional3" layoutX="119.0" layoutY="226.0" visible="false" />
+                <Label fx:id="lblOptional4" layoutX="125.0" layoutY="257.0" visible="false" />
+                <Label fx:id="lblOptional5" layoutX="99.0" layoutY="288.0" visible="false" />
+
+                <TextField fx:id="txtTitle" layoutX="162.0" layoutY="98.0" visible="false" />
+                <TextField fx:id="txtYear" layoutX="162.0" layoutY="129.0" visible="false" />
+                <TextField fx:id="txtOptional1" layoutX="162.0" layoutY="160.0" visible="false" />
+                <TextField fx:id="txtOptional2" layoutX="162.0" layoutY="191.0" visible="false" />
+                <TextField fx:id="txtOptional3" layoutX="162.0" layoutY="222.0" visible="false" />
+                <TextField fx:id="txtOptional4" layoutX="162.0" layoutY="253.0" visible="false" />
+                <TextField fx:id="txtOptional5" layoutX="162.0" layoutY="284.0" visible="false" />
+
+                <Button fx:id="btnSave" layoutX="133.0" layoutY="323.0" prefHeight="25.0" prefWidth="120.0" text="Save Resource" />
+            </AnchorPane>
+        </center>
+        <left>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                <ImageView fx:id="imgResourcePic" fitHeight="290.0" fitWidth="240.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" />
+                <Button fx:id="btnChangePic" layoutX="63.0" layoutY="323.0" prefHeight="25.0" prefWidth="143.0" text="Choose Picture" />
+            </AnchorPane>
+        </left>
+    </BorderPane>
+</VBox>

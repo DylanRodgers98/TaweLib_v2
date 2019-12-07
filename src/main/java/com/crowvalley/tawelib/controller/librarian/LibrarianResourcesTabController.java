@@ -2,12 +2,14 @@ package com.crowvalley.tawelib.controller.librarian;
 
 import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.ResourceService;
+import com.crowvalley.tawelib.util.FXMLUtils;
 import com.crowvalley.tawelib.util.ResourceUtils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -15,6 +17,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.util.Comparator;
 
 public class LibrarianResourcesTabController {
+
+    public static final String ADD_NEW_RESOURCE_FXML = "/fxml/librarian/addResource.fxml";
 
     private ResourceService<Book> bookService;
 
@@ -34,6 +38,9 @@ public class LibrarianResourcesTabController {
     @FXML
     private TableColumn<Resource, String> colYear;
 
+    @FXML
+    private Button btnNewResource;
+
     public LibrarianResourcesTabController() {
     }
 
@@ -42,6 +49,8 @@ public class LibrarianResourcesTabController {
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colYear.setCellValueFactory(new PropertyValueFactory<>("year"));
         tblResources.setItems(getResources());
+
+        btnNewResource.setOnAction(e -> FXMLUtils.loadNewScene(btnNewResource, ADD_NEW_RESOURCE_FXML));
     }
 
     private ObservableValue<ResourceType> getResourceType(TableColumn.CellDataFeatures<Resource, ResourceType> resource) {

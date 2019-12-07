@@ -2,6 +2,7 @@ package com.crowvalley.tawelib.util;
 
 import static javafx.scene.control.Alert.AlertType;
 
+import com.crowvalley.tawelib.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -19,7 +20,7 @@ public class FXMLUtils {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(FXMLUtils.class);
 
-    public static final String APPLICATION_CONTEXT_LOCATION = "/spring/applicationContext.xml";
+    public static final ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/spring/applicationContext.xml");
 
     public static final String ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE = "Error Loading New Scene";
 
@@ -47,10 +48,7 @@ public class FXMLUtils {
     public static FXMLLoader prepareFXMLLoader(String pathToFxml) {
         URL fxml = FXMLUtils.class.getResource(pathToFxml);
         FXMLLoader loader = new FXMLLoader(fxml);
-
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext(APPLICATION_CONTEXT_LOCATION);
         loader.setControllerFactory(applicationContext::getBean);
-
         return loader;
     }
 
