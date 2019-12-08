@@ -4,17 +4,27 @@ import com.crowvalley.tawelib.Main;
 import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.service.LibrarianService;
+import com.crowvalley.tawelib.util.FXMLUtils;
+import com.crowvalley.tawelib.util.ImageUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
 public class LibrarianProfileTabController {
 
-    public static final String UPDATE_PROFILE_BUTTON_TEXT = "Update Profile";
+    private static final String UPDATE_PROFILE_BUTTON_TEXT = "Update Profile";
 
-    public static final String SAVE_CHANGES_BUTTON_TEXT = "Save Changes";
+    private static final String SAVE_CHANGES_BUTTON_TEXT = "Save Changes";
+
+    private static final String PROFILE_PICTURE_DIRECTORY_NAME = "profile";
 
     private LibrarianService librarianService;
 
@@ -50,6 +60,12 @@ public class LibrarianProfileTabController {
     @FXML
     private Button btnSaveOrUpdate;
 
+    @FXML
+    private ImageView imgProfilePic;
+
+    @FXML
+    private Button btnChangePic;
+
     public LibrarianProfileTabController() {
     }
 
@@ -57,6 +73,7 @@ public class LibrarianProfileTabController {
         loadProfile();
         disableTextFields();
         btnSaveOrUpdate.setOnAction(e -> saveOrUpdateProfile());
+        btnChangePic.setOnAction(e -> chooseImage());
     }
 
     private void loadProfile() {
@@ -65,6 +82,7 @@ public class LibrarianProfileTabController {
         if (optionalLibrarian.isPresent()) {
             loggedInLibrarian = optionalLibrarian.get();
             populateTextFields(loggedInLibrarian);
+            loadProfilePic(loggedInLibrarian);
         }
     }
 
@@ -82,6 +100,13 @@ public class LibrarianProfileTabController {
         txtTown.setText(address.getTown());
         txtCounty.setText(address.getCounty());
         txtPostcode.setText(address.getPostcode());
+    }
+
+    private void loadProfilePic(Librarian librarian) {
+        String imageUrl = librarian.getProfileImagePath();
+        if (imageUrl != null) {
+            imgProfilePic.setImage(new Image(imageUrl));
+        }
     }
 
     private void disableTextFields() {
@@ -138,6 +163,17 @@ public class LibrarianProfileTabController {
         address.setTown(txtTown.getText());
         address.setCounty(txtCounty.getText());
         address.setPostcode(txtPostcode.getText());
+    }
+
+    private void chooseImage() {
+        Optional<Image> image = ImageUtils.chooseAndCopyImage("Choose Profile Picture", PROFILE_PICTURE_DIRECTORY_NAME, btnChangePic);
+        if (image.isPresent()) {
+            ImageUtils.deleteOldImage(imgProfilePic);
+            Image newImage = image.get();
+            imgProfilePic.setImage(newImage);
+            loggedInLibrarian.setProfileImagePath(newImage.getUrl());
+            librarianService.update(loggedInLibrarian);
+        }
     }
 
     public void setLibrarianService(LibrarianService librarianService) {

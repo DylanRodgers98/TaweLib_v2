@@ -3,16 +3,20 @@ package com.crowvalley.tawelib.controller.librarian;
 import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
+import com.crowvalley.tawelib.util.ImageUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
+import java.io.File;
+import java.io.IOException;
+import java.util.Optional;
 
 public class AddResourceController {
 
@@ -80,9 +84,13 @@ public class AddResourceController {
     @FXML
     private Button btnChangePic;
 
+    public AddResourceController() {
+    }
+
     public void initialize() {
         cmbType.setOnAction(e -> showTextFieldsAndLabels());
         btnSave.setOnAction(e -> saveResource());
+        btnChangePic.setOnAction(e -> chooseImage());
     }
 
     private void showTextFieldsAndLabels() {
@@ -96,6 +104,7 @@ public class AddResourceController {
         if (resourceType.equals(ResourceType.LAPTOP)) {
             showTextFieldsAndLabelsForLaptop();
         }
+        btnSave.setVisible(true);
     }
 
     private void showTextFieldsAndLabelsForBook() {
@@ -206,6 +215,14 @@ public class AddResourceController {
             FXMLUtils.loadNewScene(btnSave, LIBRARIAN_HOME_FXML);
         } catch (Exception e) {
             FXMLUtils.displayErrorDialogBox("Error Creating Laptop", e.getMessage());
+        }
+    }
+
+    private void chooseImage() {
+        Optional<Image> image = ImageUtils.chooseAndCopyImage("Choose Resource Picture", "resources", btnChangePic);
+        if (image.isPresent()) {
+            ImageUtils.deleteOldImage(imgResourcePic);
+            imgResourcePic.setImage(image.get());
         }
     }
 

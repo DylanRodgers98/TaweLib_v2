@@ -2,7 +2,6 @@ package com.crowvalley.tawelib.util;
 
 import static javafx.scene.control.Alert.AlertType;
 
-import com.crowvalley.tawelib.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -12,19 +11,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import java.io.IOException;
 import java.net.URL;
 
 public class FXMLUtils {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(FXMLUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FXMLUtils.class);
 
-    public static final ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/spring/applicationContext.xml");
+    private static final ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/spring/applicationContext.xml");
 
-    public static final String ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE = "Error Loading New Scene";
+    private static final String ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE = "Error Loading New Scene";
 
-    public static final String PATH_TO_FXML_FILE_DOES_NOT_EXIST_ERROR_MESSAGE =
+    private static final String PATH_TO_FXML_FILE_DOES_NOT_EXIST_ERROR_MESSAGE =
             "Couldn't load new scene. Path to FXML file doesn't exist";
 
     public static void loadNewScene(Node arbitraryNodeFromCurrentScene, String fxmlOfNewScene) {
@@ -63,4 +61,5 @@ public class FXMLUtils {
         alert.setContentText(causeOfError);
         alert.showAndWait();
     }
+
 }

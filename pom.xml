@@ -23,6 +23,7 @@
     <properties>
         <assertj.version>3.13.2</assertj.version>
         <commons-dbcp.version>1.4</commons-dbcp.version>
+        <commons-io.version>2.6</commons-io.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
@@ -32,6 +33,11 @@
 
     <dependencies>
         <!-- APACHE -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
