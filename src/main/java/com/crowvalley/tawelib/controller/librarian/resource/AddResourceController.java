@@ -1,4 +1,4 @@
-package com.crowvalley.tawelib.controller.librarian;
+package com.crowvalley.tawelib.controller.librarian.resource;
 
 import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.ResourceService;
@@ -9,13 +9,10 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
 
 public class AddResourceController {
@@ -23,6 +20,8 @@ public class AddResourceController {
     public static final Logger LOGGER = LoggerFactory.getLogger(AddResourceController.class);
 
     private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
+
+    private static final String RESOURCES_DIRECTORY_NAME = "resources";
 
     private ResourceService<Book> bookService;
 
@@ -108,8 +107,8 @@ public class AddResourceController {
     }
 
     private void showTextFieldsAndLabelsForBook() {
-        setVisibilityOnNodes(true, txtTitle, txtYear, txtOptional1, txtOptional2, txtOptional3, txtOptional4, txtOptional5);
-        setVisibilityOnNodes(true, lblTitle, lblYear, lblOptional1, lblOptional2, lblOptional3, lblOptional4, lblOptional5);
+        FXMLUtils.makeNodesVisible(txtTitle, txtYear, txtOptional1, txtOptional2, txtOptional3, txtOptional4, txtOptional5);
+        FXMLUtils.makeNodesNotVisible(lblTitle, lblYear, lblOptional1, lblOptional2, lblOptional3, lblOptional4, lblOptional5);
         lblOptional1.setText("Author:");
         lblOptional1.setLayoutX(114.0);
         lblOptional2.setText("Publisher:");
@@ -123,9 +122,9 @@ public class AddResourceController {
     }
 
     private void showTextFieldsAndLabelsForDvd() {
-        setVisibilityOnNodes(true, txtTitle, txtYear, txtOptional1, txtOptional2, txtOptional3, txtOptional4,
+        FXMLUtils.makeNodesVisible(txtTitle, txtYear, txtOptional1, txtOptional2, txtOptional3, txtOptional4,
                 lblTitle, lblYear, lblOptional1, lblOptional2, lblOptional3, lblOptional4);
-        setVisibilityOnNodes(false, txtOptional5, lblOptional5);
+        FXMLUtils.makeNodesNotVisible(txtOptional5, lblOptional5);
         lblOptional1.setText("Director:");
         lblOptional1.setLayoutX(108.0);
         lblOptional2.setText("Language:");
@@ -137,21 +136,15 @@ public class AddResourceController {
     }
 
     private void showTextFieldsAndLabelsForLaptop() {
-        setVisibilityOnNodes(true, txtTitle, txtYear, txtOptional1, txtOptional2, txtOptional3,
+        FXMLUtils.makeNodesVisible(txtTitle, txtYear, txtOptional1, txtOptional2, txtOptional3,
                 lblTitle, lblYear, lblOptional1, lblOptional2, lblOptional3);
-        setVisibilityOnNodes(false, txtOptional4, txtOptional5, lblOptional4, lblOptional5);
+        FXMLUtils.makeNodesNotVisible(txtOptional4, txtOptional5, lblOptional4, lblOptional5);
         lblOptional1.setText("Manufacturer:");
         lblOptional1.setLayoutX(80.0);
         lblOptional2.setText("Model:");
         lblOptional2.setLayoutX(117.0);
         lblOptional3.setText("Operating System:");
         lblOptional3.setLayoutX(57.0);
-    }
-
-    private void setVisibilityOnNodes(boolean isVisible, Node... nodes) {
-        for (Node node : nodes) {
-            node.setVisible(isVisible);
-        }
     }
 
     private void saveResource() {
@@ -192,7 +185,12 @@ public class AddResourceController {
     private void saveDvd(String title, String year, String imageUrl) {
         String director = txtOptional1.getText();
         String language = txtOptional2.getText();
-        Integer runtime = Integer.valueOf(txtOptional3.getText());
+        Integer runtime = null;
+        try {
+            runtime = Integer.parseInt(txtOptional3.getText());
+        } catch (NumberFormatException e) {
+            FXMLUtils.displayErrorDialogBox("Error Saving DVD", "Runtime must be numeric");
+        }
         String subLang = txtOptional4.getText();
 
         try {
@@ -219,7 +217,7 @@ public class AddResourceController {
     }
 
     private void chooseImage() {
-        Optional<Image> image = ImageUtils.chooseAndCopyImage("Choose Resource Picture", "resources", btnChangePic);
+        Optional<Image> image = ImageUtils.chooseAndCopyImage("Choose Resource Picture", RESOURCES_DIRECTORY_NAME, btnChangePic);
         if (image.isPresent()) {
             ImageUtils.deleteOldImage(imgResourcePic);
             imgResourcePic.setImage(image.get());

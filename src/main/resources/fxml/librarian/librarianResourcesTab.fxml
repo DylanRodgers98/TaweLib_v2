@@ -13,7 +13,7 @@
                     <Button fx:id="btnNewResource" minWidth="0.0" prefHeight="25.0" prefWidth="143.0"
                             text="Create New Resource"/>
                     <Button fx:id="btnViewResource" disable="true" text="View Resource/Copies"/>
-                    <Button fx:id="btnAmendResource" disable="true" text="Amend Resource"/>
+                    <Button fx:id="btnEditResource" disable="true" text="Edit Resource"/>
                     <Button fx:id="btnDeleteResource" disable="true" text="Delete Resource"/>
                 </buttons>
                 <BorderPane.margin>

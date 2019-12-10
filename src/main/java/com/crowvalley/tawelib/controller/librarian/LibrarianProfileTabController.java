@@ -4,18 +4,13 @@ import com.crowvalley.tawelib.Main;
 import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.service.LibrarianService;
-import com.crowvalley.tawelib.util.FXMLUtils;
 import com.crowvalley.tawelib.util.ImageUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
 
 public class LibrarianProfileTabController {
@@ -166,14 +161,23 @@ public class LibrarianProfileTabController {
     }
 
     private void chooseImage() {
-        Optional<Image> image = ImageUtils.chooseAndCopyImage("Choose Profile Picture", PROFILE_PICTURE_DIRECTORY_NAME, btnChangePic);
-        if (image.isPresent()) {
+        Optional<Image> image = ImageUtils.chooseAndCopyImage("Choose Profile Picture", PROFILE_PICTURE_DIRECTORY_NAME, imgProfilePic);
+        if (image.isPresent() && !isSameAsCurrentImage(image.get())) {
             ImageUtils.deleteOldImage(imgProfilePic);
-            Image newImage = image.get();
-            imgProfilePic.setImage(newImage);
-            loggedInLibrarian.setProfileImagePath(newImage.getUrl());
-            librarianService.update(loggedInLibrarian);
+            setNewImage(image.get());
         }
+    }
+
+    private boolean isSameAsCurrentImage(Image image) {
+        String profilePicUrl = imgProfilePic.getImage().getUrl();
+        String imageUrl = image.getUrl();
+        return profilePicUrl.equals(imageUrl);
+    }
+
+    private void setNewImage(Image image) {
+        imgProfilePic.setImage(image);
+        loggedInLibrarian.setProfileImagePath(image.getUrl());
+        librarianService.update(loggedInLibrarian);
     }
 
     public void setLibrarianService(LibrarianService librarianService) {
