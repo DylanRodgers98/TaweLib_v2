@@ -99,6 +99,7 @@ public class EditResourceController {
         txtType.setText(resourceType.name());
         txtTitle.setText(resource.getTitle());
         txtYear.setText(resource.getYear());
+        loadResourcePic(resource);
 
         if (resourceType.equals(ResourceType.BOOK)) {
             populateBookFields();
@@ -109,6 +110,11 @@ public class EditResourceController {
         if (resourceType.equals(ResourceType.LAPTOP)) {
             populateLaptopFields();
         }
+    }
+
+    private void loadResourcePic(Resource resource) {
+        Optional<String> imageUrl = resource.getImageUrl();
+        imageUrl.ifPresent(e -> imgResourcePic.setImage(new Image(e)));
     }
 
     private void populateBookFields() {

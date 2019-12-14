@@ -1,5 +1,6 @@
 package com.crowvalley.tawelib.controller.librarian;
 
+import com.crowvalley.tawelib.Main;
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.user.Address;
@@ -7,11 +8,14 @@ import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.FineService;
 import com.crowvalley.tawelib.service.PaymentService;
 import com.crowvalley.tawelib.service.UserService;
+import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,9 +23,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class LibrarianUsersTabController {
+
+    public static User selectedUser;
 
     private UserService userService;
 
@@ -47,10 +54,28 @@ public class LibrarianUsersTabController {
     @FXML
     private TableColumn<User, String> colBalance;
 
+    @FXML
+    private Button btnNewUser;
+
+    @FXML
+    private Button btnViewUser;
+
+    @FXML
+    private Button btnEditUser;
+
+    @FXML
+    private Button btnDeleteUser;
+
     public LibrarianUsersTabController() {
     }
 
     public void initialize() {
+        populateTable();
+        FXMLUtils.makeNodesDisabled(btnViewUser, btnEditUser, btnDeleteUser);
+        setOnActions();
+    }
+
+    private void populateTable() {
         colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
         colName.setCellValueFactory(this::getFullName);
         colPhone.setCellValueFactory(new PropertyValueFactory<>("phoneNum"));
@@ -82,6 +107,36 @@ public class LibrarianUsersTabController {
         ObservableList<User> users = FXCollections.observableArrayList(userService.getAll());
         users.sort(Comparator.comparing(User::getUsername));
         return users;
+    }
+
+    private void setOnActions() {
+        tblUsers.setOnMouseClicked(e -> enableButtonsIfUserSelected());
+        btnDeleteUser.setOnAction(e -> deleteSelectedUser());
+    }
+
+    private void enableButtonsIfUserSelected() {
+        if (getSelectedUser() != null) {
+            FXMLUtils.makeNodesEnabled(btnViewUser, btnEditUser, btnDeleteUser);
+        }
+    }
+
+    private void deleteSelectedUser() {
+        selectedUser = getSelectedUser();
+        String message = String.format("Are you sure you want to delete user '%s'?", selectedUser.getUsername());
+        Optional<ButtonType> result = FXMLUtils.displayConfirmationDialogBox("Delete User",  message);
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            if (selectedUser.getUsername().equals(Main.currentUser)) {
+                FXMLUtils.displayErrorDialogBox("Error Deleting User", "Cannot delete currently logged in user");
+            } else {
+                userService.delete(selectedUser);
+                tblUsers.getItems().remove(selectedUser);
+            }
+        }
+    }
+
+    private User getSelectedUser() {
+        return tblUsers.getSelectionModel().getSelectedItem();
     }
 
     public void setUserService(UserService userService) {

@@ -24,10 +24,10 @@
         <bottom>
             <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                 <buttons>
-                    <Button prefHeight="25.0" prefWidth="143.0" text="Create New Loan"/>
-                    <Button disable="true" prefHeight="25.0" prefWidth="143.0" text="View Loan"/>
-                    <Button disable="true" prefHeight="25.0" prefWidth="143.0" text="Amend Loan"/>
-                    <Button disable="true" prefHeight="25.0" prefWidth="143.0" text="End Loan"/>
+                    <Button fx:id="btnNewLoan" prefHeight="25.0" prefWidth="143.0" text="Create New Loan"/>
+                    <Button fx:id="btnViewLoan" disable="true" prefHeight="25.0" prefWidth="143.0" text="View Loan"/>
+                    <Button fx:id="btnEditLoan" disable="true" prefHeight="25.0" prefWidth="143.0" text="Amend Loan"/>
+                    <Button fx:id="btnEndLoan" disable="true" prefHeight="25.0" prefWidth="143.0" text="End Loan"/>
                 </buttons>
                 <opaqueInsets>
                     <Insets/>

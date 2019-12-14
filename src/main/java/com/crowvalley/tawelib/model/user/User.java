@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.model.user;
 
 import javax.persistence.*;
+import java.util.Optional;
 
 /**
  * User class for creating objects to store information about users
@@ -97,8 +98,8 @@ public class User {
         this.address = address;
     }
 
-    public String getProfileImagePath() {
-        return profileImagePath;
+    public Optional<String> getProfileImagePath() {
+        return Optional.ofNullable(profileImagePath);
     }
 
     public void setProfileImagePath(String profileImagePath) {

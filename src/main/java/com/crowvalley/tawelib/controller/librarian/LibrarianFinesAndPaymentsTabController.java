@@ -13,6 +13,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -38,10 +39,17 @@ public class LibrarianFinesAndPaymentsTabController {
     @FXML
     private TableColumn<Transaction, TransactionType> colType;
 
+    @FXML
+    private Button btnRecordPayment;
+
     public LibrarianFinesAndPaymentsTabController() {
     }
 
     public void initialize() {
+        populateTable();
+    }
+
+    private void populateTable() {
         colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
         colAmount.setCellValueFactory(this::getAmount);
         colType.setCellValueFactory(this::getType);
@@ -56,7 +64,8 @@ public class LibrarianFinesAndPaymentsTabController {
     private ObservableValue<TransactionType> getType(TableColumn.CellDataFeatures<Transaction, TransactionType> transaction) {
         if (transaction.getValue() instanceof Fine) {
             return new SimpleObjectProperty<>(TransactionType.FINE);
-        } else if (transaction.getValue() instanceof Payment) {
+        }
+        if (transaction.getValue() instanceof Payment) {
             return new SimpleObjectProperty<>(TransactionType.PAYMENT);
         }
         return null;

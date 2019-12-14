@@ -45,7 +45,7 @@ public class Librarian extends User{
      */
     public Librarian(User user, Date employmentDate, Long staffNum) {
         this(user.getUsername(), user.getFirstName(), user.getSurname(), user.getPhoneNum(),
-                user.getAddress(), user.getProfileImagePath(), employmentDate, staffNum);
+                user.getAddress(), user.getProfileImagePath().get(), employmentDate, staffNum);
     }
 
     public Librarian() {

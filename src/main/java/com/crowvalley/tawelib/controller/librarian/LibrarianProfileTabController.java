@@ -98,10 +98,8 @@ public class LibrarianProfileTabController {
     }
 
     private void loadProfilePic(Librarian librarian) {
-        String imageUrl = librarian.getProfileImagePath();
-        if (imageUrl != null) {
-            imgProfilePic.setImage(new Image(imageUrl));
-        }
+        Optional<String> imageUrl = librarian.getProfileImagePath();
+        imageUrl.ifPresent(e -> imgProfilePic.setImage(new Image(e)));
     }
 
     private void disableTextFields() {

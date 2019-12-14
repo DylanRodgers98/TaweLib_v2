@@ -1,6 +1,5 @@
 package com.crowvalley.tawelib.controller.librarian;
 
-import com.crowvalley.tawelib.controller.librarian.resource.EditResourceController;
 import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
@@ -10,18 +9,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.Comparator;
+import java.util.Optional;
 
 public class LibrarianResourcesTabController {
 
@@ -65,18 +60,16 @@ public class LibrarianResourcesTabController {
     }
 
     public void initialize() {
+        populateTable();
+        FXMLUtils.makeNodesDisabled(btnViewResource, btnEditResource, btnDeleteResource);
+        setOnActions();
+    }
+
+    private void populateTable() {
         colType.setCellValueFactory(this::getResourceType);
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colYear.setCellValueFactory(new PropertyValueFactory<>("year"));
         tblResources.setItems(getResources());
-
-        btnViewResource.setDisable(true);
-        btnEditResource.setDisable(true);
-        btnDeleteResource.setDisable(true);
-
-        tblResources.setOnMouseClicked(e -> btnEditResource.setDisable(false));
-        btnNewResource.setOnAction(e -> FXMLUtils.loadNewScene(btnNewResource, ADD_NEW_RESOURCE_FXML));
-        btnEditResource.setOnAction(e -> openEditResourcePage());
     }
 
     private ObservableValue<ResourceType> getResourceType(TableColumn.CellDataFeatures<Resource, ResourceType> resource) {
@@ -92,9 +85,46 @@ public class LibrarianResourcesTabController {
         return resources;
     }
 
+    private void setOnActions() {
+        tblResources.setOnMouseClicked(e -> enableButtonsIfResourceSelected());
+        btnNewResource.setOnAction(e -> FXMLUtils.loadNewScene(btnNewResource, ADD_NEW_RESOURCE_FXML));
+        btnEditResource.setOnAction(e -> openEditResourcePage());
+        btnDeleteResource.setOnAction(e -> deleteSelectedResource());
+    }
+
+    private void enableButtonsIfResourceSelected() {
+        if (getSelectedResource() != null) {
+            FXMLUtils.makeNodesEnabled(btnViewResource, btnEditResource, btnDeleteResource);
+        }
+    }
+
     private void openEditResourcePage() {
-        selectedResource = tblResources.getSelectionModel().getSelectedItem();
+        selectedResource = getSelectedResource();
         FXMLUtils.loadNewScene(tblResources, EDIT_RESOURCE_FXML);
+    }
+
+    private void deleteSelectedResource() {
+        selectedResource = getSelectedResource();
+        String message = String.format("Are you sure you want to delete resource '%s'?", selectedResource.getTitle());
+        Optional<ButtonType> result = FXMLUtils.displayConfirmationDialogBox("Delete Resource",  message);
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            ResourceType resourceType = ResourceUtils.getResourceType(selectedResource);
+            if (resourceType.equals(ResourceType.BOOK)) {
+                bookService.delete((Book) selectedResource);
+            }
+            if (resourceType.equals(ResourceType.DVD)) {
+                dvdService.delete((Dvd) selectedResource);
+            }
+            if (resourceType.equals(ResourceType.LAPTOP)) {
+                laptopService.delete((Laptop) selectedResource);
+            }
+            tblResources.getItems().remove(selectedResource);
+        }
+    }
+
+    private Resource getSelectedResource() {
+        return tblResources.getSelectionModel().getSelectedItem();
     }
 
     public void setBookService(ResourceService<Book> bookService) {

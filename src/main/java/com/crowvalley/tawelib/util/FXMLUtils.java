@@ -4,9 +4,9 @@ import static javafx.scene.control.Alert.AlertType;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 
 public class FXMLUtils {
 
@@ -58,15 +59,21 @@ public class FXMLUtils {
     }
 
     public static void displayErrorDialogBox(String dialogBoxTitle, String causeOfError) {
-        displayDialogBox(AlertType.ERROR, dialogBoxTitle, causeOfError);
+        Alert errorDialogBox = createDialogBox(AlertType.ERROR, dialogBoxTitle, causeOfError);
+        errorDialogBox.showAndWait();
     }
 
-    private static void displayDialogBox(AlertType alertType, String dialogBoxTitle, String causeOfError) {
+    public static Optional<ButtonType> displayConfirmationDialogBox(String dialogBoxTitle, String message) {
+        Alert confirmationDialogBox = createDialogBox(AlertType.CONFIRMATION, dialogBoxTitle, message);
+        return confirmationDialogBox.showAndWait();
+    }
+
+    private static Alert createDialogBox(AlertType alertType, String dialogBoxTitle, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(dialogBoxTitle);
         alert.setHeaderText(null);
-        alert.setContentText(causeOfError);
-        alert.showAndWait();
+        alert.setContentText(message);
+        return alert;
     }
 
     public static void makeNodesVisible(Node... nodes) {
@@ -80,6 +87,20 @@ public class FXMLUtils {
     private static void setVisibilityOnNodes(boolean isVisible, Node... nodes) {
         for (Node node : nodes) {
             node.setVisible(isVisible);
+        }
+    }
+
+    public static void makeNodesDisabled(Node... nodes) {
+        setDisabilityOnNodes(true, nodes);
+    }
+
+    public static void makeNodesEnabled(Node... nodes) {
+        setDisabilityOnNodes(false, nodes);
+    }
+
+    private static void setDisabilityOnNodes(boolean isDisabled, Node... nodes) {
+        for (Node node : nodes) {
+            node.setDisable(isDisabled);
         }
     }
 

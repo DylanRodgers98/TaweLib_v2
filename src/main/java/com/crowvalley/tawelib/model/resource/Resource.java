@@ -3,6 +3,7 @@ package com.crowvalley.tawelib.model.resource;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.util.Optional;
 
 /**
  * Resource abstract class to be used as a superclass for creating
@@ -53,8 +54,8 @@ public abstract class Resource {
         this.year = year;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public Optional<String> getImageUrl() {
+        return Optional.ofNullable(imageUrl);
     }
 
     public void setImageUrl(String imageURL) {
