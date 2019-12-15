@@ -62,6 +62,11 @@ public class CopyServiceImpl implements CopyService {
         }
     }
 
+    @Override
+    public List<Copy> getAllCopiesForResource(Long resourceId) {
+        return DAO.getAllCopiesForResource(resourceId);
+    }
+
     /**
      * Persists a {@link Copy} object to the database through the DAO.
      *

@@ -1,5 +1,7 @@
 package com.crowvalley.tawelib.model.resource;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -55,7 +57,11 @@ public abstract class Resource {
     }
 
     public Optional<String> getImageUrl() {
-        return Optional.ofNullable(imageUrl);
+        if (StringUtils.isEmpty(imageUrl)) {
+            return Optional.empty();
+        } else {
+            return Optional.of(imageUrl);
+        }
     }
 
     public void setImageUrl(String imageURL) {

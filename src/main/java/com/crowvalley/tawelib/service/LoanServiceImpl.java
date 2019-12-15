@@ -78,6 +78,10 @@ public class LoanServiceImpl implements LoanService {
         }
     }
 
+    public Loan getCurrentLoanForCopy(Long copyId) {
+        return DAO.getCurrentLoanForCopy(copyId);
+    }
+
     /**
      * Retrieves a {@link List} of all {@link Loan}s created, past and present,
      * for a given {@link User} stored in the database.

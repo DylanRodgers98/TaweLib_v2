@@ -22,6 +22,8 @@ public class LibrarianResourcesTabController {
 
     private static final String ADD_NEW_RESOURCE_FXML = "/fxml/librarian/resources/addResource.fxml";
 
+    private static final String VIEW_RESOURCE_FXML = "/fxml/librarian/resources/viewResourceAndCopies.fxml";
+
     private static final String EDIT_RESOURCE_FXML = "/fxml/librarian/resources/editResource.fxml";
 
     public static Resource selectedResource;
@@ -85,6 +87,7 @@ public class LibrarianResourcesTabController {
     private void setOnActions() {
         tblResources.setOnMouseClicked(e -> enableButtonsIfResourceSelected());
         btnNewResource.setOnAction(e -> FXMLUtils.loadNewScene(btnNewResource, ADD_NEW_RESOURCE_FXML));
+        btnViewResource.setOnAction(e -> openViewResourcePage());
         btnEditResource.setOnAction(e -> openEditResourcePage());
         btnDeleteResource.setOnAction(e -> deleteSelectedResource());
     }
@@ -93,6 +96,11 @@ public class LibrarianResourcesTabController {
         if (getSelectedResource() != null) {
             FXMLUtils.makeNodesEnabled(btnViewResource, btnEditResource, btnDeleteResource);
         }
+    }
+
+    private void openViewResourcePage() {
+        selectedResource = getSelectedResource();
+        FXMLUtils.loadNewScene(tblResources, VIEW_RESOURCE_FXML);
     }
 
     private void openEditResourcePage() {

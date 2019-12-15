@@ -3,6 +3,7 @@ package com.crowvalley.tawelib.dao;
 import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.util.DatabaseUtils;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,9 +45,13 @@ public class CopyDAOImpl implements CopyDAO {
      * @return A {@link List} of all {@link Copy}s stored in the database.
      */
     @Override
-    @SuppressWarnings("unchecked")
     public List<Copy> getAll() {
         return DatabaseUtils.getAll(Copy.class, sessionFactory);
+    }
+
+    @Override
+    public List<Copy> getAllCopiesForResource(Long resourceId) {
+        return DatabaseUtils.getAll(Copy.class, "resourceId", resourceId, sessionFactory);
     }
 
     /**

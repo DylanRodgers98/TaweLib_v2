@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.util;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.List;

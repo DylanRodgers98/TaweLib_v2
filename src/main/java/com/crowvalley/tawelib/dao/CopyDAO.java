@@ -17,6 +17,8 @@ public interface CopyDAO {
 
     List<Copy> getAll();
 
+    List<Copy> getAllCopiesForResource(Long resourceId);
+
     void save(Copy copy);
 
     void update(Copy copy);

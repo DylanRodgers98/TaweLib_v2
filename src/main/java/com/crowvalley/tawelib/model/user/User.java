@@ -1,5 +1,7 @@
 package com.crowvalley.tawelib.model.user;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.persistence.*;
 import java.util.Optional;
 
@@ -99,7 +101,11 @@ public class User {
     }
 
     public Optional<String> getProfileImagePath() {
-        return Optional.ofNullable(profileImagePath);
+        if (StringUtils.isEmpty(profileImagePath)) {
+            return Optional.empty();
+        } else {
+            return Optional.of(profileImagePath);
+        }
     }
 
     public void setProfileImagePath(String profileImagePath) {

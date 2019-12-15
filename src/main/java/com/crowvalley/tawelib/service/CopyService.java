@@ -18,6 +18,8 @@ public interface CopyService {
 
     List<Copy> getAll();
 
+    List<Copy> getAllCopiesForResource(Long resourceId);
+
     void save(Copy copy);
 
     void update(Copy copy);

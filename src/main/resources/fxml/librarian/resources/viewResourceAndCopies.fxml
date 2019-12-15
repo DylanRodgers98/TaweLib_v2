@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.crowvalley.tawelib.controller.librarian.resources.ViewResourceAndCopiesController">
+    <BorderPane prefHeight="200.0" prefWidth="200.0">
+        <center>
+            <AnchorPane prefHeight="388.0" prefWidth="314.0" BorderPane.alignment="CENTER">
+                <Label fx:id="lblTitle" layoutX="91.0" layoutY="174.0" text="Title:" />
+                <Label fx:id="lblYear" layoutX="91.0" layoutY="205.0" text="Year:" />
+                <Label fx:id="lblOptional1" layoutX="77.0" layoutY="236.0" visible="false" />
+                <Label fx:id="lblOptional2" layoutX="65.0" layoutY="267.0" visible="false" />
+                <Label fx:id="lblOptional3" layoutX="82.0" layoutY="298.0" visible="false" />
+                <Label fx:id="lblOptional4" layoutX="88.0" layoutY="329.0" visible="false" />
+                <Label fx:id="lblOptional5" layoutX="62.0" layoutY="360.0" visible="false" />
+
+                <TextField fx:id="txtTitle" disable="true" layoutX="125.0" layoutY="170.0" />
+                <TextField fx:id="txtYear" disable="true" layoutX="125.0" layoutY="201.0" />
+                <TextField fx:id="txtOptional1" disable="true" layoutX="125.0" layoutY="232.0" visible="false" />
+                <TextField fx:id="txtOptional2" disable="true" layoutX="125.0" layoutY="263.0" visible="false" />
+                <TextField fx:id="txtOptional3" disable="true" layoutX="125.0" layoutY="294.0" visible="false" />
+                <TextField fx:id="txtOptional4" disable="true" layoutX="125.0" layoutY="325.0" visible="false" />
+                <TextField fx:id="txtOptional5" disable="true" layoutX="125.0" layoutY="356.0" visible="false" />
+
+                <ImageView fx:id="imgResourcePic" fitHeight="155.0" fitWidth="149.0" layoutX="125.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="125.0" />
+            </AnchorPane>
+        </center>
+        <left>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" />
+                <Button fx:id="btnViewRequests" disable="true" layoutX="97.0" layoutY="364.0" text="View Copy Requests" />
+                <TableView fx:id="tblCopies" layoutX="14.0" layoutY="54.0" prefHeight="300.0" prefWidth="289.0">
+                    <columns>
+                        <TableColumn fx:id="colCurrentBorrower" prefWidth="125.0" text="Current Borrower" />
+                        <TableColumn fx:id="colLoanDuration" prefWidth="88.0" text="Loan Duration" />
+                        <TableColumn fx:id="colNumOfRequests" prefWidth="75.0" text="# Requests" />
+                    </columns>
+                </TableView>
+            </AnchorPane>
+        </left>
+    </BorderPane>
+</VBox>
