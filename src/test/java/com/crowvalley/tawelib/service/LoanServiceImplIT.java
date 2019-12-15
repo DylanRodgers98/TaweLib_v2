@@ -2,6 +2,7 @@ package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.resource.*;
+import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,41 +21,55 @@ import java.util.concurrent.TimeUnit;
 @ContextConfiguration(locations = {"classpath:/spring/applicationContext.xml "})
 public class LoanServiceImplIT {
 
-    @Rule
-    public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+    private static final String USERNAME = "DylanRodgers98";
+
+    private static final int DAYS_LATE = 2;
+
+    private Book book = ResourceFactory.createBook("Book", "2015", StringUtils.EMPTY, "Dylan Rodgers", "Penguin", "Children", "Foo", "English");
+
+    private Dvd dvd = ResourceFactory.createDvd("Dvd", "2018", StringUtils.EMPTY, "Dylan Rodgers", "English", 120, "Welsh");
+
+    private Laptop laptop = ResourceFactory.createLaptop("Laptop", "2014", StringUtils.EMPTY, "Acer", "Aspire", "Windows 10");
+
     @Autowired
     private LoanService loanService;
+
     @Autowired
     private BookServiceImpl bookService;
+
     @Autowired
     private DvdServiceImpl dvdService;
+
     @Autowired
     private LaptopServiceImpl laptopService;
+
     @Autowired
     private CopyService copyService;
+
     @Autowired
     private FineService fineService;
+
+    @Rule
+    public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
 
     @Test
     @Transactional
     public void testCRUDOperationsOnLoan() {
-        Loan loan = new Loan(1L, "DylanRodgers98",
-                new Date(System.currentTimeMillis()),
-                new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(4)));
+        Date startDate = new Date(System.currentTimeMillis());
+        Date endDate = new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(4));
+        Loan loan = new Loan(1L, USERNAME, startDate, endDate);
 
         //Test Create and Retrieve operations
         loanService.save(loan);
-        List<Loan> loans = loanService.getAll();
-        Long id = loans.get(0).getId();
+        Long id = loan.getId();
 
         softly.assertThat(loanService.get(id).get())
                 .as("Retrieve loan from database")
                 .isEqualTo(loan);
 
         //Test Update operation
-        Loan loanToUpdate = loanService.get(id).get();
-        loanToUpdate.setReturnDate(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7)));
-        loanService.update(loanToUpdate);
+        loan.setReturnDate(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7)));
+        loanService.update(loan);
 
         softly.assertThat(loanService.get(id).get())
                 .as("Retrieve loan from database with updated return date")
@@ -71,23 +86,21 @@ public class LoanServiceImplIT {
     @Test
     @Transactional
     public void testCreateLoanForACopy() {
-        Book book = ResourceFactory.createBook("Book", "", "", "", "", "", "", "");
         bookService.save(book);
 
         Copy copy = ResourceFactory.createCopy(book, 4);
         copyService.save(copy);
 
-        String borrower = "DylanRodgers98";
-        Loan loan = ResourceFactory.createLoanForCopy(copy, borrower);
+        Loan loan = ResourceFactory.createLoanForCopy(copy, USERNAME);
         loanService.save(loan);
 
-        Loan loanRetrievedFromDatabase = loanService.getAll().get(0);
+        Optional<Loan> loanRetrievedFromDatabase = loanService.get(loan.getId());
 
-        softly.assertThat(loanRetrievedFromDatabase)
+        softly.assertThat(loanRetrievedFromDatabase.get())
                 .as("Loan retrieved from database is equal to the one saved to the database")
                 .isEqualTo(loan);
 
-        softly.assertThat(loanRetrievedFromDatabase.getCopyId())
+        softly.assertThat(loanRetrievedFromDatabase.get().getCopyId())
                 .as("The ID of the copy is the same as the one stored in the loan")
                 .isEqualTo(copy.getId());
     }
@@ -95,17 +108,12 @@ public class LoanServiceImplIT {
     @Test
     @Transactional
     public void testBookReturnedLateAndFineCreated() {
-        Book book = ResourceFactory.createBook("Book", "", "", "", "", "", "", "");
         bookService.save(book);
 
         Copy copy = ResourceFactory.createCopy(book, 4);
         copyService.save(copy);
 
-        String borrower = "DylanRodgers98";
-        int daysLate = 2;
-        Loan loan = new Loan(copy.getId(), borrower,
-                new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(5)),
-                new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(daysLate)));
+        Loan loan = createLateLoan(copy.getId());
         loanService.save(loan);
 
         softly.assertThat(loan.getEndDate())
@@ -117,7 +125,7 @@ public class LoanServiceImplIT {
                 .isNull();
 
         loanService.endLoan(loan);
-        List<Fine> fines = fineService.getAll();
+        List<Fine> fines = fineService.getAllFinesForUser(USERNAME);
 
         softly.assertThat(fines.get(0).getLoanId())
                 .as("New fine created for late return of copy")
@@ -127,7 +135,7 @@ public class LoanServiceImplIT {
                 .as("New fine for user")
                 .isEqualTo(loan.getBorrowerUsername());
 
-        Double expectedAmount = Fine.BOOK_FINE_AMOUNT_PER_DAY * daysLate;
+        Double expectedAmount = Fine.BOOK_FINE_AMOUNT_PER_DAY * DAYS_LATE;
         softly.assertThat(fines.get(0).getAmount())
                 .as("New fine amount")
                 .isEqualTo(expectedAmount);
@@ -136,17 +144,12 @@ public class LoanServiceImplIT {
     @Test
     @Transactional
     public void testDvdReturnedLateAndFineCreated() {
-        Dvd dvd = ResourceFactory.createDvd("Dvd", "", "", "", "", 120, "");
         dvdService.save(dvd);
 
         Copy copy = ResourceFactory.createCopy(dvd, 4);
         copyService.save(copy);
 
-        String borrower = "DylanRodgers98";
-        int daysLate = 2;
-        Loan loan = new Loan(copy.getId(), borrower,
-                new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(5)),
-                new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(daysLate)));
+        Loan loan = createLateLoan(copy.getId());
         loanService.save(loan);
 
         softly.assertThat(loan.getEndDate())
@@ -158,7 +161,7 @@ public class LoanServiceImplIT {
                 .isNull();
 
         loanService.endLoan(loan);
-        List<Fine> fines = fineService.getAll();
+        List<Fine> fines = fineService.getAllFinesForUser(USERNAME);
 
         softly.assertThat(fines.get(0).getLoanId())
                 .as("New fine created for late return of copy")
@@ -168,7 +171,7 @@ public class LoanServiceImplIT {
                 .as("New fine for user")
                 .isEqualTo(loan.getBorrowerUsername());
 
-        Double expectedAmount = Fine.DVD_FINE_AMOUNT_PER_DAY * daysLate;
+        Double expectedAmount = Fine.DVD_FINE_AMOUNT_PER_DAY * DAYS_LATE;
         softly.assertThat(fines.get(0).getAmount())
                 .as("New fine amount")
                 .isEqualTo(expectedAmount);
@@ -177,17 +180,12 @@ public class LoanServiceImplIT {
     @Test
     @Transactional
     public void testLaptopReturnedLateAndFineCreated() {
-        Laptop laptop = ResourceFactory.createLaptop("Laptop", "", "", "", "", "");
         laptopService.save(laptop);
 
         Copy copy = ResourceFactory.createCopy(laptop, 4);
         copyService.save(copy);
 
-        String borrower = "DylanRodgers98";
-        int daysLate = 2;
-        Loan loan = new Loan(copy.getId(), borrower,
-                new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(5)),
-                new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(daysLate)));
+        Loan loan = createLateLoan(copy.getId());
         loanService.save(loan);
 
         softly.assertThat(loan.getEndDate())
@@ -199,7 +197,7 @@ public class LoanServiceImplIT {
                 .isNull();
 
         loanService.endLoan(loan);
-        List<Fine> fines = fineService.getAll();
+        List<Fine> fines = fineService.getAllFinesForUser(USERNAME);
 
         softly.assertThat(fines.get(0).getLoanId())
                 .as("New fine created for late return of copy")
@@ -209,7 +207,7 @@ public class LoanServiceImplIT {
                 .as("New fine for user")
                 .isEqualTo(loan.getBorrowerUsername());
 
-        Double expectedAmount = Fine.LAPTOP_FINE_AMOUNT_PER_DAY * daysLate;
+        Double expectedAmount = Fine.LAPTOP_FINE_AMOUNT_PER_DAY * DAYS_LATE;
         softly.assertThat(fines.get(0).getAmount())
                 .as("New fine amount")
                 .isEqualTo(expectedAmount);
@@ -218,14 +216,12 @@ public class LoanServiceImplIT {
     @Test
     @Transactional
     public void testReturnCopyAndEndLoan() {
-        Book book = ResourceFactory.createBook("Book", "", "", "", "", "", "", "");
         bookService.save(book);
 
         Copy copy = ResourceFactory.createCopy(book, 4);
         copyService.save(copy);
 
-        String borrower = "DylanRodgers98";
-        Loan loan = ResourceFactory.createLoanForCopy(copy, borrower);
+        Loan loan = ResourceFactory.createLoanForCopy(copy, USERNAME);
         loanService.save(loan);
 
         softly.assertThat(loan.getReturnDate())
@@ -241,7 +237,6 @@ public class LoanServiceImplIT {
     @Test
     @Transactional
     public void testGetAllLoansForACopy() {
-        Book book = ResourceFactory.createBook("Book", "", "", "", "", "", "", "");
         bookService.save(book);
 
         Copy copy1 = ResourceFactory.createCopy(book, 4);
@@ -269,24 +264,20 @@ public class LoanServiceImplIT {
     @Test
     @Transactional
     public void testGetAllLoansForUser() {
-        Book book1 = ResourceFactory.createBook("Book 1", "", "", "", "", "", "", "");
-        Book book2 = ResourceFactory.createBook("Book 2", "", "", "", "", "", "", "");
-        Book book3 = ResourceFactory.createBook("Book 3", "", "", "", "", "", "", "");
-        bookService.save(book1);
-        bookService.save(book2);
-        bookService.save(book3);
+        bookService.save(book);
+        dvdService.save(dvd);
+        laptopService.save(laptop);
 
-        Copy copy1 = ResourceFactory.createCopy(book1, 4);
-        Copy copy2 = ResourceFactory.createCopy(book2, 7);
-        Copy copy3 = ResourceFactory.createCopy(book3, 14);
+        Copy copy1 = ResourceFactory.createCopy(book, 4);
+        Copy copy2 = ResourceFactory.createCopy(dvd, 7);
+        Copy copy3 = ResourceFactory.createCopy(laptop, 14);
         copyService.save(copy1);
         copyService.save(copy2);
         copyService.save(copy3);
 
-        String username = "DylanRodgers98";
-        Loan loan1 = ResourceFactory.createLoanForCopy(copy1, username);
-        Loan loan2 = ResourceFactory.createLoanForCopy(copy2, username);
-        Loan loan3 = ResourceFactory.createLoanForCopy(copy3, username);
+        Loan loan1 = ResourceFactory.createLoanForCopy(copy1, USERNAME);
+        Loan loan2 = ResourceFactory.createLoanForCopy(copy2, USERNAME);
+        Loan loan3 = ResourceFactory.createLoanForCopy(copy3, USERNAME);
         loanService.save(loan1);
         loanService.save(loan2);
         loanService.save(loan3);
@@ -296,11 +287,17 @@ public class LoanServiceImplIT {
         Loan loanNotByUser = ResourceFactory.createLoanForCopy(copy1, "Other User");
         loanService.save(loanNotByUser);
 
-        List<Loan> loansFromDatabase = loanService.getAllLoansForUser(username);
+        List<Loan> loansFromDatabase = loanService.getAllLoansForUser(USERNAME);
 
         softly.assertThat(loansFromDatabase)
                 .as("Loans retrieved from database for the username passed in")
                 .containsExactly(loan1, loan2, loan3)
                 .doesNotContain(loanNotByUser);
+    }
+
+    private Loan createLateLoan(Long copyId) {
+        Date startDate = new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(5));
+        Date endDate = new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(DAYS_LATE));
+        return new Loan(copyId, USERNAME, startDate, endDate);
     }
 }

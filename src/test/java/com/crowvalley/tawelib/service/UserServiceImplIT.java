@@ -39,7 +39,7 @@ public class UserServiceImplIT {
         List<User> users = userService.getAll();
         softly.assertThat(users)
                 .as("List of all users retrieved from database")
-                .containsExactly(user);
+                .contains(user);
 
         //Test Update operation
         User userToUpdate = userService.get("DylanRodgers98").get();

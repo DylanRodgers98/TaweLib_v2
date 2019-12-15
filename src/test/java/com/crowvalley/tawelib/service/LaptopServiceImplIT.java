@@ -17,10 +17,11 @@ import java.util.Optional;
 @ContextConfiguration(locations = {"classpath:/spring/applicationContext.xml "})
 public class LaptopServiceImplIT {
 
+    @Autowired
+    private ResourceService<Laptop> laptopService;
+
     @Rule
     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
-    @Autowired
-    private ResourceService laptopService;
 
     @Test
     @Transactional
@@ -30,17 +31,15 @@ public class LaptopServiceImplIT {
 
         //Test Create and Retrieve operations
         laptopService.save(laptop);
-        List<Laptop> laptops = laptopService.getAll();
-        Long id = laptops.get(0).getId();
+        Long id = laptop.getId();
 
         softly.assertThat(laptopService.get(id).get())
                 .as("Retrieve laptop from database")
                 .isEqualTo(laptop);
 
         //Test Update operation
-        Laptop laptopToUpdate = (Laptop) laptopService.get(id).get();
-        laptopToUpdate.setOs("Ubuntu");
-        laptopService.update(laptopToUpdate);
+        laptop.setOs("Ubuntu");
+        laptopService.update(laptop);
 
         softly.assertThat(laptopService.get(id).get())
                 .as("Retrieve laptop from database with updated OS")

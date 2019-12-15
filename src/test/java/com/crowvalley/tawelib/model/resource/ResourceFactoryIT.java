@@ -3,6 +3,7 @@ package com.crowvalley.tawelib.model.resource;
 import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.LoanService;
 import com.crowvalley.tawelib.service.ResourceService;
+import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.Rule;
 import org.junit.Test;
@@ -12,113 +13,105 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/spring/applicationContext.xml "})
 public class ResourceFactoryIT {
 
-    @Rule
-    public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+    private Book book = ResourceFactory.createBook("Book", "2015", StringUtils.EMPTY, "Dylan Rodgers", "Penguin", "Children", "Foo", "English");
+
+    private Dvd dvd = ResourceFactory.createDvd("Dvd", "2018", StringUtils.EMPTY, "Dylan Rodgers", "English", 120, "Welsh");
+
+    private Laptop laptop = ResourceFactory.createLaptop("Laptop", "2014", StringUtils.EMPTY, "Acer", "Aspire", "Windows 10");
+
     @Autowired
-    private ResourceService bookService;
+    private ResourceService<Book> bookService;
+
     @Autowired
-    private ResourceService dvdService;
+    private ResourceService<Dvd> dvdService;
+
     @Autowired
-    private ResourceService laptopService;
+    private ResourceService<Laptop> laptopService;
+
     @Autowired
     private LoanService loanService;
+
     @Autowired
     private CopyService copyService;
+
+    @Rule
+    public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
 
     @Test
     @Transactional
     public void testAddBookToDatabase_CreateCopyOfBook() {
-        bookService.save(ResourceFactory.createBook("", "", "", "", "", "", "", ""));
+        bookService.save(book);
 
-        List<Book> books = bookService.getAll();
-        Book book = books.get(0);
+        Copy copyOfBook = ResourceFactory.createCopy(book, 4);
+        copyService.save(copyOfBook);
 
-        copyService.save(ResourceFactory.createCopy(book, 4));
-
-        Copy copy = copyService.getAll().get(0);
-
-        softly.assertThat(copy.getResourceId())
+        softly.assertThat(copyOfBook.getResourceId())
                 .as("Resource ID of the copy persisted to database")
                 .isEqualTo(book.getId());
 
-        softly.assertThat(copy.getResourceType())
+        softly.assertThat(copyOfBook.getResourceType())
                 .as("Resource type of the copy persisted to database")
-                .isEqualTo("Book");
+                .isEqualTo(ResourceType.BOOK);
     }
 
     @Test
     @Transactional
     public void testAddDvdToDatabase_CreateCopyOfDvd() {
-        dvdService.save(ResourceFactory.createDvd("", "", "", "", "", 120, ""));
+        dvdService.save(dvd);
 
-        List<Dvd> dvds = dvdService.getAll();
-        Dvd dvd = dvds.get(0);
+        Copy copyOfDvd = ResourceFactory.createCopy(dvd, 4);
+        copyService.save(copyOfDvd);
 
-        copyService.save(ResourceFactory.createCopy(dvd, 4));
-
-        Copy copy = copyService.getAll().get(0);
-
-        softly.assertThat(copy.getResourceId())
+        softly.assertThat(copyOfDvd.getResourceId())
                 .as("Resource ID of the copy persisted to database")
                 .isEqualTo(dvd.getId());
 
-        softly.assertThat(copy.getResourceType())
+        softly.assertThat(copyOfDvd.getResourceType())
                 .as("Resource type of the copy persisted to database")
-                .isEqualTo("Dvd");
+                .isEqualTo(ResourceType.DVD);
     }
 
     @Test
     @Transactional
     public void testAddLaptopToDatabase_CreateCopyOfLaptop() {
-        laptopService.save(ResourceFactory.createLaptop("", "", "", "", "", ""));
+        laptopService.save(laptop);
 
-        List<Laptop> laptops = laptopService.getAll();
-        Laptop laptop = laptops.get(0);
+        Copy copyOfLaptop = ResourceFactory.createCopy(laptop, 4);
+        copyService.save(copyOfLaptop);
 
-        copyService.save(ResourceFactory.createCopy(laptop, 4));
-
-        Copy copy = copyService.getAll().get(0);
-
-        softly.assertThat(copy.getResourceId())
+        softly.assertThat(copyOfLaptop.getResourceId())
                 .as("Resource ID of the copy persisted to database")
                 .isEqualTo(laptop.getId());
 
-        softly.assertThat(copy.getResourceType())
+        softly.assertThat(copyOfLaptop.getResourceType())
                 .as("Resource type of the copy persisted to database")
-                .isEqualTo("Laptop");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    @Transactional
-    public void testCreateCopyWithNoResourceID() {
-        Book book = ResourceFactory.createBook("", "", "", "", "", "", "", "");
-        ResourceFactory.createCopy(book, 4);
+                .isEqualTo(ResourceType.LAPTOP);
     }
 
     @Test
     @Transactional
     public void testAddCopyToDatabase_CreateLoanOfCopy() {
-        laptopService.save(ResourceFactory.createLaptop("", "", "", "", "", ""));
+        laptopService.save(laptop);
 
-        List<Laptop> laptops = laptopService.getAll();
-        Laptop laptop = laptops.get(0);
+        Copy copyOfLaptop = ResourceFactory.createCopy(laptop, 4);
+        copyService.save(copyOfLaptop);
 
-        copyService.save(ResourceFactory.createCopy(laptop, 4));
+        Loan loanOfLaptop = ResourceFactory.createLoanForCopy(copyOfLaptop, "DylanRodgers98");
+        loanService.save(loanOfLaptop);
 
-        Copy copy = copyService.getAll().get(0);
-
-        loanService.save(ResourceFactory.createLoanForCopy(copy, "DylanRodgers98"));
-        Loan loan = loanService.getAll().get(0);
-
-        softly.assertThat(loan.getCopyId())
+        softly.assertThat(loanOfLaptop.getCopyId())
                 .as("Copy ID of the loan persisted to database")
-                .isEqualTo(copy.getId());
+                .isEqualTo(copyOfLaptop.getId());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    @Transactional
+    public void testCreateCopyWithNoResourceID() {
+        ResourceFactory.createCopy(book, 4);
     }
 
     @Test(expected = IllegalArgumentException.class)
