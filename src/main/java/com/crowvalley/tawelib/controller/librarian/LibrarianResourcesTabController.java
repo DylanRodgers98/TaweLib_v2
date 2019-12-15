@@ -20,9 +20,9 @@ import java.util.Optional;
 
 public class LibrarianResourcesTabController {
 
-    private static final String ADD_NEW_RESOURCE_FXML = "/fxml/librarian/resource/addResource.fxml";
+    private static final String ADD_NEW_RESOURCE_FXML = "/fxml/librarian/resources/addResource.fxml";
 
-    private static final String EDIT_RESOURCE_FXML = "/fxml/librarian/resource/editResource.fxml";
+    private static final String EDIT_RESOURCE_FXML = "/fxml/librarian/resources/editResource.fxml";
 
     public static Resource selectedResource;
 
@@ -55,9 +55,6 @@ public class LibrarianResourcesTabController {
 
     @FXML
     private Button btnDeleteResource;
-
-    public LibrarianResourcesTabController() {
-    }
 
     public void initialize() {
         populateTable();

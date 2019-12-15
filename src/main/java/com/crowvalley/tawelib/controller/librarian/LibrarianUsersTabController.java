@@ -28,6 +28,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class LibrarianUsersTabController {
 
+    private static final String ADD_NEW_USER_FXML = "/fxml/librarian/users/addNewUser.fxml";
+
+    private static final String VIEW_OR_EDIT_USER_FXML = "/fxml/librarian/users/viewOrEditUser.fxml";
+
     public static User selectedUser;
 
     private UserService userService;
@@ -58,20 +62,14 @@ public class LibrarianUsersTabController {
     private Button btnNewUser;
 
     @FXML
-    private Button btnViewUser;
-
-    @FXML
-    private Button btnEditUser;
+    private Button btnViewOrEditUser;
 
     @FXML
     private Button btnDeleteUser;
 
-    public LibrarianUsersTabController() {
-    }
-
     public void initialize() {
         populateTable();
-        FXMLUtils.makeNodesDisabled(btnViewUser, btnEditUser, btnDeleteUser);
+        FXMLUtils.makeNodesDisabled(btnViewOrEditUser, btnDeleteUser);
         setOnActions();
     }
 
@@ -111,13 +109,20 @@ public class LibrarianUsersTabController {
 
     private void setOnActions() {
         tblUsers.setOnMouseClicked(e -> enableButtonsIfUserSelected());
+        btnNewUser.setOnAction(e -> FXMLUtils.loadNewScene(btnNewUser, ADD_NEW_USER_FXML));
+        btnViewOrEditUser.setOnAction(e -> openViewOrEditUserPage());
         btnDeleteUser.setOnAction(e -> deleteSelectedUser());
     }
 
     private void enableButtonsIfUserSelected() {
         if (getSelectedUser() != null) {
-            FXMLUtils.makeNodesEnabled(btnViewUser, btnEditUser, btnDeleteUser);
+            FXMLUtils.makeNodesEnabled(btnViewOrEditUser, btnDeleteUser);
         }
+    }
+
+    private void openViewOrEditUserPage() {
+        selectedUser = getSelectedUser();
+        FXMLUtils.loadNewScene(tblUsers, VIEW_OR_EDIT_USER_FXML);
     }
 
     private void deleteSelectedUser() {

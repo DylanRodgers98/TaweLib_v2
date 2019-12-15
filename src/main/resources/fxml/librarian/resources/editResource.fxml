@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.crowvalley.tawelib.controller.librarian.resource.EditResourceController">
+      fx:controller="com.crowvalley.tawelib.controller.librarian.resources.EditResourceController">
     <BorderPane prefHeight="200.0" prefWidth="200.0">
         <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
@@ -33,10 +33,11 @@
         </center>
         <left>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                <ImageView fx:id="imgResourcePic" fitHeight="290.0" fitWidth="240.0" layoutY="14.0"
+                <ImageView fx:id="imgResourcePic" fitHeight="250.0" fitWidth="240.0" layoutY="54.0"
                            pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0"/>
                 <Button fx:id="btnChangePic" layoutX="63.0" layoutY="323.0" prefHeight="25.0" prefWidth="143.0"
                         text="Change Picture"/>
+                <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" />
             </AnchorPane>
         </left>
     </BorderPane>

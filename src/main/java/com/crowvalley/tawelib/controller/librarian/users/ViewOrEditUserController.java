@@ -1,9 +1,10 @@
-package com.crowvalley.tawelib.controller.librarian;
+package com.crowvalley.tawelib.controller.librarian.users;
 
-import com.crowvalley.tawelib.Main;
+import com.crowvalley.tawelib.controller.librarian.LibrarianUsersTabController;
 import com.crowvalley.tawelib.model.user.Address;
-import com.crowvalley.tawelib.model.user.Librarian;
-import com.crowvalley.tawelib.service.LibrarianService;
+import com.crowvalley.tawelib.model.user.User;
+import com.crowvalley.tawelib.service.UserService;
+import com.crowvalley.tawelib.util.FXMLUtils;
 import com.crowvalley.tawelib.util.ImageUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,17 +14,21 @@ import javafx.scene.image.ImageView;
 
 import java.util.Optional;
 
-public class LibrarianProfileTabController {
+public class ViewOrEditUserController {
+
+    private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
 
     private static final String UPDATE_PROFILE_BUTTON_TEXT = "Update Profile";
 
     private static final String SAVE_CHANGES_BUTTON_TEXT = "Save Changes";
 
+    private static final String FILE_CHOOSER_TITLE = "Choose Profile Picture";
+
     private static final String PROFILE_PICTURE_DIRECTORY_NAME = "profile";
 
-    private LibrarianService librarianService;
+    private UserService userService;
 
-    private Librarian loggedInLibrarian;
+    private User selectedUser;
 
     @FXML
     private TextField txtUsername;
@@ -61,29 +66,29 @@ public class LibrarianProfileTabController {
     @FXML
     private Button btnChangePic;
 
+    @FXML
+    private Button btnBack;
+
     public void initialize() {
         loadProfile();
         disableTextFields();
         btnSaveOrUpdate.setOnAction(e -> saveOrUpdateProfile());
         btnChangePic.setOnAction(e -> chooseImage());
+        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
     }
 
     private void loadProfile() {
-        String currentUser = Main.currentUser;
-        Optional<Librarian> optionalLibrarian = librarianService.getWithUsername(currentUser);
-        if (optionalLibrarian.isPresent()) {
-            loggedInLibrarian = optionalLibrarian.get();
-            populateTextFields(loggedInLibrarian);
-            loadProfilePic(loggedInLibrarian);
-        }
+        selectedUser = LibrarianUsersTabController.selectedUser;
+        populateTextFields(selectedUser);
+        loadProfilePic(selectedUser);
     }
 
-    private void populateTextFields(Librarian librarian) {
-        txtUsername.setText(librarian.getUsername());
-        txtFirstName.setText(librarian.getFirstName());
-        txtSurname.setText(librarian.getSurname());
-        txtPhoneNum.setText(librarian.getPhoneNum());
-        populateAddressFields(librarian.getAddress());
+    private void populateTextFields(User user) {
+        txtUsername.setText(user.getUsername());
+        txtFirstName.setText(user.getFirstName());
+        txtSurname.setText(user.getSurname());
+        txtPhoneNum.setText(user.getPhoneNum());
+        populateAddressFields(user.getAddress());
     }
 
     private void populateAddressFields(Address address) {
@@ -94,11 +99,10 @@ public class LibrarianProfileTabController {
         txtPostcode.setText(address.getPostcode());
     }
 
-    private void loadProfilePic(Librarian librarian) {
-        Optional<String> imageUrl = librarian.getProfileImagePath();
+    private void loadProfilePic(User user) {
+        Optional<String> imageUrl = user.getProfileImagePath();
         imageUrl.ifPresent(e -> imgProfilePic.setImage(new Image(e)));
     }
-
     private void disableTextFields() {
         setDisableTextFields(true);
     }
@@ -136,15 +140,15 @@ public class LibrarianProfileTabController {
         disableTextFields();
         btnSaveOrUpdate.setText(UPDATE_PROFILE_BUTTON_TEXT);
         updateProfile();
-        librarianService.update(loggedInLibrarian);
+        userService.update(selectedUser);
     }
 
     private void updateProfile() {
-        loggedInLibrarian.setUsername(txtUsername.getText());
-        loggedInLibrarian.setFirstName(txtFirstName.getText());
-        loggedInLibrarian.setSurname(txtSurname.getText());
-        loggedInLibrarian.setPhoneNum(txtPhoneNum.getText());
-        updateAddress(loggedInLibrarian.getAddress());
+        selectedUser.setUsername(txtUsername.getText());
+        selectedUser.setFirstName(txtFirstName.getText());
+        selectedUser.setSurname(txtSurname.getText());
+        selectedUser.setPhoneNum(txtPhoneNum.getText());
+        updateAddress(selectedUser.getAddress());
     }
 
     private void updateAddress(Address address) {
@@ -156,16 +160,16 @@ public class LibrarianProfileTabController {
     }
 
     private void chooseImage() {
-        ImageUtils.chooseImage("Choose Profile Picture", PROFILE_PICTURE_DIRECTORY_NAME, imgProfilePic);
+        ImageUtils.chooseImage(FILE_CHOOSER_TITLE, PROFILE_PICTURE_DIRECTORY_NAME, imgProfilePic);
         Image image = imgProfilePic.getImage();
         if (image != null) {
-            loggedInLibrarian.setProfileImagePath(image.getUrl());
-            librarianService.update(loggedInLibrarian);
+            selectedUser.setProfileImagePath(image.getUrl());
+            userService.update(selectedUser);
         }
     }
 
-    public void setLibrarianService(LibrarianService librarianService) {
-        this.librarianService = librarianService;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
 }

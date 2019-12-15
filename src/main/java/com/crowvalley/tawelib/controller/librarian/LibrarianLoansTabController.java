@@ -53,20 +53,14 @@ public class LibrarianLoansTabController {
     private Button btnNewLoan;
 
     @FXML
-    private Button btnViewLoan;
-
-    @FXML
-    private Button btnEditLoan;
+    private Button btnViewOrEditLoan;
 
     @FXML
     private Button btnEndLoan;
 
-    public LibrarianLoansTabController() {
-    }
-
     public void initialize() {
         populateTable();
-        FXMLUtils.makeNodesDisabled(btnViewLoan, btnEditLoan, btnEndLoan);
+        FXMLUtils.makeNodesDisabled(btnViewOrEditLoan, btnEndLoan);
         setOnActions();
     }
 
@@ -127,7 +121,7 @@ public class LibrarianLoansTabController {
 
     private void enableButtonsIfLoanSelected() {
         if (getSelectedLoan() != null) {
-            FXMLUtils.makeNodesEnabled(btnViewLoan, btnEditLoan, btnEndLoan);
+            FXMLUtils.makeNodesEnabled(btnViewOrEditLoan, btnEndLoan);
         }
     }
 

@@ -42,9 +42,6 @@ public class LibrarianFinesAndPaymentsTabController {
     @FXML
     private Button btnRecordPayment;
 
-    public LibrarianFinesAndPaymentsTabController() {
-    }
-
     public void initialize() {
         populateTable();
     }

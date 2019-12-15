@@ -1,11 +1,10 @@
-package com.crowvalley.tawelib.controller.librarian.resource;
+package com.crowvalley.tawelib.controller.librarian.resources;
 
 import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import com.crowvalley.tawelib.util.ImageUtils;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,6 +19,8 @@ public class AddResourceController {
     public static final Logger LOGGER = LoggerFactory.getLogger(AddResourceController.class);
 
     private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
+
+    private static final String FILE_CHOOSER_TITLE = "Choose Resource Picture";
 
     private static final String RESOURCES_DIRECTORY_NAME = "resources";
 
@@ -83,13 +84,14 @@ public class AddResourceController {
     @FXML
     private Button btnChangePic;
 
-    public AddResourceController() {
-    }
+    @FXML
+    private Button btnBack;
 
     public void initialize() {
         cmbType.setOnAction(e -> showTextFieldsAndLabels());
         btnSave.setOnAction(e -> saveResource());
-        btnChangePic.setOnAction(e -> chooseImage());
+        btnChangePic.setOnAction(e -> ImageUtils.chooseImage(FILE_CHOOSER_TITLE, RESOURCES_DIRECTORY_NAME, imgResourcePic));
+        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
     }
 
     private void showTextFieldsAndLabels() {
@@ -107,8 +109,8 @@ public class AddResourceController {
     }
 
     private void showTextFieldsAndLabelsForBook() {
-        FXMLUtils.makeNodesVisible(txtTitle, txtYear, txtOptional1, txtOptional2, txtOptional3, txtOptional4, txtOptional5);
-        FXMLUtils.makeNodesNotVisible(lblTitle, lblYear, lblOptional1, lblOptional2, lblOptional3, lblOptional4, lblOptional5);
+        FXMLUtils.makeNodesVisible(txtTitle, txtYear, txtOptional1, txtOptional2, txtOptional3, txtOptional4, txtOptional5,
+                lblTitle, lblYear, lblOptional1, lblOptional2, lblOptional3, lblOptional4, lblOptional5);
         lblOptional1.setText("Author:");
         lblOptional1.setLayoutX(114.0);
         lblOptional2.setText("Publisher:");
@@ -213,14 +215,6 @@ public class AddResourceController {
             FXMLUtils.loadNewScene(btnSave, LIBRARIAN_HOME_FXML);
         } catch (Exception e) {
             FXMLUtils.displayErrorDialogBox("Error Creating Laptop", e.getMessage());
-        }
-    }
-
-    private void chooseImage() {
-        Optional<Image> image = ImageUtils.chooseAndCopyImage("Choose Resource Picture", RESOURCES_DIRECTORY_NAME, btnChangePic);
-        if (image.isPresent()) {
-            ImageUtils.deleteOldImage(imgResourcePic);
-            imgResourcePic.setImage(image.get());
         }
     }
 

@@ -25,8 +25,20 @@ public class ImageUtils {
 
     private static final String FILE_PROTOCOL = "file:";
 
-    public static Optional<Image> chooseAndCopyImage(String fileChooserTitle, String copiedImageDirectory, Node arbitraryNodeFromCurrentScene) {
-        File selectedImageFile = getImageFile(fileChooserTitle, arbitraryNodeFromCurrentScene);
+    private static final int IMAGE_WIDTH = 240;
+
+    private static final int IMAGE_HEIGHT = 250;
+
+    public static void chooseImage(String fileChooserTitle, String copiedImageDirectory, ImageView imageView) {
+        Optional<Image> image = chooseAndCopyImage(fileChooserTitle, copiedImageDirectory, imageView);
+        if (image.isPresent() && !isSameAsCurrentImage(image.get(), imageView)) {
+            deleteOldImage(imageView);
+            imageView.setImage(image.get());
+        }
+    }
+
+    private static Optional<Image> chooseAndCopyImage(String fileChooserTitle, String copiedImageDirectory, ImageView imageView) {
+        File selectedImageFile = getImageFile(fileChooserTitle, imageView);
 
         Image image = null;
         if (selectedImageFile != null) {
@@ -39,7 +51,7 @@ public class ImageUtils {
 
                 Files.copy(pathToSelectedFile, pathToCopiedFile, StandardCopyOption.REPLACE_EXISTING);
 
-                image = new Image(FILE_PROTOCOL + pathToCopiedFile, 240, 290, true, true);
+                image = new Image(FILE_PROTOCOL + pathToCopiedFile, IMAGE_WIDTH, IMAGE_HEIGHT, true, true);
             } catch (IOException e) {
                 FXMLUtils.displayErrorDialogBox("Error Choosing Image", e.getMessage());
             }
@@ -48,12 +60,12 @@ public class ImageUtils {
         return Optional.ofNullable(image);
     }
 
-    private static File getImageFile(String fileChooserTitle, Node arbitraryNodeFromCurrentScene) {
+    private static File getImageFile(String fileChooserTitle, ImageView imageView) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(fileChooserTitle);
         fileChooser.getExtensionFilters().add(IMAGE_FILTER);
 
-        Stage stage = (Stage) arbitraryNodeFromCurrentScene.getScene().getWindow();
+        Stage stage = (Stage) imageView.getScene().getWindow();
         return fileChooser.showOpenDialog(stage);
     }
 
@@ -65,7 +77,18 @@ public class ImageUtils {
         return new ClassPathResource(destination).getFile();
     }
 
-    public static void deleteOldImage(ImageView imageView) {
+    private static boolean isSameAsCurrentImage(Image newImage, ImageView imageView) {
+        Image currentImage = imageView.getImage();
+        if (currentImage == null) {
+            return false;
+        } else {
+            String currentImageUrl = currentImage.getUrl();
+            String newImageUrl = newImage.getUrl();
+            return currentImageUrl.equals(newImageUrl);
+        }
+    }
+
+    private static void deleteOldImage(ImageView imageView) {
         Image oldImage = imageView.getImage();
         if (oldImage != null) {
             String oldImageUrl = oldImage.getUrl();

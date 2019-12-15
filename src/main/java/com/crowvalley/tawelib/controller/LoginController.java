@@ -35,9 +35,6 @@ public class LoginController {
     @FXML
     private TextField txtUsername;
 
-    public LoginController() {
-    }
-
     public void initialize() {
         btnLogin.setOnAction(e -> tryLogin());
         txtUsername.setOnKeyPressed(e -> {

@@ -11,9 +11,6 @@ public class LibrarianLogOutController {
     @FXML
     private Button btnLogOut;
 
-    public LibrarianLogOutController() {
-    }
-
     public void initialize() {
         btnLogOut.setOnAction(e -> logOut());
     }

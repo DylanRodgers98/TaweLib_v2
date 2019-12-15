@@ -1,8 +1,7 @@
-package com.crowvalley.tawelib.controller.librarian.resource;
+package com.crowvalley.tawelib.controller.librarian.resources;
 
 import com.crowvalley.tawelib.controller.librarian.LibrarianResourcesTabController;
 import com.crowvalley.tawelib.model.resource.*;
-import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import com.crowvalley.tawelib.util.ImageUtils;
@@ -85,12 +84,16 @@ public class EditResourceController {
     @FXML
     private Button btnChangePic;
 
+    @FXML
+    private Button btnBack;
+
     public void initialize() {
         resource = LibrarianResourcesTabController.selectedResource;
         populateFields();
 
         btnUpdate.setOnAction(e -> updateResource());
-        btnChangePic.setOnAction(e -> chooseImage());
+        btnChangePic.setOnAction(e -> ImageUtils.chooseImage("Choose Resource Picture", RESOURCES_DIRECTORY_NAME, imgResourcePic));
+        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
     }
 
     private void populateFields() {
@@ -246,14 +249,6 @@ public class EditResourceController {
             FXMLUtils.loadNewScene(btnUpdate, LIBRARIAN_HOME_FXML);
         } catch (Exception e) {
             FXMLUtils.displayErrorDialogBox("Error Updating Laptop", e.getMessage());
-        }
-    }
-
-    private void chooseImage() {
-        Optional<Image> image = ImageUtils.chooseAndCopyImage("Choose Resource Picture", RESOURCES_DIRECTORY_NAME, btnChangePic);
-        if (image.isPresent()) {
-            ImageUtils.deleteOldImage(imgResourcePic);
-            imgResourcePic.setImage(image.get());
         }
     }
 

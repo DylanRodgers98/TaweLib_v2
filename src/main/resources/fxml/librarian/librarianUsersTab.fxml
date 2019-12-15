@@ -10,10 +10,9 @@
         <bottom>
             <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                 <buttons>
-                    <Button fx:id="btnNewUser" prefHeight="25.0" prefWidth="270.0" text="Create New User"/>
-                    <Button fx:id="btnViewUser" disable="true" text="View User"/>
-                    <Button fx:id="btnEditUser" disable="true" text="Amend User"/>
-                    <Button fx:id="btnDeleteUser" disable="true" text="Delete User"/>
+                    <Button fx:id="btnNewUser" prefHeight="25.0" prefWidth="200.0" text="Create New User"/>
+                    <Button fx:id="btnViewOrEditUser" disable="true" prefHeight="25.0" prefWidth="200.0" text="View/Edit User"/>
+                    <Button fx:id="btnDeleteUser" disable="true" prefHeight="25.0" prefWidth="200.0" text="Delete User"/>
                 </buttons>
                 <BorderPane.margin>
                     <Insets right="20.0"/>
