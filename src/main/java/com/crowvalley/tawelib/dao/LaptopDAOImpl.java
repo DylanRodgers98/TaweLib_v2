@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.dao;
 
 import com.crowvalley.tawelib.model.resource.Laptop;
+import com.crowvalley.tawelib.util.DatabaseUtils;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +47,7 @@ public class LaptopDAOImpl implements ResourceDAO<Laptop> {
     @Override
     @SuppressWarnings("unchecked")
     public List<Laptop> getAll() {
-        return sessionFactory.getCurrentSession().createQuery("from Laptop").list();
+        return DatabaseUtils.getAll(Laptop.class, sessionFactory);
     }
 
     /**

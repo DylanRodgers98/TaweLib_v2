@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.dao;
 
 import com.crowvalley.tawelib.model.resource.Dvd;
+import com.crowvalley.tawelib.util.DatabaseUtils;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +46,7 @@ public class DvdDAOImpl implements ResourceDAO<Dvd> {
     @Override
     @SuppressWarnings("unchecked")
     public List<Dvd> getAll() {
-        return sessionFactory.getCurrentSession().createQuery("from Dvd").list();
+        return DatabaseUtils.getAll(Dvd.class, sessionFactory);
     }
 
     /**

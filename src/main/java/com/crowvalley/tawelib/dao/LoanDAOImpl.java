@@ -76,7 +76,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     @SuppressWarnings("unchecked")
     public List<Loan> getAll() {
-        return sessionFactory.getCurrentSession().createQuery("from Loan").list();
+        return DatabaseUtils.getAll(Loan.class, sessionFactory);
     }
 
     /**

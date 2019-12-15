@@ -61,7 +61,7 @@ public class FineDAOImpl implements FineDAO {
     @Override
     @SuppressWarnings("unchecked")
     public List<Fine> getAll() {
-        return sessionFactory.getCurrentSession().createQuery("from Fine").list();
+        return DatabaseUtils.getAll(Fine.class, sessionFactory);
     }
 
     /**

@@ -8,6 +8,12 @@ import java.util.stream.Collectors;
 
 public class DatabaseUtils {
 
+    public static <T> List<T> getAll(Class<T> clazz, SessionFactory sessionFactory) {
+        return castList(sessionFactory.getCurrentSession()
+                .createQuery("from " + clazz.getName())
+                .list(), clazz);
+    }
+
     public static <T> List<T> getAll(Class<T> clazz, String propertyName, Long propertyValue, SessionFactory sessionFactory) {
         return castList(sessionFactory.getCurrentSession()
                 .createCriteria(clazz)

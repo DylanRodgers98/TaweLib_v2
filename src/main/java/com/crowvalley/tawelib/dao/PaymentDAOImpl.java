@@ -48,7 +48,7 @@ public class PaymentDAOImpl implements PaymentDAO {
     @Override
     @SuppressWarnings("unchecked")
     public List<Payment> getAll() {
-        return sessionFactory.getCurrentSession().createQuery("from Payment").list();
+        return DatabaseUtils.getAll(Payment.class, sessionFactory);
     }
 
     /**

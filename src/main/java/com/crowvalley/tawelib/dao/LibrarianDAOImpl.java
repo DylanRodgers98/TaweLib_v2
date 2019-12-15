@@ -72,7 +72,7 @@ public class LibrarianDAOImpl implements LibrarianDAO {
     @Override
     @SuppressWarnings("unchecked")
     public List<Librarian> getAll() {
-        return sessionFactory.getCurrentSession().createQuery("from Librarian").list();
+        return DatabaseUtils.getAll(Librarian.class, sessionFactory);
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.dao;
 
 import com.crowvalley.tawelib.model.user.User;
+import com.crowvalley.tawelib.util.DatabaseUtils;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +46,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     @SuppressWarnings("unchecked")
     public List<User> getAll() {
-        return sessionFactory.getCurrentSession().createQuery("from User").list();
+        return DatabaseUtils.getAll(User.class, sessionFactory);
     }
 
     /**

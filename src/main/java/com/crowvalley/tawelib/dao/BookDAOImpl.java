@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.dao;
 
 import com.crowvalley.tawelib.model.resource.Book;
+import com.crowvalley.tawelib.util.DatabaseUtils;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,9 +44,8 @@ public class BookDAOImpl implements ResourceDAO<Book> {
      * @return A {@link List} of all {@link Book}s stored in the database.
      */
     @Override
-    @SuppressWarnings("unchecked")
     public List<Book> getAll() {
-        return sessionFactory.getCurrentSession().createQuery("from Book").list();
+        return DatabaseUtils.getAll(Book.class, sessionFactory);
     }
 
     /**
