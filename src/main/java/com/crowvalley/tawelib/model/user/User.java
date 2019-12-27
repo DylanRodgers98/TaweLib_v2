@@ -12,7 +12,7 @@ import java.util.Optional;
  * @author Dylan Rodgers
  */
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User {
 

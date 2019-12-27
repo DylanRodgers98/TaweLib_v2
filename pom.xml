@@ -27,7 +27,7 @@
         <commons-lang3.version>3.9</commons-lang3.version>
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
-        <mysql.version>8.0.11</mysql.version>
+        <postgres.version>42.2.9</postgres.version>
         <slf4j.version>1.7.28</slf4j.version>
     </properties>
 
@@ -51,10 +51,11 @@
             <version>${commons-dbcp.version}</version>
         </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.version}</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgres.version}</version>
         </dependency>
+
 
         <!-- LOGGING -->
         <dependency>

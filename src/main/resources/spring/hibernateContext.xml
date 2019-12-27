@@ -8,11 +8,11 @@
 			               http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="driverClassName" value="org.postgresql.Driver"/>
         <property name="url"
-                  value="jdbc:mysql://localhost:3306/tawelib?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=CONVERT_TO_NULL&amp;serverTimezone=GMT"/>
-        <property name="username" value="root"/>
-        <property name="password" value="root"/>
+                  value="jdbc:postgresql://localhost:5432/tawelib"/>
+        <property name="username" value="postgres"/>
+        <property name="password" value="welcome"/>
         <property name="maxActive" value="100"/>
         <property name="maxIdle" value="30"/>
         <property name="maxWait" value="16000"/>
@@ -28,7 +28,7 @@
         </property>
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.format_sql">true</prop>
                 <prop key="hibernate.generate_statistics">true</prop>
