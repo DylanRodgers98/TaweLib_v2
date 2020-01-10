@@ -18,7 +18,7 @@ public interface LoanService {
 
     List<Loan> getAllLoansForCopy(Long copyId);
 
-    Loan getCurrentLoanForCopy(Long copyId);
+    Optional<Loan> getCurrentLoanForCopy(Long copyId);
 
     List<Loan> getAllLoansForUser(String username);
 

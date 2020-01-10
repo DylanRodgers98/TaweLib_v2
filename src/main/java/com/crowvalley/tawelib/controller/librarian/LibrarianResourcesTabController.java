@@ -22,7 +22,7 @@ public class LibrarianResourcesTabController {
 
     private static final String ADD_NEW_RESOURCE_FXML = "/fxml/librarian/resources/addResource.fxml";
 
-    private static final String VIEW_RESOURCE_FXML = "/fxml/librarian/resources/viewResourceAndCopies.fxml";
+    private static final String VIEW_RESOURCE_FXML = "/fxml/librarian/resources/viewResource.fxml";
 
     private static final String EDIT_RESOURCE_FXML = "/fxml/librarian/resources/editResource.fxml";
 

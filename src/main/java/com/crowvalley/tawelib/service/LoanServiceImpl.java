@@ -78,7 +78,7 @@ public class LoanServiceImpl implements LoanService {
         }
     }
 
-    public Loan getCurrentLoanForCopy(Long copyId) {
+    public Optional<Loan> getCurrentLoanForCopy(Long copyId) {
         return DAO.getCurrentLoanForCopy(copyId);
     }
 

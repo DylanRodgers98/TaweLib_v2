@@ -38,8 +38,12 @@
         <property name="laptopService" ref="laptopService" />
     </bean>
 
-    <bean id="viewResourceAndCopiesController" class="com.crowvalley.tawelib.controller.librarian.resources.ViewResourceAndCopiesController" >
+    <bean id="viewResourceController" class="com.crowvalley.tawelib.controller.librarian.resources.ViewResourceController" >
         <property name="copyService" ref="copyService" />
+        <property name="loanService" ref="loanService" />
+    </bean>
+
+    <bean id="viewCopyRequestsController" class="com.crowvalley.tawelib.controller.librarian.resources.ViewCopyRequestsController" >
         <property name="loanService" ref="loanService" />
     </bean>
 

@@ -14,16 +14,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
 
-public class ViewResourceAndCopiesController {
+public class ViewResourceController {
 
     private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
+
+    private static final String VIEW_COPY_REQUESTS_FXML = "/fxml/librarian/viewCopyRequests.fxml";
+
+    public static Copy selectedCopy;
 
     private Resource resource;
 
@@ -115,8 +119,12 @@ public class ViewResourceAndCopiesController {
 
     private ObservableStringValue getCurrentBorrower(TableColumn.CellDataFeatures<Copy, String> copy) {
         Copy copyFromTable = copy.getValue();
-        Loan loanForCopy = loanService.getCurrentLoanForCopy(copyFromTable.getId());
-        return new ReadOnlyStringWrapper(loanForCopy.getBorrowerUsername());
+        Optional<Loan> loanForCopy = loanService.getCurrentLoanForCopy(copyFromTable.getId());
+        if (loanForCopy.isPresent()) {
+            return new ReadOnlyStringWrapper(loanForCopy.get().getBorrowerUsername());
+        } else {
+            return new ReadOnlyStringWrapper(StringUtils.EMPTY);
+        }
     }
 
     private ObservableValue<Integer> getNumberOfRequests(TableColumn.CellDataFeatures<Copy, Integer> copy) {
@@ -220,7 +228,17 @@ public class ViewResourceAndCopiesController {
     }
 
     private void setOnActions() {
+        btnViewRequests.setOnAction(e -> openViewCopyPage());
         btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
+    }
+
+    private void openViewCopyPage() {
+        selectedCopy = getSelectedCopy();
+        FXMLUtils.loadNewScene(tblCopies, VIEW_COPY_REQUESTS_FXML);
+    }
+
+    private Copy getSelectedCopy() {
+        return tblCopies.getSelectionModel().getSelectedItem();
     }
 
     public void setCopyService(CopyService copyService) {

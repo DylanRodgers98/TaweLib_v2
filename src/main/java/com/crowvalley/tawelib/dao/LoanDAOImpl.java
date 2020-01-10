@@ -59,12 +59,13 @@ public class LoanDAOImpl implements LoanDAO {
     }
 
     @Override
-    public Loan getCurrentLoanForCopy(Long copyId) {
-        return (Loan) sessionFactory.getCurrentSession()
+    public Optional<Loan> getCurrentLoanForCopy(Long copyId) {
+        Loan loan = (Loan) sessionFactory.getCurrentSession()
                 .createCriteria(Loan.class)
                 .add(Restrictions.eq("copyId", copyId))
                 .add(Restrictions.isNull("currentBorrower"))
                 .uniqueResult();
+        return Optional.ofNullable(loan);
     }
 
     /**
