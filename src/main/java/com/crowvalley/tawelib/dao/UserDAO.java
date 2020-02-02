@@ -19,6 +19,8 @@ public interface UserDAO {
 
     List<User> getAll();
 
+    List<String> getAllUsernames();
+
     void save(User user);
 
     void update(User user);

@@ -38,7 +38,7 @@ public class Copy {
 
     private Integer loanDurationAsDays;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "copy")
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "copy")
     private List<CopyRequest> copyRequests = new ArrayList<>();
 
     public Copy(Long resourceId, ResourceType resourceType, Integer loanDurationAsDays) {

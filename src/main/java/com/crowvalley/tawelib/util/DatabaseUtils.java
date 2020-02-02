@@ -15,21 +15,14 @@ public class DatabaseUtils {
                 .list(), clazz);
     }
 
-    public static <T> List<T> getAll(Class<T> clazz, String propertyName, Long propertyValue, SessionFactory sessionFactory) {
+    public static <T> List<T> getAll(Class<T> clazz, SessionFactory sessionFactory, String propertyName, Object propertyValue) {
         return castList(sessionFactory.getCurrentSession()
                 .createCriteria(clazz)
                 .add(Restrictions.eq(propertyName, propertyValue))
                 .list(), clazz);
     }
 
-    public static <T> List<T> getAll(Class<T> clazz, String propertyName, String propertyValue, SessionFactory sessionFactory) {
-        return castList(sessionFactory.getCurrentSession()
-                .createCriteria(clazz)
-                .add(Restrictions.eq(propertyName, propertyValue))
-                .list(), clazz);
-    }
-
-    private static <T> List<T> castList(List<?> listToBeCasted, Class<T> clazz) {
+    public static <T> List<T> castList(List<?> listToBeCasted, Class<T> clazz) {
         return listToBeCasted.stream().map(clazz::cast).collect(Collectors.toList());
     }
 }

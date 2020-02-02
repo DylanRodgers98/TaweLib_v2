@@ -55,7 +55,7 @@ public class LoanDAOImpl implements LoanDAO {
      */
     @Override
     public List<Loan> getAllLoansForCopy(Long copyId) {
-        return DatabaseUtils.getAll(Loan.class, "copyId", copyId, sessionFactory);
+        return DatabaseUtils.getAll(Loan.class, sessionFactory, "copyId", copyId);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class LoanDAOImpl implements LoanDAO {
         Loan loan = (Loan) sessionFactory.getCurrentSession()
                 .createCriteria(Loan.class)
                 .add(Restrictions.eq("copyId", copyId))
-                .add(Restrictions.isNull("currentBorrower"))
+                .add(Restrictions.isNull("borrowerUsername"))
                 .uniqueResult();
         return Optional.ofNullable(loan);
     }
@@ -79,7 +79,7 @@ public class LoanDAOImpl implements LoanDAO {
      */
     @Override
     public List<Loan> getAllLoansForUser(String username) {
-        return DatabaseUtils.getAll(Loan.class, "borrowerUsername", username, sessionFactory);
+        return DatabaseUtils.getAll(Loan.class, sessionFactory, "borrowerUsername", username);
     }
 
     /**

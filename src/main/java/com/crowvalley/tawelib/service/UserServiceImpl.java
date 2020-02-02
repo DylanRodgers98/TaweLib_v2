@@ -60,6 +60,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public List<String> getAllUsernames() {
+        return DAO.getAllUsernames();
+    }
+
     /**
      * Persists a {@link User} object to the database through the DAO.
      *

@@ -43,6 +43,10 @@
         <property name="loanService" ref="loanService" />
     </bean>
 
+    <bean id="addCopyController" class="com.crowvalley.tawelib.controller.librarian.resources.AddCopyController" >
+        <property name="copyService" ref="copyService" />
+    </bean>
+
     <bean id="viewCopyRequestsController" class="com.crowvalley.tawelib.controller.librarian.resources.ViewCopyRequestsController" >
         <property name="loanService" ref="loanService" />
     </bean>
@@ -59,6 +63,15 @@
         <property name="bookService" ref="bookService" />
         <property name="dvdService" ref="dvdService" />
         <property name="laptopService" ref="laptopService" />
+    </bean>
+
+    <bean id="newLoanController" class="com.crowvalley.tawelib.controller.librarian.loans.NewLoanController" >
+        <property name="bookService" ref="bookService" />
+        <property name="dvdService" ref="dvdService" />
+        <property name="laptopService" ref="laptopService" />
+        <property name="copyService" ref="copyService" />
+        <property name="userService" ref="userService" />
+        <property name="loanService" ref="loanService" />
     </bean>
     
     <bean id="librarianUsersTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianUsersTabController" >

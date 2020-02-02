@@ -51,7 +51,7 @@ public class CopyDAOImpl implements CopyDAO {
 
     @Override
     public List<Copy> getAllCopiesForResource(Long resourceId) {
-        return DatabaseUtils.getAll(Copy.class, "resourceId", resourceId, sessionFactory);
+        return DatabaseUtils.getAll(Copy.class, sessionFactory, "resourceId", resourceId);
     }
 
     /**

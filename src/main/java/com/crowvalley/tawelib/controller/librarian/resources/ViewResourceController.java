@@ -25,11 +25,13 @@ public class ViewResourceController {
 
     private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
 
-    private static final String VIEW_COPY_REQUESTS_FXML = "/fxml/librarian/viewCopyRequests.fxml";
+    private static final String ADD_COPY_FXML = "/fxml/librarian/resources/addCopy.fxml";
+
+    private static final String VIEW_COPY_REQUESTS_FXML = "/fxml/librarian/resources/viewCopyRequests.fxml";
+
+    public static Resource selectedResource;
 
     public static Copy selectedCopy;
-
-    private Resource resource;
 
     private CopyService copyService;
 
@@ -55,12 +57,6 @@ public class ViewResourceController {
 
     @FXML
     private TextField txtOptional5;
-
-    @FXML
-    private Label lblTitle;
-
-    @FXML
-    private Label lblYear;
 
     @FXML
     private Label lblOptional1;
@@ -93,13 +89,16 @@ public class ViewResourceController {
     private TableColumn<Copy, Integer> colNumOfRequests;
 
     @FXML
+    private Button btnAddCopy;
+
+    @FXML
     private Button btnBack;
 
     @FXML
     private Button btnViewRequests;
 
     public void initialize() {
-        resource = LibrarianResourcesTabController.selectedResource;
+        selectedResource = LibrarianResourcesTabController.selectedResource;
         populateTable();
         populateFields();
         setOnActions();
@@ -133,17 +132,17 @@ public class ViewResourceController {
     }
 
     private ObservableList<Copy> getCopies() {
-        Long resourceId = resource.getId();
+        Long resourceId = selectedResource.getId();
         List<Copy> copiesOfResource = copyService.getAllCopiesForResource(resourceId);
         return FXCollections.observableArrayList(copiesOfResource);
     }
 
     private void populateFields() {
-        ResourceType resourceType = ResourceUtils.getResourceType(resource);
+        ResourceType resourceType = ResourceUtils.getResourceType(selectedResource);
 
-        txtTitle.setText(resource.getTitle());
-        txtYear.setText(resource.getYear());
-        loadResourcePic(resource);
+        txtTitle.setText(selectedResource.getTitle());
+        txtYear.setText(selectedResource.getYear());
+        loadResourcePic(selectedResource);
 
         if (resourceType.equals(ResourceType.BOOK)) {
             populateBookFields();
@@ -163,7 +162,7 @@ public class ViewResourceController {
 
     private void populateBookFields() {
         showTextFieldsAndLabelsForBook();
-        Book book = (Book) resource;
+        Book book = (Book) selectedResource;
         txtOptional1.setText(book.getAuthor());
         txtOptional2.setText(book.getPublisher());
         txtOptional3.setText(book.getGenre());
@@ -188,7 +187,7 @@ public class ViewResourceController {
 
     private void populateDvdFields() {
         showTextFieldsAndLabelsForDvd();
-        Dvd dvd = (Dvd) resource;
+        Dvd dvd = (Dvd) selectedResource;
         txtOptional1.setText(dvd.getDirector());
         txtOptional2.setText(dvd.getLanguage());
         txtOptional3.setText(String.valueOf(dvd.getRuntime()));
@@ -210,7 +209,7 @@ public class ViewResourceController {
 
     private void populateLaptopFields() {
         showTextFieldsAndLabelsForLaptop();
-        Laptop laptop = (Laptop) resource;
+        Laptop laptop = (Laptop) selectedResource;
         txtOptional1.setText(laptop.getManufacturer());
         txtOptional2.setText(laptop.getModel());
         txtOptional3.setText(laptop.getOs());
@@ -228,11 +227,17 @@ public class ViewResourceController {
     }
 
     private void setOnActions() {
-        btnViewRequests.setOnAction(e -> openViewCopyPage());
+        btnAddCopy.setOnAction(e -> openAddCopyPage());
+        btnViewRequests.setOnAction(e -> openViewRequestsPage());
         btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
     }
 
-    private void openViewCopyPage() {
+    private void openAddCopyPage() {
+        selectedCopy = getSelectedCopy();
+        FXMLUtils.loadNewScene(tblCopies, ADD_COPY_FXML);
+    }
+
+    private void openViewRequestsPage() {
         selectedCopy = getSelectedCopy();
         FXMLUtils.loadNewScene(tblCopies, VIEW_COPY_REQUESTS_FXML);
     }

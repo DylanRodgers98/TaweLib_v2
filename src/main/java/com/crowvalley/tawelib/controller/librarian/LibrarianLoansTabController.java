@@ -21,6 +21,8 @@ import java.util.Optional;
 
 public class LibrarianLoansTabController {
 
+    private static final String NEW_LOAN_CONTROLLER_FXML = "/fxml/librarian/loans/newLoan.fxml";
+
     private LoanService loanService;
 
     private CopyService copyService;
@@ -117,6 +119,7 @@ public class LibrarianLoansTabController {
 
     private void setOnActions() {
         tblLoans.setOnMouseClicked(e -> enableButtonsIfLoanSelected());
+        btnNewLoan.setOnAction(e -> FXMLUtils.loadNewScene(btnNewLoan, NEW_LOAN_CONTROLLER_FXML));
     }
 
     private void enableButtonsIfLoanSelected() {

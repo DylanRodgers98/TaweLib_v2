@@ -68,6 +68,11 @@ public class FXMLUtils {
         return confirmationDialogBox.showAndWait();
     }
 
+    public static void displayInformationDialogBox(String dialogBoxTitle, String message) {
+        Alert confirmationDialogBox = createDialogBox(AlertType.INFORMATION, dialogBoxTitle, message);
+        confirmationDialogBox.showAndWait();
+    }
+
     private static Alert createDialogBox(AlertType alertType, String dialogBoxTitle, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(dialogBoxTitle);

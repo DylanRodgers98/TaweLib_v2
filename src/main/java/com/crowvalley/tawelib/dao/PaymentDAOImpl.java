@@ -62,7 +62,7 @@ public class PaymentDAOImpl implements PaymentDAO {
      */
     @Override
     public List<Payment> getAllPaymentsForUser(String username) {
-        return DatabaseUtils.getAll(Payment.class, "username", username, sessionFactory);
+        return DatabaseUtils.getAll(Payment.class, sessionFactory, "username", username);
     }
 
     /**

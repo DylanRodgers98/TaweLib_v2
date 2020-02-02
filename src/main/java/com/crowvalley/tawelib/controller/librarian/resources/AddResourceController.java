@@ -16,7 +16,7 @@ import java.util.Optional;
 
 public class AddResourceController {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(AddResourceController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddResourceController.class);
 
     private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
 

@@ -53,7 +53,7 @@ public class LibrarianDAOImpl implements LibrarianDAO {
      */
     @Override
     public Optional<Librarian> getWithStaffNumber(Long staffNum) {
-        List<Librarian> librarians = DatabaseUtils.getAll(Librarian.class, "staffNum", staffNum, sessionFactory);
+        List<Librarian> librarians = DatabaseUtils.getAll(Librarian.class, sessionFactory, "staffNum", staffNum);
 
         if (librarians.size() > 1) {
             throw new HibernateException("More than one Librarian retrieved from database with same staff number");

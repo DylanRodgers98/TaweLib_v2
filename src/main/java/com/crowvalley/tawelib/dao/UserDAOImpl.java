@@ -3,6 +3,9 @@ package com.crowvalley.tawelib.dao;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.util.DatabaseUtils;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +50,16 @@ public class UserDAOImpl implements UserDAO {
     @SuppressWarnings("unchecked")
     public List<User> getAll() {
         return DatabaseUtils.getAll(User.class, sessionFactory);
+    }
+
+    @Override
+    public List<String> getAllUsernames() {
+        return DatabaseUtils.castList(
+                    sessionFactory.getCurrentSession()
+                    .createCriteria(User.class)
+                    .setProjection(Projections.property("username"))
+                    .list(),
+                String.class);
     }
 
     /**

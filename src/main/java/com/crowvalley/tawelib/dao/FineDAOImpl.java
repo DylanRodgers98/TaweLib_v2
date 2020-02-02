@@ -52,7 +52,7 @@ public class FineDAOImpl implements FineDAO {
      */
     @Override
     public List<Fine> getAllFinesForUser(String username) {
-        return DatabaseUtils.getAll(Fine.class, "username", username, sessionFactory);
+        return DatabaseUtils.getAll(Fine.class, sessionFactory, "username", username);
     }
 
     /**
