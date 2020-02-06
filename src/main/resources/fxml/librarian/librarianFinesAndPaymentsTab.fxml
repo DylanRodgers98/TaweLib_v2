@@ -21,7 +21,7 @@
             </TableView>
         </center>
         <bottom>
-            <Button fx:id="btnRecordPayment" disable="true" text="Record a Payment"
+            <Button fx:id="btnRecordPayment" text="Record a Payment"
                     prefHeight="25.0" prefWidth="192.0" BorderPane.alignment="CENTER">
                 <BorderPane.margin>
                     <Insets bottom="7.0" top="8.0"/>

@@ -55,11 +55,10 @@ public class BookServiceImpl implements ResourceService<Book> {
         List<Book> books = DAO.getAll();
         if (!books.isEmpty()) {
             LOGGER.info("All books retrieved successfully");
-            return books;
         } else {
             LOGGER.warn("No books found");
-            return books;
         }
+        return books;
     }
 
     /**

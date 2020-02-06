@@ -1,7 +1,5 @@
 package com.crowvalley.tawelib.model.resource;
 
-import org.apache.commons.lang3.StringUtils;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -37,10 +35,10 @@ public class Laptop extends Resource {
         return new StringBuilder(getTitle())
                 .append(" (")
                 .append(getYear())
-                .append(StringUtils.SPACE)
-                .append(getManufacturer())
-                .append(StringUtils.SPACE)
-                .append(getModel())
+                .append(" ")
+                .append(manufacturer)
+                .append(" ")
+                .append(model)
                 .append(")")
                 .toString();
     }

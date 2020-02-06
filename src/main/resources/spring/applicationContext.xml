@@ -93,6 +93,12 @@
         <property name="paymentService" ref="paymentService" />
     </bean>
 
+    <bean id="recordPaymentController" class="com.crowvalley.tawelib.controller.librarian.finesandpayments.RecordPaymentController" >
+        <property name="userService" ref="userService" />
+        <property name="fineService" ref="fineService" />
+        <property name="paymentService" ref="paymentService" />
+    </bean>
+
     <bean id="librarianProfileTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianProfileTabController" >
         <property name="librarianService" ref="librarianService" />
     </bean>
@@ -114,10 +120,12 @@
 
     <bean id="copyService" class="com.crowvalley.tawelib.service.CopyServiceImpl">
         <property name="DAO" ref="copyDAO"/>
+        <property name="loanService" ref="loanService" />
     </bean>
 
     <bean id="userService" class="com.crowvalley.tawelib.service.UserServiceImpl">
         <property name="DAO" ref="userDAO"/>
+        <property name="fineService" ref="fineService" />
     </bean>
 
     <bean id="librarianService" class="com.crowvalley.tawelib.service.LibrarianServiceImpl">

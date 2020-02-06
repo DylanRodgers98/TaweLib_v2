@@ -11,9 +11,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Date;
 import java.util.Comparator;
@@ -55,14 +57,11 @@ public class LibrarianLoansTabController {
     private Button btnNewLoan;
 
     @FXML
-    private Button btnViewOrEditLoan;
-
-    @FXML
     private Button btnEndLoan;
 
     public void initialize() {
         populateTable();
-        FXMLUtils.makeNodesDisabled(btnViewOrEditLoan, btnEndLoan);
+        FXMLUtils.makeNodesDisabled(btnEndLoan);
         setOnActions();
     }
 
@@ -82,33 +81,39 @@ public class LibrarianLoansTabController {
     }
 
     private ObservableStringValue getCopyTitle(Copy copy) {
+        StringBuilder titleBuilder = new StringBuilder();
+
         Long resourceId = copy.getResourceId();
         ResourceType resourceType = copy.getResourceType();
         if (resourceType.equals(ResourceType.BOOK)) {
-            return getBookTitle(resourceId);
+            titleBuilder.append(getBookTitle(resourceId));
         }
         if (resourceType.equals(ResourceType.DVD)) {
-            return getDvdTitle(resourceId);
+            titleBuilder.append(getDvdTitle(resourceId));
         }
         if (resourceType.equals(ResourceType.LAPTOP)) {
-            return getLaptopTitle(resourceId);
+            titleBuilder.append(getLaptopTitle(resourceId));
         }
-        return null;
+
+        titleBuilder.append(" (")
+                .append(copy.getLoanDurationAsDays())
+                .append(" day loan)");
+        return new SimpleStringProperty(titleBuilder.toString());
     }
 
-    private ObservableStringValue getBookTitle(Long resourceId) {
+    private String getBookTitle(Long resourceId) {
         Optional<Book> book = bookService.get(resourceId);
-        return book.map(e -> new SimpleStringProperty(e.getTitle())).orElse(null);
+        return book.map(Book::getTitle).orElse(StringUtils.EMPTY);
     }
 
-    private ObservableStringValue getDvdTitle(Long resourceId) {
+    private String getDvdTitle(Long resourceId) {
         Optional<Dvd> dvd = dvdService.get(resourceId);
-        return dvd.map(e -> new SimpleStringProperty(e.getTitle())).orElse(null);
+        return dvd.map(Dvd::getTitle).orElse(StringUtils.EMPTY);
     }
 
-    private ObservableStringValue getLaptopTitle(Long resourceId) {
+    private String getLaptopTitle(Long resourceId) {
         Optional<Laptop> laptop = laptopService.get(resourceId);
-        return laptop.map(e -> new SimpleStringProperty(e.getTitle())).orElse(null);
+        return laptop.map(Laptop::getTitle).orElse(StringUtils.EMPTY);
     }
 
     private ObservableList<Loan> getLoans() {
@@ -120,11 +125,20 @@ public class LibrarianLoansTabController {
     private void setOnActions() {
         tblLoans.setOnMouseClicked(e -> enableButtonsIfLoanSelected());
         btnNewLoan.setOnAction(e -> FXMLUtils.loadNewScene(btnNewLoan, NEW_LOAN_CONTROLLER_FXML));
+        btnEndLoan.setOnAction(e -> endLoan());
     }
 
     private void enableButtonsIfLoanSelected() {
         if (getSelectedLoan() != null) {
-            FXMLUtils.makeNodesEnabled(btnViewOrEditLoan, btnEndLoan);
+            FXMLUtils.makeNodesEnabled(btnEndLoan);
+        }
+    }
+
+    private void endLoan() {
+        Optional<ButtonType> result = FXMLUtils.displayConfirmationDialogBox("End Loan", "Are you sure you want to end the loan?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            loanService.endLoan(getSelectedLoan());
+            initialize();
         }
     }
 

@@ -1,6 +1,5 @@
 package com.crowvalley.tawelib.util;
 
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;

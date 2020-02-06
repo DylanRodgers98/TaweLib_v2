@@ -76,11 +76,10 @@ public class LibrarianServiceImpl implements LibrarianService {
         List<Librarian> users = DAO.getAll();
         if (!users.isEmpty()) {
             LOGGER.info("All users retrieved successfully");
-            return users;
         } else {
             LOGGER.warn("No users found");
-            return users;
         }
+        return users;
     }
 
     /**

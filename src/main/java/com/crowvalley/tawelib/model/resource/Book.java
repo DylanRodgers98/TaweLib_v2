@@ -1,7 +1,5 @@
 package com.crowvalley.tawelib.model.resource;
 
-import org.apache.commons.lang3.StringUtils;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -43,7 +41,7 @@ public class Book extends Resource {
     public String toString() {
         return new StringBuilder(getTitle())
                 .append(" by ")
-                .append(getAuthor())
+                .append(author)
                 .append(" (")
                 .append(getYear())
                 .append(")")

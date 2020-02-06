@@ -46,7 +46,6 @@ public class PaymentDAOImpl implements PaymentDAO {
      * @return A {@link List} of all {@link Payment}s stored in the database.
      */
     @Override
-    @SuppressWarnings("unchecked")
     public List<Payment> getAll() {
         return DatabaseUtils.getAll(Payment.class, sessionFactory);
     }

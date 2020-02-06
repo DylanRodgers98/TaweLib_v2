@@ -55,11 +55,10 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
         List<Laptop> laptops = DAO.getAll();
         if (!laptops.isEmpty()) {
             LOGGER.info("All laptops retrieved successfully");
-            return laptops;
         } else {
             LOGGER.warn("No laptops found");
-            return laptops;
         }
+        return laptops;
     }
 
     /**

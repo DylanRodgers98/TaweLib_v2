@@ -59,7 +59,6 @@ public class FineDAOImpl implements FineDAO {
      * @return A {@link List} of all {@link Fine}s stored in the database.
      */
     @Override
-    @SuppressWarnings("unchecked")
     public List<Fine> getAll() {
         return DatabaseUtils.getAll(Fine.class, sessionFactory);
     }

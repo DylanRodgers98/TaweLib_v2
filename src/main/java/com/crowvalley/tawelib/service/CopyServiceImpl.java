@@ -6,10 +6,10 @@ import com.crowvalley.tawelib.model.resource.CopyRequest;
 import com.crowvalley.tawelib.model.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service class for retrieving data about {@link Copy} objects
@@ -22,8 +22,9 @@ public class CopyServiceImpl implements CopyService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CopyServiceImpl.class);
 
-    @Autowired
     private CopyDAO DAO;
+
+    private LoanService loanService;
 
     /**
      * Retrieves a {@link Copy} from the DAO using the {@link Copy}'s
@@ -55,16 +56,22 @@ public class CopyServiceImpl implements CopyService {
         List<Copy> copies = DAO.getAll();
         if (!copies.isEmpty()) {
             LOGGER.info("All copies retrieved successfully");
-            return copies;
         } else {
             LOGGER.warn("No copies found");
-            return copies;
         }
+        return copies;
     }
 
     @Override
     public List<Copy> getAllCopiesForResource(Long resourceId) {
         return DAO.getAllCopiesForResource(resourceId);
+    }
+
+    @Override
+    public List<Copy> getAllCopiesNotOnLoanForResource(Long resourceId) {
+        return getAllCopiesForResource(resourceId).stream()
+                .filter(copy -> !loanService.isCopyOnLoan(copy.getId()))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -163,6 +170,10 @@ public class CopyServiceImpl implements CopyService {
     public void setDAO(CopyDAO DAO) {
         this.DAO = DAO;
         LOGGER.info("CopyServiceImpl DAO set to {}", DAO.getClass());
+    }
+
+    public void setLoanService(LoanService loanService) {
+        this.loanService = loanService;
     }
 
 }

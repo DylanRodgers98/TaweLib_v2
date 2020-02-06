@@ -55,11 +55,10 @@ public class DvdServiceImpl implements ResourceService<Dvd> {
         List<Dvd> dvds = DAO.getAll();
         if (!dvds.isEmpty()) {
             LOGGER.info("All DVDs retrieved successfully");
-            return dvds;
         } else {
             LOGGER.warn("No DVDs found");
-            return dvds;
         }
+        return dvds;
     }
 
     /**

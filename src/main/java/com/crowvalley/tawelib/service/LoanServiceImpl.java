@@ -6,6 +6,7 @@ import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.model.resource.Loan;
 import com.crowvalley.tawelib.model.resource.ResourceType;
 import com.crowvalley.tawelib.model.user.User;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,15 +72,29 @@ public class LoanServiceImpl implements LoanService {
         List<Loan> loans = DAO.getAllLoansForCopy(copyId);
         if (!loans.isEmpty()) {
             LOGGER.info("All loans for copy (ID: {}) retrieved successfully", copyId);
-            return loans;
         } else {
             LOGGER.warn("No loans found for copy with ID {}", copyId);
-            return loans;
         }
+        return loans;
     }
 
+    @Override
     public Optional<Loan> getCurrentLoanForCopy(Long copyId) {
         return DAO.getCurrentLoanForCopy(copyId);
+    }
+
+    @Override
+    public boolean isCopyOnLoan(Long copyId) {
+        return getCurrentLoanForCopy(copyId).isPresent();
+    }
+
+    @Override
+    public String getUsernameOfCurrentBorrowerForCopy(Long copyId) {
+        Optional<Loan> loanForCopy = getCurrentLoanForCopy(copyId);
+        if (loanForCopy.isPresent()) {
+            return loanForCopy.get().getBorrowerUsername();
+        }
+        return StringUtils.EMPTY;
     }
 
     /**
@@ -96,11 +111,10 @@ public class LoanServiceImpl implements LoanService {
         List<Loan> loans = DAO.getAllLoansForUser(username);
         if (!loans.isEmpty()) {
             LOGGER.info("All loans for user {} retrieved successfully", username);
-            return loans;
         } else {
             LOGGER.warn("No loans found for user {}", username);
-            return loans;
         }
+        return loans;
     }
 
     /**
@@ -111,11 +125,10 @@ public class LoanServiceImpl implements LoanService {
         List<Loan> loans = DAO.getAll();
         if (!loans.isEmpty()) {
             LOGGER.info("All loans retrieved successfully");
-            return loans;
         } else {
             LOGGER.warn("No loans found");
-            return loans;
         }
+        return loans;
     }
 
     /**
@@ -173,7 +186,7 @@ public class LoanServiceImpl implements LoanService {
 
         if (returnDate.after(endDate)) {
             Optional<Copy> copy = copyService.get(loan.getCopyId());
-            if (!copy.isPresent()) {
+            if (copy.isEmpty()) {
                 LOGGER.error("Could not retrieve copy (ID: {}) from database", loan.getCopyId());
                 throw new IllegalStateException("Could not retrieve copy from database");
             } else {

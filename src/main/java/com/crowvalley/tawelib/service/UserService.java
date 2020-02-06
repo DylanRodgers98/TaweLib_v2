@@ -1,9 +1,11 @@
 package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.UserDAO;
+import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.user.User;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -19,6 +21,8 @@ public interface UserService {
     List<User> getAll();
 
     List<String> getAllUsernames();
+
+    Map<String, List<Fine>> getAllUsersWithFines();
 
     void save(User user);
 

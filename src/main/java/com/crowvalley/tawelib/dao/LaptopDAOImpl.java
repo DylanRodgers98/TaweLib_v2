@@ -45,7 +45,6 @@ public class LaptopDAOImpl implements ResourceDAO<Laptop> {
      * @return A {@link List} of all {@link Laptop}s stored in the database.
      */
     @Override
-    @SuppressWarnings("unchecked")
     public List<Laptop> getAll() {
         return DatabaseUtils.getAll(Laptop.class, sessionFactory);
     }

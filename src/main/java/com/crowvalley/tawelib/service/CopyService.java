@@ -20,6 +20,8 @@ public interface CopyService {
 
     List<Copy> getAllCopiesForResource(Long resourceId);
 
+    List<Copy> getAllCopiesNotOnLoanForResource(Long resourceId);
+
     void save(Copy copy);
 
     void update(Copy copy);

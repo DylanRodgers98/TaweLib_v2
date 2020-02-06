@@ -44,7 +44,6 @@ public class DvdDAOImpl implements ResourceDAO<Dvd> {
      * @return A {@link List} of all {@link Dvd}s stored in the database.
      */
     @Override
-    @SuppressWarnings("unchecked")
     public List<Dvd> getAll() {
         return DatabaseUtils.getAll(Dvd.class, sessionFactory);
     }

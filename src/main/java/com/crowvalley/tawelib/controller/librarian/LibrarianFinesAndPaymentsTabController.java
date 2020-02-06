@@ -6,6 +6,7 @@ import com.crowvalley.tawelib.model.fine.Transaction;
 import com.crowvalley.tawelib.model.fine.TransactionType;
 import com.crowvalley.tawelib.service.FineService;
 import com.crowvalley.tawelib.service.PaymentService;
+import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableStringValue;
@@ -22,6 +23,8 @@ import java.util.Comparator;
 import java.util.List;
 
 public class LibrarianFinesAndPaymentsTabController {
+
+    private static final String RECORD_PAYMENT_FXML = "/fxml/librarian/finesAndPayments/recordPayment.fxml";
 
     private FineService fineService;
 
@@ -44,6 +47,7 @@ public class LibrarianFinesAndPaymentsTabController {
 
     public void initialize() {
         populateTable();
+        btnRecordPayment.setOnAction(e -> FXMLUtils.loadNewScene(btnRecordPayment, RECORD_PAYMENT_FXML));
     }
 
     private void populateTable() {

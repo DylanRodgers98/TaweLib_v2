@@ -16,7 +16,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -118,12 +117,8 @@ public class ViewResourceController {
 
     private ObservableStringValue getCurrentBorrower(TableColumn.CellDataFeatures<Copy, String> copy) {
         Copy copyFromTable = copy.getValue();
-        Optional<Loan> loanForCopy = loanService.getCurrentLoanForCopy(copyFromTable.getId());
-        if (loanForCopy.isPresent()) {
-            return new ReadOnlyStringWrapper(loanForCopy.get().getBorrowerUsername());
-        } else {
-            return new ReadOnlyStringWrapper(StringUtils.EMPTY);
-        }
+        String username = loanService.getUsernameOfCurrentBorrowerForCopy(copyFromTable.getId());
+        return new ReadOnlyStringWrapper(username);
     }
 
     private ObservableValue<Integer> getNumberOfRequests(TableColumn.CellDataFeatures<Copy, Integer> copy) {
@@ -230,6 +225,7 @@ public class ViewResourceController {
         btnAddCopy.setOnAction(e -> openAddCopyPage());
         btnViewRequests.setOnAction(e -> openViewRequestsPage());
         btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
+        tblCopies.setOnMouseClicked(e -> enableViewRequestsButtonIfResourceSelected());
     }
 
     private void openAddCopyPage() {
@@ -240,6 +236,12 @@ public class ViewResourceController {
     private void openViewRequestsPage() {
         selectedCopy = getSelectedCopy();
         FXMLUtils.loadNewScene(tblCopies, VIEW_COPY_REQUESTS_FXML);
+    }
+
+    private void enableViewRequestsButtonIfResourceSelected() {
+        if (getSelectedCopy() != null) {
+            FXMLUtils.makeNodesEnabled(btnViewRequests);
+        }
     }
 
     private Copy getSelectedCopy() {

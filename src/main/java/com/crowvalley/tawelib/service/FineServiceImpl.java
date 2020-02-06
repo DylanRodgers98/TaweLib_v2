@@ -60,11 +60,10 @@ public class FineServiceImpl implements FineService {
         List<Fine> fines = DAO.getAllFinesForUser(username);
         if (!fines.isEmpty()) {
             LOGGER.info("All fines for user {} retrieved successfully", username);
-            return fines;
         } else {
             LOGGER.warn("No fines found for user {}", username);
-            return fines;
         }
+        return fines;
     }
 
     /**
@@ -75,11 +74,10 @@ public class FineServiceImpl implements FineService {
         List<Fine> fines = DAO.getAll();
         if (!fines.isEmpty()) {
             LOGGER.info("All fines retrieved successfully");
-            return fines;
         } else {
             LOGGER.warn("No fines found");
-            return fines;
         }
+        return fines;
     }
 
     /**

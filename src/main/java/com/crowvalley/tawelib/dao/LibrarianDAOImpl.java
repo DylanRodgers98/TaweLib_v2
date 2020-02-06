@@ -70,7 +70,6 @@ public class LibrarianDAOImpl implements LibrarianDAO {
      * @return A {@link List} of all {@link Librarian}s stored in the database.
      */
     @Override
-    @SuppressWarnings("unchecked")
     public List<Librarian> getAll() {
         return DatabaseUtils.getAll(Librarian.class, sessionFactory);
     }

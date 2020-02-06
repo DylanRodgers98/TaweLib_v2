@@ -78,7 +78,7 @@ public class NewLoanController {
         Resource resource = cmbResource.getValue();
         if (resource != null) {
             Long resourceId = resource.getId();
-            List<Copy> copiesOfResource = copyService.getAllCopiesForResource(resourceId);
+            List<Copy> copiesOfResource = copyService.getAllCopiesNotOnLoanForResource(resourceId);
             cmbCopy.setItems(FXCollections.observableArrayList(copiesOfResource));
             setEnabledOnCreateLoanButton();
         }

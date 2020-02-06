@@ -21,12 +21,6 @@ public class Copy {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Copy.class);
 
-    public static final String BOOK_TYPE = "Book";
-
-    public static final String DVD_TYPE = "Dvd";
-
-    public static final String LAPTOP_TYPE = "Laptop";
-
     @Id
     @GeneratedValue
     @Column(name = "copy_id")
@@ -101,6 +95,11 @@ public class Copy {
         } else {
             LOGGER.info("No copy request found for user {} for copy (ID: {})", username, id);
         }
+    }
+
+    @Override
+    public String toString() {
+        return loanDurationAsDays + " day loan";
     }
 
     public Long getId() {

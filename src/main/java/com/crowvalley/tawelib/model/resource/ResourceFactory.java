@@ -89,7 +89,7 @@ public class ResourceFactory {
         Long id = copy.getId();
         Assert.notNull(id, COPY_HAS_NO_ID_ERROR_MESSAGE);
 
-        Long startTimeInMillis = System.currentTimeMillis();
+        long startTimeInMillis = System.currentTimeMillis();
         Date startDate = new Date(startTimeInMillis);
         Date endDate = new Date(startTimeInMillis + TimeUnit.DAYS.toMillis(copy.getLoanDurationAsDays()));
 

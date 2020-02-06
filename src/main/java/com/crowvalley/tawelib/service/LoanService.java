@@ -20,6 +20,10 @@ public interface LoanService {
 
     Optional<Loan> getCurrentLoanForCopy(Long copyId);
 
+    boolean isCopyOnLoan(Long copyId);
+
+    String getUsernameOfCurrentBorrowerForCopy(Long copyId);
+
     List<Loan> getAllLoansForUser(String username);
 
     List<Loan> getAll();

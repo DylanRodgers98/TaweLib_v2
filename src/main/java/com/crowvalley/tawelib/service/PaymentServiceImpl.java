@@ -54,11 +54,10 @@ public class PaymentServiceImpl implements PaymentService {
         List<Payment> payments = DAO.getAll();
         if (!payments.isEmpty()) {
             LOGGER.info("All payments retrieved successfully");
-            return payments;
         } else {
             LOGGER.warn("No fines found");
-            return payments;
         }
+        return payments;
     }
 
     /**
@@ -75,11 +74,10 @@ public class PaymentServiceImpl implements PaymentService {
         List<Payment> payments = DAO.getAllPaymentsForUser(username);
         if (!payments.isEmpty()) {
             LOGGER.info("All payments for user {} retrieved successfully", username);
-            return payments;
         } else {
             LOGGER.warn("No payments found for user {}", username);
-            return payments;
         }
+        return payments;
     }
 
     /**

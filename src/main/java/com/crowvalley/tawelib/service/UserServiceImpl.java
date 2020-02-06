@@ -1,13 +1,16 @@
 package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.UserDAO;
+import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service class for retrieving data about {@link User} objects
@@ -20,8 +23,9 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    @Autowired
     private UserDAO DAO;
+
+    private FineService fineService;
 
     /**
      * Retrieves a {@link User} from the DAO using the {@link User}'s
@@ -53,16 +57,27 @@ public class UserServiceImpl implements UserService {
         List<User> users = DAO.getAll();
         if (!users.isEmpty()) {
             LOGGER.info("All users retrieved successfully");
-            return users;
         } else {
             LOGGER.warn("No users found");
-            return users;
         }
+        return users;
     }
 
     @Override
     public List<String> getAllUsernames() {
         return DAO.getAllUsernames();
+    }
+
+    @Override
+    public Map<String, List<Fine>> getAllUsersWithFines() {
+        Map<String, List<Fine>> usersWithFines = new HashMap<>();
+        for (String username : getAllUsernames()) {
+            List<Fine> finesForUser = fineService.getAllFinesForUser(username);
+            if (!finesForUser.isEmpty()) {
+                usersWithFines.put(username, finesForUser);
+            }
+        }
+        return usersWithFines;
     }
 
     /**
@@ -97,6 +112,10 @@ public class UserServiceImpl implements UserService {
     public void delete(User user) {
         DAO.delete(user);
         LOGGER.info("User with username {} deleted successfully", user.getUsername());
+    }
+
+    public void setFineService(FineService fineService) {
+        this.fineService = fineService;
     }
 
     @Override

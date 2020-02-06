@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -36,10 +37,19 @@ public class ViewCopyRequestsController {
     @FXML
     private Button btnApproveRequest;
 
+    @FXML
+    private Label lblCopyTitle;
+
     public void initialize() {
         copy = ViewResourceController.selectedCopy;
+        setCopyTitleLabel();
         populateTable();
         setOnActions();
+    }
+
+    private void setCopyTitleLabel() {
+        String resourceTitle = ViewResourceController.selectedResource.getTitle();
+        lblCopyTitle.setText("Copy: " + resourceTitle + " (" + copy.toString() + ")");
     }
 
     private void populateTable() {
