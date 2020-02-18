@@ -1,8 +1,7 @@
 package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.CopyDAO;
-import com.crowvalley.tawelib.model.resource.Copy;
-import com.crowvalley.tawelib.model.resource.CopyRequest;
+import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.model.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,10 +25,16 @@ public class CopyServiceImpl implements CopyService {
 
     private LoanService loanService;
 
+    private ResourceService<Book> bookService;
+
+    private ResourceService<Dvd> dvdService;
+
+    private ResourceService<Laptop> laptopService;
+
     /**
      * Retrieves a {@link Copy} from the DAO using the {@link Copy}'s
-     * {@code id} and returns it wrapped in an {@link Optional}. If a
-     * {@link Copy} with the passed {@code id} isn't retrieved from the
+     * {@code copyId} and returns it wrapped in an {@link Optional}. If a
+     * {@link Copy} with the passed {@code copyId} isn't retrieved from the
      * DAO, an empty {@link Optional} is returned.
      *
      * @param id The ID of the {@link Copy} to be retrieved
@@ -38,14 +43,7 @@ public class CopyServiceImpl implements CopyService {
      */
     @Override
     public Optional<Copy> get(Long id) {
-        Optional<Copy> copy = DAO.get(id);
-        if (copy.isPresent()) {
-            LOGGER.info("Copy with ID {} retrieved successfully", id);
-            return copy;
-        } else {
-            LOGGER.warn("Could not find copy with ID {}", id);
-            return Optional.empty();
-        }
+        return DAO.get(id);
     }
 
     /**
@@ -53,13 +51,7 @@ public class CopyServiceImpl implements CopyService {
      */
     @Override
     public List<Copy> getAll() {
-        List<Copy> copies = DAO.getAll();
-        if (!copies.isEmpty()) {
-            LOGGER.info("All copies retrieved successfully");
-        } else {
-            LOGGER.warn("No copies found");
-        }
-        return copies;
+        return DAO.getAll();
     }
 
     @Override
@@ -111,15 +103,14 @@ public class CopyServiceImpl implements CopyService {
     /**
      * Adds a {@link CopyRequest} within a persisted {@link Copy} object.
      *
-     * @param id The ID of the {@link Copy} object for which to create a
+     * @param copyId The ID of the {@link Copy} object for which to create a
      *           {@link CopyRequest} for.
      * @param username The {@code username} of the {@link User} for which
      *                 to create a {@link CopyRequest} for.
      */
     @Override
-    public void createCopyRequestForPersistedCopy(Long id, String username) {
-        Optional<Copy> optionalCopy = get(id);
-        optionalCopy.ifPresent(copy -> createCopyRequestForPersistedCopy(copy, username));
+    public void createCopyRequestForPersistedCopy(Long copyId, String username) {
+        get(copyId).ifPresent(copy -> createCopyRequestForPersistedCopy(copy, username));
     }
 
     /**
@@ -140,15 +131,14 @@ public class CopyServiceImpl implements CopyService {
      * Deletes a {@link CopyRequest} from within a persisted {@link Copy}
      * object.
      *
-     * @param id The ID of the {@link Copy} object for which to delete a
+     * @param copyId The ID of the {@link Copy} object for which to delete a
      *           {@link CopyRequest} from.
      * @param username The {@code username} of the {@link User} for which
      *                 to delete the {@link CopyRequest} for.
      */
     @Override
-    public void deleteCopyRequestFromPersistedCopy(Long id, String username) {
-        Optional<Copy> optionalCopy = get(id);
-        optionalCopy.ifPresent(copy -> deleteCopyRequestFromPersistedCopy(copy, username));
+    public void deleteCopyRequestFromPersistedCopy(Long copyId, String username) {
+        get(copyId).ifPresent(copy -> deleteCopyRequestFromPersistedCopy(copy, username));
     }
 
     /**
@@ -167,13 +157,46 @@ public class CopyServiceImpl implements CopyService {
     }
 
     @Override
+    public Optional<? extends Resource> getResourceFromCopy(Copy copy) {
+        ResourceType resourceType = copy.getResourceType();
+
+        if (resourceType.equals(ResourceType.BOOK)) {
+            return bookService.get(copy.getResourceId());
+        }
+        if (resourceType.equals(ResourceType.DVD)) {
+            return dvdService.get(copy.getResourceId());
+        }
+        if (resourceType.equals(ResourceType.LAPTOP)) {
+            return laptopService.get(copy.getResourceId());
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
     public void setDAO(CopyDAO DAO) {
         this.DAO = DAO;
-        LOGGER.info("CopyServiceImpl DAO set to {}", DAO.getClass());
+        LOGGER.info("{} DAO set to {}", this.getClass().getSimpleName(), DAO.getClass().getSimpleName());
     }
 
     public void setLoanService(LoanService loanService) {
         this.loanService = loanService;
+        LOGGER.info("{} LoanService set to {}", this.getClass().getSimpleName(), loanService.getClass().getSimpleName());
+    }
+
+    public void setBookService(ResourceService<Book> bookService) {
+        this.bookService = bookService;
+        LOGGER.info("{} BookService set to {}", this.getClass().getSimpleName(), bookService.getClass().getSimpleName());
+    }
+
+    public void setDvdService(ResourceService<Dvd> dvdService) {
+        this.dvdService = dvdService;
+        LOGGER.info("{} DvdService set to {}", this.getClass().getSimpleName(), dvdService.getClass().getSimpleName());
+    }
+
+    public void setLaptopService(ResourceService<Laptop> laptopService) {
+        this.laptopService = laptopService;
+        LOGGER.info("{} LaptopService set to {}", this.getClass().getSimpleName(), laptopService.getClass().getSimpleName());
     }
 
 }

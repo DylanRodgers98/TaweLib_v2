@@ -109,4 +109,10 @@ public class FXMLUtils {
         }
     }
 
+    public static Object getController(String fxml) throws IOException {
+        FXMLLoader loader = prepareFXMLLoader(fxml);
+        loader.load();
+        return loader.getController();
+    }
+
 }

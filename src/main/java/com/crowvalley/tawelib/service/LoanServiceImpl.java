@@ -27,13 +27,10 @@ public class LoanServiceImpl implements LoanService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoanServiceImpl.class);
 
-    @Autowired
     private LoanDAO DAO;
 
-    @Autowired
     private FineService fineService;
 
-    @Autowired
     private CopyService copyService;
 
     /**
@@ -48,14 +45,7 @@ public class LoanServiceImpl implements LoanService {
      */
     @Override
     public Optional<Loan> get(Long loanId) {
-        Optional<Loan> loan = DAO.get(loanId);
-        if (loan.isPresent()) {
-            LOGGER.info("Loan (ID: {}) for copy (ID: {}) retrieved successfully", loanId, loan.get().getCopyId());
-            return loan;
-        } else {
-            LOGGER.warn("Could not find loan with ID {}", loanId);
-            return Optional.empty();
-        }
+        return DAO.get(loanId);
     }
 
     /**
@@ -69,13 +59,7 @@ public class LoanServiceImpl implements LoanService {
      */
     @Override
     public List<Loan> getAllLoansForCopy(Long copyId) {
-        List<Loan> loans = DAO.getAllLoansForCopy(copyId);
-        if (!loans.isEmpty()) {
-            LOGGER.info("All loans for copy (ID: {}) retrieved successfully", copyId);
-        } else {
-            LOGGER.warn("No loans found for copy with ID {}", copyId);
-        }
-        return loans;
+        return DAO.getAllLoansForCopy(copyId);
     }
 
     @Override
@@ -108,13 +92,7 @@ public class LoanServiceImpl implements LoanService {
      */
     @Override
     public List<Loan> getAllLoansForUser(String username) {
-        List<Loan> loans = DAO.getAllLoansForUser(username);
-        if (!loans.isEmpty()) {
-            LOGGER.info("All loans for user {} retrieved successfully", username);
-        } else {
-            LOGGER.warn("No loans found for user {}", username);
-        }
-        return loans;
+        return DAO.getAllLoansForUser(username);
     }
 
     /**
@@ -122,13 +100,7 @@ public class LoanServiceImpl implements LoanService {
      */
     @Override
     public List<Loan> getAll() {
-        List<Loan> loans = DAO.getAll();
-        if (!loans.isEmpty()) {
-            LOGGER.info("All loans retrieved successfully");
-        } else {
-            LOGGER.warn("No loans found");
-        }
-        return loans;
+        return DAO.getAll();
     }
 
     /**
@@ -214,7 +186,16 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public void setDAO(LoanDAO DAO) {
         this.DAO = DAO;
-        LOGGER.info("LoanServiceImpl DAO set to {}", DAO.getClass());
+        LOGGER.info("{} DAO set to {}", this.getClass().getSimpleName(), DAO.getClass().getSimpleName());
     }
 
+    public void setFineService(FineService fineService) {
+        this.fineService = fineService;
+        LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), fineService.getClass().getSimpleName());
+    }
+
+    public void setCopyService(CopyService copyService) {
+        this.copyService = copyService;
+        LOGGER.info("{} CopyService set to {}", this.getClass().getSimpleName(), copyService.getClass().getSimpleName());
+    }
 }

@@ -1,5 +1,7 @@
 package com.crowvalley.tawelib.controller.librarian;
 
+import com.crowvalley.tawelib.controller.librarian.resources.EditResourceController;
+import com.crowvalley.tawelib.controller.librarian.resources.ViewResourceController;
 import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
@@ -14,19 +16,22 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.Optional;
 
 public class LibrarianResourcesTabController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LibrarianResourcesTabController.class);
 
     private static final String ADD_NEW_RESOURCE_FXML = "/fxml/librarian/resources/addResource.fxml";
 
     private static final String VIEW_RESOURCE_FXML = "/fxml/librarian/resources/viewResource.fxml";
 
     private static final String EDIT_RESOURCE_FXML = "/fxml/librarian/resources/editResource.fxml";
-
-    public static Resource selectedResource;
 
     private ResourceService<Book> bookService;
 
@@ -80,7 +85,7 @@ public class LibrarianResourcesTabController {
         resources.addAll(bookService.getAll());
         resources.addAll(dvdService.getAll());
         resources.addAll(laptopService.getAll());
-        resources.sort(Comparator.comparingLong(Resource::getId));
+        resources.sort(Comparator.comparing(Resource::getTitle));
         return resources;
     }
 
@@ -99,17 +104,35 @@ public class LibrarianResourcesTabController {
     }
 
     private void openViewResourcePage() {
-        selectedResource = getSelectedResource();
-        FXMLUtils.loadNewScene(tblResources, VIEW_RESOURCE_FXML);
+        try {
+            ViewResourceController controller = (ViewResourceController) FXMLUtils.getController(VIEW_RESOURCE_FXML);
+            controller.setSelectedResource(getSelectedResource());
+            FXMLUtils.loadNewScene(tblResources, VIEW_RESOURCE_FXML);
+        } catch (IOException e) {
+            LOGGER.error("IOException caught when loading new scene from FXML", e);
+            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
+        } catch (ClassCastException e) {
+            LOGGER.error("ClassCastException caught when trying to cast controller from FXML to ViewResourceController", e);
+            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
+        }
     }
 
     private void openEditResourcePage() {
-        selectedResource = getSelectedResource();
-        FXMLUtils.loadNewScene(tblResources, EDIT_RESOURCE_FXML);
+        try {
+            EditResourceController controller = (EditResourceController) FXMLUtils.getController(EDIT_RESOURCE_FXML);
+            controller.setSelectedResource(getSelectedResource());
+            FXMLUtils.loadNewScene(tblResources, EDIT_RESOURCE_FXML);
+        } catch (IOException e) {
+            LOGGER.error("IOException caught when loading new scene from FXML", e);
+            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
+        } catch (ClassCastException e) {
+            LOGGER.error("ClassCastException caught when trying to cast controller from FXML to EditResourceController", e);
+            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
+        }
     }
 
     private void deleteSelectedResource() {
-        selectedResource = getSelectedResource();
+        Resource selectedResource = getSelectedResource();
         String message = String.format("Are you sure you want to delete resource '%s'?", selectedResource.getTitle());
         Optional<ButtonType> result = FXMLUtils.displayConfirmationDialogBox("Delete Resource",  message);
 
@@ -134,14 +157,17 @@ public class LibrarianResourcesTabController {
 
     public void setBookService(ResourceService<Book> bookService) {
         this.bookService = bookService;
+        LOGGER.info("{} BookService set to {}", this.getClass().getSimpleName(), bookService.getClass().getSimpleName());
     }
 
     public void setDvdService(ResourceService<Dvd> dvdService) {
         this.dvdService = dvdService;
+        LOGGER.info("{} DvdService set to {}", this.getClass().getSimpleName(), dvdService.getClass().getSimpleName());
     }
 
     public void setLaptopService(ResourceService<Laptop> laptopService) {
         this.laptopService = laptopService;
+        LOGGER.info("{} LaptopService set to {}", this.getClass().getSimpleName(), laptopService.getClass().getSimpleName());
     }
 
 }

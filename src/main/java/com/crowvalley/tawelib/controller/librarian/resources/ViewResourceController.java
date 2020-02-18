@@ -1,6 +1,5 @@
 package com.crowvalley.tawelib.controller.librarian.resources;
 
-import com.crowvalley.tawelib.controller.librarian.LibrarianResourcesTabController;
 import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.LoanService;
@@ -16,11 +15,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 public class ViewResourceController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ViewResourceController.class);
 
     private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
 
@@ -28,9 +32,7 @@ public class ViewResourceController {
 
     private static final String VIEW_COPY_REQUESTS_FXML = "/fxml/librarian/resources/viewCopyRequests.fxml";
 
-    public static Resource selectedResource;
-
-    public static Copy selectedCopy;
+    private Resource selectedResource;
 
     private CopyService copyService;
 
@@ -97,10 +99,11 @@ public class ViewResourceController {
     private Button btnViewRequests;
 
     public void initialize() {
-        selectedResource = LibrarianResourcesTabController.selectedResource;
-        populateTable();
-        populateFields();
-        setOnActions();
+        if (selectedResource != null) {
+            populateTable();
+            populateFields();
+            setOnActions();
+        }
     }
 
     private void populateTable() {
@@ -229,13 +232,31 @@ public class ViewResourceController {
     }
 
     private void openAddCopyPage() {
-        selectedCopy = getSelectedCopy();
-        FXMLUtils.loadNewScene(tblCopies, ADD_COPY_FXML);
+        try {
+            AddCopyController controller = (AddCopyController) FXMLUtils.getController(ADD_COPY_FXML);
+            controller.setSelectedResource(selectedResource);
+            FXMLUtils.loadNewScene(tblCopies, ADD_COPY_FXML);
+        } catch (IOException e) {
+            LOGGER.error("IOException caught when loading new scene from FXML", e);
+            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
+        } catch (ClassCastException e) {
+            LOGGER.error("ClassCastException caught when trying to cast controller from FXML to AddCopyController", e);
+            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
+        }
     }
 
     private void openViewRequestsPage() {
-        selectedCopy = getSelectedCopy();
-        FXMLUtils.loadNewScene(tblCopies, VIEW_COPY_REQUESTS_FXML);
+        try {
+            ViewCopyRequestsController controller = (ViewCopyRequestsController) FXMLUtils.getController(VIEW_COPY_REQUESTS_FXML);
+            controller.setSelectedCopy(getSelectedCopy());
+            FXMLUtils.loadNewScene(tblCopies, VIEW_COPY_REQUESTS_FXML);
+        } catch (IOException e) {
+            LOGGER.error("IOException caught when loading new scene from FXML", e);
+            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
+        } catch (ClassCastException e) {
+            LOGGER.error("ClassCastException caught when trying to cast controller from FXML to ViewCopyRequestsController", e);
+            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
+        }
     }
 
     private void enableViewRequestsButtonIfResourceSelected() {
@@ -248,11 +269,17 @@ public class ViewResourceController {
         return tblCopies.getSelectionModel().getSelectedItem();
     }
 
+    public void setSelectedResource(Resource resource) {
+        this.selectedResource = resource;
+    }
+
     public void setCopyService(CopyService copyService) {
         this.copyService = copyService;
+        LOGGER.info("{} CopyService set to {}", this.getClass().getSimpleName(), copyService.getClass().getSimpleName());
     }
 
     public void setLoanService(LoanService loanService) {
         this.loanService = loanService;
+        LOGGER.info("{} LoanService set to {}", this.getClass().getSimpleName(), loanService.getClass().getSimpleName());
     }
 }

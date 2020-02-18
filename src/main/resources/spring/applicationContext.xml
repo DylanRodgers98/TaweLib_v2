@@ -48,6 +48,9 @@
     </bean>
 
     <bean id="viewCopyRequestsController" class="com.crowvalley.tawelib.controller.librarian.resources.ViewCopyRequestsController" >
+        <property name="bookService" ref="bookService" />
+        <property name="dvdService" ref="dvdService" />
+        <property name="laptopService" ref="laptopService" />
         <property name="loanService" ref="loanService" />
     </bean>
 
@@ -91,11 +94,11 @@
     <bean id="librarianFinesAndPaymentsTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianFinesAndPaymentsTabController" >
         <property name="fineService" ref="fineService" />
         <property name="paymentService" ref="paymentService" />
+        <property name="copyService" ref="copyService" />
     </bean>
 
     <bean id="recordPaymentController" class="com.crowvalley.tawelib.controller.librarian.finesandpayments.RecordPaymentController" >
         <property name="userService" ref="userService" />
-        <property name="fineService" ref="fineService" />
         <property name="paymentService" ref="paymentService" />
     </bean>
 
@@ -121,11 +124,15 @@
     <bean id="copyService" class="com.crowvalley.tawelib.service.CopyServiceImpl">
         <property name="DAO" ref="copyDAO"/>
         <property name="loanService" ref="loanService" />
+        <property name="bookService" ref="bookService" />
+        <property name="dvdService" ref="dvdService" />
+        <property name="laptopService" ref="laptopService" />
     </bean>
 
     <bean id="userService" class="com.crowvalley.tawelib.service.UserServiceImpl">
         <property name="DAO" ref="userDAO"/>
         <property name="fineService" ref="fineService" />
+        <property name="paymentService" ref="paymentService" />
     </bean>
 
     <bean id="librarianService" class="com.crowvalley.tawelib.service.LibrarianServiceImpl">
@@ -134,10 +141,14 @@
 
     <bean id="loanService" class="com.crowvalley.tawelib.service.LoanServiceImpl">
         <property name="DAO" ref="loanDAO"/>
+        <property name="copyService" ref="copyService" />
+        <property name="fineService" ref="fineService" />
     </bean>
 
     <bean id="fineService" class="com.crowvalley.tawelib.service.FineServiceImpl">
         <property name="DAO" ref="fineDAO"/>
+        <property name="loanService" ref="loanService" />
+        <property name="copyService" ref="copyService" />
     </bean>
 
     <bean id="paymentService" class="com.crowvalley.tawelib.service.PaymentServiceImpl">

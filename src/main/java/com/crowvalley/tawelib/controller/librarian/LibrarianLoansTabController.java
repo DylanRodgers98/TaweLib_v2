@@ -16,12 +16,16 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Date;
 import java.util.Comparator;
 import java.util.Optional;
 
 public class LibrarianLoansTabController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LibrarianLoansTabController.class);
 
     private static final String NEW_LOAN_CONTROLLER_FXML = "/fxml/librarian/loans/newLoan.fxml";
 
@@ -148,22 +152,27 @@ public class LibrarianLoansTabController {
 
     public void setLoanService(LoanService loanService) {
         this.loanService = loanService;
+        LOGGER.info("{} LoanService set to {}", this.getClass().getSimpleName(), loanService.getClass().getSimpleName());
     }
 
     public void setCopyService(CopyService copyService) {
         this.copyService = copyService;
+        LOGGER.info("{} CopyService set to {}", this.getClass().getSimpleName(), copyService.getClass().getSimpleName());
     }
 
     public void setBookService(ResourceService<Book> bookService) {
         this.bookService = bookService;
+        LOGGER.info("{} BookService set to {}", this.getClass().getSimpleName(), bookService.getClass().getSimpleName());
     }
 
     public void setDvdService(ResourceService<Dvd> dvdService) {
         this.dvdService = dvdService;
+        LOGGER.info("{} DvdService set to {}", this.getClass().getSimpleName(), dvdService.getClass().getSimpleName());
     }
 
     public void setLaptopService(ResourceService<Laptop> laptopService) {
         this.laptopService = laptopService;
+        LOGGER.info("{} LaptopService set to {}", this.getClass().getSimpleName(), laptopService.getClass().getSimpleName());
     }
 
 }

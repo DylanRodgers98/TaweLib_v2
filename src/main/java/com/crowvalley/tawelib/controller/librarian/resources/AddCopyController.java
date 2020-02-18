@@ -9,14 +9,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AddCopyController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddCopyController.class);
 
     private static final String VIEW_RESOURCE_FXML = "/fxml/librarian/resources/viewResource.fxml";
 
     private CopyService copyService;
 
-    private Resource resource;
+    private Resource selectedResource;
 
     @FXML
     private Label lblResource;
@@ -31,15 +35,16 @@ public class AddCopyController {
     private Button btnBack;
 
     public void initialize() {
-        resource = ViewResourceController.selectedResource;
-        lblResource.setText("Resource: " + resource);
-        btnAddCopy.setOnAction(e -> addCopy());
-        btnBack.setOnAction(e -> loadViewResourcePage());
+        if (selectedResource != null) {
+            lblResource.setText("Resource: " + selectedResource);
+            btnAddCopy.setOnAction(e -> addCopy());
+            btnBack.setOnAction(e -> loadViewResourcePage());
+        }
     }
 
     private void addCopy() {
         if (txtLoanDuration.getText() != null) {
-            Copy copy = ResourceFactory.createCopy(resource, Integer.parseInt(txtLoanDuration.getText()));
+            Copy copy = ResourceFactory.createCopy(selectedResource, Integer.parseInt(txtLoanDuration.getText()));
             copyService.save(copy);
             FXMLUtils.displayInformationDialogBox("Success!", "Successfully created new copy of resource");
             loadViewResourcePage();
@@ -50,8 +55,13 @@ public class AddCopyController {
         FXMLUtils.loadNewScene(btnAddCopy, VIEW_RESOURCE_FXML);
     }
 
+    public void setSelectedResource(Resource resource) {
+        this.selectedResource = resource;
+    }
+
     public void setCopyService(CopyService copyService) {
         this.copyService = copyService;
+        LOGGER.info("{} CopyService set to {}", this.getClass().getSimpleName(), copyService.getClass().getSimpleName());
     }
 
 }

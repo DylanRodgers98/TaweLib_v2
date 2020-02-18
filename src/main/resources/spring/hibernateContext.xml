@@ -9,8 +9,7 @@
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url"
-                  value="jdbc:postgresql://localhost:5432/tawelib"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432/tawelib"/>
         <property name="username" value="postgres"/>
         <property name="password" value="welcome"/>
         <property name="maxActive" value="100"/>
@@ -29,10 +28,12 @@
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <!-- USE FOR DEBUGGING
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.format_sql">true</prop>
                 <prop key="hibernate.generate_statistics">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                -->
             </props>
         </property>
     </bean>

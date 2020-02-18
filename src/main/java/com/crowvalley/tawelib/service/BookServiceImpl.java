@@ -21,8 +21,6 @@ public class BookServiceImpl implements ResourceService<Book> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BookServiceImpl.class);
 
-    @Qualifier("bookDAO")
-    @Autowired
     private ResourceDAO<Book> DAO;
 
     /**
@@ -37,14 +35,7 @@ public class BookServiceImpl implements ResourceService<Book> {
      */
     @Override
     public Optional<Book> get(Long id) {
-        Optional<Book> book = DAO.get(id);
-        if (book.isPresent()) {
-            LOGGER.info("Book with ID {} retrieved successfully", id);
-            return book;
-        } else {
-            LOGGER.warn("Could not find book with ID {}", id);
-            return Optional.empty();
-        }
+        return DAO.get(id);
     }
 
     /**
@@ -52,13 +43,7 @@ public class BookServiceImpl implements ResourceService<Book> {
      */
     @Override
     public List<Book> getAll() {
-        List<Book> books = DAO.getAll();
-        if (!books.isEmpty()) {
-            LOGGER.info("All books retrieved successfully");
-        } else {
-            LOGGER.warn("No books found");
-        }
-        return books;
+        return DAO.getAll();
     }
 
     /**
@@ -69,7 +54,7 @@ public class BookServiceImpl implements ResourceService<Book> {
     @Override
     public void save(Book book) {
         DAO.save(book);
-        LOGGER.info("Book with ID {} saved successfully", book.getId());
+        LOGGER.info("Book \"{}\" with ID {} saved successfully", book, book.getId());
     }
 
     /**
@@ -81,7 +66,7 @@ public class BookServiceImpl implements ResourceService<Book> {
     @Override
     public void update(Book book) {
         DAO.update(book);
-        LOGGER.info("Book with ID {} updated successfully", book.getId());
+        LOGGER.info("Book \"{}\"  with ID {} updated successfully", book, book.getId());
     }
 
     /**
@@ -92,12 +77,13 @@ public class BookServiceImpl implements ResourceService<Book> {
     @Override
     public void delete(Book book) {
         DAO.delete(book);
-        LOGGER.info("Book with ID {} deleted successfully", book.getId());
+        LOGGER.info("Book \"{}\" with ID {} deleted successfully", book, book.getId());
     }
 
     @Override
     public void setDAO(ResourceDAO<Book> DAO) {
         this.DAO = DAO;
-        LOGGER.info("BookServiceImpl DAO set to {}", DAO.getClass());
+        LOGGER.info("{} DAO set to {}", this.getClass().getSimpleName(), DAO.getClass().getSimpleName());
     }
+
 }

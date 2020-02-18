@@ -10,8 +10,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AddNewUserController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddNewUserController.class);
 
     private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
 
@@ -91,6 +95,7 @@ public class AddNewUserController {
 
     public void setUserService(UserService userService) {
         this.userService = userService;
+        LOGGER.info("{} UserService set to {}", this.getClass().getSimpleName(), userService.getClass().getSimpleName());
     }
 
 }

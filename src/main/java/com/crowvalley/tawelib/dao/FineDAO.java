@@ -17,6 +17,8 @@ public interface FineDAO {
 
     List<Fine> getAllFinesForUser(String username);
 
+    Double getTotalFineAmountForUser(String username);
+
     List<Fine> getAll();
 
     void save(Fine fine);

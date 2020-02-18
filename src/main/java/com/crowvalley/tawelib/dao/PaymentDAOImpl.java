@@ -4,6 +4,8 @@ import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.util.DatabaseUtils;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,6 +64,15 @@ public class PaymentDAOImpl implements PaymentDAO {
     @Override
     public List<Payment> getAllPaymentsForUser(String username) {
         return DatabaseUtils.getAll(Payment.class, sessionFactory, "username", username);
+    }
+
+    @Override
+    public Double getTotalPaymentAmountForUser(String username) {
+        return (Double) sessionFactory.getCurrentSession()
+                .createCriteria(Payment.class)
+                .add(Restrictions.eq("username", username))
+                .setProjection(Projections.sum("amount"))
+                .uniqueResult();
     }
 
     /**

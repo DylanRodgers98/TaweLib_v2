@@ -20,7 +20,6 @@ public class LibrarianServiceImpl implements LibrarianService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LibrarianServiceImpl.class);
 
-    @Autowired
     private LibrarianDAO DAO;
 
     /**
@@ -35,14 +34,7 @@ public class LibrarianServiceImpl implements LibrarianService {
      */
     @Override
     public Optional<Librarian> getWithUsername(String username) {
-        Optional<Librarian> librarian = DAO.getWithUsername(username);
-        if (librarian.isPresent()) {
-            LOGGER.info("Librarian with username {} retrieved successfully", username);
-            return librarian;
-        } else {
-            LOGGER.warn("Could not find librarian with username {}", username);
-            return Optional.empty();
-        }
+       return DAO.getWithUsername(username);
     }
 
     /**
@@ -58,14 +50,7 @@ public class LibrarianServiceImpl implements LibrarianService {
      */
     @Override
     public Optional<Librarian> getWithStaffNumber(Long staffNum) {
-        Optional<Librarian> librarian = DAO.getWithStaffNumber(staffNum);
-        if (librarian.isPresent()) {
-            LOGGER.info("Librarian with staff number {} retrieved successfully", staffNum);
-            return librarian;
-        } else {
-            LOGGER.warn("Could not find librarian with staff number {}", staffNum);
-            return Optional.empty();
-        }
+        return DAO.getWithStaffNumber(staffNum);
     }
 
     /**
@@ -73,13 +58,7 @@ public class LibrarianServiceImpl implements LibrarianService {
      */
     @Override
     public List<Librarian> getAll() {
-        List<Librarian> users = DAO.getAll();
-        if (!users.isEmpty()) {
-            LOGGER.info("All users retrieved successfully");
-        } else {
-            LOGGER.warn("No users found");
-        }
-        return users;
+        return DAO.getAll();
     }
 
     /**
@@ -130,7 +109,7 @@ public class LibrarianServiceImpl implements LibrarianService {
     @Override
     public void setDAO(LibrarianDAO DAO) {
         this.DAO = DAO;
-        LOGGER.info("LibrarianServiceImpl DAO set to {}", DAO.getClass());
+        LOGGER.info("{} DAO set to {}", this.getClass().getSimpleName(), DAO.getClass().getSimpleName());
     }
 
 }

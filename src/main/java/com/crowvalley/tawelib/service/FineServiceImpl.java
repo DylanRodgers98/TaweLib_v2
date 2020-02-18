@@ -2,7 +2,9 @@ package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.FineDAO;
 import com.crowvalley.tawelib.model.fine.Fine;
+import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.model.user.User;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,11 @@ public class FineServiceImpl implements FineService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FineServiceImpl.class);
 
-    @Autowired
     private FineDAO DAO;
+
+    private LoanService loanService;
+
+    private CopyService copyService;
 
     /**
      * Retrieves a {@link Fine} from the DAO using the {@link Fine}'s
@@ -36,14 +41,7 @@ public class FineServiceImpl implements FineService {
      */
     @Override
     public Optional<Fine> get(Long id) {
-        Optional<Fine> fine = DAO.get(id);
-        if (fine.isPresent()) {
-            LOGGER.info("Fine with ID {} retrieved successfully", id);
-            return fine;
-        } else {
-            LOGGER.warn("Could not find fine with ID {}", id);
-            return Optional.empty();
-        }
+        return DAO.get(id);
     }
 
     /**
@@ -57,13 +55,12 @@ public class FineServiceImpl implements FineService {
      */
     @Override
     public List<Fine> getAllFinesForUser(String username) {
-        List<Fine> fines = DAO.getAllFinesForUser(username);
-        if (!fines.isEmpty()) {
-            LOGGER.info("All fines for user {} retrieved successfully", username);
-        } else {
-            LOGGER.warn("No fines found for user {}", username);
-        }
-        return fines;
+        return DAO.getAllFinesForUser(username);
+    }
+
+    @Override
+    public Double getTotalFineAmountForUser(String username) {
+        return DAO.getTotalFineAmountForUser(username);
     }
 
     /**
@@ -71,13 +68,17 @@ public class FineServiceImpl implements FineService {
      */
     @Override
     public List<Fine> getAll() {
-        List<Fine> fines = DAO.getAll();
-        if (!fines.isEmpty()) {
-            LOGGER.info("All fines retrieved successfully");
-        } else {
-            LOGGER.warn("No fines found");
+        return DAO.getAll();
+    }
+
+    @Override
+    public Optional<Copy> getCopyFromFine(Fine fine) {
+        Optional<Loan> optionalLoan = loanService.get(fine.getLoanId());
+        if (optionalLoan.isPresent()) {
+            Loan loan = optionalLoan.get();
+            return copyService.get(loan.getCopyId());
         }
-        return fines;
+        return Optional.empty();
     }
 
     /**
@@ -105,7 +106,17 @@ public class FineServiceImpl implements FineService {
     @Override
     public void setDAO(FineDAO DAO) {
         this.DAO = DAO;
-        LOGGER.info("FineServiceImpl DAO set to {}", DAO.getClass());
+        LOGGER.info("{} DAO set to {}", this.getClass().getSimpleName(), DAO.getClass().getSimpleName());
+    }
+
+    public void setLoanService(LoanService loanService) {
+        this.loanService = loanService;
+        LOGGER.info("{} LoanService set to {}", this.getClass().getSimpleName(), loanService.getClass().getSimpleName());
+    }
+
+    public void setCopyService(CopyService copyService) {
+        this.copyService = copyService;
+        LOGGER.info("{} CopyService set to {}", this.getClass().getSimpleName(), copyService.getClass().getSimpleName());
     }
 
 }

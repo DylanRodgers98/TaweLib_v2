@@ -21,8 +21,6 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LaptopServiceImpl.class);
 
-    @Qualifier("laptopDAO")
-    @Autowired
     private ResourceDAO<Laptop> DAO;
 
     /**
@@ -37,14 +35,7 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
      */
     @Override
     public Optional<Laptop> get(Long id) {
-        Optional<Laptop> laptop = DAO.get(id);
-        if (laptop.isPresent()) {
-            LOGGER.info("Laptop with ID {} retrieved successfully", id);
-            return laptop;
-        } else {
-            LOGGER.warn("Could not find laptop with ID {}", id);
-            return Optional.empty();
-        }
+        return DAO.get(id);
     }
 
     /**
@@ -52,13 +43,7 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
      */
     @Override
     public List<Laptop> getAll() {
-        List<Laptop> laptops = DAO.getAll();
-        if (!laptops.isEmpty()) {
-            LOGGER.info("All laptops retrieved successfully");
-        } else {
-            LOGGER.warn("No laptops found");
-        }
-        return laptops;
+        return DAO.getAll();
     }
 
     /**
@@ -69,7 +54,7 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
     @Override
     public void save(Laptop laptop) {
         DAO.save(laptop);
-        LOGGER.info("Laptop with ID {} saved successfully", laptop.getId());
+        LOGGER.info("Laptop \"{}\" with ID {} saved successfully", laptop, laptop.getId());
     }
 
     /**
@@ -81,7 +66,7 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
     @Override
     public void update(Laptop laptop) {
         DAO.update(laptop);
-        LOGGER.info("Laptop with ID {} updated successfully", laptop.getId());
+        LOGGER.info("Laptop \"{}\" with ID {} updated successfully", laptop, laptop.getId());
     }
 
     /**
@@ -92,12 +77,13 @@ public class LaptopServiceImpl implements ResourceService<Laptop> {
     @Override
     public void delete(Laptop laptop) {
         DAO.delete(laptop);
-        LOGGER.info("Laptop with ID {} deleted successfully", laptop.getId());
+        LOGGER.info("Laptop \"{}\" with ID {} deleted successfully", laptop, laptop.getId());
     }
 
     @Override
     public void setDAO(ResourceDAO<Laptop> DAO) {
         this.DAO = DAO;
-        LOGGER.info("LaptopServiceImpl DAO set to {}", DAO.getClass());
+        LOGGER.info("{} DAO set to {}", this.getClass().getSimpleName(), DAO.getClass().getSimpleName());
     }
+
 }

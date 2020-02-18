@@ -21,7 +21,6 @@ public class PaymentServiceImpl implements PaymentService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentServiceImpl.class);
 
-    @Autowired
     private PaymentDAO DAO;
 
     /**
@@ -36,14 +35,7 @@ public class PaymentServiceImpl implements PaymentService {
      */
     @Override
     public Optional<Payment> get(Long id) {
-        Optional<Payment> payment = DAO.get(id);
-        if (payment.isPresent()) {
-            LOGGER.info("Payment with ID {} retrieved successfully", id);
-            return payment;
-        } else {
-            LOGGER.warn("Could not payment fine with ID {}", id);
-            return Optional.empty();
-        }
+        return DAO.get(id);
     }
 
     /**
@@ -51,13 +43,7 @@ public class PaymentServiceImpl implements PaymentService {
      */
     @Override
     public List<Payment> getAll() {
-        List<Payment> payments = DAO.getAll();
-        if (!payments.isEmpty()) {
-            LOGGER.info("All payments retrieved successfully");
-        } else {
-            LOGGER.warn("No fines found");
-        }
-        return payments;
+        return DAO.getAll();
     }
 
     /**
@@ -71,13 +57,12 @@ public class PaymentServiceImpl implements PaymentService {
      */
     @Override
     public List<Payment> getAllPaymentsForUser(String username) {
-        List<Payment> payments = DAO.getAllPaymentsForUser(username);
-        if (!payments.isEmpty()) {
-            LOGGER.info("All payments for user {} retrieved successfully", username);
-        } else {
-            LOGGER.warn("No payments found for user {}", username);
-        }
-        return payments;
+        return DAO.getAllPaymentsForUser(username);
+    }
+
+    @Override
+    public Double getTotalPaymentAmountForUser(String username) {
+        return DAO.getTotalPaymentAmountForUser(username);
     }
 
     /**
@@ -105,7 +90,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void setDAO(PaymentDAO DAO) {
         this.DAO = DAO;
-        LOGGER.info("PaymentServiceImpl DAO set to {}", DAO.getClass());
+        LOGGER.info("{} DAO set to {}", this.getClass().getSimpleName(), DAO.getClass().getSimpleName());
     }
 
 }

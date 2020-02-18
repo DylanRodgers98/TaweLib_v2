@@ -1,6 +1,5 @@
 package com.crowvalley.tawelib.controller.librarian.users;
 
-import com.crowvalley.tawelib.controller.librarian.LibrarianUsersTabController;
 import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.UserService;
@@ -11,10 +10,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
 public class ViewOrEditUserController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ViewOrEditUserController.class);
 
     private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
 
@@ -70,15 +73,16 @@ public class ViewOrEditUserController {
     private Button btnBack;
 
     public void initialize() {
-        loadProfile();
-        disableTextFields();
-        btnSaveOrUpdate.setOnAction(e -> saveOrUpdateProfile());
-        btnChangePic.setOnAction(e -> chooseImage());
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
+        if (selectedUser != null) {
+            loadProfile();
+            disableTextFields();
+            btnSaveOrUpdate.setOnAction(e -> saveOrUpdateProfile());
+            btnChangePic.setOnAction(e -> chooseImage());
+            btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
+        }
     }
 
     private void loadProfile() {
-        selectedUser = LibrarianUsersTabController.selectedUser;
         populateTextFields(selectedUser);
         loadProfilePic(selectedUser);
     }
@@ -168,8 +172,13 @@ public class ViewOrEditUserController {
         }
     }
 
+    public void setSelectedUser(User user) {
+        this.selectedUser = user;
+    }
+
     public void setUserService(UserService userService) {
         this.userService = userService;
+        LOGGER.info("{} UserService set to {}", this.getClass().getSimpleName(), userService.getClass().getSimpleName());
     }
 
 }

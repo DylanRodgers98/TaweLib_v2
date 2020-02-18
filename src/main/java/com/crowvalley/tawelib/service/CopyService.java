@@ -2,6 +2,7 @@ package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.CopyDAO;
 import com.crowvalley.tawelib.model.resource.Copy;
+import com.crowvalley.tawelib.model.resource.Resource;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +36,8 @@ public interface CopyService {
     void deleteCopyRequestFromPersistedCopy(Long id, String username);
 
     void deleteCopyRequestFromPersistedCopy(Copy copy, String username);
+
+    Optional<? extends Resource> getResourceFromCopy(Copy copy);
 
     void setDAO(CopyDAO DAO);
 

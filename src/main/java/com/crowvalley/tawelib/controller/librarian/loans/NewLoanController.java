@@ -10,9 +10,14 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
 public class NewLoanController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(NewLoanController.class);
 
     private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
 
@@ -110,26 +115,32 @@ public class NewLoanController {
 
     public void setBookService(ResourceService<Book> bookService) {
         this.bookService = bookService;
+        LOGGER.info("{} BookService set to {}", this.getClass().getSimpleName(), bookService.getClass().getSimpleName());
     }
 
     public void setDvdService(ResourceService<Dvd> dvdService) {
         this.dvdService = dvdService;
+        LOGGER.info("{} DvdService set to {}", this.getClass().getSimpleName(), dvdService.getClass().getSimpleName());
     }
 
     public void setLaptopService(ResourceService<Laptop> laptopService) {
         this.laptopService = laptopService;
+        LOGGER.info("{} LaptopService set to {}", this.getClass().getSimpleName(), laptopService.getClass().getSimpleName());
     }
 
     public void setCopyService(CopyService copyService) {
         this.copyService = copyService;
+        LOGGER.info("{} CopyService set to {}", this.getClass().getSimpleName(), copyService.getClass().getSimpleName());
     }
 
     public void setUserService(UserService userService) {
         this.userService = userService;
+        LOGGER.info("{} UserService set to {}", this.getClass().getSimpleName(), userService.getClass().getSimpleName());
     }
 
     public void setLoanService(LoanService loanService) {
         this.loanService = loanService;
+        LOGGER.info("{} LoanService set to {}", this.getClass().getSimpleName(), loanService.getClass().getSimpleName());
     }
 
 }

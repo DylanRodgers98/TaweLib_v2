@@ -1,10 +1,10 @@
 package com.crowvalley.tawelib.controller.librarian;
 
 import com.crowvalley.tawelib.Main;
+import com.crowvalley.tawelib.UserContext;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import org.apache.commons.lang3.StringUtils;
 
 public class LibrarianLogOutController {
 
@@ -16,7 +16,7 @@ public class LibrarianLogOutController {
     }
 
     private void logOut() {
-        Main.currentUser = StringUtils.EMPTY;
+        UserContext.clear();
         FXMLUtils.loadNewScene(btnLogOut, Main.LOGIN_PAGE_FXML);
     }
 

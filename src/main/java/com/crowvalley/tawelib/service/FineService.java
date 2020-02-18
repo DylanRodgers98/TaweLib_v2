@@ -2,6 +2,7 @@ package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.FineDAO;
 import com.crowvalley.tawelib.model.fine.Fine;
+import com.crowvalley.tawelib.model.resource.Copy;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,11 @@ public interface FineService {
 
     List<Fine> getAllFinesForUser(String username);
 
+    Double getTotalFineAmountForUser(String username);
+
     List<Fine> getAll();
+
+    Optional<Copy> getCopyFromFine(Fine fine);
 
     void save(Fine fine);
 

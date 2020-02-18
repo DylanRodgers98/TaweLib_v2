@@ -1,6 +1,6 @@
 package com.crowvalley.tawelib.controller;
 
-import com.crowvalley.tawelib.Main;
+import com.crowvalley.tawelib.UserContext;
 import com.crowvalley.tawelib.exception.NoSuchUserException;
 import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
@@ -86,14 +86,14 @@ public class LoginController {
     }
 
     private void librarianLogIn(String username) {
-        Main.currentUser = username;
+        UserContext.setLoggedInUser(username);
         loadNewScene(LIBRARIAN_HOME_FXML);
     }
 
     private void userLogIn(String username) throws NoSuchUserException {
         Optional<User> user = userService.get(username);
         if (user.isPresent()) {
-            Main.currentUser = username;
+            UserContext.setLoggedInUser(username);
             loadNewScene(USER_HOME_FXML);
         } else {
             throw new NoSuchUserException("No user found with username '" + username + "'");
@@ -106,11 +106,11 @@ public class LoginController {
 
     public void setUserService(UserService userService) {
         this.userService = userService;
-        LOGGER.info("UserService for LoginController set to {}", userService.getClass());
+        LOGGER.info("{} UserService set to {}", this.getClass().getSimpleName(), userService.getClass().getSimpleName());
     }
 
     public void setLibrarianService(LibrarianService librarianService) {
         this.librarianService = librarianService;
-        LOGGER.info("LibrarianService for LoginController set to {}", librarianService.getClass());
+        LOGGER.info("{} LibrarianService set to {}", this.getClass().getSimpleName(), librarianService.getClass().getSimpleName());
     }
 }

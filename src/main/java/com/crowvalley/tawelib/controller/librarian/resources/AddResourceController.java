@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 
 public class AddResourceController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddResourceController.class);
+
     private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
 
     private static final String FILE_CHOOSER_TITLE = "Choose Resource Picture";
@@ -216,14 +218,17 @@ public class AddResourceController {
 
     public void setBookService(ResourceService<Book> bookService) {
         this.bookService = bookService;
+        LOGGER.info("{} BookService set to {}", this.getClass().getSimpleName(), bookService.getClass().getSimpleName());
     }
 
     public void setDvdService(ResourceService<Dvd> dvdService) {
         this.dvdService = dvdService;
+        LOGGER.info("{} DvdService set to {}", this.getClass().getSimpleName(), dvdService.getClass().getSimpleName());
     }
 
     public void setLaptopService(ResourceService<Laptop> laptopService) {
         this.laptopService = laptopService;
+        LOGGER.info("{} LaptopService set to {}", this.getClass().getSimpleName(), laptopService.getClass().getSimpleName());
     }
 
 }

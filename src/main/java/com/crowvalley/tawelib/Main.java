@@ -13,8 +13,6 @@ public class Main extends Application {
 
     public static final String TAWELIB_STAGE_TITLE = "TaweLib";
 
-    public static String currentUser = StringUtils.EMPTY;
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = FXMLUtils.prepareFXMLLoader(LOGIN_PAGE_FXML);

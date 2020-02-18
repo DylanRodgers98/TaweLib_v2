@@ -1,16 +1,12 @@
 package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.UserDAO;
-import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.user.User;
+import com.crowvalley.tawelib.model.fine.OutstandingFinesDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.*;
 
 /**
  * Service class for retrieving data about {@link User} objects
@@ -27,6 +23,8 @@ public class UserServiceImpl implements UserService {
 
     private FineService fineService;
 
+    private PaymentService paymentService;
+
     /**
      * Retrieves a {@link User} from the DAO using the {@link User}'s
      * {@code username} and returns it wrapped in an {@link Optional}. If a
@@ -39,14 +37,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Optional<User> get(String username) {
-        Optional<User> user = DAO.get(username);
-        if (user.isPresent()) {
-            LOGGER.info("User with username {} retrieved successfully", username);
-            return user;
-        } else {
-            LOGGER.warn("Could not find user with username {}", username);
-            return Optional.empty();
-        }
+        return DAO.get(username);
     }
 
     /**
@@ -54,13 +45,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<User> getAll() {
-        List<User> users = DAO.getAll();
-        if (!users.isEmpty()) {
-            LOGGER.info("All users retrieved successfully");
-        } else {
-            LOGGER.warn("No users found");
-        }
-        return users;
+        return DAO.getAll();
     }
 
     @Override
@@ -69,15 +54,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, List<Fine>> getAllUsersWithFines() {
-        Map<String, List<Fine>> usersWithFines = new HashMap<>();
+    public List<OutstandingFinesDTO> getAllUsersWithOutstandingFines() {
+        List<OutstandingFinesDTO> usersWithOutstandingFines = new ArrayList<>();
         for (String username : getAllUsernames()) {
-            List<Fine> finesForUser = fineService.getAllFinesForUser(username);
-            if (!finesForUser.isEmpty()) {
-                usersWithFines.put(username, finesForUser);
+            Double finesForUser = fineService.getTotalFineAmountForUser(username);
+            Double paymentsForUser = paymentService.getTotalPaymentAmountForUser(username);
+            double outstandingFines = finesForUser - paymentsForUser;
+            if (outstandingFines > 0) {
+                usersWithOutstandingFines.add(new OutstandingFinesDTO(username, outstandingFines));
             }
         }
-        return usersWithFines;
+        return usersWithOutstandingFines;
     }
 
     /**
@@ -114,14 +101,20 @@ public class UserServiceImpl implements UserService {
         LOGGER.info("User with username {} deleted successfully", user.getUsername());
     }
 
-    public void setFineService(FineService fineService) {
-        this.fineService = fineService;
-    }
-
     @Override
     public void setDAO(UserDAO DAO) {
         this.DAO = DAO;
-        LOGGER.info("UserServiceImpl DAO set to {}", DAO.getClass());
+        LOGGER.info("{} DAO set to {}", this.getClass().getSimpleName(), DAO.getClass().getSimpleName());
+    }
+
+    public void setFineService(FineService fineService) {
+        this.fineService = fineService;
+        LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), fineService.getClass().getSimpleName());
+    }
+
+    public void setPaymentService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+        LOGGER.info("{} PaymentService set to {}", this.getClass().getSimpleName(), paymentService.getClass().getSimpleName());
     }
 
 }

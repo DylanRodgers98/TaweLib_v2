@@ -1,16 +1,12 @@
 package com.crowvalley.tawelib.controller.librarian.finesandpayments;
 
-import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.fine.Payment;
-import com.crowvalley.tawelib.service.FineService;
+import com.crowvalley.tawelib.model.fine.OutstandingFinesDTO;
 import com.crowvalley.tawelib.service.PaymentService;
 import com.crowvalley.tawelib.service.UserService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.text.ParseException;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -31,12 +27,10 @@ public class RecordPaymentController {
 
     private UserService userService;
 
-    private FineService fineService;
-
     private PaymentService paymentService;
 
     @FXML
-    private ChoiceBox<String> cmbUsers;
+    private ChoiceBox<OutstandingFinesDTO> cmbUsers;
 
     @FXML
     private TextField txtAmount;
@@ -48,22 +42,15 @@ public class RecordPaymentController {
     private Button btnBack;
 
     public void initialize() {
-        populateUsers();
+        populateUsersAndFines();
         cmbUsers.setOnAction(e -> enableRecordButtonIfUserSelectedAndAmountTyped());
         txtAmount.setOnKeyReleased(e -> enableRecordButtonIfUserSelectedAndAmountTyped());
         btnRecord.setOnAction(e -> recordPayment());
         btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
     }
 
-    private void populateUsers() {
-        List<String> usernamesAndFines = new ArrayList<>();
-        for (Map.Entry<String, List<Fine>> entry : userService.getAllUsersWithFines().entrySet()) {
-            String username = entry.getKey();
-            List<Fine> fines = entry.getValue();
-            double totalFineAmount = fines.stream().mapToDouble(Fine::getAmount).sum();
-            usernamesAndFines.add(username + " (Outstanding: £" + DECIMAL_FORMAT.format(totalFineAmount) + ")");
-        }
-        cmbUsers.setItems(FXCollections.observableArrayList(usernamesAndFines));
+    private void populateUsersAndFines() {
+        cmbUsers.setItems(FXCollections.observableArrayList(userService.getAllUsersWithOutstandingFines()));
     }
 
     private void enableRecordButtonIfUserSelectedAndAmountTyped() {
@@ -73,16 +60,23 @@ public class RecordPaymentController {
     }
 
     private void recordPayment() {
-        String username = cmbUsers.getValue();
+        OutstandingFinesDTO outstandingFinesDTO = cmbUsers.getValue();
+        String username = outstandingFinesDTO.getUsername();
+        double outstandingFines = outstandingFinesDTO.getOutstandingFines();
         String amountString = txtAmount.getText();
         try {
-            String formattedAmount = DECIMAL_FORMAT.format(amountString);
-            Payment payment = new Payment(username, Double.valueOf(formattedAmount));
+            double amount = DECIMAL_FORMAT.parse(amountString).doubleValue();
+            if (amount > outstandingFines) {
+                amount = outstandingFines;
+            }
+
+            Payment payment = new Payment(username, amount);
             paymentService.save(payment);
+
             FXMLUtils.displayInformationDialogBox("Payment Successful",
-                    "Payment of £" + formattedAmount + " made for " + username);
+                    "Payment of £" + amount + " made for " + username);
             FXMLUtils.loadNewScene(btnRecord, LIBRARIAN_HOME_FXML);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | ParseException e) {
             LOGGER.error("Record payment failed, amount entered cannot parse to double", e);
             FXMLUtils.displayErrorDialogBox("Record Payment Failed",
                     amountString + " is not a monetary amount");
@@ -91,14 +85,12 @@ public class RecordPaymentController {
 
     public void setUserService(UserService userService) {
         this.userService = userService;
-    }
-
-    public void setFineService(FineService fineService) {
-        this.fineService = fineService;
+        LOGGER.info("{} UserService set to {}", this.getClass().getSimpleName(), userService.getClass().getSimpleName());
     }
 
     public void setPaymentService(PaymentService paymentService) {
         this.paymentService = paymentService;
+        LOGGER.info("{} PaymentService set to {}", this.getClass().getSimpleName(), paymentService.getClass().getSimpleName());
     }
 
 }

@@ -1,6 +1,5 @@
 package com.crowvalley.tawelib.controller.librarian.resources;
 
-import com.crowvalley.tawelib.controller.librarian.LibrarianResourcesTabController;
 import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
@@ -13,10 +12,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
 public class EditResourceController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EditResourceController.class);
 
     private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
 
@@ -28,7 +31,7 @@ public class EditResourceController {
 
     private ResourceService<Laptop> laptopService;
 
-    private Resource resource;
+    private Resource selectedResource;
 
     @FXML
     private TextField txtType;
@@ -53,12 +56,6 @@ public class EditResourceController {
 
     @FXML
     private TextField txtOptional5;
-
-    @FXML
-    private Label lblTitle;
-
-    @FXML
-    private Label lblYear;
 
     @FXML
     private Label lblOptional1;
@@ -88,21 +85,19 @@ public class EditResourceController {
     private Button btnBack;
 
     public void initialize() {
-        resource = LibrarianResourcesTabController.selectedResource;
-        populateFields();
-
-        btnUpdate.setOnAction(e -> updateResource());
-        btnChangePic.setOnAction(e -> ImageUtils.chooseImage("Choose Resource Picture", RESOURCES_DIRECTORY_NAME, imgResourcePic));
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
+        if (selectedResource != null) {
+            populateFields();
+            setOnActions();
+        }
     }
 
     private void populateFields() {
-        ResourceType resourceType = ResourceUtils.getResourceType(resource);
+        ResourceType resourceType = ResourceUtils.getResourceType(selectedResource);
 
         txtType.setText(resourceType.name());
-        txtTitle.setText(resource.getTitle());
-        txtYear.setText(resource.getYear());
-        loadResourcePic(resource);
+        txtTitle.setText(selectedResource.getTitle());
+        txtYear.setText(selectedResource.getYear());
+        loadResourcePic(selectedResource);
 
         if (resourceType.equals(ResourceType.BOOK)) {
             populateBookFields();
@@ -122,7 +117,7 @@ public class EditResourceController {
 
     private void populateBookFields() {
         showTextFieldsAndLabelsForBook();
-        Book book = (Book) resource;
+        Book book = (Book) selectedResource;
         txtOptional1.setText(book.getAuthor());
         txtOptional2.setText(book.getPublisher());
         txtOptional3.setText(book.getGenre());
@@ -147,7 +142,7 @@ public class EditResourceController {
 
     private void populateDvdFields() {
         showTextFieldsAndLabelsForDvd();
-        Dvd dvd = (Dvd) resource;
+        Dvd dvd = (Dvd) selectedResource;
         txtOptional1.setText(dvd.getDirector());
         txtOptional2.setText(dvd.getLanguage());
         txtOptional3.setText(String.valueOf(dvd.getRuntime()));
@@ -169,7 +164,7 @@ public class EditResourceController {
 
     private void populateLaptopFields() {
         showTextFieldsAndLabelsForLaptop();
-        Laptop laptop = (Laptop) resource;
+        Laptop laptop = (Laptop) selectedResource;
         txtOptional1.setText(laptop.getManufacturer());
         txtOptional2.setText(laptop.getModel());
         txtOptional3.setText(laptop.getOs());
@@ -186,23 +181,29 @@ public class EditResourceController {
         lblOptional3.setLayoutX(57.0);
     }
 
+    private void setOnActions() {
+        btnUpdate.setOnAction(e -> updateResource());
+        btnChangePic.setOnAction(e -> ImageUtils.chooseImage("Choose Resource Picture", RESOURCES_DIRECTORY_NAME, imgResourcePic));
+        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
+    }
+
     private void updateResource() {
-        resource.setTitle(txtTitle.getText());
-        resource.setYear(txtYear.getText());
+        selectedResource.setTitle(txtTitle.getText());
+        selectedResource.setYear(txtYear.getText());
 
         Image image = imgResourcePic.getImage();
         String imageUrl = image == null ? StringUtils.EMPTY : image.getUrl(); //TODO: replace empty string with default img
-        resource.setImageUrl(imageUrl);
+        selectedResource.setImageUrl(imageUrl);
 
         ResourceType resourceType = ResourceType.valueOf(txtType.getText());
         if (resourceType.equals(ResourceType.BOOK)) {
-            updateBook((Book) resource);
+            updateBook((Book) selectedResource);
         }
         if (resourceType.equals(ResourceType.DVD)) {
-            updateDvd((Dvd) resource);
+            updateDvd((Dvd) selectedResource);
         }
         if (resourceType.equals(ResourceType.LAPTOP)) {
-            updateLaptop((Laptop) resource);
+            updateLaptop((Laptop) selectedResource);
         }
     }
 
@@ -252,15 +253,22 @@ public class EditResourceController {
         }
     }
 
+    public void setSelectedResource(Resource resource) {
+        this.selectedResource = resource;
+    }
+
     public void setBookService(ResourceService<Book> bookService) {
         this.bookService = bookService;
+        LOGGER.info("{} BookService set to {}", this.getClass().getSimpleName(), bookService.getClass().getSimpleName());
     }
 
     public void setDvdService(ResourceService<Dvd> dvdService) {
         this.dvdService = dvdService;
+        LOGGER.info("{} DvdService set to {}", this.getClass().getSimpleName(), dvdService.getClass().getSimpleName());
     }
 
     public void setLaptopService(ResourceService<Laptop> laptopService) {
         this.laptopService = laptopService;
+        LOGGER.info("{} LaptopService set to {}", this.getClass().getSimpleName(), laptopService.getClass().getSimpleName());
     }
 }

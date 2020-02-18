@@ -1,6 +1,6 @@
 package com.crowvalley.tawelib.controller.librarian;
 
-import com.crowvalley.tawelib.Main;
+import com.crowvalley.tawelib.UserContext;
 import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.service.LibrarianService;
@@ -10,10 +10,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
 public class LibrarianProfileTabController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LibrarianProfileTabController.class);
 
     private static final String UPDATE_PROFILE_BUTTON_TEXT = "Update Profile";
 
@@ -69,7 +73,7 @@ public class LibrarianProfileTabController {
     }
 
     private void loadProfile() {
-        String currentUser = Main.currentUser;
+        String currentUser = UserContext.getLoggedInUser();
         Optional<Librarian> optionalLibrarian = librarianService.getWithUsername(currentUser);
         if (optionalLibrarian.isPresent()) {
             loggedInLibrarian = optionalLibrarian.get();
@@ -166,6 +170,7 @@ public class LibrarianProfileTabController {
 
     public void setLibrarianService(LibrarianService librarianService) {
         this.librarianService = librarianService;
+        LOGGER.info("{} LibrarianService set to {}", this.getClass().getSimpleName(), librarianService.getClass().getSimpleName());
     }
 
 }

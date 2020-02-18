@@ -1,9 +1,12 @@
 package com.crowvalley.tawelib.dao;
 
 import com.crowvalley.tawelib.model.fine.Fine;
+import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.util.DatabaseUtils;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,6 +56,15 @@ public class FineDAOImpl implements FineDAO {
     @Override
     public List<Fine> getAllFinesForUser(String username) {
         return DatabaseUtils.getAll(Fine.class, sessionFactory, "username", username);
+    }
+
+    @Override
+    public Double getTotalFineAmountForUser(String username) {
+        return (Double) sessionFactory.getCurrentSession()
+                .createCriteria(Fine.class)
+                .add(Restrictions.eq("username", username))
+                .setProjection(Projections.sum("amount"))
+                .uniqueResult();
     }
 
     /**

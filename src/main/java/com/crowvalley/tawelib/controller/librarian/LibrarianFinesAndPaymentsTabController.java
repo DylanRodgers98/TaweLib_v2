@@ -3,9 +3,8 @@ package com.crowvalley.tawelib.controller.librarian;
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.fine.Transaction;
-import com.crowvalley.tawelib.model.fine.TransactionType;
-import com.crowvalley.tawelib.service.FineService;
-import com.crowvalley.tawelib.service.PaymentService;
+import com.crowvalley.tawelib.model.resource.*;
+import com.crowvalley.tawelib.service.*;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,17 +17,26 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 public class LibrarianFinesAndPaymentsTabController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LibrarianFinesAndPaymentsTabController.class);
 
     private static final String RECORD_PAYMENT_FXML = "/fxml/librarian/finesAndPayments/recordPayment.fxml";
 
     private FineService fineService;
 
     private PaymentService paymentService;
+
+    private CopyService copyService;
 
     @FXML
     private TableView<Transaction> tblFinesAndPayments;
@@ -40,7 +48,7 @@ public class LibrarianFinesAndPaymentsTabController {
     private TableColumn<Transaction, String> colAmount;
 
     @FXML
-    private TableColumn<Transaction, TransactionType> colType;
+    private TableColumn<Transaction, String> colType;
 
     @FXML
     private Button btnRecordPayment;
@@ -62,14 +70,30 @@ public class LibrarianFinesAndPaymentsTabController {
         return new SimpleStringProperty(String.format("£%.2f", amount));
     }
 
-    private ObservableValue<TransactionType> getType(TableColumn.CellDataFeatures<Transaction, TransactionType> transaction) {
-        if (transaction.getValue() instanceof Fine) {
-            return new SimpleObjectProperty<>(TransactionType.FINE);
+    private ObservableValue<String> getType(TableColumn.CellDataFeatures<Transaction, String> transaction) {
+        Transaction transactionValue = transaction.getValue();
+        if (transactionValue instanceof Fine) {
+            return new SimpleStringProperty("Fine" + getFineReason(transactionValue));
         }
-        if (transaction.getValue() instanceof Payment) {
-            return new SimpleObjectProperty<>(TransactionType.PAYMENT);
+        if (transactionValue instanceof Payment) {
+            return new SimpleStringProperty("Payment");
         }
         return null;
+    }
+
+    private String getFineReason(Transaction transaction) {
+        Assert.isInstanceOf(Fine.class, transaction, "Transaction is not of type Fine");
+
+        Optional<Copy> optionalCopy = fineService.getCopyFromFine((Fine) transaction);
+        if (optionalCopy.isPresent()) {
+            Copy copy = optionalCopy.get();
+            Optional<? extends Resource> optionalResource = copyService.getResourceFromCopy(copy);
+            if (optionalResource.isPresent()) {
+                Resource resource = optionalResource.get();
+                return " for late return of " + resource.getTitle() + " (" + copy.toString() + ")";
+            }
+        }
+        return StringUtils.EMPTY;
     }
 
     private ObservableList<Transaction> getFinesAndPayments() {
@@ -79,15 +103,23 @@ public class LibrarianFinesAndPaymentsTabController {
         ObservableList<Transaction> transactions = FXCollections.observableArrayList();
         transactions.addAll(fines);
         transactions.addAll(payments);
-        transactions.sort(Comparator.comparingLong(Transaction::getId));
+        transactions.sort(Comparator.comparingLong(Transaction::getId).reversed());
         return transactions;
     }
 
     public void setFineService(FineService fineService) {
         this.fineService = fineService;
+        LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), fineService.getClass().getSimpleName());
     }
 
     public void setPaymentService(PaymentService paymentService) {
         this.paymentService = paymentService;
+        LOGGER.info("{} PaymentService set to {}", this.getClass().getSimpleName(), paymentService.getClass().getSimpleName());
     }
+
+    public void setCopyService(CopyService copyService) {
+        this.copyService = copyService;
+        LOGGER.info("{} CopyService set to {}", this.getClass().getSimpleName(), copyService.getClass().getSimpleName());
+    }
+
 }
