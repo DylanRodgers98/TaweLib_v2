@@ -22,11 +22,7 @@ public class AddResourceController {
 
     private static final String RESOURCES_DIRECTORY_NAME = "resources";
 
-    private ResourceService<Book> bookService;
-
-    private ResourceService<Dvd> dvdService;
-
-    private ResourceService<Laptop> laptopService;
+    private ResourceService resourceService;
 
     @FXML
     private ChoiceBox<ResourceType> cmbType;
@@ -175,7 +171,7 @@ public class AddResourceController {
 
         try {
             Book book = ResourceFactory.createBook(title, year, imageUrl, author, publisher, genre, isbn, language);
-            bookService.save(book);
+            resourceService.saveOrUpdate(book);
             FXMLUtils.loadNewScene(btnSave, LIBRARIAN_HOME_FXML);
         } catch (Exception e) {
             FXMLUtils.displayErrorDialogBox("Error Creating Book", e.getMessage());
@@ -195,7 +191,7 @@ public class AddResourceController {
 
         try {
             Dvd dvd = ResourceFactory.createDvd(title, year, imageUrl, director, language, runtime, subLang);
-            dvdService.save(dvd);
+            resourceService.saveOrUpdate(dvd);
             FXMLUtils.loadNewScene(btnSave, LIBRARIAN_HOME_FXML);
         } catch (Exception e) {
             FXMLUtils.displayErrorDialogBox("Error Creating DVD", e.getMessage());
@@ -209,26 +205,16 @@ public class AddResourceController {
 
         try {
             Laptop laptop = ResourceFactory.createLaptop(title, year, imageUrl, manufacturer, model, os);
-            laptopService.save(laptop);
+            resourceService.saveOrUpdate(laptop);
             FXMLUtils.loadNewScene(btnSave, LIBRARIAN_HOME_FXML);
         } catch (Exception e) {
             FXMLUtils.displayErrorDialogBox("Error Creating Laptop", e.getMessage());
         }
     }
 
-    public void setBookService(ResourceService<Book> bookService) {
-        this.bookService = bookService;
-        LOGGER.info("{} BookService set to {}", this.getClass().getSimpleName(), bookService.getClass().getSimpleName());
-    }
-
-    public void setDvdService(ResourceService<Dvd> dvdService) {
-        this.dvdService = dvdService;
-        LOGGER.info("{} DvdService set to {}", this.getClass().getSimpleName(), dvdService.getClass().getSimpleName());
-    }
-
-    public void setLaptopService(ResourceService<Laptop> laptopService) {
-        this.laptopService = laptopService;
-        LOGGER.info("{} LaptopService set to {}", this.getClass().getSimpleName(), laptopService.getClass().getSimpleName());
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
     }
 
 }

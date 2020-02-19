@@ -11,18 +11,8 @@ import java.util.Optional;
  *
  * @author Dylan Rodgers
  */
-public interface CopyDAO {
-
-    Optional<Copy> get(Long id);
-
-    List<Copy> getAll();
+public interface CopyDAO extends BaseDAO {
 
     List<Copy> getAllCopiesForResource(Long resourceId);
-
-    void save(Copy copy);
-
-    void update(Copy copy);
-
-    void delete(Copy copy);
 
 }

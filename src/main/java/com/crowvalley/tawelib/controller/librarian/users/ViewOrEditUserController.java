@@ -144,7 +144,7 @@ public class ViewOrEditUserController {
         disableTextFields();
         btnSaveOrUpdate.setText(UPDATE_PROFILE_BUTTON_TEXT);
         updateProfile();
-        userService.update(selectedUser);
+        userService.saveOrUpdate(selectedUser);
     }
 
     private void updateProfile() {
@@ -168,7 +168,7 @@ public class ViewOrEditUserController {
         Image image = imgProfilePic.getImage();
         if (image != null) {
             selectedUser.setProfileImagePath(image.getUrl());
-            userService.update(selectedUser);
+            userService.saveOrUpdate(selectedUser);
         }
     }
 

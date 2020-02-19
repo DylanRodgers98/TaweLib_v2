@@ -9,7 +9,6 @@ import com.crowvalley.tawelib.model.user.User;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Date;
 import java.time.temporal.ChronoUnit;
@@ -29,7 +28,7 @@ public class LoanServiceImpl implements LoanService {
 
     private LoanDAO DAO;
 
-    private FineService fineService;
+    private TransactionService transactionService;
 
     private CopyService copyService;
 
@@ -45,7 +44,7 @@ public class LoanServiceImpl implements LoanService {
      */
     @Override
     public Optional<Loan> get(Long loanId) {
-        return DAO.get(loanId);
+        return DAO.getWithId(loanId, Loan.class);
     }
 
     /**
@@ -100,7 +99,7 @@ public class LoanServiceImpl implements LoanService {
      */
     @Override
     public List<Loan> getAll() {
-        return DAO.getAll();
+        return DAO.getAll(Loan.class);
     }
 
     /**
@@ -109,21 +108,9 @@ public class LoanServiceImpl implements LoanService {
      * @param loan The {@link Loan} object to be saved to the database.
      */
     @Override
-    public void save(Loan loan) {
-        DAO.save(loan);
+    public void saveOrUpdate(Loan loan) {
+        DAO.saveOrUpdate(loan);
         LOGGER.info("Loan (ID: {}) for copy (ID: {}) saved successfully", loan.getId(), loan.getCopyId());
-    }
-
-    /**
-     * Updates a {@link Loan} object already persisted in the database
-     * with new data after being changed by the application.
-     *
-     * @param loan The {@link Loan} object to be updated in the database.
-     */
-    @Override
-    public void update(Loan loan) {
-        DAO.update(loan);
-        LOGGER.info("Loan (ID: {}) for copy (ID: {}) updated successfully", loan.getId(), loan.getCopyId());
     }
 
     /**
@@ -149,7 +136,7 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public void endLoan(Loan loan) {
         loan.setReturnDate(new Date(System.currentTimeMillis()));
-        update(loan);
+        saveOrUpdate(loan);
         LOGGER.info("Copy (ID: {}) returned by {} on {}",
                 loan.getCopyId(), loan.getBorrowerUsername(), loan.getReturnDate());
 
@@ -176,7 +163,7 @@ public class LoanServiceImpl implements LoanService {
                 fineAmount *= dayDiffBetweenEndAndReturnDates;
 
                 Fine fine = new Fine(loan.getBorrowerUsername(), loan.getId(), fineAmount);
-                fineService.save(fine);
+                transactionService.save(fine);
                 LOGGER.info("£{} fine (ID: {}) issued to {}",
                         String.format("%.2f", fine.getAmount()), fine.getId(), fine.getUsername());
             }
@@ -189,9 +176,9 @@ public class LoanServiceImpl implements LoanService {
         LOGGER.info("{} DAO set to {}", this.getClass().getSimpleName(), DAO.getClass().getSimpleName());
     }
 
-    public void setFineService(FineService fineService) {
-        this.fineService = fineService;
-        LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), fineService.getClass().getSimpleName());
+    public void setTransactionService(TransactionService transactionService) {
+        this.transactionService = transactionService;
+        LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), transactionService.getClass().getSimpleName());
     }
 
     public void setCopyService(CopyService copyService) {

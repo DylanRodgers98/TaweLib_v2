@@ -2,7 +2,7 @@ package com.crowvalley.tawelib.controller.librarian.finesandpayments;
 
 import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.fine.OutstandingFinesDTO;
-import com.crowvalley.tawelib.service.PaymentService;
+import com.crowvalley.tawelib.service.TransactionService;
 import com.crowvalley.tawelib.service.UserService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import java.text.DecimalFormat;
@@ -27,7 +27,7 @@ public class RecordPaymentController {
 
     private UserService userService;
 
-    private PaymentService paymentService;
+    private TransactionService transactionService;
 
     @FXML
     private ChoiceBox<OutstandingFinesDTO> cmbUsers;
@@ -71,7 +71,7 @@ public class RecordPaymentController {
             }
 
             Payment payment = new Payment(username, amount);
-            paymentService.save(payment);
+            transactionService.save(payment);
 
             FXMLUtils.displayInformationDialogBox("Payment Successful",
                     "Payment of £" + amount + " made for " + username);
@@ -88,9 +88,9 @@ public class RecordPaymentController {
         LOGGER.info("{} UserService set to {}", this.getClass().getSimpleName(), userService.getClass().getSimpleName());
     }
 
-    public void setPaymentService(PaymentService paymentService) {
-        this.paymentService = paymentService;
-        LOGGER.info("{} PaymentService set to {}", this.getClass().getSimpleName(), paymentService.getClass().getSimpleName());
+    public void setTransactionService(TransactionService transactionService) {
+        this.transactionService = transactionService;
+        LOGGER.info("{} TransactionService set to {}", this.getClass().getSimpleName(), transactionService.getClass().getSimpleName());
     }
 
 }

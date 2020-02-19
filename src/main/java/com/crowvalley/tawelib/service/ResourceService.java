@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.service;
 
-import com.crowvalley.tawelib.dao.ResourceDAO;
+import com.crowvalley.tawelib.dao.BaseDAO;
+import com.crowvalley.tawelib.model.resource.Resource;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,17 +12,15 @@ import java.util.Optional;
  *
  * @author Dylan Rodgers
  */
-public interface ResourceService<Resource> {
+public interface ResourceService {
 
-    Optional<Resource> get(Long id);
+    Optional<? extends Resource> get(Long id, Class<? extends Resource> clazz);
 
-    List<Resource> getAll();
+    List<? extends Resource> getAll();
 
-    void save(Resource resource);
-
-    void update(Resource resource);
+    void saveOrUpdate(Resource resource);
 
     void delete(Resource resource);
 
-    void setDAO(ResourceDAO<Resource> DAO);
+    void setDAO(BaseDAO DAO);
 }

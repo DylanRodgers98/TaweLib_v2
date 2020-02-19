@@ -85,7 +85,7 @@ public class AddNewUserController {
         String imageUrl = image == null ? StringUtils.EMPTY : image.getUrl(); //TODO: replace empty string with default img
 
         User user = new User(username, firstName, surname, phoneNum, houseNum, street, town, county, postcode, imageUrl);
-        userService.save(user);
+        userService.saveOrUpdate(user);
         goBack();
     }
 

@@ -15,7 +15,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,11 +32,7 @@ public class LibrarianLoansTabController {
 
     private CopyService copyService;
 
-    private ResourceService<Book> bookService;
-
-    private ResourceService<Dvd> dvdService;
-
-    private ResourceService<Laptop> laptopService;
+    private ResourceService resourceService;
 
     @FXML
     private TableView<Loan> tblLoans;
@@ -87,37 +82,13 @@ public class LibrarianLoansTabController {
     private ObservableStringValue getCopyTitle(Copy copy) {
         StringBuilder titleBuilder = new StringBuilder();
 
-        Long resourceId = copy.getResourceId();
-        ResourceType resourceType = copy.getResourceType();
-        if (resourceType.equals(ResourceType.BOOK)) {
-            titleBuilder.append(getBookTitle(resourceId));
-        }
-        if (resourceType.equals(ResourceType.DVD)) {
-            titleBuilder.append(getDvdTitle(resourceId));
-        }
-        if (resourceType.equals(ResourceType.LAPTOP)) {
-            titleBuilder.append(getLaptopTitle(resourceId));
-        }
-
-        titleBuilder.append(" (")
+        Optional<? extends Resource> optionalResource = resourceService.get(copy.getResourceId(), copy.getResourceType().getClazz());
+        optionalResource.ifPresent(resource -> titleBuilder.append(resource.getTitle())
+                .append(" (")
                 .append(copy.getLoanDurationAsDays())
-                .append(" day loan)");
+                .append(" day loan)"));
+
         return new SimpleStringProperty(titleBuilder.toString());
-    }
-
-    private String getBookTitle(Long resourceId) {
-        Optional<Book> book = bookService.get(resourceId);
-        return book.map(Book::getTitle).orElse(StringUtils.EMPTY);
-    }
-
-    private String getDvdTitle(Long resourceId) {
-        Optional<Dvd> dvd = dvdService.get(resourceId);
-        return dvd.map(Dvd::getTitle).orElse(StringUtils.EMPTY);
-    }
-
-    private String getLaptopTitle(Long resourceId) {
-        Optional<Laptop> laptop = laptopService.get(resourceId);
-        return laptop.map(Laptop::getTitle).orElse(StringUtils.EMPTY);
     }
 
     private ObservableList<Loan> getLoans() {
@@ -160,19 +131,9 @@ public class LibrarianLoansTabController {
         LOGGER.info("{} CopyService set to {}", this.getClass().getSimpleName(), copyService.getClass().getSimpleName());
     }
 
-    public void setBookService(ResourceService<Book> bookService) {
-        this.bookService = bookService;
-        LOGGER.info("{} BookService set to {}", this.getClass().getSimpleName(), bookService.getClass().getSimpleName());
-    }
-
-    public void setDvdService(ResourceService<Dvd> dvdService) {
-        this.dvdService = dvdService;
-        LOGGER.info("{} DvdService set to {}", this.getClass().getSimpleName(), dvdService.getClass().getSimpleName());
-    }
-
-    public void setLaptopService(ResourceService<Laptop> laptopService) {
-        this.laptopService = laptopService;
-        LOGGER.info("{} LaptopService set to {}", this.getClass().getSimpleName(), laptopService.getClass().getSimpleName());
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
     }
 
 }

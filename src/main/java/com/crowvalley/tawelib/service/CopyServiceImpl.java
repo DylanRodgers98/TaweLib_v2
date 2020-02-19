@@ -25,11 +25,7 @@ public class CopyServiceImpl implements CopyService {
 
     private LoanService loanService;
 
-    private ResourceService<Book> bookService;
-
-    private ResourceService<Dvd> dvdService;
-
-    private ResourceService<Laptop> laptopService;
+    private ResourceService resourceService;
 
     /**
      * Retrieves a {@link Copy} from the DAO using the {@link Copy}'s
@@ -43,7 +39,7 @@ public class CopyServiceImpl implements CopyService {
      */
     @Override
     public Optional<Copy> get(Long id) {
-        return DAO.get(id);
+        return DAO.getWithId(id, Copy.class);
     }
 
     /**
@@ -51,7 +47,7 @@ public class CopyServiceImpl implements CopyService {
      */
     @Override
     public List<Copy> getAll() {
-        return DAO.getAll();
+        return DAO.getAll(Copy.class);
     }
 
     @Override
@@ -72,21 +68,9 @@ public class CopyServiceImpl implements CopyService {
      * @param copy The {@link Copy} object to be saved to the database.
      */
     @Override
-    public void save(Copy copy) {
-        DAO.save(copy);
+    public void saveOrUpdate(Copy copy) {
+        DAO.saveOrUpdate(copy);
         LOGGER.info("Copy (ID: {}) of {} (ID: {}) saved successfully", copy.getId(), copy.getResourceType(), copy.getResourceId());
-    }
-
-    /**
-     * Updates a {@link Copy} object already persisted in the database
-     * with new data after being changed by the application.
-     *
-     * @param copy The {@link Copy} object to be updated in the database.
-     */
-    @Override
-    public void update(Copy copy) {
-        DAO.update(copy);
-        LOGGER.info("Copy (ID: {}) of {} (ID: {}) updated successfully", copy.getId(), copy.getResourceType(), copy.getResourceId());
     }
 
     /**
@@ -124,7 +108,7 @@ public class CopyServiceImpl implements CopyService {
     @Override
     public void createCopyRequestForPersistedCopy(Copy copy, String username) {
         copy.createCopyRequest(username);
-        update(copy);
+        saveOrUpdate(copy);
     }
 
     /**
@@ -153,24 +137,12 @@ public class CopyServiceImpl implements CopyService {
     @Override
     public void deleteCopyRequestFromPersistedCopy(Copy copy, String username) {
         copy.deleteCopyRequestForUser(username);
-        update(copy);
+        saveOrUpdate(copy);
     }
 
     @Override
     public Optional<? extends Resource> getResourceFromCopy(Copy copy) {
-        ResourceType resourceType = copy.getResourceType();
-
-        if (resourceType.equals(ResourceType.BOOK)) {
-            return bookService.get(copy.getResourceId());
-        }
-        if (resourceType.equals(ResourceType.DVD)) {
-            return dvdService.get(copy.getResourceId());
-        }
-        if (resourceType.equals(ResourceType.LAPTOP)) {
-            return laptopService.get(copy.getResourceId());
-        }
-
-        return Optional.empty();
+        return resourceService.get(copy.getResourceId(), copy.getResourceType().getClazz());
     }
 
     @Override
@@ -184,19 +156,9 @@ public class CopyServiceImpl implements CopyService {
         LOGGER.info("{} LoanService set to {}", this.getClass().getSimpleName(), loanService.getClass().getSimpleName());
     }
 
-    public void setBookService(ResourceService<Book> bookService) {
-        this.bookService = bookService;
-        LOGGER.info("{} BookService set to {}", this.getClass().getSimpleName(), bookService.getClass().getSimpleName());
-    }
-
-    public void setDvdService(ResourceService<Dvd> dvdService) {
-        this.dvdService = dvdService;
-        LOGGER.info("{} DvdService set to {}", this.getClass().getSimpleName(), dvdService.getClass().getSimpleName());
-    }
-
-    public void setLaptopService(ResourceService<Laptop> laptopService) {
-        this.laptopService = laptopService;
-        LOGGER.info("{} LaptopService set to {}", this.getClass().getSimpleName(), laptopService.getClass().getSimpleName());
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
     }
 
 }

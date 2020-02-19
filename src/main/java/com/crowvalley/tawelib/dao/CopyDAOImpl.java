@@ -18,69 +18,11 @@ import java.util.Optional;
  *
  * @author Dylan Rodgers
  */
-@Transactional
-public class CopyDAOImpl implements CopyDAO {
-
-    @Autowired
-    private SessionFactory sessionFactory;
-
-    /**
-     * Retrieves a {@link Copy} from the database using the {@link Copy}'s
-     * {@code id} and returns it wrapped in an {@link Optional}. If a
-     * {@link Copy} with the passed {@code id} doesn't
-     * exist within the database, an empty {@link Optional} is returned.
-     *
-     * @param id The ID of the {@link Copy} to be retrieved
-     * @return The requested {@link Copy} wrapped in an {@link Optional}
-     * if it is found in the database, or an empty {@link Optional} if not.
-     */
-    @Override
-    public Optional<Copy> get(Long id) {
-        Copy copy = sessionFactory.getCurrentSession().get(Copy.class, id);
-        return Optional.ofNullable(copy);
-    }
-
-    /**
-     * @return A {@link List} of all {@link Copy}s stored in the database.
-     */
-    @Override
-    public List<Copy> getAll() {
-        return DatabaseUtils.getAll(Copy.class, sessionFactory);
-    }
+public class CopyDAOImpl extends BaseDAOImpl implements CopyDAO {
 
     @Override
     public List<Copy> getAllCopiesForResource(Long resourceId) {
         return DatabaseUtils.getAll(Copy.class, sessionFactory, "resourceId", resourceId);
     }
 
-    /**
-     * Persists a {@link Copy} object to the database.
-     *
-     * @param copy The {@link Copy} object to be saved to the database.
-     */
-    @Override
-    public void save(Copy copy) {
-        sessionFactory.getCurrentSession().save(copy);
-    }
-
-    /**
-     * Updates a {@link Copy} object already persisted in the database
-     * with new data after being changed by the application.
-     *
-     * @param copy The {@link Copy} object to be updated in the database.
-     */
-    @Override
-    public void update(Copy copy) {
-        sessionFactory.getCurrentSession().update(copy);
-    }
-
-    /**
-     * Deletes a {@link Copy} object from the database.
-     *
-     * @param copy The {@link Copy} object to be deleted from the database.
-     */
-    @Override
-    public void delete(Copy copy) {
-        sessionFactory.getCurrentSession().delete(copy);
-    }
 }

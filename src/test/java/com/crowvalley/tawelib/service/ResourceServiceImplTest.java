@@ -1,7 +1,8 @@
 package com.crowvalley.tawelib.service;
 
-import com.crowvalley.tawelib.dao.BookDAOImpl;
+import com.crowvalley.tawelib.dao.BaseDAO;
 import com.crowvalley.tawelib.model.resource.Book;
+import com.crowvalley.tawelib.model.resource.Resource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,10 +21,10 @@ import static org.mockito.Mockito.*;
 public class BookServiceImplTest {
 
     @Mock
-    private BookDAOImpl DAO;
+    private BaseDAO DAO;
 
     @InjectMocks
-    private BookServiceImpl bookService;
+    private ResourceServiceImpl resourceService;
 
     private Book book1;
 
@@ -37,7 +38,7 @@ public class BookServiceImplTest {
 
     private Optional<Book> optionalBook3;
 
-    private List<Book> books;
+    private List<Resource> books;
 
     @Before
     public void setup() {
@@ -57,9 +58,9 @@ public class BookServiceImplTest {
     public void testGet() {
         Long id = 1L;
 
-        when(DAO.get(id)).thenReturn(optionalBook1);
+        when(DAO.getWithId(id, Book.class)).thenReturn(optionalBook1);
 
-        assertThat(bookService.get(id))
+        assertThat(resourceService.get(id))
                 .as("Retrieve book from database with ID of 1")
                 .isEqualTo(optionalBook1);
     }
@@ -68,46 +69,40 @@ public class BookServiceImplTest {
     public void testGet_noBookFromDAO() {
         Long id = 2L;
 
-        when(DAO.get(id)).thenReturn(Optional.empty());
+        when(DAO.getWithId(id, Resource.class)).thenReturn(Optional.empty());
 
-        assertThat(bookService.get(id))
+        assertThat(resourceService.get(id))
                 .as("Retrieve empty Optional from DAO")
                 .isEqualTo(Optional.empty());
     }
 
     @Test
     public void testGetAll() {
-        when(DAO.getAll()).thenReturn(books);
+        when(DAO.getAll(Resource.class)).thenReturn(books);
 
-        assertThat(bookService.getAll())
+        assertThat(resourceService.getAll())
                 .as("Retrieve all books stored in the database")
                 .isEqualTo(books);
     }
 
     @Test
     public void testGetAll_noBooksFromDAO() {
-        when(DAO.getAll()).thenReturn(new ArrayList<>());
+        when(DAO.getAll(Resource.class)).thenReturn(new ArrayList<>());
 
-        assertThat(bookService.getAll().isEmpty())
+        assertThat(resourceService.getAll().isEmpty())
                 .as("Retrieve no books from DAO")
                 .isTrue();
     }
 
     @Test
-    public void test_verifySave() {
-        bookService.save(book1);
-        verify(DAO).save(eq(book1));
-    }
-
-    @Test
-    public void test_verifyUpdate() {
-        bookService.update(book2);
-        verify(DAO).update(eq(book2));
+    public void test_verifySaveOrUpdate() {
+        resourceService.saveOrUpdate(book1);
+        verify(DAO).saveOrUpdate(book1);
     }
 
     @Test
     public void test_verifyDelete() {
-        bookService.delete(book3);
-        verify(DAO).delete(eq(book3));
+        resourceService.delete(book3);
+        verify(DAO).delete(book3);
     }
 }

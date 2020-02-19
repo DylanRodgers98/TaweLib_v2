@@ -6,7 +6,6 @@ import com.crowvalley.tawelib.model.fine.Transaction;
 import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.*;
 import com.crowvalley.tawelib.util.FXMLUtils;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableStringValue;
 import javafx.beans.value.ObservableValue;
@@ -32,9 +31,7 @@ public class LibrarianFinesAndPaymentsTabController {
 
     private static final String RECORD_PAYMENT_FXML = "/fxml/librarian/finesAndPayments/recordPayment.fxml";
 
-    private FineService fineService;
-
-    private PaymentService paymentService;
+    private TransactionService transactionService;
 
     private CopyService copyService;
 
@@ -84,7 +81,7 @@ public class LibrarianFinesAndPaymentsTabController {
     private String getFineReason(Transaction transaction) {
         Assert.isInstanceOf(Fine.class, transaction, "Transaction is not of type Fine");
 
-        Optional<Copy> optionalCopy = fineService.getCopyFromFine((Fine) transaction);
+        Optional<Copy> optionalCopy = transactionService.getCopyFromFine((Fine) transaction);
         if (optionalCopy.isPresent()) {
             Copy copy = optionalCopy.get();
             Optional<? extends Resource> optionalResource = copyService.getResourceFromCopy(copy);
@@ -97,24 +94,14 @@ public class LibrarianFinesAndPaymentsTabController {
     }
 
     private ObservableList<Transaction> getFinesAndPayments() {
-        List<Fine> fines = fineService.getAll();
-        List<Payment> payments = paymentService.getAll();
-
-        ObservableList<Transaction> transactions = FXCollections.observableArrayList();
-        transactions.addAll(fines);
-        transactions.addAll(payments);
+        ObservableList<Transaction> transactions = FXCollections.observableArrayList(transactionService.getAll());
         transactions.sort(Comparator.comparingLong(Transaction::getId).reversed());
         return transactions;
     }
 
-    public void setFineService(FineService fineService) {
-        this.fineService = fineService;
-        LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), fineService.getClass().getSimpleName());
-    }
-
-    public void setPaymentService(PaymentService paymentService) {
-        this.paymentService = paymentService;
-        LOGGER.info("{} PaymentService set to {}", this.getClass().getSimpleName(), paymentService.getClass().getSimpleName());
+    public void setTransactionService(TransactionService transactionService) {
+        this.transactionService = transactionService;
+        LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), transactionService.getClass().getSimpleName());
     }
 
     public void setCopyService(CopyService copyService) {

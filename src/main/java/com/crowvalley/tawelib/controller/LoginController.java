@@ -4,7 +4,6 @@ import com.crowvalley.tawelib.UserContext;
 import com.crowvalley.tawelib.exception.NoSuchUserException;
 import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
-import com.crowvalley.tawelib.service.LibrarianService;
 import com.crowvalley.tawelib.service.UserService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.fxml.FXML;
@@ -26,8 +25,6 @@ public class LoginController {
     public static final String USER_HOME_FXML = "/fxml/userHome.fxml";
 
     private UserService userService;
-
-    private LibrarianService librarianService;
 
     @FXML
     private Button btnLogin;
@@ -64,25 +61,25 @@ public class LoginController {
     }
 
     private void logInWithStaffNumber(Long staffNum) throws NoSuchUserException {
-        Optional<Librarian> librarian = librarianService.getWithStaffNumber(staffNum);
+        Optional<Librarian> librarian = userService.getLibrarianUserWithStaffNumber(staffNum);
         if (librarian.isPresent()) {
-            librarianLogIn(librarian.get());
+            librarianLogIn(librarian.get().getUsername());
         } else {
             throw new NoSuchUserException("No librarian user found with staff number '" + staffNum + "'");
         }
     }
 
     private void logInWithUsername(String username) throws NoSuchUserException {
-        Optional<Librarian> librarian = librarianService.getWithUsername(username);
-        if (librarian.isPresent()) {
-            librarianLogIn(username);
+        Optional<? extends User> user = userService.getWithUsername(username);
+        if (user.isPresent()) {
+            if (user.get() instanceof Librarian) {
+                librarianLogIn(username);
+            } else {
+                userLogIn(username);
+            }
         } else {
-            userLogIn(username);
+            throw new NoSuchUserException("No user found with username '" + username + "'");
         }
-    }
-
-    private void librarianLogIn(Librarian librarian) {
-        librarianLogIn(librarian.getUsername());
     }
 
     private void librarianLogIn(String username) {
@@ -91,13 +88,8 @@ public class LoginController {
     }
 
     private void userLogIn(String username) throws NoSuchUserException {
-        Optional<User> user = userService.get(username);
-        if (user.isPresent()) {
-            UserContext.setLoggedInUser(username);
-            loadNewScene(USER_HOME_FXML);
-        } else {
-            throw new NoSuchUserException("No user found with username '" + username + "'");
-        }
+        UserContext.setLoggedInUser(username);
+        loadNewScene(USER_HOME_FXML);
     }
 
     private void loadNewScene(String fxml) {
@@ -109,8 +101,4 @@ public class LoginController {
         LOGGER.info("{} UserService set to {}", this.getClass().getSimpleName(), userService.getClass().getSimpleName());
     }
 
-    public void setLibrarianService(LibrarianService librarianService) {
-        this.librarianService = librarianService;
-        LOGGER.info("{} LibrarianService set to {}", this.getClass().getSimpleName(), librarianService.getClass().getSimpleName());
-    }
 }

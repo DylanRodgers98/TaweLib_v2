@@ -14,7 +14,6 @@
     <!-- JavaFX Controller beans -->
     <bean id="loginController" class="com.crowvalley.tawelib.controller.LoginController" >
         <property name="userService" ref="userService" />
-        <property name="librarianService" ref="librarianService" />
     </bean>
 
     <bean id="librarianHomeController" class="com.crowvalley.tawelib.controller.librarian.LibrarianHomeController" >
@@ -27,15 +26,11 @@
     </bean>
 
     <bean id="librarianResourcesTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianResourcesTabController" >
-        <property name="bookService" ref="bookService" />
-        <property name="dvdService" ref="dvdService" />
-        <property name="laptopService" ref="laptopService" />
+        <property name="resourceService" ref="resourceService" />
     </bean>
 
     <bean id="addResourceController" class="com.crowvalley.tawelib.controller.librarian.resources.AddResourceController" >
-        <property name="bookService" ref="bookService" />
-        <property name="dvdService" ref="dvdService" />
-        <property name="laptopService" ref="laptopService" />
+        <property name="resourceService" ref="resourceService" />
     </bean>
 
     <bean id="viewResourceController" class="com.crowvalley.tawelib.controller.librarian.resources.ViewResourceController" >
@@ -48,30 +43,22 @@
     </bean>
 
     <bean id="viewCopyRequestsController" class="com.crowvalley.tawelib.controller.librarian.resources.ViewCopyRequestsController" >
-        <property name="bookService" ref="bookService" />
-        <property name="dvdService" ref="dvdService" />
-        <property name="laptopService" ref="laptopService" />
+        <property name="resourceService" ref="resourceService" />
         <property name="loanService" ref="loanService" />
     </bean>
 
     <bean id="editResourceController" class="com.crowvalley.tawelib.controller.librarian.resources.EditResourceController" >
-        <property name="bookService" ref="bookService" />
-        <property name="dvdService" ref="dvdService" />
-        <property name="laptopService" ref="laptopService" />
+        <property name="resourceService" ref="resourceService" />
     </bean>
 
     <bean id="librarianLoansTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianLoansTabController" >
         <property name="loanService" ref="loanService" />
         <property name="copyService" ref="copyService" />
-        <property name="bookService" ref="bookService" />
-        <property name="dvdService" ref="dvdService" />
-        <property name="laptopService" ref="laptopService" />
+        <property name="resourceService" ref="resourceService" />
     </bean>
 
     <bean id="newLoanController" class="com.crowvalley.tawelib.controller.librarian.loans.NewLoanController" >
-        <property name="bookService" ref="bookService" />
-        <property name="dvdService" ref="dvdService" />
-        <property name="laptopService" ref="laptopService" />
+        <property name="resourceService" ref="resourceService" />
         <property name="copyService" ref="copyService" />
         <property name="userService" ref="userService" />
         <property name="loanService" ref="loanService" />
@@ -79,8 +66,7 @@
     
     <bean id="librarianUsersTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianUsersTabController" >
         <property name="userService" ref="userService" />
-        <property name="fineService" ref="fineService" />
-        <property name="paymentService" ref="paymentService" />
+        <property name="transactionService" ref="transactionService" />
     </bean>
 
     <bean id="addNewUserController" class="com.crowvalley.tawelib.controller.librarian.users.AddNewUserController" >
@@ -92,78 +78,60 @@
     </bean>
 
     <bean id="librarianFinesAndPaymentsTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianFinesAndPaymentsTabController" >
-        <property name="fineService" ref="fineService" />
-        <property name="paymentService" ref="paymentService" />
+        <property name="transactionService" ref="transactionService" />
         <property name="copyService" ref="copyService" />
     </bean>
 
     <bean id="recordPaymentController" class="com.crowvalley.tawelib.controller.librarian.finesandpayments.RecordPaymentController" >
         <property name="userService" ref="userService" />
-        <property name="paymentService" ref="paymentService" />
+        <property name="transactionService" ref="transactionService" />
     </bean>
 
     <bean id="librarianProfileTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianProfileTabController" >
-        <property name="librarianService" ref="librarianService" />
+        <property name="userService" ref="userService" />
     </bean>
 
     <bean id="librarianLogOutController" class="com.crowvalley.tawelib.controller.librarian.LibrarianLogOutController" />
 
     <!-- Service beans -->
-    <bean id="bookService" class="com.crowvalley.tawelib.service.BookServiceImpl">
-        <property name="DAO" ref="bookDAO"/>
-    </bean>
-
-    <bean id="laptopService" class="com.crowvalley.tawelib.service.LaptopServiceImpl">
-        <property name="DAO" ref="laptopDAO"/>
-    </bean>
-
-    <bean id="dvdService" class="com.crowvalley.tawelib.service.DvdServiceImpl">
-        <property name="DAO" ref="dvdDAO"/>
-    </bean>
-
     <bean id="copyService" class="com.crowvalley.tawelib.service.CopyServiceImpl">
         <property name="DAO" ref="copyDAO"/>
         <property name="loanService" ref="loanService" />
-        <property name="bookService" ref="bookService" />
-        <property name="dvdService" ref="dvdService" />
-        <property name="laptopService" ref="laptopService" />
-    </bean>
-
-    <bean id="userService" class="com.crowvalley.tawelib.service.UserServiceImpl">
-        <property name="DAO" ref="userDAO"/>
-        <property name="fineService" ref="fineService" />
-        <property name="paymentService" ref="paymentService" />
-    </bean>
-
-    <bean id="librarianService" class="com.crowvalley.tawelib.service.LibrarianServiceImpl">
-        <property name="DAO" ref="librarianDAO"/>
+        <property name="resourceService" ref="resourceService" />
     </bean>
 
     <bean id="loanService" class="com.crowvalley.tawelib.service.LoanServiceImpl">
         <property name="DAO" ref="loanDAO"/>
         <property name="copyService" ref="copyService" />
-        <property name="fineService" ref="fineService" />
+        <property name="transactionService" ref="transactionService" />
     </bean>
 
-    <bean id="fineService" class="com.crowvalley.tawelib.service.FineServiceImpl">
-        <property name="DAO" ref="fineDAO"/>
+    <bean id="resourceService" class="com.crowvalley.tawelib.service.ResourceServiceImpl">
+        <property name="DAO" ref="baseDAO"/>
+    </bean>
+
+    <bean id="transactionService" class="com.crowvalley.tawelib.service.TransactionServiceImpl">
+        <property name="DAO" ref="transactionDAO"/>
         <property name="loanService" ref="loanService" />
         <property name="copyService" ref="copyService" />
     </bean>
 
-    <bean id="paymentService" class="com.crowvalley.tawelib.service.PaymentServiceImpl">
-        <property name="DAO" ref="paymentDAO"/>
+    <bean id="userService" class="com.crowvalley.tawelib.service.UserServiceImpl">
+        <property name="DAO" ref="userDAO"/>
+        <property name="transactionService" ref="transactionService" />
     </bean>
 
     <!-- DAO beans -->
-    <bean id="bookDAO" class="com.crowvalley.tawelib.dao.BookDAOImpl"/>
-    <bean id="laptopDAO" class="com.crowvalley.tawelib.dao.LaptopDAOImpl"/>
-    <bean id="dvdDAO" class="com.crowvalley.tawelib.dao.DvdDAOImpl"/>
-    <bean id="copyDAO" class="com.crowvalley.tawelib.dao.CopyDAOImpl"/>
-    <bean id="userDAO" class="com.crowvalley.tawelib.dao.UserDAOImpl"/>
-    <bean id="librarianDAO" class="com.crowvalley.tawelib.dao.LibrarianDAOImpl"/>
-    <bean id="loanDAO" class="com.crowvalley.tawelib.dao.LoanDAOImpl"/>
-    <bean id="fineDAO" class="com.crowvalley.tawelib.dao.FineDAOImpl"/>
-    <bean id="paymentDAO" class="com.crowvalley.tawelib.dao.PaymentDAOImpl"/>
+    <bean id="baseDAO" class="com.crowvalley.tawelib.dao.BaseDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="copyDAO" parent="baseDAO" class="com.crowvalley.tawelib.dao.CopyDAOImpl"/>
+
+    <bean id="loanDAO" parent="baseDAO" class="com.crowvalley.tawelib.dao.LoanDAOImpl"/>
+
+    <bean id="transactionDAO" parent="baseDAO" class="com.crowvalley.tawelib.dao.TransactionDAOImpl"/>
+
+    <bean id="userDAO" parent="baseDAO" class="com.crowvalley.tawelib.dao.UserDAOImpl"/>
 
 </beans>

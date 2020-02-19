@@ -13,18 +13,12 @@ import java.util.Optional;
  *
  * @author Dylan Rodgers
  */
-public interface UserDAO {
-
-    Optional<User> get(String username);
-
-    List<User> getAll();
+public interface UserDAO extends BaseDAO {
 
     List<String> getAllUsernames();
 
-    void save(User user);
+    Optional<? extends User> getWithUsername(String username);
 
-    void update(User user);
-
-    void delete(User user);
+    Optional<Librarian> getLibrarianUserWithStaffNumber(Long staffNum);
 
 }

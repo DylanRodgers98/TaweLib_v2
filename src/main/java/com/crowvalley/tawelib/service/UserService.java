@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.UserDAO;
+import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.model.fine.OutstandingFinesDTO;
 
@@ -15,19 +16,19 @@ import java.util.Optional;
  */
 public interface UserService {
 
-    Optional<User> get(String username);
+    Optional<? extends User> getWithUsername(String username);
 
-    List<User> getAll();
+    Optional<Librarian> getLibrarianUserWithStaffNumber(Long staffNum);
+
+    List<? extends User> getAll();
+
+    void saveOrUpdate(User user);
+
+    void delete(User user);
 
     List<String> getAllUsernames();
 
     List<OutstandingFinesDTO> getAllUsersWithOutstandingFines();
-
-    void save(User user);
-
-    void update(User user);
-
-    void delete(User user);
 
     void setDAO(UserDAO DAO);
 }

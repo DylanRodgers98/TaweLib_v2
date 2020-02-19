@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.UserDAO;
+import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.model.fine.OutstandingFinesDTO;
 import org.slf4j.Logger;
@@ -21,9 +22,7 @@ public class UserServiceImpl implements UserService {
 
     private UserDAO DAO;
 
-    private FineService fineService;
-
-    private PaymentService paymentService;
+    private TransactionService transactionService;
 
     /**
      * Retrieves a {@link User} from the DAO using the {@link User}'s
@@ -36,16 +35,32 @@ public class UserServiceImpl implements UserService {
      * if it isn't retrieved by the DAO, or an empty {@link Optional} if not.
      */
     @Override
-    public Optional<User> get(String username) {
-        return DAO.get(username);
+    public Optional<? extends User> getWithUsername(String username) {
+        return DAO.getWithUsername(username);
+    }
+
+    /**
+     * Retrieves a {@link Librarian} from the DAO using the {@link Librarian}'s
+     * {@code staffNum} and returns it wrapped in an {@link Optional}. If a
+     * {@link Librarian} with the passed {@code staffNum} isn't retrieved from
+     * the DAO, an empty {@link Optional} is returned.
+     *
+     * @param staffNum The {@code staffNum} of the {@link Librarian} to be
+     *                 retrieved.
+     * @return The requested {@link Librarian} wrapped in an {@link Optional}
+     * if it isn't retrieved by the DAO, or an empty {@link Optional} if not.
+     */
+    @Override
+    public Optional<Librarian> getLibrarianUserWithStaffNumber(Long staffNum) {
+        return DAO.getLibrarianUserWithStaffNumber(staffNum);
     }
 
     /**
      * @return A {@link List} of all {@link User}s retrieved by the DAO.
      */
     @Override
-    public List<User> getAll() {
-        return DAO.getAll();
+    public List<? extends User> getAll() {
+        return DAO.getAll(User.class);
     }
 
     @Override
@@ -57,8 +72,8 @@ public class UserServiceImpl implements UserService {
     public List<OutstandingFinesDTO> getAllUsersWithOutstandingFines() {
         List<OutstandingFinesDTO> usersWithOutstandingFines = new ArrayList<>();
         for (String username : getAllUsernames()) {
-            Double finesForUser = fineService.getTotalFineAmountForUser(username);
-            Double paymentsForUser = paymentService.getTotalPaymentAmountForUser(username);
+            Double finesForUser = transactionService.getTotalFineAmountForUser(username);
+            Double paymentsForUser = transactionService.getTotalPaymentAmountForUser(username);
             double outstandingFines = finesForUser - paymentsForUser;
             if (outstandingFines > 0) {
                 usersWithOutstandingFines.add(new OutstandingFinesDTO(username, outstandingFines));
@@ -73,21 +88,9 @@ public class UserServiceImpl implements UserService {
      * @param user The {@link User} object to be saved to the database.
      */
     @Override
-    public void save(User user) {
-        DAO.save(user);
+    public void saveOrUpdate(User user) {
+        DAO.saveOrUpdate(user);
         LOGGER.info("User with username {} saved successfully", user.getUsername());
-    }
-
-    /**
-     * Updates a {@link User} object already persisted in the database
-     * with new data after being changed by the application.
-     *
-     * @param user The {@link User} object to be updated in the database.
-     */
-    @Override
-    public void update(User user) {
-        DAO.update(user);
-        LOGGER.info("User with username {} updated successfully", user.getUsername());
     }
 
     /**
@@ -107,14 +110,9 @@ public class UserServiceImpl implements UserService {
         LOGGER.info("{} DAO set to {}", this.getClass().getSimpleName(), DAO.getClass().getSimpleName());
     }
 
-    public void setFineService(FineService fineService) {
-        this.fineService = fineService;
-        LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), fineService.getClass().getSimpleName());
-    }
-
-    public void setPaymentService(PaymentService paymentService) {
-        this.paymentService = paymentService;
-        LOGGER.info("{} PaymentService set to {}", this.getClass().getSimpleName(), paymentService.getClass().getSimpleName());
+    public void setTransactionService(TransactionService transactionService) {
+        this.transactionService = transactionService;
+        LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), transactionService.getClass().getSimpleName());
     }
 
 }

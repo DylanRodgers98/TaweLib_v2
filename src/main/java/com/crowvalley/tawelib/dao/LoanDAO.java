@@ -11,22 +11,12 @@ import java.util.Optional;
  *
  * @author Dylan Rodgers
  */
-public interface LoanDAO {
-
-    Optional<Loan> get(Long loanId);
+public interface LoanDAO extends BaseDAO {
 
     List<Loan> getAllLoansForCopy(Long copyId);
 
     Optional<Loan> getCurrentLoanForCopy(Long copyId);
 
     List<Loan> getAllLoansForUser(String username);
-
-    List<Loan> getAll();
-
-    void save(Loan loan);
-
-    void update(Loan loan);
-
-    void delete(Loan loan);
 
 }

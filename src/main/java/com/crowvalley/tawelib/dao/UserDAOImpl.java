@@ -1,7 +1,9 @@
 package com.crowvalley.tawelib.dao;
 
+import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.util.DatabaseUtils;
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,35 +21,7 @@ import java.util.Optional;
  *
  * @author Dylan Rodgers
  */
-@Transactional
-public class UserDAOImpl implements UserDAO {
-
-    @Autowired
-    private SessionFactory sessionFactory;
-
-    /**
-     * Retrieves a {@link User} from the database using the
-     * {@link User}'s {@code username} and returns it wrapped in an
-     * {@link Optional}. If a {@link User} with the passed {@code username}
-     * doesn't exist within the database, an empty {@link Optional} is returned.
-     *
-     * @param username The username of the {@link User} to be retrieved
-     * @return The requested {@link User} wrapped in an {@link Optional}
-     * if it is found in the database, or an empty {@link Optional} if not.
-     */
-    @Override
-    public Optional<User> get(String username) {
-        User user = sessionFactory.getCurrentSession().get(User.class, username);
-        return Optional.ofNullable(user);
-    }
-
-    /**
-     * @return A {@link List} of all {@link User}s stored in the database.
-     */
-    @Override
-    public List<User> getAll() {
-        return DatabaseUtils.getAll(User.class, sessionFactory);
-    }
+public class UserDAOImpl extends BaseDAOImpl implements UserDAO {
 
     @Override
     public List<String> getAllUsernames() {
@@ -60,33 +34,44 @@ public class UserDAOImpl implements UserDAO {
     }
 
     /**
-     * Persists a {@link User} object to the database.
+     * Retrieves a {@link User} from the database using the
+     * {@link User}'s {@code username} and returns it wrapped in an
+     * {@link Optional}. If a {@link User} with the passed {@code username}
+     * doesn't exist within the database, an empty {@link User} is returned.
      *
-     * @param user The {@link User} object to be saved to the database.
+     * @param username The username of the {@link User} to be retrieved
+     * @return The requested {@link User} wrapped in an {@link Optional}
+     * if it is found in the database, or an empty {@link Optional} if not.
      */
     @Override
-    public void save(User user) {
-        sessionFactory.getCurrentSession().save(user);
+    public Optional<? extends User> getWithUsername(String username) {
+        User user = sessionFactory.getCurrentSession().get(User.class, username);
+        return Optional.ofNullable(user);
     }
 
     /**
-     * Updates a {@link User} object already persisted in the database
-     * with new data after being changed by the application.
+     * Retrieves a {@link Librarian} from the database using the
+     * {@link Librarian}'s {@code staffNum} and returns it wrapped in an
+     * {@link Optional}. If a {@link Librarian} with the passed {@code staffNum}
+     * doesn't exist within the database, an empty {@link Optional} is returned.
      *
-     * @param user The {@link User} object to be updated in the database.
+     * @param staffNum The username of the {@link Librarian} to be retrieved
+     * @return The requested {@link Librarian} wrapped in an {@link Optional}
+     * if it is found in the database, or an empty {@link Optional} if not.
      */
     @Override
-    public void update(User user) {
-        sessionFactory.getCurrentSession().update(user);
+    public Optional<Librarian> getLibrarianUserWithStaffNumber(Long staffNum) {
+        List<Librarian> librarians = DatabaseUtils.getAll(Librarian.class, sessionFactory, "staffNum", staffNum);
+
+        if (librarians.size() > 1) {
+            throw new HibernateException("More than one Librarian retrieved from database with same staff number");
+        }
+
+        if (!librarians.isEmpty()) {
+            return Optional.of(librarians.get(0));
+        } else {
+            return Optional.empty();
+        }
     }
 
-    /**
-     * Deletes a {@link User} object from the database.
-     *
-     * @param user The {@link User} object to be deleted from the database.
-     */
-    @Override
-    public void delete(User user) {
-        sessionFactory.getCurrentSession().delete(user);
-    }
 }

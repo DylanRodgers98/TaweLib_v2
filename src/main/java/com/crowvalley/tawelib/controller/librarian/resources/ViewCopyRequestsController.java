@@ -24,11 +24,7 @@ public class ViewCopyRequestsController {
 
     private static final String VIEW_RESOURCE_FXML = "/fxml/librarian/resources/viewResource.fxml";
 
-    private ResourceService<Book> bookService;
-
-    private ResourceService<Dvd> dvdService;
-
-    private ResourceService<Laptop> laptopService;
+    private ResourceService resourceService;
 
     private LoanService loanService;
 
@@ -61,28 +57,16 @@ public class ViewCopyRequestsController {
     }
 
     private void setCopyTitleLabel() {
-        String resourceTitle = null;
-        Long resourceId = selectedCopy.getResourceId();
-        ResourceType resourceType = selectedCopy.getResourceType();
-        if (resourceType == ResourceType.BOOK) {
-            Optional<Book> book = bookService.get(resourceId);
-            if (book.isPresent()) {
-                resourceTitle = book.get().getTitle();
-            }
-        }
-        if (resourceType == ResourceType.DVD) {
-            Optional<Dvd> dvd = dvdService.get(resourceId);
-            if (dvd.isPresent()) {
-                resourceTitle = dvd.get().getTitle();
-            }
-        }
-        if (resourceType == ResourceType.LAPTOP) {
-            Optional<Laptop> laptop = laptopService.get(resourceId);
-            if (laptop.isPresent()) {
-                resourceTitle = laptop.get().getTitle();
-            }
-        }
-        lblCopyTitle.setText("Copy: " + resourceTitle + " (" + selectedCopy.toString() + ")");
+        StringBuilder titleBuilder = new StringBuilder();
+
+        Optional<? extends Resource> resource = resourceService.get(selectedCopy.getResourceId(), selectedCopy.getResourceType().getClazz());
+        resource.ifPresent(value -> titleBuilder.append("Copy: ")
+                .append(value.getTitle())
+                .append(" (")
+                .append(selectedCopy.toString())
+                .append(")"));
+
+        lblCopyTitle.setText(titleBuilder.toString());
     }
 
     private void populateTable() {
@@ -121,7 +105,7 @@ public class ViewCopyRequestsController {
         String username = selectedCopyRequest.getUsername();
 
         Loan loan = ResourceFactory.createLoanForCopy(selectedCopy, username);
-        loanService.save(loan);
+        loanService.saveOrUpdate(loan);
         selectedCopy.deleteCopyRequestForUser(username);
 
         tblCopyRequests.getItems().remove(selectedCopyRequest);
@@ -135,19 +119,9 @@ public class ViewCopyRequestsController {
         this.selectedCopy = copy;
     }
 
-    public void setBookService(ResourceService<Book> bookService) {
-        this.bookService = bookService;
-        LOGGER.info("{} BookService set to {}", this.getClass().getSimpleName(), bookService.getClass().getSimpleName());
-    }
-
-    public void setDvdService(ResourceService<Dvd> dvdService) {
-        this.dvdService = dvdService;
-        LOGGER.info("{} DvdService set to {}", this.getClass().getSimpleName(), dvdService.getClass().getSimpleName());
-    }
-
-    public void setLaptopService(ResourceService<Laptop> laptopService) {
-        this.laptopService = laptopService;
-        LOGGER.info("{} LaptopService set to {}", this.getClass().getSimpleName(), laptopService.getClass().getSimpleName());
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
     }
 
     public void setLoanService(LoanService loanService) {

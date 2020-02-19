@@ -19,15 +19,13 @@ public interface CopyService {
 
     List<Copy> getAll();
 
+    void saveOrUpdate(Copy copy);
+
+    void delete(Copy copy);
+
     List<Copy> getAllCopiesForResource(Long resourceId);
 
     List<Copy> getAllCopiesNotOnLoanForResource(Long resourceId);
-
-    void save(Copy copy);
-
-    void update(Copy copy);
-
-    void delete(Copy copy);
 
     void createCopyRequestForPersistedCopy(Long id, String username);
 

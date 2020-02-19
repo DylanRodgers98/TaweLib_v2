@@ -3,7 +3,8 @@ package com.crowvalley.tawelib.controller.librarian;
 import com.crowvalley.tawelib.UserContext;
 import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.Librarian;
-import com.crowvalley.tawelib.service.LibrarianService;
+import com.crowvalley.tawelib.model.user.User;
+import com.crowvalley.tawelib.service.UserService;
 import com.crowvalley.tawelib.util.ImageUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -25,7 +26,7 @@ public class LibrarianProfileTabController {
 
     private static final String PROFILE_PICTURE_DIRECTORY_NAME = "profile";
 
-    private LibrarianService librarianService;
+    private UserService userService;
 
     private Librarian loggedInLibrarian;
 
@@ -74,9 +75,9 @@ public class LibrarianProfileTabController {
 
     private void loadProfile() {
         String currentUser = UserContext.getLoggedInUser();
-        Optional<Librarian> optionalLibrarian = librarianService.getWithUsername(currentUser);
+        Optional<? extends User> optionalLibrarian = userService.getWithUsername(currentUser);
         if (optionalLibrarian.isPresent()) {
-            loggedInLibrarian = optionalLibrarian.get();
+            loggedInLibrarian = (Librarian) optionalLibrarian.get();
             populateTextFields(loggedInLibrarian);
             loadProfilePic(loggedInLibrarian);
         }
@@ -140,7 +141,7 @@ public class LibrarianProfileTabController {
         disableTextFields();
         btnSaveOrUpdate.setText(UPDATE_PROFILE_BUTTON_TEXT);
         updateProfile();
-        librarianService.update(loggedInLibrarian);
+        userService.saveOrUpdate(loggedInLibrarian);
     }
 
     private void updateProfile() {
@@ -164,13 +165,13 @@ public class LibrarianProfileTabController {
         Image image = imgProfilePic.getImage();
         if (image != null) {
             loggedInLibrarian.setProfileImagePath(image.getUrl());
-            librarianService.update(loggedInLibrarian);
+            userService.saveOrUpdate(loggedInLibrarian);
         }
     }
 
-    public void setLibrarianService(LibrarianService librarianService) {
-        this.librarianService = librarianService;
-        LOGGER.info("{} LibrarianService set to {}", this.getClass().getSimpleName(), librarianService.getClass().getSimpleName());
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+        LOGGER.info("{} LibrarianService set to {}", this.getClass().getSimpleName(), userService.getClass().getSimpleName());
     }
 
 }

@@ -23,7 +23,7 @@ public class OutstandingFinesDTO {
 
     @Override
     public String toString() {
-        return username + " (Outstanding: £" + String.format("£%.2f", outstandingFines) + ")";
+        return username + " (Outstanding: £" + String.format("%.2f", outstandingFines) + ")";
     }
 
 }

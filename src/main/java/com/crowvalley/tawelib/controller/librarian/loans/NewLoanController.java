@@ -21,11 +21,7 @@ public class NewLoanController {
 
     private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
 
-    private ResourceService<Book> bookService;
-
-    private ResourceService<Dvd> dvdService;
-
-    private ResourceService<Laptop> laptopService;
+    private ResourceService resourceService;
 
     private CopyService copyService;
 
@@ -62,19 +58,6 @@ public class NewLoanController {
     }
 
     private void populateResources() {
-        if (cmbType.getValue().equals(ResourceType.BOOK)) {
-            populateResources(bookService);
-        }
-        if (cmbType.getValue().equals(ResourceType.DVD)) {
-            populateResources(dvdService);
-        }
-        if (cmbType.getValue().equals(ResourceType.LAPTOP)) {
-            populateResources(laptopService);
-        }
-        setEnabledOnCreateLoanButton();
-    }
-
-    private void populateResources(ResourceService<? extends Resource> resourceService) {
         cmbResource.setItems(FXCollections.observableArrayList(resourceService.getAll()));
         setEnabledOnCreateLoanButton();
     }
@@ -98,7 +81,7 @@ public class NewLoanController {
         String username = cmbBorrower.getValue();
 
         Loan loan = ResourceFactory.createLoanForCopy(copy, username);
-        loanService.save(loan);
+        loanService.saveOrUpdate(loan);
 
         FXMLUtils.displayInformationDialogBox("Success!", "Successfully Created New Loan");
         FXMLUtils.loadNewScene(btnCreateLoan, LIBRARIAN_HOME_FXML);
@@ -113,19 +96,9 @@ public class NewLoanController {
         }
     }
 
-    public void setBookService(ResourceService<Book> bookService) {
-        this.bookService = bookService;
-        LOGGER.info("{} BookService set to {}", this.getClass().getSimpleName(), bookService.getClass().getSimpleName());
-    }
-
-    public void setDvdService(ResourceService<Dvd> dvdService) {
-        this.dvdService = dvdService;
-        LOGGER.info("{} DvdService set to {}", this.getClass().getSimpleName(), dvdService.getClass().getSimpleName());
-    }
-
-    public void setLaptopService(ResourceService<Laptop> laptopService) {
-        this.laptopService = laptopService;
-        LOGGER.info("{} LaptopService set to {}", this.getClass().getSimpleName(), laptopService.getClass().getSimpleName());
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
     }
 
     public void setCopyService(CopyService copyService) {

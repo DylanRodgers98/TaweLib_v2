@@ -21,27 +21,7 @@ import java.util.Optional;
  *
  * @author Dylan Rodgers
  */
-@Transactional
-public class LoanDAOImpl implements LoanDAO {
-
-    @Autowired
-    private SessionFactory sessionFactory;
-
-    /**
-     * Retrieves a {@link Loan} from the database using the {@link Loan}'s
-     * {@code id} and returns it wrapped in an {@link Optional}. If a
-     * {@link Loan} with the passed {@code id} doesn't
-     * exist within the database, an empty {@link Optional} is returned.
-     *
-     * @param loanId The ID of the {@link Loan} to be retrieved
-     * @return The requested {@link Loan} wrapped in an {@link Optional}
-     * if it is found in the database, or an empty {@link Optional} if not.
-     */
-    @Override
-    public Optional<Loan> get(Long loanId) {
-        Loan loan = sessionFactory.getCurrentSession().get(Loan.class, loanId);
-        return Optional.ofNullable(loan);
-    }
+public class LoanDAOImpl extends BaseDAOImpl implements LoanDAO {
 
     /**
      * Retrieves a {@link List} of all {@link Loan}s created, past and present,
@@ -81,42 +61,4 @@ public class LoanDAOImpl implements LoanDAO {
         return DatabaseUtils.getAll(Loan.class, sessionFactory, "borrowerUsername", username);
     }
 
-    /**
-     * @return A {@link List} of all {@link Loan}s stored in the database.
-     */
-    @Override
-    public List<Loan> getAll() {
-        return DatabaseUtils.getAll(Loan.class, sessionFactory);
-    }
-
-    /**
-     * Persists a {@link Loan} object to the database.
-     *
-     * @param loan The {@link Loan} object to be saved to the database.
-     */
-    @Override
-    public void save(Loan loan) {
-        sessionFactory.getCurrentSession().save(loan);
-    }
-
-    /**
-     * Updates a {@link Loan} object already persisted in the database
-     * with new data after being changed by the application.
-     *
-     * @param loan The {@link Loan} object to be updated in the database.
-     */
-    @Override
-    public void update(Loan loan) {
-        sessionFactory.getCurrentSession().update(loan);
-    }
-
-    /**
-     * Deletes a {@link Loan} object from the database.
-     *
-     * @param loan The {@link Loan} object to be deleted from the database.
-     */
-    @Override
-    public void delete(Loan loan) {
-        sessionFactory.getCurrentSession().delete(loan);
-    }
 }

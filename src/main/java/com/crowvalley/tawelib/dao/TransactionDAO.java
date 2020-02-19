@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.dao;
 
 import com.crowvalley.tawelib.model.fine.Fine;
+import com.crowvalley.tawelib.model.fine.Payment;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,18 +12,10 @@ import java.util.Optional;
  *
  * @author Dylan Rodgers
  */
-public interface FineDAO {
-
-    Optional<Fine> get(Long id);
-
-    List<Fine> getAllFinesForUser(String username);
+public interface TransactionDAO extends BaseDAO {
 
     Double getTotalFineAmountForUser(String username);
 
-    List<Fine> getAll();
-
-    void save(Fine fine);
-
-    void delete(Fine fine);
+    Double getTotalPaymentAmountForUser(String username);
 
 }

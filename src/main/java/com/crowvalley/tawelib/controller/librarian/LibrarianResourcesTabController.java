@@ -33,11 +33,7 @@ public class LibrarianResourcesTabController {
 
     private static final String EDIT_RESOURCE_FXML = "/fxml/librarian/resources/editResource.fxml";
 
-    private ResourceService<Book> bookService;
-
-    private ResourceService<Dvd> dvdService;
-
-    private ResourceService<Laptop> laptopService;
+    private ResourceService resourceService;
 
     @FXML
     private TableView<Resource> tblResources;
@@ -81,10 +77,7 @@ public class LibrarianResourcesTabController {
     }
 
     private ObservableList<Resource> getResources() {
-        ObservableList<Resource> resources = FXCollections.observableArrayList();
-        resources.addAll(bookService.getAll());
-        resources.addAll(dvdService.getAll());
-        resources.addAll(laptopService.getAll());
+        ObservableList<Resource> resources = FXCollections.observableArrayList(resourceService.getAll());
         resources.sort(Comparator.comparing(Resource::getTitle));
         return resources;
     }
@@ -137,16 +130,7 @@ public class LibrarianResourcesTabController {
         Optional<ButtonType> result = FXMLUtils.displayConfirmationDialogBox("Delete Resource",  message);
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            ResourceType resourceType = ResourceUtils.getResourceType(selectedResource);
-            if (resourceType.equals(ResourceType.BOOK)) {
-                bookService.delete((Book) selectedResource);
-            }
-            if (resourceType.equals(ResourceType.DVD)) {
-                dvdService.delete((Dvd) selectedResource);
-            }
-            if (resourceType.equals(ResourceType.LAPTOP)) {
-                laptopService.delete((Laptop) selectedResource);
-            }
+            resourceService.delete(selectedResource);
             tblResources.getItems().remove(selectedResource);
         }
     }
@@ -155,19 +139,9 @@ public class LibrarianResourcesTabController {
         return tblResources.getSelectionModel().getSelectedItem();
     }
 
-    public void setBookService(ResourceService<Book> bookService) {
-        this.bookService = bookService;
-        LOGGER.info("{} BookService set to {}", this.getClass().getSimpleName(), bookService.getClass().getSimpleName());
-    }
-
-    public void setDvdService(ResourceService<Dvd> dvdService) {
-        this.dvdService = dvdService;
-        LOGGER.info("{} DvdService set to {}", this.getClass().getSimpleName(), dvdService.getClass().getSimpleName());
-    }
-
-    public void setLaptopService(ResourceService<Laptop> laptopService) {
-        this.laptopService = laptopService;
-        LOGGER.info("{} LaptopService set to {}", this.getClass().getSimpleName(), laptopService.getClass().getSimpleName());
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
     }
 
 }

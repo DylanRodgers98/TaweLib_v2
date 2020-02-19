@@ -45,7 +45,7 @@ public class AddCopyController {
     private void addCopy() {
         if (txtLoanDuration.getText() != null) {
             Copy copy = ResourceFactory.createCopy(selectedResource, Integer.parseInt(txtLoanDuration.getText()));
-            copyService.save(copy);
+            copyService.saveOrUpdate(copy);
             FXMLUtils.displayInformationDialogBox("Success!", "Successfully created new copy of resource");
             loadViewResourcePage();
         }

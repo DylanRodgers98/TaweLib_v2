@@ -16,6 +16,14 @@ public interface LoanService {
 
     Optional<Loan> get(Long loanId);
 
+    List<Loan> getAll();
+
+    void saveOrUpdate(Loan loan);
+
+    void delete(Loan loan);
+
+    void endLoan(Loan loan);
+
     List<Loan> getAllLoansForCopy(Long copyId);
 
     Optional<Loan> getCurrentLoanForCopy(Long copyId);
@@ -26,15 +34,5 @@ public interface LoanService {
 
     List<Loan> getAllLoansForUser(String username);
 
-    List<Loan> getAll();
-
-    void save(Loan loan);
-
-    void update(Loan loan);
-
-    void delete(Loan loan);
-
     void setDAO(LoanDAO DAO);
-
-    void endLoan(Loan loan);
 }

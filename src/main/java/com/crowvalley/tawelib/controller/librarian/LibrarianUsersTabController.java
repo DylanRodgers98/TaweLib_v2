@@ -6,8 +6,7 @@ import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.User;
-import com.crowvalley.tawelib.service.FineService;
-import com.crowvalley.tawelib.service.PaymentService;
+import com.crowvalley.tawelib.service.TransactionService;
 import com.crowvalley.tawelib.service.UserService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.beans.property.SimpleStringProperty;
@@ -40,9 +39,7 @@ public class LibrarianUsersTabController {
 
     private UserService userService;
 
-    private FineService fineService;
-
-    private PaymentService paymentService;
+    private TransactionService transactionService;
 
     @FXML
     private TableView<User> tblUsers;
@@ -96,13 +93,9 @@ public class LibrarianUsersTabController {
 
     private ObservableStringValue getBalance(TableColumn.CellDataFeatures<User, String> user) {
         String username = user.getValue().getUsername();
-        List<Fine> fines = fineService.getAllFinesForUser(username);
-        List<Payment> payments = paymentService.getAllPaymentsForUser(username);
-
-        AtomicReference<Double> balance = new AtomicReference<>(0.0);
-        fines.forEach(fine -> balance.updateAndGet(v -> v - fine.getAmount()));
-        payments.forEach(payment -> balance.updateAndGet(v -> v + payment.getAmount()));
-        return new SimpleStringProperty(String.format("£%.2f", balance.get()));
+        Double fines = transactionService.getTotalFineAmountForUser(username);
+        Double payments = transactionService.getTotalPaymentAmountForUser(username);
+        return new SimpleStringProperty(String.format("£%.2f", fines - payments));
     }
 
     private ObservableList<User> getUsers() {
@@ -162,14 +155,9 @@ public class LibrarianUsersTabController {
         LOGGER.info("{} UserService set to {}", this.getClass().getSimpleName(), userService.getClass().getSimpleName());
     }
 
-    public void setFineService(FineService fineService) {
-        this.fineService = fineService;
-        LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), fineService.getClass().getSimpleName());
-    }
-
-    public void setPaymentService(PaymentService paymentService) {
-        this.paymentService = paymentService;
-        LOGGER.info("{} PaymentService set to {}", this.getClass().getSimpleName(), paymentService.getClass().getSimpleName());
+    public void setTransactionService(TransactionService transactionService) {
+        this.transactionService = transactionService;
+        LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), transactionService.getClass().getSimpleName());
     }
 
 }
