@@ -3,7 +3,6 @@ package com.crowvalley.tawelib.dao;
 import com.crowvalley.tawelib.model.resource.Copy;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Data Access Object interface for classes to implement that deal with

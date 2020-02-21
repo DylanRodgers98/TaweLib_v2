@@ -1,7 +1,9 @@
 package com.crowvalley.tawelib.service;
 
-import com.crowvalley.tawelib.dao.BaseDAO;
+import com.crowvalley.tawelib.dao.ResourceDAO;
 import com.crowvalley.tawelib.model.resource.Resource;
+import com.crowvalley.tawelib.model.resource.ResourceDTO;
+import com.crowvalley.tawelib.model.resource.ResourceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +21,7 @@ public class ResourceServiceImpl implements ResourceService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourceServiceImpl.class);
 
-    private BaseDAO DAO;
+    private ResourceDAO DAO;
 
     /**
      * Retrieves a {@link Resource} from the DAO using the {@link Resource}'s
@@ -32,16 +34,29 @@ public class ResourceServiceImpl implements ResourceService {
      * if it isn't retrieved by the DAO, or an empty {@link Optional} if not.
      */
     @Override
-    public Optional<? extends Resource> get(Long id, Class<? extends Resource> clazz) {
-        return DAO.getWithId(id, clazz);
+    public Optional<? extends Resource> get(Long id, ResourceType resourceType) {
+        return DAO.getWithId(id, resourceType.getModelClass());
     }
 
     /**
      * @return A {@link List} of all {@link Resource}s retrieved by the DAO.
      */
     @Override
-    public List<? extends Resource> getAll() {
-        return DAO.getAll(Resource.class);
+    public List<ResourceDTO> getAllResourceDTOs() {
+        return DAO.getAllResourceDTOs(Resource.class);
+    }
+
+    @Override
+    public List<ResourceDTO> getAllResourceDTOs(ResourceType resourceType) {
+        return DAO.getAllResourceDTOs(resourceType.getModelClass());
+    }
+
+    @Override
+    public Optional<String> getResourceTitleFromCopy(Long id, ResourceType resourceType) {
+        Class<? extends Resource> modelClass = resourceType != null
+                ? resourceType.getModelClass()
+                : Resource.class;
+        return DAO.getResourceTitle(id, modelClass);
     }
 
     /**
@@ -67,7 +82,12 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public void setDAO(BaseDAO DAO) {
+    public void deleteWithId(Long id) {
+        DAO.deleteWithId(id);
+    }
+
+    @Override
+    public void setDAO(ResourceDAO DAO) {
         this.DAO = DAO;
         LOGGER.info("{} DAO set to {}", this.getClass().getSimpleName(), DAO.getClass().getSimpleName());
     }

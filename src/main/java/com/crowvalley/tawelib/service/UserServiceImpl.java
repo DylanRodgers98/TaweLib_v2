@@ -72,8 +72,8 @@ public class UserServiceImpl implements UserService {
     public List<OutstandingFinesDTO> getAllUsersWithOutstandingFines() {
         List<OutstandingFinesDTO> usersWithOutstandingFines = new ArrayList<>();
         for (String username : getAllUsernames()) {
-            Double finesForUser = transactionService.getTotalFineAmountForUser(username);
-            Double paymentsForUser = transactionService.getTotalPaymentAmountForUser(username);
+            Double finesForUser = transactionService.getTotalFinesAmountForUser(username);
+            Double paymentsForUser = transactionService.getTotalPaymentsAmountForUser(username);
             double outstandingFines = finesForUser - paymentsForUser;
             if (outstandingFines > 0) {
                 usersWithOutstandingFines.add(new OutstandingFinesDTO(username, outstandingFines));

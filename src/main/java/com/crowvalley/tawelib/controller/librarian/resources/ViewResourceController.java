@@ -4,7 +4,6 @@ import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.LoanService;
 import com.crowvalley.tawelib.util.FXMLUtils;
-import com.crowvalley.tawelib.util.ResourceUtils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableStringValue;
@@ -136,7 +135,7 @@ public class ViewResourceController {
     }
 
     private void populateFields() {
-        ResourceType resourceType = ResourceUtils.getResourceType(selectedResource);
+        ResourceType resourceType = selectedResource.getResourceType();
 
         txtTitle.setText(selectedResource.getTitle());
         txtYear.setText(selectedResource.getYear());
@@ -144,11 +143,9 @@ public class ViewResourceController {
 
         if (resourceType.equals(ResourceType.BOOK)) {
             populateBookFields();
-        }
-        if (resourceType.equals(ResourceType.DVD)) {
+        } else if (resourceType.equals(ResourceType.DVD)) {
             populateDvdFields();
-        }
-        if (resourceType.equals(ResourceType.LAPTOP)) {
+        } else if (resourceType.equals(ResourceType.LAPTOP)) {
             populateLaptopFields();
         }
     }

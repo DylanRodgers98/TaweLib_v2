@@ -1,7 +1,5 @@
 package com.crowvalley.tawelib.model.user;
 
-import org.apache.commons.lang3.StringUtils;
-
 import javax.persistence.Embeddable;
 
 /**
@@ -77,7 +75,7 @@ public class Address {
     @Override
     public String toString() {
         return new StringBuilder(getHouseNum())
-                .append(StringUtils.SPACE)
+                .append(" ")
                 .append(getStreet())
                 .append(", ")
                 .append(getTown())

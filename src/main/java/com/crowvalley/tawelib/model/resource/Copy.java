@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * Copy class for creating objects to store information about copies
@@ -33,7 +33,7 @@ public class Copy {
     private Integer loanDurationAsDays;
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "copy")
-    private List<CopyRequest> copyRequests = new ArrayList<>();
+    private static final Set<CopyRequest> copyRequests = new LinkedHashSet<>();
 
     public Copy(Long resourceId, ResourceType resourceType, Integer loanDurationAsDays) {
         this.resourceId = resourceId;
@@ -52,20 +52,8 @@ public class Copy {
      *                 {@link CopyRequest} for this Copy for.
      */
     public void createCopyRequest(String username) {
-        boolean containsCopyRequestFromUser = false;
-
-        for (CopyRequest copyRequest : copyRequests) {
-            if (copyRequest.getUsername().equals(username)) {
-                containsCopyRequestFromUser = true;
-                LOGGER.info("User {} has already requested this copy (ID: {})", username, id);
-            }
-        }
-
-        if (!containsCopyRequestFromUser) {
-            CopyRequest copyRequest = new CopyRequest(this, username, new Timestamp(System.currentTimeMillis()));
-            copyRequests.add(copyRequest);
-            LOGGER.info("Request made for copy (ID: {}) by user {}", id, username);
-        }
+        copyRequests.add(new CopyRequest(this, username, new Timestamp(System.currentTimeMillis())));
+        LOGGER.info("Request made for copy (ID: {}) by user {}", id, username);
     }
 
     /**
@@ -76,24 +64,12 @@ public class Copy {
      *                 {@link CopyRequest} for this Copy for.
      */
     public void deleteCopyRequestForUser(String username) {
-        boolean containsCopyRequestFromUser = false;
-        List<CopyRequest> newCopyRequests = new ArrayList<>();
-
         for (CopyRequest copyRequest : copyRequests) {
-            String usernameOfCurrentCopyRequest = copyRequest.getUsername();
-            if (!usernameOfCurrentCopyRequest.equals(username)) {
-                newCopyRequests.add(copyRequest);
+            if (copyRequest.getUsername().equals(username)) {
+                copyRequests.remove(copyRequest);
+                LOGGER.info("Request made for copy (ID: {}) by user {}", id, username);
+                break;
             }
-            if (usernameOfCurrentCopyRequest.equals(username)) {
-                containsCopyRequestFromUser = true;
-            }
-        }
-        this.copyRequests = newCopyRequests;
-
-        if (containsCopyRequestFromUser) {
-            LOGGER.info("Copy request made by user {} deleted from copy (ID: {})", username, id);
-        } else {
-            LOGGER.info("No copy request found for user {} for copy (ID: {})", username, id);
         }
     }
 
@@ -118,11 +94,7 @@ public class Copy {
         return loanDurationAsDays;
     }
 
-    public void setLoanDurationAsDays(Integer loanDurationAsDays) {
-        this.loanDurationAsDays = loanDurationAsDays;
-    }
-
-    public List<CopyRequest> getCopyRequests() {
+    public Set<CopyRequest> getCopyRequests() {
         return copyRequests;
     }
 

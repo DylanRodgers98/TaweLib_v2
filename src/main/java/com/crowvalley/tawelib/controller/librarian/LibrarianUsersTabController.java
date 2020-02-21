@@ -2,8 +2,6 @@ package com.crowvalley.tawelib.controller.librarian;
 
 import com.crowvalley.tawelib.UserContext;
 import com.crowvalley.tawelib.controller.librarian.users.ViewOrEditUserController;
-import com.crowvalley.tawelib.model.fine.Fine;
-import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.TransactionService;
@@ -25,9 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class LibrarianUsersTabController {
 
@@ -93,8 +89,8 @@ public class LibrarianUsersTabController {
 
     private ObservableStringValue getBalance(TableColumn.CellDataFeatures<User, String> user) {
         String username = user.getValue().getUsername();
-        Double fines = transactionService.getTotalFineAmountForUser(username);
-        Double payments = transactionService.getTotalPaymentAmountForUser(username);
+        double fines = transactionService.getTotalFinesAmountForUser(username);
+        double payments = transactionService.getTotalPaymentsAmountForUser(username);
         return new SimpleStringProperty(String.format("£%.2f", fines - payments));
     }
 

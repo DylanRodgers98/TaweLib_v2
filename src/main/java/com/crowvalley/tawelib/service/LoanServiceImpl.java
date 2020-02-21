@@ -9,11 +9,13 @@ import com.crowvalley.tawelib.model.user.User;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
 import java.sql.Date;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Service class for retrieving data about {@link Loan} objects
@@ -25,6 +27,9 @@ import java.util.Optional;
 public class LoanServiceImpl implements LoanService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoanServiceImpl.class);
+
+    private static final String COPY_HAS_NO_ID_ERROR_MESSAGE = "Cannot create loan. The copy has no ID, so a " +
+            "loan instance cannot reference it. Likely cause is that the copy hasn't been persisted to the database yet";
 
     private LoanDAO DAO;
 
@@ -100,6 +105,25 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public List<Loan> getAll() {
         return DAO.getAll(Loan.class);
+    }
+
+    /**
+     * Creates a {@link Loan} for a given {@link Copy}.
+     *
+     * @param copy             The {@link Copy} for which to create a {@link Loan} for.
+     * @param borrowerUsername The {@code username} of the {@link User} who
+     *                         is borrowing the passed in {@link Copy}.
+     */
+    @Override
+    public void createLoanForCopy(Copy copy, String borrowerUsername) {
+        Long id = copy.getId();
+        Assert.notNull(id, COPY_HAS_NO_ID_ERROR_MESSAGE);
+
+        long startTimeInMillis = System.currentTimeMillis();
+        Date startDate = new Date(startTimeInMillis);
+        Date endDate = new Date(startTimeInMillis + TimeUnit.DAYS.toMillis(copy.getLoanDurationAsDays()));
+
+        saveOrUpdate(new Loan(id, borrowerUsername, startDate, endDate));
     }
 
     /**

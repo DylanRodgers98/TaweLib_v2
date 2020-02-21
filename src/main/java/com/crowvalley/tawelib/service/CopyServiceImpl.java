@@ -25,8 +25,6 @@ public class CopyServiceImpl implements CopyService {
 
     private LoanService loanService;
 
-    private ResourceService resourceService;
-
     /**
      * Retrieves a {@link Copy} from the DAO using the {@link Copy}'s
      * {@code copyId} and returns it wrapped in an {@link Optional}. If a
@@ -141,11 +139,6 @@ public class CopyServiceImpl implements CopyService {
     }
 
     @Override
-    public Optional<? extends Resource> getResourceFromCopy(Copy copy) {
-        return resourceService.get(copy.getResourceId(), copy.getResourceType().getClazz());
-    }
-
-    @Override
     public void setDAO(CopyDAO DAO) {
         this.DAO = DAO;
         LOGGER.info("{} DAO set to {}", this.getClass().getSimpleName(), DAO.getClass().getSimpleName());
@@ -154,11 +147,6 @@ public class CopyServiceImpl implements CopyService {
     public void setLoanService(LoanService loanService) {
         this.loanService = loanService;
         LOGGER.info("{} LoanService set to {}", this.getClass().getSimpleName(), loanService.getClass().getSimpleName());
-    }
-
-    public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
     }
 
 }

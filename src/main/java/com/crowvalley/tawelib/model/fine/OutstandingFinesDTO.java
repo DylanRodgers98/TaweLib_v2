@@ -1,7 +1,5 @@
 package com.crowvalley.tawelib.model.fine;
 
-import java.text.DecimalFormat;
-
 public class OutstandingFinesDTO {
 
     private final String username;

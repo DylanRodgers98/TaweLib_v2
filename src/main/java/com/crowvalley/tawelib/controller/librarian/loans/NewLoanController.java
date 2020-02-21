@@ -33,13 +33,13 @@ public class NewLoanController {
     private ChoiceBox<ResourceType> cmbType;
 
     @FXML
-    private ChoiceBox<Resource> cmbResource;
+    private ChoiceBox<ResourceDTO> cmbResource;
 
     @FXML
     private ChoiceBox<Copy> cmbCopy;
 
     @FXML
-    private ChoiceBox<String> cmbBorrower;
+    private ChoiceBox<String> cmbUsers;
 
     @FXML
     private Button btnBack;
@@ -48,22 +48,31 @@ public class NewLoanController {
     private Button btnCreateLoan;
 
     public void initialize() {
+        populateUsers();
         cmbType.setOnAction(e -> populateResources());
         cmbResource.setOnAction(e -> populateCopies());
         cmbCopy.setOnAction(e -> setEnabledOnCreateLoanButton());
-        cmbBorrower.setOnShowing(e -> populateUsers());
-        cmbBorrower.setOnAction(e -> setEnabledOnCreateLoanButton());
+        cmbUsers.setOnAction(e -> setEnabledOnCreateLoanButton());
         btnCreateLoan.setOnAction(e -> createLoan());
         btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
     }
 
+    private void populateUsers() {
+        cmbUsers.setItems(FXCollections.observableArrayList(userService.getAllUsernames()));
+    }
+
     private void populateResources() {
-        cmbResource.setItems(FXCollections.observableArrayList(resourceService.getAll()));
-        setEnabledOnCreateLoanButton();
+        ResourceType resourceType = cmbType.getValue();
+        if (resourceType != null) {
+            List<ResourceDTO> resources = resourceService.getAllResourceDTOs(resourceType);
+            cmbResource.setItems(FXCollections.observableArrayList(resources));
+            cmbCopy.setItems(FXCollections.emptyObservableList());
+            setEnabledOnCreateLoanButton();
+        }
     }
 
     private void populateCopies() {
-        Resource resource = cmbResource.getValue();
+        ResourceDTO resource = cmbResource.getValue();
         if (resource != null) {
             Long resourceId = resource.getId();
             List<Copy> copiesOfResource = copyService.getAllCopiesNotOnLoanForResource(resourceId);
@@ -72,16 +81,11 @@ public class NewLoanController {
         }
     }
 
-    private void populateUsers() {
-        cmbBorrower.setItems(FXCollections.observableArrayList(userService.getAllUsernames()));
-    }
-
     private void createLoan() {
         Copy copy = cmbCopy.getValue();
-        String username = cmbBorrower.getValue();
+        String username = cmbUsers.getValue();
 
-        Loan loan = ResourceFactory.createLoanForCopy(copy, username);
-        loanService.saveOrUpdate(loan);
+        loanService.createLoanForCopy(copy, username);
 
         FXMLUtils.displayInformationDialogBox("Success!", "Successfully Created New Loan");
         FXMLUtils.loadNewScene(btnCreateLoan, LIBRARIAN_HOME_FXML);
@@ -89,7 +93,7 @@ public class NewLoanController {
 
     private void setEnabledOnCreateLoanButton() {
         if (cmbType.getValue() != null && cmbResource.getValue() != null
-                && cmbCopy.getValue() != null && cmbBorrower.getValue() != null) {
+                && cmbCopy.getValue() != null && cmbUsers.getValue() != null) {
             btnCreateLoan.setDisable(false);
         } else {
             btnCreateLoan.setDisable(true);

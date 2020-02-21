@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
 
 public class LibrarianFinesAndPaymentsTabController {
@@ -33,7 +32,7 @@ public class LibrarianFinesAndPaymentsTabController {
 
     private TransactionService transactionService;
 
-    private CopyService copyService;
+    private ResourceService resourceService;
 
     @FXML
     private TableView<Transaction> tblFinesAndPayments;
@@ -84,10 +83,9 @@ public class LibrarianFinesAndPaymentsTabController {
         Optional<Copy> optionalCopy = transactionService.getCopyFromFine((Fine) transaction);
         if (optionalCopy.isPresent()) {
             Copy copy = optionalCopy.get();
-            Optional<? extends Resource> optionalResource = copyService.getResourceFromCopy(copy);
-            if (optionalResource.isPresent()) {
-                Resource resource = optionalResource.get();
-                return " for late return of " + resource.getTitle() + " (" + copy.toString() + ")";
+            Optional<String> optionalTitle = resourceService.getResourceTitleFromCopy(copy.getResourceId(), copy.getResourceType());
+            if (optionalTitle.isPresent()) {
+                return " for late return of " + optionalTitle.get() + " (" + copy.toString() + ")";
             }
         }
         return StringUtils.EMPTY;
@@ -104,9 +102,9 @@ public class LibrarianFinesAndPaymentsTabController {
         LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), transactionService.getClass().getSimpleName());
     }
 
-    public void setCopyService(CopyService copyService) {
-        this.copyService = copyService;
-        LOGGER.info("{} CopyService set to {}", this.getClass().getSimpleName(), copyService.getClass().getSimpleName());
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
     }
 
 }

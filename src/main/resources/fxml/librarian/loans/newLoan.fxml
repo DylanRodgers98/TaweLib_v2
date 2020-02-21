@@ -29,7 +29,7 @@
             <ChoiceBox fx:id="cmbCopy" layoutX="153.0" layoutY="134.0" prefHeight="25.0" prefWidth="300.0" />
 
             <Label layoutX="92.0" layoutY="173.0" text="Borrower:" />
-            <ChoiceBox fx:id="cmbBorrower" layoutX="153.0" layoutY="169.0" prefHeight="25.0" prefWidth="300.0" />
+            <ChoiceBox fx:id="cmbUsers" layoutX="153.0" layoutY="169.0" prefHeight="25.0" prefWidth="300.0" />
 
             <Button fx:id="btnCreateLoan" disable="true" layoutX="202.0" layoutY="218.0" prefHeight="25.0" prefWidth="113.0" text="Create Loan" />
             <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" />

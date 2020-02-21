@@ -4,7 +4,6 @@ import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import com.crowvalley.tawelib.util.ImageUtils;
-import com.crowvalley.tawelib.util.ResourceUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -88,7 +87,7 @@ public class EditResourceController {
     }
 
     private void populateFields() {
-        ResourceType resourceType = ResourceUtils.getResourceType(selectedResource);
+        ResourceType resourceType = selectedResource.getResourceType();
 
         txtType.setText(resourceType.name());
         txtTitle.setText(selectedResource.getTitle());
@@ -97,11 +96,9 @@ public class EditResourceController {
 
         if (resourceType.equals(ResourceType.BOOK)) {
             populateBookFields();
-        }
-        if (resourceType.equals(ResourceType.DVD)) {
+        } else if (resourceType.equals(ResourceType.DVD)) {
             populateDvdFields();
-        }
-        if (resourceType.equals(ResourceType.LAPTOP)) {
+        } else if (resourceType.equals(ResourceType.LAPTOP)) {
             populateLaptopFields();
         }
     }
@@ -194,11 +191,9 @@ public class EditResourceController {
         ResourceType resourceType = ResourceType.valueOf(txtType.getText());
         if (resourceType.equals(ResourceType.BOOK)) {
             updateBook((Book) selectedResource);
-        }
-        if (resourceType.equals(ResourceType.DVD)) {
+        } else if (resourceType.equals(ResourceType.DVD)) {
             updateDvd((Dvd) selectedResource);
-        }
-        if (resourceType.equals(ResourceType.LAPTOP)) {
+        } else if (resourceType.equals(ResourceType.LAPTOP)) {
             updateLaptop((Laptop) selectedResource);
         }
     }

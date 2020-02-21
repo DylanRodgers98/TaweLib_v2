@@ -23,7 +23,7 @@ public class Dvd extends Resource {
 
     public Dvd(String title, String year, String imageUrl,
                String director, String language, Integer runtime, String subLang) {
-        super(title, year, imageUrl);
+        super(ResourceType.DVD, title, year, imageUrl);
         this.director = director;
         this.language = language;
         this.runtime = runtime;

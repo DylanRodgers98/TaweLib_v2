@@ -15,6 +15,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,15 +81,11 @@ public class LibrarianLoansTabController {
     }
 
     private ObservableStringValue getCopyTitle(Copy copy) {
-        StringBuilder titleBuilder = new StringBuilder();
-
-        Optional<? extends Resource> optionalResource = resourceService.get(copy.getResourceId(), copy.getResourceType().getClazz());
-        optionalResource.ifPresent(resource -> titleBuilder.append(resource.getTitle())
-                .append(" (")
-                .append(copy.getLoanDurationAsDays())
-                .append(" day loan)"));
-
-        return new SimpleStringProperty(titleBuilder.toString());
+        Optional<String> optionalTitle = resourceService.getResourceTitleFromCopy(copy.getResourceId(), copy.getResourceType());
+        return new SimpleStringProperty(
+                optionalTitle.map(title -> title + " (" + copy.getLoanDurationAsDays() + " day loan)")
+                .orElse(StringUtils.EMPTY)
+        );
     }
 
     private ObservableList<Loan> getLoans() {

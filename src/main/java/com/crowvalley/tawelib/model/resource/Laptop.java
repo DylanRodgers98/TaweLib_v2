@@ -20,7 +20,7 @@ public class Laptop extends Resource {
     private String os;
 
     public Laptop(String title, String year, String imageUrl, String manufacturer, String model, String os) {
-        super(title, year, imageUrl);
+        super(ResourceType.LAPTOP, title, year, imageUrl);
         this.manufacturer = manufacturer;
         this.model = model;
         this.os = os;

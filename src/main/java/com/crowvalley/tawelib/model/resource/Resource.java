@@ -2,9 +2,7 @@ package com.crowvalley.tawelib.model.resource;
 
 import org.apache.commons.lang3.StringUtils;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.util.Optional;
 
 /**
@@ -14,12 +12,15 @@ import java.util.Optional;
  *
  * @author Dylan Rodgers
  */
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Resource {
 
     @Id
     @GeneratedValue
     private Long id;
+
+    private ResourceType resourceType;
 
     private String title;
 
@@ -27,7 +28,8 @@ public abstract class Resource {
 
     private String imageUrl;
 
-    public Resource(String title, String year, String imageUrl) {
+    protected Resource(ResourceType resourceType, String title, String year, String imageUrl) {
+        this.resourceType = resourceType;
         this.title = title;
         this.year = year;
         this.imageUrl = imageUrl;
@@ -39,6 +41,8 @@ public abstract class Resource {
     public Long getId() {
         return id;
     }
+
+    public ResourceType getResourceType() { return resourceType; }
 
     public String getTitle() {
         return title;

@@ -3,11 +3,8 @@ package com.crowvalley.tawelib.dao;
 import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.util.DatabaseUtils;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Data Access Object for retrieving data about {@link Copy} objects

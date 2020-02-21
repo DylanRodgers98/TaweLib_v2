@@ -57,16 +57,8 @@ public class ViewCopyRequestsController {
     }
 
     private void setCopyTitleLabel() {
-        StringBuilder titleBuilder = new StringBuilder();
-
-        Optional<? extends Resource> resource = resourceService.get(selectedCopy.getResourceId(), selectedCopy.getResourceType().getClazz());
-        resource.ifPresent(value -> titleBuilder.append("Copy: ")
-                .append(value.getTitle())
-                .append(" (")
-                .append(selectedCopy.toString())
-                .append(")"));
-
-        lblCopyTitle.setText(titleBuilder.toString());
+        Optional<String> optionalTitle = resourceService.getResourceTitleFromCopy(selectedCopy.getResourceId(), selectedCopy.getResourceType());
+        optionalTitle.ifPresent(title -> lblCopyTitle.setText("Copy: " + title + " (" + selectedCopy.toString() + ")"));
     }
 
     private void populateTable() {
@@ -104,8 +96,7 @@ public class ViewCopyRequestsController {
         CopyRequest selectedCopyRequest = getSelectedCopyRequest();
         String username = selectedCopyRequest.getUsername();
 
-        Loan loan = ResourceFactory.createLoanForCopy(selectedCopy, username);
-        loanService.saveOrUpdate(loan);
+        loanService.createLoanForCopy(selectedCopy, username);
         selectedCopy.deleteCopyRequestForUser(username);
 
         tblCopyRequests.getItems().remove(selectedCopyRequest);

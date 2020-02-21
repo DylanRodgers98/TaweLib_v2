@@ -25,7 +25,7 @@ public class Book extends Resource {
 
     public Book(String title, String year, String imageUrl, String author,
                 String publisher, String genre, String isbn, String language) {
-        super(title, year, imageUrl);
+        super(ResourceType.BOOK, title, year, imageUrl);
         this.author = author;
         this.publisher = publisher;
         this.genre = genre;

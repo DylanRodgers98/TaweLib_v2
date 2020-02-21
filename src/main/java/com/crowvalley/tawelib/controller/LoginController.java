@@ -87,7 +87,7 @@ public class LoginController {
         loadNewScene(LIBRARIAN_HOME_FXML);
     }
 
-    private void userLogIn(String username) throws NoSuchUserException {
+    private void userLogIn(String username) {
         UserContext.setLoggedInUser(username);
         loadNewScene(USER_HOME_FXML);
     }

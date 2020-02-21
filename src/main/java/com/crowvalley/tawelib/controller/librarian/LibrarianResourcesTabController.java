@@ -5,7 +5,6 @@ import com.crowvalley.tawelib.controller.librarian.resources.ViewResourceControl
 import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
-import com.crowvalley.tawelib.util.ResourceUtils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -36,16 +35,16 @@ public class LibrarianResourcesTabController {
     private ResourceService resourceService;
 
     @FXML
-    private TableView<Resource> tblResources;
+    private TableView<ResourceDTO> tblResources;
 
     @FXML
-    private TableColumn<Resource, ResourceType> colType;
+    private TableColumn<ResourceDTO, ResourceType> colType;
 
     @FXML
-    private TableColumn<Resource, String> colTitle;
+    private TableColumn<ResourceDTO, String> colTitle;
 
     @FXML
-    private TableColumn<Resource, String> colYear;
+    private TableColumn<ResourceDTO, String> colYear;
 
     @FXML
     private Button btnNewResource;
@@ -72,13 +71,13 @@ public class LibrarianResourcesTabController {
         tblResources.setItems(getResources());
     }
 
-    private ObservableValue<ResourceType> getResourceType(TableColumn.CellDataFeatures<Resource, ResourceType> resource) {
-        return new ReadOnlyObjectWrapper<>(ResourceUtils.getResourceType(resource.getValue()));
+    private ObservableValue<ResourceType> getResourceType(TableColumn.CellDataFeatures<ResourceDTO, ResourceType> resource) {
+        return new ReadOnlyObjectWrapper<>(resource.getValue().getResourceType());
     }
 
-    private ObservableList<Resource> getResources() {
-        ObservableList<Resource> resources = FXCollections.observableArrayList(resourceService.getAll());
-        resources.sort(Comparator.comparing(Resource::getTitle));
+    private ObservableList<ResourceDTO> getResources() {
+        ObservableList<ResourceDTO> resources = FXCollections.observableArrayList(resourceService.getAllResourceDTOs());
+        resources.sort(Comparator.comparing(ResourceDTO::getTitle));
         return resources;
     }
 
@@ -98,9 +97,16 @@ public class LibrarianResourcesTabController {
 
     private void openViewResourcePage() {
         try {
-            ViewResourceController controller = (ViewResourceController) FXMLUtils.getController(VIEW_RESOURCE_FXML);
-            controller.setSelectedResource(getSelectedResource());
-            FXMLUtils.loadNewScene(tblResources, VIEW_RESOURCE_FXML);
+            ResourceDTO selectedResource = getSelectedResource();
+            Optional<? extends Resource> resource = resourceService.get(selectedResource.getId(), selectedResource.getResourceType());
+            if (resource.isPresent()) {
+                ViewResourceController controller = (ViewResourceController) FXMLUtils.getController(VIEW_RESOURCE_FXML);
+                controller.setSelectedResource(resource.get());
+                FXMLUtils.loadNewScene(tblResources, VIEW_RESOURCE_FXML);
+            } else {
+                LOGGER.error("Error loading Resource from database");
+                FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, "Error loading Resource from database");
+            }
         } catch (IOException e) {
             LOGGER.error("IOException caught when loading new scene from FXML", e);
             FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
@@ -112,9 +118,16 @@ public class LibrarianResourcesTabController {
 
     private void openEditResourcePage() {
         try {
-            EditResourceController controller = (EditResourceController) FXMLUtils.getController(EDIT_RESOURCE_FXML);
-            controller.setSelectedResource(getSelectedResource());
-            FXMLUtils.loadNewScene(tblResources, EDIT_RESOURCE_FXML);
+            ResourceDTO selectedResource = getSelectedResource();
+            Optional<? extends Resource> resource = resourceService.get(selectedResource.getId(), selectedResource.getResourceType());
+            if (resource.isPresent()) {
+                EditResourceController controller = (EditResourceController) FXMLUtils.getController(EDIT_RESOURCE_FXML);
+                controller.setSelectedResource(resource.get());
+                FXMLUtils.loadNewScene(tblResources, EDIT_RESOURCE_FXML);
+            } else {
+                LOGGER.error("Error loading Resource from database");
+                FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, "Error loading Resource from database");
+            }
         } catch (IOException e) {
             LOGGER.error("IOException caught when loading new scene from FXML", e);
             FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
@@ -125,17 +138,17 @@ public class LibrarianResourcesTabController {
     }
 
     private void deleteSelectedResource() {
-        Resource selectedResource = getSelectedResource();
+        ResourceDTO selectedResource = getSelectedResource();
         String message = String.format("Are you sure you want to delete resource '%s'?", selectedResource.getTitle());
         Optional<ButtonType> result = FXMLUtils.displayConfirmationDialogBox("Delete Resource",  message);
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            resourceService.delete(selectedResource);
+            resourceService.deleteWithId(selectedResource.getId());
             tblResources.getItems().remove(selectedResource);
         }
     }
 
-    private Resource getSelectedResource() {
+    private ResourceDTO getSelectedResource() {
         return tblResources.getSelectionModel().getSelectedItem();
     }
 

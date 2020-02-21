@@ -2,13 +2,9 @@ package com.crowvalley.tawelib.dao;
 
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.fine.Payment;
-import com.crowvalley.tawelib.model.user.User;
-import com.crowvalley.tawelib.util.DatabaseUtils;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-
-import java.util.List;
 
 /**
  * Data Access Object for retrieving data about {@link Fine} objects

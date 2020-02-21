@@ -79,7 +79,7 @@
 
     <bean id="librarianFinesAndPaymentsTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianFinesAndPaymentsTabController" >
         <property name="transactionService" ref="transactionService" />
-        <property name="copyService" ref="copyService" />
+        <property name="resourceService" ref="resourceService" />
     </bean>
 
     <bean id="recordPaymentController" class="com.crowvalley.tawelib.controller.librarian.finesandpayments.RecordPaymentController" >
@@ -97,7 +97,6 @@
     <bean id="copyService" class="com.crowvalley.tawelib.service.CopyServiceImpl">
         <property name="DAO" ref="copyDAO"/>
         <property name="loanService" ref="loanService" />
-        <property name="resourceService" ref="resourceService" />
     </bean>
 
     <bean id="loanService" class="com.crowvalley.tawelib.service.LoanServiceImpl">
@@ -107,7 +106,7 @@
     </bean>
 
     <bean id="resourceService" class="com.crowvalley.tawelib.service.ResourceServiceImpl">
-        <property name="DAO" ref="baseDAO"/>
+        <property name="DAO" ref="resourceDAO"/>
     </bean>
 
     <bean id="transactionService" class="com.crowvalley.tawelib.service.TransactionServiceImpl">
@@ -129,6 +128,8 @@
     <bean id="copyDAO" parent="baseDAO" class="com.crowvalley.tawelib.dao.CopyDAOImpl"/>
 
     <bean id="loanDAO" parent="baseDAO" class="com.crowvalley.tawelib.dao.LoanDAOImpl"/>
+
+    <bean id="resourceDAO" parent="baseDAO" class="com.crowvalley.tawelib.dao.ResourceDAOImpl" />
 
     <bean id="transactionDAO" parent="baseDAO" class="com.crowvalley.tawelib.dao.TransactionDAOImpl"/>
 

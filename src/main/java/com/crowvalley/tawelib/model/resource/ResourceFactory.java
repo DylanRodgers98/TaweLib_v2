@@ -1,11 +1,6 @@
 package com.crowvalley.tawelib.model.resource;
 
-import com.crowvalley.tawelib.model.user.User;
-import com.crowvalley.tawelib.util.ResourceUtils;
 import org.springframework.util.Assert;
-
-import java.sql.Date;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Factory class for creating {@link Resource} objects, as well as
@@ -18,10 +13,7 @@ public class ResourceFactory {
     private static final String RESOURCE_HAS_NO_ID_ERROR_MESSAGE = "Cannot create copy. The resource has no ID, so a " +
             "copy instance cannot reference it. Likely cause is that the resource hasn't been persisted to the database yet";
 
-    private static final String CANNOT_GET_RESOURCE_TYPE_ERROR_MESSAGE = "Cannot get resource type from copy";
-
-    private static final String COPY_HAS_NO_ID_ERROR_MESSAGE = "Cannot create loan. The copy has no ID, so a " +
-            "loan instance cannot reference it. Likely cause is that the copy hasn't been persisted to the database yet";
+    private static final String CANNOT_GET_RESOURCE_TYPE_ERROR_MESSAGE = "Cannot get resource type from resource";
 
     public static Book createBook(String title, String year, String imageUrl,
                                   String author, String publisher, String genre,
@@ -70,30 +62,10 @@ public class ResourceFactory {
         Long id = resource.getId();
         Assert.notNull(id, RESOURCE_HAS_NO_ID_ERROR_MESSAGE);
 
-        //Sets the resource type to help with database queries
-        ResourceType resourceType = ResourceUtils.getResourceType(resource);
+        ResourceType resourceType = resource.getResourceType();
         Assert.notNull(resourceType, CANNOT_GET_RESOURCE_TYPE_ERROR_MESSAGE);
 
         return new Copy(id, resourceType, loanDurationAsDays);
-    }
-
-    /**
-     * Creates a {@link Loan} for a given {@link Copy}.
-     *
-     * @param copy             The {@link Copy} for which to create a {@link Loan} for.
-     * @param borrowerUsername The {@code username} of the {@link User} who
-     *                         is borrowing the passed in {@link Copy}.
-     * @return The created {@link Loan} object.
-     */
-    public static Loan createLoanForCopy(Copy copy, String borrowerUsername) {
-        Long id = copy.getId();
-        Assert.notNull(id, COPY_HAS_NO_ID_ERROR_MESSAGE);
-
-        long startTimeInMillis = System.currentTimeMillis();
-        Date startDate = new Date(startTimeInMillis);
-        Date endDate = new Date(startTimeInMillis + TimeUnit.DAYS.toMillis(copy.getLoanDurationAsDays()));
-
-        return new Loan(id, borrowerUsername, startDate, endDate);
     }
 
 }

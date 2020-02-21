@@ -5,14 +5,14 @@ public enum ResourceType {
     DVD(Dvd.class),
     LAPTOP(Laptop.class);
 
-    private Class<? extends Resource> clazz;
+    private final Class<? extends Resource> modelClass;
 
-    ResourceType(Class<? extends Resource> clazz) {
-        this.clazz = clazz;
+    ResourceType(Class<? extends Resource> modelClass) {
+        this.modelClass = modelClass;
     }
 
-    public Class<? extends Resource> getClazz() {
-        return clazz;
+    public Class<? extends Resource> getModelClass() {
+        return modelClass;
     }
 
 }

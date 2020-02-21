@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.LoanDAO;
+import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.model.resource.Loan;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public interface LoanService {
     Optional<Loan> get(Long loanId);
 
     List<Loan> getAll();
+
+    void createLoanForCopy(Copy copy, String borrowerUsername);
 
     void saveOrUpdate(Loan loan);
 
