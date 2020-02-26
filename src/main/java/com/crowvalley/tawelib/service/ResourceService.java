@@ -28,7 +28,7 @@ public interface ResourceService {
 
     void delete(Resource resource);
 
-    void deleteWithId(Long id);
+    void deleteWithId(Long id, ResourceType resourceType);
 
     void setDAO(ResourceDAO DAO);
 

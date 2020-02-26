@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.controller.librarian;
 
 import com.crowvalley.tawelib.UserContext;
+import com.crowvalley.tawelib.controller.FXController;
 import com.crowvalley.tawelib.controller.librarian.users.ViewOrEditUserController;
 import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.User;
@@ -22,16 +23,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.Comparator;
+import java.util.Locale;
 import java.util.Optional;
 
-public class LibrarianUsersTabController {
+public class LibrarianUsersTabController implements FXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LibrarianUsersTabController.class);
 
     private static final String ADD_NEW_USER_FXML = "/fxml/librarian/users/addNewUser.fxml";
 
     private static final String VIEW_OR_EDIT_USER_FXML = "/fxml/librarian/users/viewOrEditUser.fxml";
+
+    private static final NumberFormat CURRENCY_FORMAT = NumberFormat.getCurrencyInstance(Locale.UK);
 
     private UserService userService;
 
@@ -89,9 +95,10 @@ public class LibrarianUsersTabController {
 
     private ObservableStringValue getBalance(TableColumn.CellDataFeatures<User, String> user) {
         String username = user.getValue().getUsername();
-        double fines = transactionService.getTotalFinesAmountForUser(username);
-        double payments = transactionService.getTotalPaymentsAmountForUser(username);
-        return new SimpleStringProperty(String.format("£%.2f", fines - payments));
+        BigDecimal fines = transactionService.getTotalFinesAmountForUser(username);
+        BigDecimal payments = transactionService.getTotalPaymentsAmountForUser(username);
+        BigDecimal balance = fines.subtract(payments);
+        return new SimpleStringProperty(CURRENCY_FORMAT.format(balance));
     }
 
     private ObservableList<User> getUsers() {
@@ -116,7 +123,7 @@ public class LibrarianUsersTabController {
     private void openViewOrEditUserPage() {
         try {
             ViewOrEditUserController controller = (ViewOrEditUserController) FXMLUtils.getController(VIEW_OR_EDIT_USER_FXML);
-            controller.setSelectedUser(getSelectedUser());
+            controller.setSelectedItem(getSelectedUser());
             FXMLUtils.loadNewScene(tblUsers, VIEW_OR_EDIT_USER_FXML);
         } catch (IOException e) {
             LOGGER.error("IOException caught when loading new scene from FXML", e);

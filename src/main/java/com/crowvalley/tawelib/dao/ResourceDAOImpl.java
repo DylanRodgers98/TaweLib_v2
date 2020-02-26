@@ -35,12 +35,4 @@ public class ResourceDAOImpl extends BaseDAOImpl implements ResourceDAO {
         return Optional.ofNullable(title);
     }
 
-    @Override
-    public void deleteWithId(Long id) {
-        sessionFactory.getCurrentSession()
-                .createQuery("delete " + Resource.class.getName() + " where id = :id")
-                .setParameter("id", id)
-                .executeUpdate();
-    }
-
 }

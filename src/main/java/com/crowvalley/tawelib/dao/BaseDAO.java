@@ -15,6 +15,8 @@ public interface BaseDAO {
 
     <T> void delete(T entity);
 
+    <T> void deleteWithId(Long id, Class<T> clazz);
+
     void setSessionFactory(SessionFactory sessionFactory);
 
 }

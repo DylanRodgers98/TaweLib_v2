@@ -1,5 +1,6 @@
 package com.crowvalley.tawelib.controller.librarian.resources;
 
+import com.crowvalley.tawelib.controller.SelectionAwareFXController;
 import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.LoanService;
 import com.crowvalley.tawelib.service.ResourceService;
@@ -18,7 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.Timestamp;
 import java.util.Optional;
 
-public class ViewCopyRequestsController {
+public class ViewCopyRequestsController implements SelectionAwareFXController<Copy> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ViewCopyRequestsController.class);
 
@@ -106,8 +107,8 @@ public class ViewCopyRequestsController {
         return tblCopyRequests.getSelectionModel().getSelectedItem();
     }
 
-    public void setSelectedCopy(Copy copy) {
-        this.selectedCopy = copy;
+    public void setSelectedItem(Copy selectedItem) {
+        this.selectedCopy = selectedItem;
     }
 
     public void setResourceService(ResourceService resourceService) {

@@ -1,5 +1,6 @@
 package com.crowvalley.tawelib.controller.librarian.resources;
 
+import com.crowvalley.tawelib.controller.FXController;
 import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
@@ -12,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AddResourceController {
+public class AddResourceController implements FXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AddResourceController.class);
 

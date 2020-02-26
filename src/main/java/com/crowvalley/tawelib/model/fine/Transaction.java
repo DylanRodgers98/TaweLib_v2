@@ -3,6 +3,7 @@ package com.crowvalley.tawelib.model.fine;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.math.BigDecimal;
 
 @MappedSuperclass
 public class Transaction {
@@ -13,9 +14,9 @@ public class Transaction {
 
     private String username;
 
-    private Double amount;
+    private BigDecimal amount;
 
-    public Transaction(String username, Double amount) {
+    public Transaction(String username, BigDecimal amount) {
         this.username = username;
         this.amount = amount;
     }
@@ -31,7 +32,7 @@ public class Transaction {
         return username;
     }
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 }

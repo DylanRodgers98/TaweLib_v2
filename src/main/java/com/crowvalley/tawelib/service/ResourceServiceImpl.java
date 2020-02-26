@@ -82,8 +82,8 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public void deleteWithId(Long id) {
-        DAO.deleteWithId(id);
+    public void deleteWithId(Long id, ResourceType resourceType) {
+        DAO.deleteWithId(id, resourceType.getModelClass());
     }
 
     @Override

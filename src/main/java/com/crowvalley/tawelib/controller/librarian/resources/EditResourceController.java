@@ -1,5 +1,6 @@
 package com.crowvalley.tawelib.controller.librarian.resources;
 
+import com.crowvalley.tawelib.controller.SelectionAwareFXController;
 import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
@@ -16,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
-public class EditResourceController {
+public class EditResourceController implements SelectionAwareFXController<Resource> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EditResourceController.class);
 
@@ -244,12 +245,13 @@ public class EditResourceController {
         }
     }
 
-    public void setSelectedResource(Resource resource) {
-        this.selectedResource = resource;
+    public void setSelectedItem(Resource selectedItem) {
+        this.selectedResource = selectedItem;
     }
 
     public void setResourceService(ResourceService resourceService) {
         this.resourceService = resourceService;
         LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
     }
+
 }

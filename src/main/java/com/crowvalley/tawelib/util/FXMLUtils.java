@@ -2,11 +2,14 @@ package com.crowvalley.tawelib.util;
 
 import static javafx.scene.control.Alert.AlertType;
 
+import com.crowvalley.tawelib.controller.FXController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.layout.Region;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +55,7 @@ public class FXMLUtils {
         } catch (IOException e) {
             LOGGER.error("IOException caught when loading new scene from FXML", e);
             displayErrorDialogBox(ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
-        }catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             LOGGER.error(PATH_TO_FXML_FILE_DOES_NOT_EXIST_ERROR_MESSAGE, e);
             displayErrorDialogBox(ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, PATH_TO_FXML_FILE_DOES_NOT_EXIST_ERROR_MESSAGE);
         }
@@ -77,7 +80,9 @@ public class FXMLUtils {
         Alert alert = new Alert(alertType);
         alert.setTitle(dialogBoxTitle);
         alert.setHeaderText(null);
-        alert.setContentText(message);
+        Text text = new Text(message);
+        text.setWrappingWidth(alert.getDialogPane().getWidth());
+        alert.getDialogPane().setContent(text);
         return alert;
     }
 
@@ -109,7 +114,7 @@ public class FXMLUtils {
         }
     }
 
-    public static Object getController(String fxml) throws IOException {
+    public static FXController getController(String fxml) throws IOException {
         FXMLLoader loader = prepareFXMLLoader(fxml);
         loader.load();
         return loader.getController();

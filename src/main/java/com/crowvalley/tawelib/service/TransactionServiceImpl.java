@@ -7,6 +7,7 @@ import com.crowvalley.tawelib.model.resource.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,15 +69,15 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Double getTotalFinesAmountForUser(String username) {
-        Double totalFinesAmount = DAO.getTotalFineAmountForUser(username);
-        return totalFinesAmount != null ? totalFinesAmount : 0d;
+    public BigDecimal getTotalFinesAmountForUser(String username) {
+        BigDecimal totalFinesAmount = DAO.getTotalFineAmountForUser(username);
+        return totalFinesAmount != null ? totalFinesAmount : BigDecimal.ZERO;
     }
 
     @Override
-    public Double getTotalPaymentsAmountForUser(String username) {
-        Double totalPaymentsAmount = DAO.getTotalPaymentAmountForUser(username);
-        return totalPaymentsAmount != null ? totalPaymentsAmount : 0d;
+    public BigDecimal getTotalPaymentsAmountForUser(String username) {
+        BigDecimal totalPaymentsAmount = DAO.getTotalPaymentAmountForUser(username);
+        return totalPaymentsAmount != null ? totalPaymentsAmount : BigDecimal.ZERO;
     }
 
     @Override

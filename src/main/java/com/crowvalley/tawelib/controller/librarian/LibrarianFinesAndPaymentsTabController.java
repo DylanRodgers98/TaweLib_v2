@@ -1,5 +1,6 @@
 package com.crowvalley.tawelib.controller.librarian;
 
+import com.crowvalley.tawelib.controller.FXController;
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.fine.Transaction;
@@ -21,14 +22,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.Comparator;
+import java.util.Locale;
 import java.util.Optional;
 
-public class LibrarianFinesAndPaymentsTabController {
+public class LibrarianFinesAndPaymentsTabController implements FXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LibrarianFinesAndPaymentsTabController.class);
 
     private static final String RECORD_PAYMENT_FXML = "/fxml/librarian/finesAndPayments/recordPayment.fxml";
+
+    private static final NumberFormat CURRENCY_FORMAT = NumberFormat.getCurrencyInstance(Locale.UK);
 
     private TransactionService transactionService;
 
@@ -62,8 +68,8 @@ public class LibrarianFinesAndPaymentsTabController {
     }
 
     private ObservableStringValue getAmount(TableColumn.CellDataFeatures<Transaction, String> transaction) {
-        Double amount = transaction.getValue().getAmount();
-        return new SimpleStringProperty(String.format("£%.2f", amount));
+        BigDecimal amount = transaction.getValue().getAmount();
+        return new SimpleStringProperty(CURRENCY_FORMAT.format(amount));
     }
 
     private ObservableValue<String> getType(TableColumn.CellDataFeatures<Transaction, String> transaction) {

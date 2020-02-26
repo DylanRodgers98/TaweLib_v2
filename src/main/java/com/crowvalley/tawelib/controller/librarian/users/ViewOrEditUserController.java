@@ -1,5 +1,6 @@
 package com.crowvalley.tawelib.controller.librarian.users;
 
+import com.crowvalley.tawelib.controller.SelectionAwareFXController;
 import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.UserService;
@@ -15,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
-public class ViewOrEditUserController {
+public class ViewOrEditUserController implements SelectionAwareFXController<User> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ViewOrEditUserController.class);
 
@@ -172,8 +173,8 @@ public class ViewOrEditUserController {
         }
     }
 
-    public void setSelectedUser(User user) {
-        this.selectedUser = user;
+    public void setSelectedItem(User selectedItem) {
+        this.selectedUser = selectedItem;
     }
 
     public void setUserService(UserService userService) {

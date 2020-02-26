@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
+import java.math.BigDecimal;
+
 /**
  * Data Access Object for retrieving data about {@link Fine} objects
  * persisted in a database. This class provides methods to perform create,
@@ -18,8 +20,8 @@ import org.hibernate.criterion.Restrictions;
 public class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     @Override
-    public Double getTotalFineAmountForUser(String username) {
-        return (Double) sessionFactory.getCurrentSession()
+    public BigDecimal getTotalFineAmountForUser(String username) {
+        return (BigDecimal) sessionFactory.getCurrentSession()
                 .createCriteria(Fine.class)
                 .add(Restrictions.eq("username", username))
                 .setProjection(Projections.sum("amount"))
@@ -27,8 +29,8 @@ public class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
     }
 
     @Override
-    public Double getTotalPaymentAmountForUser(String username) {
-        return (Double) sessionFactory.getCurrentSession()
+    public BigDecimal getTotalPaymentAmountForUser(String username) {
+        return (BigDecimal) sessionFactory.getCurrentSession()
                 .createCriteria(Payment.class)
                 .add(Restrictions.eq("username", username))
                 .setProjection(Projections.sum("amount"))

@@ -22,7 +22,6 @@
         <property name="usersTabController" ref="librarianUsersTabController" />
         <property name="finesAndPaymentsTabController" ref="librarianFinesAndPaymentsTabController" />
         <property name="profileTabController" ref="librarianProfileTabController" />
-        <property name="logOutController" ref="librarianLogOutController" />
     </bean>
 
     <bean id="librarianResourcesTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianResourcesTabController" >

@@ -1,12 +1,18 @@
 package com.crowvalley.tawelib.controller.librarian.finesandpayments;
 
+import com.crowvalley.tawelib.controller.FXController;
 import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.fine.OutstandingFinesDTO;
 import com.crowvalley.tawelib.service.TransactionService;
 import com.crowvalley.tawelib.service.UserService;
 import com.crowvalley.tawelib.util.FXMLUtils;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Locale;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -17,13 +23,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RecordPaymentController {
+public class RecordPaymentController implements FXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RecordPaymentController.class);
 
     private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
-
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###.##");
 
     private UserService userService;
 
@@ -62,11 +66,11 @@ public class RecordPaymentController {
     private void recordPayment() {
         OutstandingFinesDTO outstandingFinesDTO = cmbUsers.getValue();
         String username = outstandingFinesDTO.getUsername();
-        double outstandingFines = outstandingFinesDTO.getOutstandingFines();
+        BigDecimal outstandingFines = outstandingFinesDTO.getOutstandingFines();
         String amountString = txtAmount.getText();
         try {
-            double amount = DECIMAL_FORMAT.parse(amountString).doubleValue();
-            if (amount > outstandingFines) {
+            BigDecimal amount = new BigDecimal(amountString).setScale(2, RoundingMode.HALF_EVEN);
+            if (amount.compareTo(outstandingFines) > 0) {
                 amount = outstandingFines;
             }
 
@@ -76,7 +80,7 @@ public class RecordPaymentController {
             FXMLUtils.displayInformationDialogBox("Payment Successful",
                     "Payment of £" + amount + " made for " + username);
             FXMLUtils.loadNewScene(btnRecord, LIBRARIAN_HOME_FXML);
-        } catch (NumberFormatException | ParseException e) {
+        } catch (NumberFormatException e) {
             LOGGER.error("Record payment failed, amount entered cannot parse to double", e);
             FXMLUtils.displayErrorDialogBox("Record Payment Failed",
                     amountString + " is not a monetary amount");

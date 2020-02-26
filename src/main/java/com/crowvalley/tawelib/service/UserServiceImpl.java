@@ -7,6 +7,7 @@ import com.crowvalley.tawelib.model.fine.OutstandingFinesDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -72,10 +73,10 @@ public class UserServiceImpl implements UserService {
     public List<OutstandingFinesDTO> getAllUsersWithOutstandingFines() {
         List<OutstandingFinesDTO> usersWithOutstandingFines = new ArrayList<>();
         for (String username : getAllUsernames()) {
-            Double finesForUser = transactionService.getTotalFinesAmountForUser(username);
-            Double paymentsForUser = transactionService.getTotalPaymentsAmountForUser(username);
-            double outstandingFines = finesForUser - paymentsForUser;
-            if (outstandingFines > 0) {
+            BigDecimal finesForUser = transactionService.getTotalFinesAmountForUser(username);
+            BigDecimal paymentsForUser = transactionService.getTotalPaymentsAmountForUser(username);
+            BigDecimal outstandingFines = finesForUser.subtract(paymentsForUser);
+            if (outstandingFines.compareTo(BigDecimal.ZERO) > 0) {
                 usersWithOutstandingFines.add(new OutstandingFinesDTO(username, outstandingFines));
             }
         }

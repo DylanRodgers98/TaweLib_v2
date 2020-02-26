@@ -12,6 +12,4 @@ public interface ResourceDAO extends BaseDAO {
 
     Optional<String> getResourceTitle(Long id, Class<? extends Resource> clazz);
 
-    void deleteWithId(Long id);
-
 }

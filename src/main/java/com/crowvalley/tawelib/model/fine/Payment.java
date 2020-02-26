@@ -4,6 +4,7 @@ import com.crowvalley.tawelib.model.user.User;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 /**
  * Payment class for creating objects to store information about payments
@@ -15,7 +16,7 @@ import javax.persistence.Table;
 @Table(name = "payment")
 public class Payment extends Transaction {
 
-    public Payment(String username, Double amount) {
+    public Payment(String username, BigDecimal amount) {
         super(username, amount);
     }
 

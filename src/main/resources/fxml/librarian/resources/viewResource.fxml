@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -34,17 +36,25 @@
             </AnchorPane>
         </center>
         <left>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="389.0" prefWidth="314.0" BorderPane.alignment="CENTER">
                 <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" />
-                <Button fx:id="btnAddCopy" layoutX="36.0" layoutY="365.0" prefHeight="25.0" prefWidth="115.0" text="Add Copy" />
-                <Button fx:id="btnViewRequests" disable="true" layoutX="160.0" layoutY="365.0" prefHeight="25.0" prefWidth="115.0" text="View Requests" />
-                <TableView fx:id="tblCopies" layoutX="14.0" layoutY="54.0" prefHeight="300.0" prefWidth="289.0">
+                <TableView fx:id="tblCopies" layoutX="14.0" layoutY="54.0" prefHeight="300.0" prefWidth="300.0">
                     <columns>
-                        <TableColumn fx:id="colCurrentBorrower" prefWidth="125.0" text="Current Borrower" />
-                        <TableColumn fx:id="colLoanDuration" prefWidth="88.0" text="Loan Duration" />
-                        <TableColumn fx:id="colNumOfRequests" prefWidth="75.0" text="# Requests" />
+                        <TableColumn fx:id="colCurrentBorrower" prefWidth="132.0" text="Current Borrower" />
+                        <TableColumn fx:id="colLoanDuration" prefWidth="92.0" text="Loan Duration" />
+                        <TableColumn fx:id="colNumOfRequests" prefWidth="74.0" text="# Requests" />
                     </columns>
                 </TableView>
+                <ButtonBar layoutX="14.0" layoutY="353.0" prefHeight="40.0" prefWidth="289.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="353.0">
+                    <buttons>
+                        <Button fx:id="btnAddCopy" text="Add Copy" />
+                        <Button fx:id="btnDelete" disable="true" text="Delete Copy" />
+                        <Button fx:id="btnViewRequests" disable="true" text="View Requests" />
+                    </buttons>
+                    <padding>
+                        <Insets left="-20.0" top="10.0" />
+                    </padding>
+                </ButtonBar>
             </AnchorPane>
         </left>
     </BorderPane>

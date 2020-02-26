@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.controller.librarian;
 
 import com.crowvalley.tawelib.UserContext;
+import com.crowvalley.tawelib.controller.FXController;
 import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
@@ -16,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
-public class LibrarianProfileTabController {
+public class LibrarianProfileTabController implements FXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LibrarianProfileTabController.class);
 

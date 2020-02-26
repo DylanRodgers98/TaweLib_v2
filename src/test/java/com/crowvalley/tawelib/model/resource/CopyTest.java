@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 public class CopyTest {
 
@@ -18,15 +19,17 @@ public class CopyTest {
         Copy copy = new Copy();
         copy.createCopyRequest(username);
 
-        softly.assertThat(copy.getCopyRequests().get(0).getCopy())
+        CopyRequest copyRequest = copy.getCopyRequests().stream().findFirst().get();
+
+        softly.assertThat(copyRequest.getCopy())
                 .as("Copy request list contains copy request for correct copy")
                 .isEqualTo(copy);
 
-        softly.assertThat(copy.getCopyRequests().get(0).getUsername())
+        softly.assertThat(copyRequest.getUsername())
                 .as("Copy request list contains copy request with correct username")
                 .isEqualTo(username);
 
-        softly.assertThat(copy.getCopyRequests().get(0).getRequestDate().toLocalDateTime().toLocalDate())
+        softly.assertThat(copyRequest.getRequestDate().toLocalDateTime().toLocalDate())
                 .as("Copy request list contains copy request with today's date")
                 .isEqualTo(new Date(System.currentTimeMillis()).toLocalDate());
     }

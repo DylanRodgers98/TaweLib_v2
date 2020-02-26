@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -171,11 +172,11 @@ public class LoanServiceImpl implements LoanService {
             Optional<Copy> copy = copyService.get(loan.getCopyId());
             if (copy.isEmpty()) {
                 LOGGER.error("Could not retrieve copy (ID: {}) from database", loan.getCopyId());
-                throw new IllegalStateException("Could not retrieve copy from database");
+                throw new IllegalStateException("Could not retrieve copy (ID: "+ loan.getCopyId() + ") from database");
             } else {
                 ResourceType copyType = copy.get().getResourceType();
 
-                Double fineAmount = 0.00;
+                BigDecimal fineAmount = null;
                 if (copyType.equals(ResourceType.BOOK)) {
                     fineAmount = Fine.BOOK_FINE_AMOUNT_PER_DAY;
                 } else if (copyType.equals(ResourceType.DVD)) {
@@ -183,8 +184,10 @@ public class LoanServiceImpl implements LoanService {
                 } else if (copyType.equals(ResourceType.LAPTOP)) {
                     fineAmount = Fine.LAPTOP_FINE_AMOUNT_PER_DAY;
                 }
-                Long dayDiffBetweenEndAndReturnDates = ChronoUnit.DAYS.between(endDate.toLocalDate(), returnDate.toLocalDate());
-                fineAmount *= dayDiffBetweenEndAndReturnDates;
+                Assert.notNull(fineAmount, "Cannot resolve fine amount against late-returned loan (ID: " + loan.getId() + ")");
+
+                long dayDiffBetweenEndAndReturnDates = ChronoUnit.DAYS.between(endDate.toLocalDate(), returnDate.toLocalDate());
+                fineAmount = fineAmount.multiply(BigDecimal.valueOf(dayDiffBetweenEndAndReturnDates));
 
                 Fine fine = new Fine(loan.getBorrowerUsername(), loan.getId(), fineAmount);
                 transactionService.save(fine);

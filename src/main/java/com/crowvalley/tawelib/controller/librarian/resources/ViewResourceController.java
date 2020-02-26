@@ -1,5 +1,6 @@
 package com.crowvalley.tawelib.controller.librarian.resources;
 
+import com.crowvalley.tawelib.controller.SelectionAwareFXController;
 import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.LoanService;
@@ -21,7 +22,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public class ViewResourceController {
+public class ViewResourceController implements SelectionAwareFXController<Resource> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ViewResourceController.class);
 
@@ -92,10 +93,13 @@ public class ViewResourceController {
     private Button btnAddCopy;
 
     @FXML
-    private Button btnBack;
+    private Button btnDelete;
 
     @FXML
     private Button btnViewRequests;
+
+    @FXML
+    private Button btnBack;
 
     public void initialize() {
         if (selectedResource != null) {
@@ -223,15 +227,16 @@ public class ViewResourceController {
 
     private void setOnActions() {
         btnAddCopy.setOnAction(e -> openAddCopyPage());
+        btnDelete.setOnAction(e -> deleteCopy());
         btnViewRequests.setOnAction(e -> openViewRequestsPage());
         btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
-        tblCopies.setOnMouseClicked(e -> enableViewRequestsButtonIfResourceSelected());
+        tblCopies.setOnMouseClicked(e -> enableButtonsIfResourceSelected());
     }
 
     private void openAddCopyPage() {
         try {
             AddCopyController controller = (AddCopyController) FXMLUtils.getController(ADD_COPY_FXML);
-            controller.setSelectedResource(selectedResource);
+            controller.setSelectedItem(selectedResource);
             FXMLUtils.loadNewScene(tblCopies, ADD_COPY_FXML);
         } catch (IOException e) {
             LOGGER.error("IOException caught when loading new scene from FXML", e);
@@ -242,10 +247,22 @@ public class ViewResourceController {
         }
     }
 
+    private void deleteCopy() {
+        Copy selectedCopy = getSelectedCopy();
+        String message = String.format("Are you sure you want to delete copy '%s (%s)'?", selectedResource.getTitle(), selectedCopy.toString());
+        Optional<ButtonType> result = FXMLUtils.displayConfirmationDialogBox("Delete Copy",  message);
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            copyService.delete(selectedCopy);
+            tblCopies.getItems().remove(selectedCopy);
+            FXMLUtils.makeNodesDisabled(btnDelete, btnViewRequests);
+        }
+    }
+
     private void openViewRequestsPage() {
         try {
             ViewCopyRequestsController controller = (ViewCopyRequestsController) FXMLUtils.getController(VIEW_COPY_REQUESTS_FXML);
-            controller.setSelectedCopy(getSelectedCopy());
+            controller.setSelectedItem(getSelectedCopy());
             FXMLUtils.loadNewScene(tblCopies, VIEW_COPY_REQUESTS_FXML);
         } catch (IOException e) {
             LOGGER.error("IOException caught when loading new scene from FXML", e);
@@ -256,9 +273,9 @@ public class ViewResourceController {
         }
     }
 
-    private void enableViewRequestsButtonIfResourceSelected() {
+    private void enableButtonsIfResourceSelected() {
         if (getSelectedCopy() != null) {
-            FXMLUtils.makeNodesEnabled(btnViewRequests);
+            FXMLUtils.makeNodesEnabled(btnDelete, btnViewRequests);
         }
     }
 
@@ -266,8 +283,8 @@ public class ViewResourceController {
         return tblCopies.getSelectionModel().getSelectedItem();
     }
 
-    public void setSelectedResource(Resource resource) {
-        this.selectedResource = resource;
+    public void setSelectedItem(Resource selectedItem) {
+        this.selectedResource = selectedItem;
     }
 
     public void setCopyService(CopyService copyService) {

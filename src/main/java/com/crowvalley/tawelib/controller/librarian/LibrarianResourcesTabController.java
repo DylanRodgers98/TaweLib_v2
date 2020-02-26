@@ -1,5 +1,7 @@
 package com.crowvalley.tawelib.controller.librarian;
 
+import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.controller.SelectionAwareFXController;
 import com.crowvalley.tawelib.controller.librarian.resources.EditResourceController;
 import com.crowvalley.tawelib.controller.librarian.resources.ViewResourceController;
 import com.crowvalley.tawelib.model.resource.*;
@@ -22,7 +24,7 @@ import java.io.IOException;
 import java.util.Comparator;
 import java.util.Optional;
 
-public class LibrarianResourcesTabController {
+public class LibrarianResourcesTabController implements FXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LibrarianResourcesTabController.class);
 
@@ -97,19 +99,7 @@ public class LibrarianResourcesTabController {
 
     private void openViewResourcePage() {
         try {
-            ResourceDTO selectedResource = getSelectedResource();
-            Optional<? extends Resource> resource = resourceService.get(selectedResource.getId(), selectedResource.getResourceType());
-            if (resource.isPresent()) {
-                ViewResourceController controller = (ViewResourceController) FXMLUtils.getController(VIEW_RESOURCE_FXML);
-                controller.setSelectedResource(resource.get());
-                FXMLUtils.loadNewScene(tblResources, VIEW_RESOURCE_FXML);
-            } else {
-                LOGGER.error("Error loading Resource from database");
-                FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, "Error loading Resource from database");
-            }
-        } catch (IOException e) {
-            LOGGER.error("IOException caught when loading new scene from FXML", e);
-            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
+            openSelectionAwarePage(VIEW_RESOURCE_FXML);
         } catch (ClassCastException e) {
             LOGGER.error("ClassCastException caught when trying to cast controller from FXML to ViewResourceController", e);
             FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
@@ -118,21 +108,27 @@ public class LibrarianResourcesTabController {
 
     private void openEditResourcePage() {
         try {
+            openSelectionAwarePage(EDIT_RESOURCE_FXML);
+        } catch (ClassCastException e) {
+            LOGGER.error("ClassCastException caught when trying to cast controller from FXML to EditResourceController", e);
+            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
+        }
+    }
+
+    private void openSelectionAwarePage(String fxml) {
+        try {
             ResourceDTO selectedResource = getSelectedResource();
             Optional<? extends Resource> resource = resourceService.get(selectedResource.getId(), selectedResource.getResourceType());
             if (resource.isPresent()) {
-                EditResourceController controller = (EditResourceController) FXMLUtils.getController(EDIT_RESOURCE_FXML);
-                controller.setSelectedResource(resource.get());
-                FXMLUtils.loadNewScene(tblResources, EDIT_RESOURCE_FXML);
+                SelectionAwareFXController<Resource> controller = (SelectionAwareFXController<Resource>) FXMLUtils.getController(fxml);
+                controller.setSelectedItem(resource.get());
+                FXMLUtils.loadNewScene(tblResources, fxml);
             } else {
                 LOGGER.error("Error loading Resource from database");
                 FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, "Error loading Resource from database");
             }
         } catch (IOException e) {
             LOGGER.error("IOException caught when loading new scene from FXML", e);
-            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
-        } catch (ClassCastException e) {
-            LOGGER.error("ClassCastException caught when trying to cast controller from FXML to EditResourceController", e);
             FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
         }
     }
@@ -143,7 +139,7 @@ public class LibrarianResourcesTabController {
         Optional<ButtonType> result = FXMLUtils.displayConfirmationDialogBox("Delete Resource",  message);
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            resourceService.deleteWithId(selectedResource.getId());
+            resourceService.deleteWithId(selectedResource.getId(), selectedResource.getResourceType());
             tblResources.getItems().remove(selectedResource);
         }
     }

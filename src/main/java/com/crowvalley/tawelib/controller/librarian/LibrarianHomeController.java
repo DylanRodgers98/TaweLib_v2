@@ -1,22 +1,21 @@
 package com.crowvalley.tawelib.controller.librarian;
 
+import com.crowvalley.tawelib.controller.FXController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
-public class LibrarianHomeController {
+public class LibrarianHomeController implements FXController {
 
-    private LibrarianResourcesTabController resourcesTabController;
+    private FXController resourcesTabController;
 
-    private LibrarianLoansTabController loansTabController;
+    private FXController loansTabController;
 
-    private LibrarianUsersTabController usersTabController;
+    private FXController usersTabController;
 
-    private LibrarianFinesAndPaymentsTabController finesAndPaymentsTabController;
+    private FXController finesAndPaymentsTabController;
 
-    private LibrarianProfileTabController profileTabController;
-
-    private LibrarianLogOutController logOutController;
+    private FXController profileTabController;
 
     @FXML
     private TabPane tabPane;
@@ -74,10 +73,6 @@ public class LibrarianHomeController {
 
     public void setProfileTabController(LibrarianProfileTabController profileTabController) {
         this.profileTabController = profileTabController;
-    }
-
-    public void setLogOutController(LibrarianLogOutController logOutController) {
-        this.logOutController = logOutController;
     }
 
 }

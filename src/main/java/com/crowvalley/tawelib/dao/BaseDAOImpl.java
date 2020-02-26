@@ -1,5 +1,6 @@
 package com.crowvalley.tawelib.dao;
 
+import com.crowvalley.tawelib.model.resource.Resource;
 import com.crowvalley.tawelib.util.DatabaseUtils;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -35,6 +36,14 @@ public class BaseDAOImpl implements BaseDAO {
     @Override
     public <T> void delete(T entity) {
         sessionFactory.getCurrentSession().delete(entity);
+    }
+
+    @Override
+    public <T> void deleteWithId(Long id, Class<T> clazz) {
+        sessionFactory.getCurrentSession()
+                .createQuery("delete " + clazz.getName() + " where id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.crowvalley.tawelib.controller.librarian.resources;
 
+import com.crowvalley.tawelib.controller.SelectionAwareFXController;
 import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.model.resource.Resource;
 import com.crowvalley.tawelib.model.resource.ResourceFactory;
@@ -12,7 +13,7 @@ import javafx.scene.control.TextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AddCopyController {
+public class AddCopyController implements SelectionAwareFXController<Resource> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AddCopyController.class);
 
@@ -46,7 +47,7 @@ public class AddCopyController {
         if (txtLoanDuration.getText() != null) {
             Copy copy = ResourceFactory.createCopy(selectedResource, Integer.parseInt(txtLoanDuration.getText()));
             copyService.saveOrUpdate(copy);
-            FXMLUtils.displayInformationDialogBox("Success!", "Successfully created new copy of resource");
+            FXMLUtils.displayInformationDialogBox("Success!", "Successfully created new copy of selectedItem");
             loadViewResourcePage();
         }
     }
@@ -55,8 +56,8 @@ public class AddCopyController {
         FXMLUtils.loadNewScene(btnAddCopy, VIEW_RESOURCE_FXML);
     }
 
-    public void setSelectedResource(Resource resource) {
-        this.selectedResource = resource;
+    public void setSelectedItem(Resource selectedItem) {
+        this.selectedResource = selectedItem;
     }
 
     public void setCopyService(CopyService copyService) {

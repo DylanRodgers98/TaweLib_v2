@@ -2,6 +2,8 @@ package com.crowvalley.tawelib.dao;
 
 import com.crowvalley.tawelib.model.fine.Fine;
 
+import java.math.BigDecimal;
+
 /**
  * Data Access Object interface for classes to implement that deal with
  * {@link Fine} objects persisted in a database.
@@ -10,8 +12,8 @@ import com.crowvalley.tawelib.model.fine.Fine;
  */
 public interface TransactionDAO extends BaseDAO {
 
-    Double getTotalFineAmountForUser(String username);
+    BigDecimal getTotalFineAmountForUser(String username);
 
-    Double getTotalPaymentAmountForUser(String username);
+    BigDecimal getTotalPaymentAmountForUser(String username);
 
 }

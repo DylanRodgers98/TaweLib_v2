@@ -1,5 +1,6 @@
 package com.crowvalley.tawelib.controller.librarian;
 
+import com.crowvalley.tawelib.controller.FXController;
 import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.LoanService;
@@ -23,7 +24,7 @@ import java.sql.Date;
 import java.util.Comparator;
 import java.util.Optional;
 
-public class LibrarianLoansTabController {
+public class LibrarianLoansTabController implements FXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LibrarianLoansTabController.class);
 
@@ -77,15 +78,14 @@ public class LibrarianLoansTabController {
     private ObservableStringValue getCopyTitle(TableColumn.CellDataFeatures<Loan, String> loan) {
         Long copyId = loan.getValue().getCopyId();
         Optional<Copy> copy = copyService.get(copyId);
-        return copy.map(this::getCopyTitle).orElse(null);
+        return new SimpleStringProperty(copy.map(this::getCopyTitle)
+                .orElse("[ERROR RETRIEVING COPY (ID: " + copyId + ")]"));
     }
 
-    private ObservableStringValue getCopyTitle(Copy copy) {
+    private String getCopyTitle(Copy copy) {
         Optional<String> optionalTitle = resourceService.getResourceTitleFromCopy(copy.getResourceId(), copy.getResourceType());
-        return new SimpleStringProperty(
-                optionalTitle.map(title -> title + " (" + copy.getLoanDurationAsDays() + " day loan)")
-                .orElse(StringUtils.EMPTY)
-        );
+        return optionalTitle.map(title -> title + " (" + copy + ")")
+                .orElse("[ERROR RETRIEVING COPY (ID: " + copy.getId() + ")]");
     }
 
     private ObservableList<Loan> getLoans() {
@@ -101,7 +101,8 @@ public class LibrarianLoansTabController {
     }
 
     private void enableButtonsIfLoanSelected() {
-        if (getSelectedLoan() != null) {
+        Loan loan = getSelectedLoan();
+        if (loan != null && loan.getReturnDate() == null) {
             FXMLUtils.makeNodesEnabled(btnEndLoan);
         }
     }
