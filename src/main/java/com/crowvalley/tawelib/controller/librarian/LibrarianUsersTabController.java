@@ -1,6 +1,6 @@
 package com.crowvalley.tawelib.controller.librarian;
 
-import com.crowvalley.tawelib.UserContext;
+import com.crowvalley.tawelib.UserContextHolder;
 import com.crowvalley.tawelib.controller.FXController;
 import com.crowvalley.tawelib.controller.librarian.users.ViewOrEditUserController;
 import com.crowvalley.tawelib.model.user.Address;
@@ -70,6 +70,7 @@ public class LibrarianUsersTabController implements FXController {
     @FXML
     private Button btnDeleteUser;
 
+    @Override
     public void initialize() {
         populateTable();
         FXMLUtils.makeNodesDisabled(btnViewOrEditUser, btnDeleteUser);
@@ -140,7 +141,7 @@ public class LibrarianUsersTabController implements FXController {
         Optional<ButtonType> result = FXMLUtils.displayConfirmationDialogBox("Delete User",  message);
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            if (selectedUser.getUsername().equals(UserContext.getLoggedInUser())) {
+            if (selectedUser.getUsername().equals(UserContextHolder.getLoggedInUser())) {
                 FXMLUtils.displayErrorDialogBox("Error Deleting User", "Cannot delete currently logged in user");
             } else {
                 userService.delete(selectedUser);

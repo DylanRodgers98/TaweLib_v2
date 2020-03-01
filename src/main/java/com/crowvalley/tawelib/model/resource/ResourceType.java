@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.model.resource;
 
 public enum ResourceType {
+    ALL(Resource.class),
     BOOK(Book.class),
     DVD(Dvd.class),
     LAPTOP(Laptop.class);

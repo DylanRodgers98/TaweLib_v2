@@ -48,6 +48,7 @@ public class NewLoanController implements FXController {
     @FXML
     private Button btnCreateLoan;
 
+    @Override
     public void initialize() {
         populateUsers();
         cmbType.setOnAction(e -> populateResources());

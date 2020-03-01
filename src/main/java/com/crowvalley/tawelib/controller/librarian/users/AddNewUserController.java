@@ -65,6 +65,7 @@ public class AddNewUserController implements FXController {
     @FXML
     private Button btnBack;
 
+    @Override
     public void initialize() {
         btnAdd.setOnAction(e -> addUser());
         btnChoosePic.setOnAction(e -> ImageUtils.chooseImage(FILE_CHOOSER_TITLE, PROFILE_PICTURE_DIRECTORY_NAME, imgProfilePic));

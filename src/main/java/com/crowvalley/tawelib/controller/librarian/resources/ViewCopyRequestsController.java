@@ -49,6 +49,7 @@ public class ViewCopyRequestsController implements SelectionAwareFXController<Co
     @FXML
     private Label lblCopyTitle;
 
+    @Override
     public void initialize() {
         if (selectedCopy != null) {
             setCopyTitleLabel();
@@ -107,6 +108,7 @@ public class ViewCopyRequestsController implements SelectionAwareFXController<Co
         return tblCopyRequests.getSelectionModel().getSelectedItem();
     }
 
+    @Override
     public void setSelectedItem(Copy selectedItem) {
         this.selectedCopy = selectedItem;
     }

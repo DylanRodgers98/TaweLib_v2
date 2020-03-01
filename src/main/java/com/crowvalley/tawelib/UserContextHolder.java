@@ -3,9 +3,9 @@ package com.crowvalley.tawelib;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UserContext {
+public class UserContextHolder {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserContext.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserContextHolder.class);
 
     private static String loggedInUser;
 

@@ -80,6 +80,7 @@ public class EditResourceController implements SelectionAwareFXController<Resour
     @FXML
     private Button btnBack;
 
+    @Override
     public void initialize() {
         if (selectedResource != null) {
             populateFields();
@@ -245,6 +246,7 @@ public class EditResourceController implements SelectionAwareFXController<Resour
         }
     }
 
+    @Override
     public void setSelectedItem(Resource selectedItem) {
         this.selectedResource = selectedItem;
     }

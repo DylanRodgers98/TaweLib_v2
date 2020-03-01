@@ -1,6 +1,6 @@
 package com.crowvalley.tawelib.controller.librarian;
 
-import com.crowvalley.tawelib.UserContext;
+import com.crowvalley.tawelib.UserContextHolder;
 import com.crowvalley.tawelib.controller.FXController;
 import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.Librarian;
@@ -67,6 +67,7 @@ public class LibrarianProfileTabController implements FXController {
     @FXML
     private Button btnChangePic;
 
+    @Override
     public void initialize() {
         loadProfile();
         disableTextFields();
@@ -75,7 +76,7 @@ public class LibrarianProfileTabController implements FXController {
     }
 
     private void loadProfile() {
-        String currentUser = UserContext.getLoggedInUser();
+        String currentUser = UserContextHolder.getLoggedInUser();
         Optional<? extends User> optionalLibrarian = userService.getWithUsername(currentUser);
         if (optionalLibrarian.isPresent()) {
             loggedInLibrarian = (Librarian) optionalLibrarian.get();

@@ -60,6 +60,7 @@ public class LibrarianLoansTabController implements FXController {
     @FXML
     private Button btnEndLoan;
 
+    @Override
     public void initialize() {
         populateTable();
         FXMLUtils.makeNodesDisabled(btnEndLoan);

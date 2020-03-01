@@ -55,6 +55,7 @@ public class LibrarianFinesAndPaymentsTabController implements FXController {
     @FXML
     private Button btnRecordPayment;
 
+    @Override
     public void initialize() {
         populateTable();
         btnRecordPayment.setOnAction(e -> FXMLUtils.loadNewScene(btnRecordPayment, RECORD_PAYMENT_FXML));

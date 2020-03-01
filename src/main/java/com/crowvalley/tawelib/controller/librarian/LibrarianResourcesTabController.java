@@ -60,6 +60,7 @@ public class LibrarianResourcesTabController implements FXController {
     @FXML
     private Button btnDeleteResource;
 
+    @Override
     public void initialize() {
         populateTable();
         FXMLUtils.makeNodesDisabled(btnViewResource, btnEditResource, btnDeleteResource);

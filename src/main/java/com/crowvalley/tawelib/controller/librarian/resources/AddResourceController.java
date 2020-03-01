@@ -82,6 +82,7 @@ public class AddResourceController implements FXController {
     @FXML
     private Button btnBack;
 
+    @Override
     public void initialize() {
         cmbType.setOnAction(e -> showTextFieldsAndLabels());
         btnSave.setOnAction(e -> saveResource());

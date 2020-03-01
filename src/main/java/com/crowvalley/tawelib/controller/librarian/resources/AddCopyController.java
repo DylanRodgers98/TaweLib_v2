@@ -35,6 +35,7 @@ public class AddCopyController implements SelectionAwareFXController<Resource> {
     @FXML
     private Button btnBack;
 
+    @Override
     public void initialize() {
         if (selectedResource != null) {
             lblResource.setText("Resource: " + selectedResource);
@@ -56,6 +57,7 @@ public class AddCopyController implements SelectionAwareFXController<Resource> {
         FXMLUtils.loadNewScene(btnAddCopy, VIEW_RESOURCE_FXML);
     }
 
+    @Override
     public void setSelectedItem(Resource selectedItem) {
         this.selectedResource = selectedItem;
     }

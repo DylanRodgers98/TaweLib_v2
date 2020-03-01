@@ -101,6 +101,7 @@ public class ViewResourceController implements SelectionAwareFXController<Resour
     @FXML
     private Button btnBack;
 
+    @Override
     public void initialize() {
         if (selectedResource != null) {
             populateTable();
@@ -283,6 +284,7 @@ public class ViewResourceController implements SelectionAwareFXController<Resour
         return tblCopies.getSelectionModel().getSelectedItem();
     }
 
+    @Override
     public void setSelectedItem(Resource selectedItem) {
         this.selectedResource = selectedItem;
     }

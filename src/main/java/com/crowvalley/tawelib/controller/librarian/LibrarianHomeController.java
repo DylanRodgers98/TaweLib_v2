@@ -35,6 +35,7 @@ public class LibrarianHomeController implements FXController {
     @FXML
     private Tab tabProfile;
 
+    @Override
     public void initialize() {
         tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
             if (newTab == tabResources) {

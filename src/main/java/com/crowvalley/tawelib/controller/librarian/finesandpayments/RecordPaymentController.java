@@ -45,6 +45,7 @@ public class RecordPaymentController implements FXController {
     @FXML
     private Button btnBack;
 
+    @Override
     public void initialize() {
         populateUsersAndFines();
         cmbUsers.setOnAction(e -> enableRecordButtonIfUserSelectedAndAmountTyped());

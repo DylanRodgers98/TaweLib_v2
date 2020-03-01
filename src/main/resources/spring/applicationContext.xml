@@ -92,6 +92,10 @@
 
     <bean id="librarianLogOutController" class="com.crowvalley.tawelib.controller.librarian.LibrarianLogOutController" />
 
+    <bean id="userHomeController" class="com.crowvalley.tawelib.controller.user.UserHomeController" >
+        <property name="transactionService" ref="transactionService" />
+    </bean>
+
     <!-- Service beans -->
     <bean id="copyService" class="com.crowvalley.tawelib.service.CopyServiceImpl">
         <property name="DAO" ref="copyDAO"/>

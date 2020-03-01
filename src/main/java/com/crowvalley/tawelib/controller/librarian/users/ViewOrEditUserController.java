@@ -73,6 +73,7 @@ public class ViewOrEditUserController implements SelectionAwareFXController<User
     @FXML
     private Button btnBack;
 
+    @Override
     public void initialize() {
         if (selectedUser != null) {
             loadProfile();
@@ -173,6 +174,7 @@ public class ViewOrEditUserController implements SelectionAwareFXController<User
         }
     }
 
+    @Override
     public void setSelectedItem(User selectedItem) {
         this.selectedUser = selectedItem;
     }

@@ -1,6 +1,6 @@
 package com.crowvalley.tawelib.controller;
 
-import com.crowvalley.tawelib.UserContext;
+import com.crowvalley.tawelib.UserContextHolder;
 import com.crowvalley.tawelib.exception.NoSuchUserException;
 import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
@@ -22,7 +22,7 @@ public class LoginController implements FXController {
 
     public static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
 
-    public static final String USER_HOME_FXML = "/fxml/userHome.fxml";
+    public static final String USER_HOME_FXML = "/fxml/user/userHome.fxml";
 
     private UserService userService;
 
@@ -83,12 +83,12 @@ public class LoginController implements FXController {
     }
 
     private void librarianLogIn(String username) {
-        UserContext.setLoggedInUser(username);
+        UserContextHolder.setLoggedInUser(username);
         loadNewScene(LIBRARIAN_HOME_FXML);
     }
 
     private void userLogIn(String username) {
-        UserContext.setLoggedInUser(username);
+        UserContextHolder.setLoggedInUser(username);
         loadNewScene(USER_HOME_FXML);
     }
 
