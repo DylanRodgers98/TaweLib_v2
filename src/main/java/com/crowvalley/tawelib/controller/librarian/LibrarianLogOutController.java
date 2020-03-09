@@ -19,7 +19,7 @@ public class LibrarianLogOutController implements FXController {
 
     private void logOut() {
         UserContextHolder.clear();
-        FXMLUtils.loadNewScene(btnLogOut, Main.LOGIN_PAGE_FXML);
+        FXMLUtils.loadNewScene(Main.LOGIN_PAGE_FXML);
     }
 
 }

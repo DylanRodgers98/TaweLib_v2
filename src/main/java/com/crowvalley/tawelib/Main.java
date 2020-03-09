@@ -16,13 +16,20 @@ public class Main extends Application {
 
     public static final String TAWELIB_STAGE_TITLE = "TaweLib";
 
+    public static Stage primaryStage;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Main.primaryStage = primaryStage;
         FXMLLoader loader = FXMLUtils.prepareFXMLLoader(LOGIN_PAGE_FXML);
         primaryStage.setScene(new Scene(loader.load()));
         primaryStage.setTitle(TAWELIB_STAGE_TITLE);
         primaryStage.setResizable(false);
         primaryStage.show();
+    }
+
+    public static Stage getPrimaryStage() {
+        return primaryStage;
     }
 
     public static void main(String[] args) {

@@ -2,13 +2,13 @@ package com.crowvalley.tawelib.util;
 
 import static javafx.scene.control.Alert.AlertType;
 
-import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.Main;
+import com.crowvalley.tawelib.controller.SelectionAwareFXController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -23,27 +23,29 @@ public class FXMLUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FXMLUtils.class);
 
-    private static final ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/spring/applicationContext.xml");
+    private static final ApplicationContext APPLICATION_CONTEXT = new ClassPathXmlApplicationContext("/spring/applicationContext.xml");
 
     public static final String ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE = "Error Loading New Scene";
 
     private static final String PATH_TO_FXML_FILE_DOES_NOT_EXIST_ERROR_MESSAGE =
             "Couldn't load new scene. Path to FXML file doesn't exist";
 
-    public static void loadNewScene(Node arbitraryNodeFromCurrentScene, String fxmlOfNewScene) {
-        Stage stage = getStage(arbitraryNodeFromCurrentScene);
-        stage.close();
-        loadNewScene(stage, prepareFXMLLoader(fxmlOfNewScene));
+    public static <T> void loadNewSceneWithSelectedItem(String fxmlOfNewScene, T selectedItem) throws IOException {
+        FXMLLoader loader = prepareFXMLLoader(fxmlOfNewScene);
+        loader.load();
+        SelectionAwareFXController<T> controller = loader.getController();
+        controller.setSelectedItem(selectedItem);
+        loadNewScene(fxmlOfNewScene);
     }
 
-    private static Stage getStage(Node arbitraryNodeFromCurrentScene) {
-        return (Stage) arbitraryNodeFromCurrentScene.getScene().getWindow();
+    public static void loadNewScene(String fxmlOfNewScene) {
+        loadNewScene(Main.getPrimaryStage(), prepareFXMLLoader(fxmlOfNewScene));
     }
 
     public static FXMLLoader prepareFXMLLoader(String pathToFxml) {
         URL fxml = FXMLUtils.class.getResource(pathToFxml);
         FXMLLoader loader = new FXMLLoader(fxml);
-        loader.setControllerFactory(applicationContext::getBean);
+        loader.setControllerFactory(APPLICATION_CONTEXT::getBean);
         return loader;
     }
 
@@ -51,6 +53,7 @@ public class FXMLUtils {
         try {
             Scene scene = new Scene(loader.load());
             stage.setScene(scene);
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
             LOGGER.error("IOException caught when loading new scene from FXML", e);
@@ -112,12 +115,6 @@ public class FXMLUtils {
         for (Node node : nodes) {
             node.setDisable(isDisabled);
         }
-    }
-
-    public static FXController getController(String fxml) throws IOException {
-        FXMLLoader loader = prepareFXMLLoader(fxml);
-        loader.load();
-        return loader.getController();
     }
 
 }

@@ -179,7 +179,7 @@ public class EditResourceController implements SelectionAwareFXController<Resour
     private void setOnActions() {
         btnUpdate.setOnAction(e -> updateResource());
         btnChangePic.setOnAction(e -> ImageUtils.chooseImage("Choose Resource Picture", RESOURCES_DIRECTORY_NAME, imgResourcePic));
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
+        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML));
     }
 
     private void updateResource() {
@@ -209,7 +209,7 @@ public class EditResourceController implements SelectionAwareFXController<Resour
 
         try {
             resourceService.saveOrUpdate(book);
-            FXMLUtils.loadNewScene(btnUpdate, LIBRARIAN_HOME_FXML);
+            FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
         } catch (Exception e) {
             FXMLUtils.displayErrorDialogBox("Error Updating Book", e.getMessage());
         }
@@ -227,7 +227,7 @@ public class EditResourceController implements SelectionAwareFXController<Resour
 
         try {
             resourceService.saveOrUpdate(dvd);
-            FXMLUtils.loadNewScene(btnUpdate, LIBRARIAN_HOME_FXML);
+            FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
         } catch (Exception e) {
             FXMLUtils.displayErrorDialogBox("Error Updating DVD", e.getMessage());
         }
@@ -240,7 +240,7 @@ public class EditResourceController implements SelectionAwareFXController<Resour
 
         try {
             resourceService.saveOrUpdate(laptop);
-            FXMLUtils.loadNewScene(btnUpdate, LIBRARIAN_HOME_FXML);
+            FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
         } catch (Exception e) {
             FXMLUtils.displayErrorDialogBox("Error Updating Laptop", e.getMessage());
         }

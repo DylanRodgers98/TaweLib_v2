@@ -59,8 +59,8 @@ public class ViewCopyRequestsController implements SelectionAwareFXController<Co
     }
 
     private void setCopyTitleLabel() {
-        Optional<String> optionalTitle = resourceService.getResourceTitleFromCopy(selectedCopy.getResourceId(), selectedCopy.getResourceType());
-        optionalTitle.ifPresent(title -> lblCopyTitle.setText("Copy: " + title + " (" + selectedCopy.toString() + ")"));
+        Optional<ResourceDTO> optionalResourceDTO = resourceService.getResourceDTOFromCopy(selectedCopy);
+        optionalResourceDTO.ifPresent(resourceDTO -> lblCopyTitle.setText("Copy: " + resourceDTO + " (" + selectedCopy + ")"));
     }
 
     private void populateTable() {
@@ -75,7 +75,7 @@ public class ViewCopyRequestsController implements SelectionAwareFXController<Co
 
     private void setOnActions() {
         tblCopyRequests.setOnMouseClicked(e -> enableButtonsIfCopyRequestSelected());
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, VIEW_RESOURCE_FXML));
+        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(VIEW_RESOURCE_FXML));
         btnApproveRequest.setOnAction(e -> approveCopyRequest());
     }
 

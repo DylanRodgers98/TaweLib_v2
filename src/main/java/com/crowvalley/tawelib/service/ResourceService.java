@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.ResourceDAO;
+import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.model.resource.Resource;
 import com.crowvalley.tawelib.model.resource.ResourceDTO;
 import com.crowvalley.tawelib.model.resource.ResourceType;
@@ -22,13 +23,13 @@ public interface ResourceService {
 
     List<ResourceDTO> getAllResourceDTOs(ResourceType resourceType);
 
-    Optional<String> getResourceTitleFromCopy(Long id, ResourceType resourceType);
+    Optional<ResourceDTO> getResourceDTOFromCopy(Copy copy);
 
     void saveOrUpdate(Resource resource);
 
     void delete(Resource resource);
 
-    void deleteWithId(Long id, ResourceType resourceType);
+    void deleteWithId(Long id);
 
     void setDAO(ResourceDAO DAO);
 

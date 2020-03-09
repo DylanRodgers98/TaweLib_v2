@@ -92,7 +92,7 @@ public class AddNewUserController implements FXController {
     }
 
     private void goBack() {
-        FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML);
+        FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
     }
 
     public void setUserService(UserService userService) {

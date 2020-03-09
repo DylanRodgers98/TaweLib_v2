@@ -2,7 +2,6 @@ package com.crowvalley.tawelib.controller.librarian;
 
 import com.crowvalley.tawelib.UserContextHolder;
 import com.crowvalley.tawelib.controller.FXController;
-import com.crowvalley.tawelib.controller.librarian.users.ViewOrEditUserController;
 import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.TransactionService;
@@ -18,7 +17,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,19 +84,16 @@ public class LibrarianUsersTabController implements FXController {
         tblUsers.setItems(getUsers());
     }
 
-    private ObservableStringValue getFullName(TableColumn.CellDataFeatures<User, String> user) {
-        String fullName = new StringBuilder(user.getValue().getFirstName())
-                .append(StringUtils.SPACE)
-                .append(user.getValue().getSurname())
-                .toString();
-        return new SimpleStringProperty(fullName);
+    private ObservableStringValue getFullName(TableColumn.CellDataFeatures<User, String> userRow) {
+        User user = userRow.getValue();
+        return new SimpleStringProperty(user.getFirstName() + " " + user.getSurname());
     }
 
     private ObservableStringValue getBalance(TableColumn.CellDataFeatures<User, String> user) {
         String username = user.getValue().getUsername();
         BigDecimal fines = transactionService.getTotalFinesAmountForUser(username);
         BigDecimal payments = transactionService.getTotalPaymentsAmountForUser(username);
-        BigDecimal balance = fines.subtract(payments);
+        BigDecimal balance = payments.subtract(fines);
         return new SimpleStringProperty(CURRENCY_FORMAT.format(balance));
     }
 
@@ -110,7 +105,7 @@ public class LibrarianUsersTabController implements FXController {
 
     private void setOnActions() {
         tblUsers.setOnMouseClicked(e -> enableButtonsIfUserSelected());
-        btnNewUser.setOnAction(e -> FXMLUtils.loadNewScene(btnNewUser, ADD_NEW_USER_FXML));
+        btnNewUser.setOnAction(e -> FXMLUtils.loadNewScene(ADD_NEW_USER_FXML));
         btnViewOrEditUser.setOnAction(e -> openViewOrEditUserPage());
         btnDeleteUser.setOnAction(e -> deleteSelectedUser());
     }
@@ -123,14 +118,9 @@ public class LibrarianUsersTabController implements FXController {
 
     private void openViewOrEditUserPage() {
         try {
-            ViewOrEditUserController controller = (ViewOrEditUserController) FXMLUtils.getController(VIEW_OR_EDIT_USER_FXML);
-            controller.setSelectedItem(getSelectedUser());
-            FXMLUtils.loadNewScene(tblUsers, VIEW_OR_EDIT_USER_FXML);
+            FXMLUtils.loadNewSceneWithSelectedItem(VIEW_OR_EDIT_USER_FXML, getSelectedUser());
         } catch (IOException e) {
             LOGGER.error("IOException caught when loading new scene from FXML", e);
-            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
-        } catch (ClassCastException e) {
-            LOGGER.error("ClassCastException caught when trying to cast controller from FXML to ViewOrEditUserController", e);
             FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
         }
     }

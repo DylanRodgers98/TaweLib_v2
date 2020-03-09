@@ -10,6 +10,8 @@ public interface ResourceDAO extends BaseDAO {
 
     List<ResourceDTO> getAllResourceDTOs(Class<? extends Resource> clazz);
 
-    Optional<String> getResourceTitle(Long id, Class<? extends Resource> clazz);
+    Optional<ResourceDTO> getResourceDTO(Long id, Class<? extends Resource> clazz);
+
+    void deleteWithId(Long id);
 
 }

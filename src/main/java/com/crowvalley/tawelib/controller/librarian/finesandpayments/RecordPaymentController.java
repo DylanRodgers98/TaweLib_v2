@@ -51,7 +51,7 @@ public class RecordPaymentController implements FXController {
         cmbUsers.setOnAction(e -> enableRecordButtonIfUserSelectedAndAmountTyped());
         txtAmount.setOnKeyReleased(e -> enableRecordButtonIfUserSelectedAndAmountTyped());
         btnRecord.setOnAction(e -> recordPayment());
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
+        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML));
     }
 
     private void populateUsersAndFines() {
@@ -80,7 +80,7 @@ public class RecordPaymentController implements FXController {
 
             FXMLUtils.displayInformationDialogBox("Payment Successful",
                     "Payment of £" + amount + " made for " + username);
-            FXMLUtils.loadNewScene(btnRecord, LIBRARIAN_HOME_FXML);
+            FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
         } catch (NumberFormatException e) {
             LOGGER.error("Record payment failed, amount entered cannot parse to double", e);
             FXMLUtils.displayErrorDialogBox("Record Payment Failed",

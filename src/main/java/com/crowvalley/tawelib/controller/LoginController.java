@@ -84,16 +84,12 @@ public class LoginController implements FXController {
 
     private void librarianLogIn(String username) {
         UserContextHolder.setLoggedInUser(username);
-        loadNewScene(LIBRARIAN_HOME_FXML);
+        FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
     }
 
     private void userLogIn(String username) {
         UserContextHolder.setLoggedInUser(username);
-        loadNewScene(USER_HOME_FXML);
-    }
-
-    private void loadNewScene(String fxml) {
-        FXMLUtils.loadNewScene(btnLogin, fxml);
+        FXMLUtils.loadNewScene(USER_HOME_FXML);
     }
 
     public void setUserService(UserService userService) {

@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.ResourceDAO;
+import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.model.resource.Resource;
 import com.crowvalley.tawelib.model.resource.ResourceDTO;
 import com.crowvalley.tawelib.model.resource.ResourceType;
@@ -22,6 +23,8 @@ public class ResourceServiceImpl implements ResourceService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourceServiceImpl.class);
 
     private ResourceDAO DAO;
+
+    private CopyService copyService;
 
     /**
      * Retrieves a {@link Resource} from the DAO using the {@link Resource}'s
@@ -52,11 +55,14 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public Optional<String> getResourceTitleFromCopy(Long id, ResourceType resourceType) {
+    public Optional<ResourceDTO> getResourceDTOFromCopy(Copy copy) {
+        Long resourceId = copy.getResourceId();
+        ResourceType resourceType = copy.getResourceType();
+
         Class<? extends Resource> modelClass = resourceType != null
                 ? resourceType.getModelClass()
                 : Resource.class;
-        return DAO.getResourceTitle(id, modelClass);
+        return DAO.getResourceDTO(resourceId, modelClass);
     }
 
     /**
@@ -77,13 +83,20 @@ public class ResourceServiceImpl implements ResourceService {
      */
     @Override
     public void delete(Resource resource) {
+        List<Copy> copiesOfResource = copyService.getAllCopiesForResource(resource.getId());
+        for (Copy copy : copiesOfResource) {
+            DAO.delete(copy);
+            LOGGER.info("Copy (ID: {}) of Resource \"{}\" (ID: {}) deleted successfully",
+                    copy.getId(), resource, resource.getId());
+        }
         DAO.delete(resource);
-        LOGGER.info("Resource \"{}\" with ID {} deleted successfully", resource, resource.getId());
+        LOGGER.info("Resource \"{}\" (ID: {}) deleted successfully", resource, resource.getId());
     }
 
     @Override
-    public void deleteWithId(Long id, ResourceType resourceType) {
-        DAO.deleteWithId(id, resourceType.getModelClass());
+    public void deleteWithId(Long id) {
+        DAO.deleteWithId(id);
+        LOGGER.info("Resource (ID: {}) deleted successfully", id);
     }
 
     @Override

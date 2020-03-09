@@ -87,7 +87,7 @@ public class AddResourceController implements FXController {
         cmbType.setOnAction(e -> showTextFieldsAndLabels());
         btnSave.setOnAction(e -> saveResource());
         btnChangePic.setOnAction(e -> ImageUtils.chooseImage(FILE_CHOOSER_TITLE, RESOURCES_DIRECTORY_NAME, imgResourcePic));
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
+        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML));
     }
 
     private void showTextFieldsAndLabels() {
@@ -174,7 +174,7 @@ public class AddResourceController implements FXController {
         try {
             Book book = ResourceFactory.createBook(title, year, imageUrl, author, publisher, genre, isbn, language);
             resourceService.saveOrUpdate(book);
-            FXMLUtils.loadNewScene(btnSave, LIBRARIAN_HOME_FXML);
+            FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
         } catch (Exception e) {
             FXMLUtils.displayErrorDialogBox("Error Creating Book", e.getMessage());
         }
@@ -194,7 +194,7 @@ public class AddResourceController implements FXController {
         try {
             Dvd dvd = ResourceFactory.createDvd(title, year, imageUrl, director, language, runtime, subLang);
             resourceService.saveOrUpdate(dvd);
-            FXMLUtils.loadNewScene(btnSave, LIBRARIAN_HOME_FXML);
+            FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
         } catch (Exception e) {
             FXMLUtils.displayErrorDialogBox("Error Creating DVD", e.getMessage());
         }
@@ -208,7 +208,7 @@ public class AddResourceController implements FXController {
         try {
             Laptop laptop = ResourceFactory.createLaptop(title, year, imageUrl, manufacturer, model, os);
             resourceService.saveOrUpdate(laptop);
-            FXMLUtils.loadNewScene(btnSave, LIBRARIAN_HOME_FXML);
+            FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
         } catch (Exception e) {
             FXMLUtils.displayErrorDialogBox("Error Creating Laptop", e.getMessage());
         }

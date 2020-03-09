@@ -56,7 +56,7 @@ public class NewLoanController implements FXController {
         cmbCopy.setOnAction(e -> setEnabledOnCreateLoanButton());
         cmbUsers.setOnAction(e -> setEnabledOnCreateLoanButton());
         btnCreateLoan.setOnAction(e -> createLoan());
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
+        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML));
     }
 
     private void populateUsers() {
@@ -90,7 +90,7 @@ public class NewLoanController implements FXController {
         loanService.createLoanForCopy(copy, username);
 
         FXMLUtils.displayInformationDialogBox("Success!", "Successfully Created New Loan");
-        FXMLUtils.loadNewScene(btnCreateLoan, LIBRARIAN_HOME_FXML);
+        FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
     }
 
     private void setEnabledOnCreateLoanButton() {

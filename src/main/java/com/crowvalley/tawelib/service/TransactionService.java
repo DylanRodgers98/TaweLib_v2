@@ -19,6 +19,8 @@ public interface TransactionService {
 
     List<? extends Transaction> getAll();
 
+    List<? extends Transaction> getAllTransactionsForUser(String username);
+
     void save(Transaction transaction);
 
     void delete(Transaction transaction);

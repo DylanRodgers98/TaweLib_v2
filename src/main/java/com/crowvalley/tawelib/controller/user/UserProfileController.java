@@ -1,19 +1,19 @@
-package com.crowvalley.tawelib.controller.librarian.users;
+package com.crowvalley.tawelib.controller.user;
 
 import com.crowvalley.tawelib.controller.base.AbstractProfileController;
 import com.crowvalley.tawelib.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ViewOrEditUserController extends AbstractProfileController {
+public class UserProfileController extends AbstractProfileController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ViewOrEditUserController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserProfileController.class);
 
-    private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
+    private static final String USER_HOME_FXML = "/fxml/user/userHome.fxml";
 
     @Override
     protected String getFxmlForBackButton() {
-        return LIBRARIAN_HOME_FXML;
+        return USER_HOME_FXML;
     }
 
     @Override

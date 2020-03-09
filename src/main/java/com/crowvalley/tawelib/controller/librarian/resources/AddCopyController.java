@@ -48,13 +48,13 @@ public class AddCopyController implements SelectionAwareFXController<Resource> {
         if (txtLoanDuration.getText() != null) {
             Copy copy = ResourceFactory.createCopy(selectedResource, Integer.parseInt(txtLoanDuration.getText()));
             copyService.saveOrUpdate(copy);
-            FXMLUtils.displayInformationDialogBox("Success!", "Successfully created new copy of selectedItem");
+            FXMLUtils.displayInformationDialogBox("Success!", "Successfully created new copy of " + selectedResource);
             loadViewResourcePage();
         }
     }
 
     private void loadViewResourcePage() {
-        FXMLUtils.loadNewScene(btnAddCopy, VIEW_RESOURCE_FXML);
+        FXMLUtils.loadNewScene(VIEW_RESOURCE_FXML);
     }
 
     @Override

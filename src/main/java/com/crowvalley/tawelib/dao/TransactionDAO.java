@@ -1,8 +1,10 @@
 package com.crowvalley.tawelib.dao;
 
 import com.crowvalley.tawelib.model.fine.Fine;
+import com.crowvalley.tawelib.model.fine.Transaction;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Data Access Object interface for classes to implement that deal with
@@ -11,6 +13,8 @@ import java.math.BigDecimal;
  * @author Dylan Rodgers
  */
 public interface TransactionDAO extends BaseDAO {
+
+    List<? extends Transaction> getAllTransactionsForUser(String username);
 
     BigDecimal getTotalFineAmountForUser(String username);
 

@@ -2,7 +2,7 @@ package com.crowvalley.tawelib.dao;
 
 import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
-import com.crowvalley.tawelib.util.DatabaseUtils;
+import com.crowvalley.tawelib.util.ListUtils;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -23,12 +23,11 @@ public class UserDAOImpl extends BaseDAOImpl implements UserDAO {
 
     @Override
     public List<String> getAllUsernames() {
-        return DatabaseUtils.castList(
-                    sessionFactory.getCurrentSession()
-                    .createCriteria(User.class)
-                    .setProjection(Projections.property("username"))
-                    .list(),
-                String.class);
+        return ListUtils.castList(String.class,
+                sessionFactory.getCurrentSession()
+                        .createCriteria(User.class)
+                        .setProjection(Projections.property("username"))
+                        .list());
     }
 
     /**
@@ -62,7 +61,6 @@ public class UserDAOImpl extends BaseDAOImpl implements UserDAO {
         Librarian librarian = (Librarian) sessionFactory.getCurrentSession()
                 .createCriteria(Librarian.class)
                 .add(Restrictions.eq("staffNum", staffNum))
-                .setMaxResults(1)
                 .uniqueResult();
         return Optional.ofNullable(librarian);
     }

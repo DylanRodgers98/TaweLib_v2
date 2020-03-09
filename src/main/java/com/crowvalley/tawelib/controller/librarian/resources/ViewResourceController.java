@@ -230,20 +230,15 @@ public class ViewResourceController implements SelectionAwareFXController<Resour
         btnAddCopy.setOnAction(e -> openAddCopyPage());
         btnDelete.setOnAction(e -> deleteCopy());
         btnViewRequests.setOnAction(e -> openViewRequestsPage());
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(btnBack, LIBRARIAN_HOME_FXML));
+        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML));
         tblCopies.setOnMouseClicked(e -> enableButtonsIfResourceSelected());
     }
 
     private void openAddCopyPage() {
         try {
-            AddCopyController controller = (AddCopyController) FXMLUtils.getController(ADD_COPY_FXML);
-            controller.setSelectedItem(selectedResource);
-            FXMLUtils.loadNewScene(tblCopies, ADD_COPY_FXML);
+            FXMLUtils.loadNewSceneWithSelectedItem(ADD_COPY_FXML, selectedResource);
         } catch (IOException e) {
             LOGGER.error("IOException caught when loading new scene from FXML", e);
-            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
-        } catch (ClassCastException e) {
-            LOGGER.error("ClassCastException caught when trying to cast controller from FXML to AddCopyController", e);
             FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
         }
     }
@@ -262,14 +257,9 @@ public class ViewResourceController implements SelectionAwareFXController<Resour
 
     private void openViewRequestsPage() {
         try {
-            ViewCopyRequestsController controller = (ViewCopyRequestsController) FXMLUtils.getController(VIEW_COPY_REQUESTS_FXML);
-            controller.setSelectedItem(getSelectedCopy());
-            FXMLUtils.loadNewScene(tblCopies, VIEW_COPY_REQUESTS_FXML);
+            FXMLUtils.loadNewSceneWithSelectedItem(VIEW_COPY_REQUESTS_FXML, getSelectedCopy());
         } catch (IOException e) {
             LOGGER.error("IOException caught when loading new scene from FXML", e);
-            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
-        } catch (ClassCastException e) {
-            LOGGER.error("ClassCastException caught when trying to cast controller from FXML to ViewCopyRequestsController", e);
             FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
         }
     }

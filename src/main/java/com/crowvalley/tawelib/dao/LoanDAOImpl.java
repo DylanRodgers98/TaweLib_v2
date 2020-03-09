@@ -3,7 +3,7 @@ package com.crowvalley.tawelib.dao;
 import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.model.resource.Loan;
 import com.crowvalley.tawelib.model.user.User;
-import com.crowvalley.tawelib.util.DatabaseUtils;
+import com.crowvalley.tawelib.util.ListUtils;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
@@ -32,7 +32,11 @@ public class LoanDAOImpl extends BaseDAOImpl implements LoanDAO {
      */
     @Override
     public List<Loan> getAllLoansForCopy(Long copyId) {
-        return DatabaseUtils.getAll(Loan.class, sessionFactory, "copyId", copyId);
+        return ListUtils.castList(Loan.class,
+                sessionFactory.getCurrentSession()
+                        .createCriteria(Loan.class)
+                        .add(Restrictions.eq("copyId", copyId))
+                        .list());
     }
 
     @Override
@@ -56,7 +60,11 @@ public class LoanDAOImpl extends BaseDAOImpl implements LoanDAO {
      */
     @Override
     public List<Loan> getAllLoansForUser(String username) {
-        return DatabaseUtils.getAll(Loan.class, sessionFactory, "borrowerUsername", username);
+        return ListUtils.castList(Loan.class,
+                sessionFactory.getCurrentSession()
+                        .createCriteria(Loan.class)
+                        .add(Restrictions.eq("borrowerUsername", username))
+                        .list());
     }
 
 }

@@ -3,7 +3,9 @@ package com.crowvalley.tawelib.controller.user;
 import com.crowvalley.tawelib.Main;
 import com.crowvalley.tawelib.UserContextHolder;
 import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.TransactionService;
+import com.crowvalley.tawelib.service.UserService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,9 +13,11 @@ import javafx.scene.control.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.Optional;
 
 public class UserHomeController implements FXController {
 
@@ -34,6 +38,8 @@ public class UserHomeController implements FXController {
     private static final NumberFormat CURRENCY_FORMAT = NumberFormat.getCurrencyInstance(Locale.UK);
 
     private TransactionService transactionService;
+
+    private UserService userService;
 
     @FXML
     private Label lblWelcome;
@@ -61,28 +67,50 @@ public class UserHomeController implements FXController {
         lblWelcome.setText(WELCOME_TEXT + UserContextHolder.getLoggedInUser());
         lblBalance.setText(BALANCE_TEXT + getBalance());
         lblLogOut.setOnMouseClicked(e -> logOut());
-        btnResources.setOnAction(e -> FXMLUtils.loadNewScene(btnResources, RESOURCES_PAGE_FXML));
-        btnLoans.setOnAction(e -> FXMLUtils.loadNewScene(btnLoans, LOANS_PAGE_FXML));
-        btnProfile.setOnAction(e -> FXMLUtils.loadNewScene(btnProfile, PROFILE_PAGE_FXML));
-        btnFinesAndPayments.setOnAction(e -> FXMLUtils.loadNewScene(btnFinesAndPayments, FINES_AND_PAYMENTS_PAGE_FXML));
+        btnResources.setOnAction(e -> FXMLUtils.loadNewScene(RESOURCES_PAGE_FXML));
+        btnLoans.setOnAction(e -> FXMLUtils.loadNewScene(LOANS_PAGE_FXML));
+        btnProfile.setOnAction(e -> openUserProfilePage());
+        btnFinesAndPayments.setOnAction(e -> FXMLUtils.loadNewScene(FINES_AND_PAYMENTS_PAGE_FXML));
     }
 
     private void logOut() {
         UserContextHolder.clear();
-        FXMLUtils.loadNewScene(lblLogOut, Main.LOGIN_PAGE_FXML);
+        FXMLUtils.loadNewScene(Main.LOGIN_PAGE_FXML);
     }
 
     private String getBalance() {
         String username = UserContextHolder.getLoggedInUser();
         BigDecimal fines = transactionService.getTotalFinesAmountForUser(username);
         BigDecimal payments = transactionService.getTotalPaymentsAmountForUser(username);
-        BigDecimal balance = fines.subtract(payments);
+        BigDecimal balance = payments.subtract(fines);
         return CURRENCY_FORMAT.format(balance);
+    }
+
+    private void openUserProfilePage() {
+        try {
+            String username = UserContextHolder.getLoggedInUser();
+            Optional<? extends User> user = userService.getWithUsername(username);
+            if (user.isPresent()) {
+                FXMLUtils.loadNewSceneWithSelectedItem(PROFILE_PAGE_FXML, user.get());
+            } else {
+                String userNotFoundErrorMessage = String.format("Could not load User '%s' from database", username);
+                LOGGER.error(userNotFoundErrorMessage);
+                FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, userNotFoundErrorMessage);
+            }
+        } catch (IOException e) {
+            LOGGER.error("IOException caught when loading new scene from FXML", e);
+            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
+        }
     }
 
     public void setTransactionService(TransactionService transactionService) {
         this.transactionService = transactionService;
         LOGGER.info("{} TransactionService set to {}", this.getClass().getSimpleName(), transactionService.getClass().getSimpleName());
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+        LOGGER.info("{} UserService set to {}", this.getClass().getSimpleName(), userService.getClass().getSimpleName());
     }
 
 }

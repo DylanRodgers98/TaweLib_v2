@@ -1,7 +1,6 @@
 package com.crowvalley.tawelib.dao;
 
-import com.crowvalley.tawelib.model.resource.Resource;
-import com.crowvalley.tawelib.util.DatabaseUtils;
+import com.crowvalley.tawelib.util.ListUtils;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +24,10 @@ public class BaseDAOImpl implements BaseDAO {
 
     @Override
     public <T> List<T> getAll(Class<T> clazz) {
-        return DatabaseUtils.getAll(clazz, sessionFactory);
+        return ListUtils.castList(clazz,
+                sessionFactory.getCurrentSession()
+                    .createQuery("from " + clazz.getName())
+                    .list());
     }
 
     @Override

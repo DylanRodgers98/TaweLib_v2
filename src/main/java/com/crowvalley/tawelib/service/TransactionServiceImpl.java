@@ -36,6 +36,11 @@ public class TransactionServiceImpl implements TransactionService {
         return DAO.getAll(Transaction.class);
     }
 
+    @Override
+    public List<? extends Transaction> getAllTransactionsForUser(String username) {
+        return DAO.getAllTransactionsForUser(username);
+    }
+
     /**
      * Persists a {@link Transaction} object to the database through the DAO.
      *

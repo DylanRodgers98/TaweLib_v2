@@ -2,11 +2,14 @@ package com.crowvalley.tawelib.dao;
 
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.fine.Payment;
+import com.crowvalley.tawelib.model.fine.Transaction;
+import com.crowvalley.tawelib.util.ListUtils;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Data Access Object for retrieving data about {@link Fine} objects
@@ -18,6 +21,15 @@ import java.math.BigDecimal;
  * @author Dylan Rodgers
  */
 public class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
+
+    @Override
+    public List<? extends Transaction> getAllTransactionsForUser(String username) {
+        return ListUtils.castList(Transaction.class,
+                sessionFactory.getCurrentSession()
+                        .createCriteria(Transaction.class)
+                        .add(Restrictions.eq("username", username))
+                        .list());
+    }
 
     @Override
     public BigDecimal getTotalFineAmountForUser(String username) {

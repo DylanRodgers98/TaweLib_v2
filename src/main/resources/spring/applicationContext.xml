@@ -94,6 +94,26 @@
 
     <bean id="userHomeController" class="com.crowvalley.tawelib.controller.user.UserHomeController" >
         <property name="transactionService" ref="transactionService" />
+        <property name="userService" ref="userService" />
+    </bean>
+
+    <bean id="userProfileController" class="com.crowvalley.tawelib.controller.user.UserProfileController" >
+        <property name="userService" ref="userService" />
+    </bean>
+
+    <bean id="userBrowseResourcesController" class="com.crowvalley.tawelib.controller.user.UserBrowseResourcesController" >
+        <property name="resourceService" ref="resourceService" />
+    </bean>
+
+    <bean id="userLoansController" class="com.crowvalley.tawelib.controller.user.UserLoansController" >
+        <property name="resourceService" ref="resourceService" />
+        <property name="copyService" ref="copyService" />
+        <property name="loanService" ref="loanService" />
+    </bean>
+
+    <bean id="userFinesAndPaymentsController" class="com.crowvalley.tawelib.controller.user.UserFinesAndPaymentsController" >
+        <property name="resourceService" ref="resourceService" />
+        <property name="transactionService" ref="transactionService" />
     </bean>
 
     <!-- Service beans -->
