@@ -25,7 +25,7 @@
             <TableView fx:id="tblResources" prefHeight="302.0" prefWidth="416.0" BorderPane.alignment="CENTER">
                 <columns>
                     <TableColumn fx:id="colType" prefWidth="70.0" text="Type"/>
-                    <TableColumn fx:id="colTitle" prefWidth="479.0" text="Title"/>
+                    <TableColumn fx:id="colTitle" prefWidth="478.0" text="Title"/>
                     <TableColumn fx:id="colYear" prefWidth="70.0" text="Year"/>
                 </columns>
                 <BorderPane.margin>

@@ -1,10 +1,14 @@
 package com.crowvalley.tawelib.model.resource;
 
+import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.Ordering;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.Comparator;
 
 /**
  * Loan class for creating objects to store information about loans
@@ -13,7 +17,7 @@ import java.sql.Date;
  * @author Dylan Rodgers
  */
 @Entity
-@Table(name = "loan")
+@Table
 public class Loan {
 
     @Id
@@ -24,13 +28,13 @@ public class Loan {
 
     private String borrowerUsername;
 
-    private Date startDate;
+    private LocalDateTime startDate;
 
-    private Date endDate;
+    private LocalDateTime endDate;
 
-    private Date returnDate;
+    private LocalDateTime returnDate;
 
-    public Loan(Long copyId, String borrowerUsername, Date startDate, Date endDate) {
+    public Loan(Long copyId, String borrowerUsername, LocalDateTime startDate, LocalDateTime endDate) {
         this.copyId = copyId;
         this.borrowerUsername = borrowerUsername;
         this.startDate = startDate;
@@ -38,6 +42,14 @@ public class Loan {
     }
 
     public Loan() {
+    }
+
+    public static Comparator<Loan> getComparator() {
+        return (loan1, loan2) -> ComparisonChain.start()
+                .compare(loan1.getReturnDate(), loan2.getReturnDate(), Ordering.natural().nullsFirst())
+                .compare(loan1.getEndDate(), loan2.getEndDate())
+                .compare(loan1.getStartDate(), loan2.getStartDate())
+                .result();
     }
 
     public Long getId() {
@@ -52,15 +64,15 @@ public class Loan {
         return borrowerUsername;
     }
 
-    public Date getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public Date getReturnDate() {
+    public LocalDateTime getReturnDate() {
         return returnDate;
     }
 
@@ -72,7 +84,8 @@ public class Loan {
         this.borrowerUsername = borrowerUsername;
     }
 
-    public void setReturnDate(Date returnDate) {
+    public void setReturnDate(LocalDateTime returnDate) {
         this.returnDate = returnDate;
     }
+
 }

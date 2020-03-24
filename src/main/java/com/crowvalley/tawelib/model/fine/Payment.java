@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  * @author Dylan Rodgers
  */
 @Entity
-@Table(name = "payment")
+@Table
 public class Payment extends Transaction {
 
     public Payment(String username, BigDecimal amount) {

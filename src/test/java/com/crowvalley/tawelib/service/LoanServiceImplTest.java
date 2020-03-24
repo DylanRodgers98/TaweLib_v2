@@ -1,7 +1,6 @@
 package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.LoanDAO;
-import com.crowvalley.tawelib.dao.LoanDAOImpl;
 import com.crowvalley.tawelib.model.resource.Loan;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,9 +26,9 @@ public class LoanServiceImplTest {
 
     private static final String USERNAME = "DylanRodgers98";
 
-    private static final Loan LOAN_1 = new Loan(1L, "", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
+    private static final Loan LOAN_1 = new Loan(1L, "", LocalDateTime.now(), LocalDateTime.now());
 
-    private static final Loan LOAN_2 = new Loan(2L, "", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
+    private static final Loan LOAN_2 = new Loan(2L, "", LocalDateTime.now(), LocalDateTime.now());
 
     private static final List<Loan> LOANS = Arrays.asList(LOAN_1, LOAN_2);
 

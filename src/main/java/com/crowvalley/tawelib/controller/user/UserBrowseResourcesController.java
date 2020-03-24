@@ -2,7 +2,6 @@ package com.crowvalley.tawelib.controller.user;
 
 import com.crowvalley.tawelib.controller.base.AbstractResourcesController;
 import com.crowvalley.tawelib.service.ResourceService;
-import com.crowvalley.tawelib.service.ResourceServiceImpl;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

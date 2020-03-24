@@ -13,6 +13,8 @@ import javafx.scene.control.TextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
 public class AddCopyController implements SelectionAwareFXController<Resource> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AddCopyController.class);
@@ -28,6 +30,9 @@ public class AddCopyController implements SelectionAwareFXController<Resource> {
 
     @FXML
     private TextField txtLoanDuration;
+
+    @FXML
+    private TextField txtLocation;
 
     @FXML
     private Button btnAddCopy;
@@ -46,7 +51,7 @@ public class AddCopyController implements SelectionAwareFXController<Resource> {
 
     private void addCopy() {
         if (txtLoanDuration.getText() != null) {
-            Copy copy = ResourceFactory.createCopy(selectedResource, Integer.parseInt(txtLoanDuration.getText()));
+            Copy copy = ResourceFactory.createCopy(selectedResource, Integer.parseInt(txtLoanDuration.getText()), txtLocation.getText());
             copyService.saveOrUpdate(copy);
             FXMLUtils.displayInformationDialogBox("Success!", "Successfully created new copy of " + selectedResource);
             loadViewResourcePage();
@@ -54,7 +59,12 @@ public class AddCopyController implements SelectionAwareFXController<Resource> {
     }
 
     private void loadViewResourcePage() {
-        FXMLUtils.loadNewScene(VIEW_RESOURCE_FXML);
+        try {
+            FXMLUtils.loadNewSceneWithSelectedItem(VIEW_RESOURCE_FXML, selectedResource);
+        } catch (IOException e) {
+            LOGGER.error("IOException caught when loading new scene from FXML", e);
+            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
+        }
     }
 
     @Override

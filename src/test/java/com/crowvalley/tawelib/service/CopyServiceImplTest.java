@@ -1,8 +1,8 @@
 package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.CopyDAO;
+import com.crowvalley.tawelib.model.resource.Book;
 import com.crowvalley.tawelib.model.resource.Copy;
-import com.crowvalley.tawelib.model.resource.ResourceType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -22,11 +22,13 @@ public class CopyServiceImplTest {
 
     private static final Long ID = 1L;
 
-    private static final Copy copy1 = new Copy(1L, ResourceType.BOOK, 7);
+    private static final Book BOOK = new Book("Book 1", "2019", "url", "Dylan Rodgers", "Penguin", "Sci-fi", "isbn", "English");
 
-    private static final Copy copy2 = new Copy(2L, ResourceType.DVD, 3);
+    private static final Copy COPY_1 = new Copy(BOOK, 7, "Location 1");
 
-    private static final List<Copy> copies = Arrays.asList(copy1, copy2);
+    private static final Copy COPY_2 = new Copy(BOOK, 3, "Location 2");
+
+    private static final List<Copy> COPIES = Arrays.asList(COPY_1, COPY_2);
 
     @Mock
     private CopyDAO DAO;
@@ -36,11 +38,11 @@ public class CopyServiceImplTest {
 
     @Test
     public void testGet() {
-        when(DAO.getWithId(ID, Copy.class)).thenReturn(Optional.of(copy1));
+        when(DAO.getWithId(ID, Copy.class)).thenReturn(Optional.of(COPY_1));
 
         assertThat(copyService.get(ID).get())
                 .as("Retrieve copy from database with ID 1")
-                .isEqualTo(copy1);
+                .isEqualTo(COPY_1);
     }
 
     @Test
@@ -54,11 +56,11 @@ public class CopyServiceImplTest {
 
     @Test
     public void testGetAll() {
-        when(DAO.getAll(Copy.class)).thenReturn(copies);
+        when(DAO.getAll(Copy.class)).thenReturn(COPIES);
 
         assertThat(copyService.getAll())
                 .as("Retrieve all copies stored in the database")
-                .isEqualTo(copies);
+                .isEqualTo(COPIES);
     }
 
     @Test
@@ -72,13 +74,13 @@ public class CopyServiceImplTest {
 
     @Test
     public void test_verifySave() {
-        copyService.saveOrUpdate(copy1);
-        verify(DAO).saveOrUpdate(copy1);
+        copyService.saveOrUpdate(COPY_1);
+        verify(DAO).saveOrUpdate(COPY_1);
     }
 
     @Test
     public void test_verifyDelete() {
-        copyService.delete(copy2);
-        verify(DAO).delete(copy2);
+        copyService.delete(COPY_2);
+        verify(DAO).delete(COPY_2);
     }
 }

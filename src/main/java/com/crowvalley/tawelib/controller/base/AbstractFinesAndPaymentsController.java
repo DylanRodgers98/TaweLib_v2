@@ -4,26 +4,20 @@ import com.crowvalley.tawelib.controller.FXController;
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.fine.Transaction;
-import com.crowvalley.tawelib.model.resource.Copy;
-import com.crowvalley.tawelib.model.resource.ResourceDTO;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.service.TransactionService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableStringValue;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
-import java.util.Optional;
 
 public abstract class AbstractFinesAndPaymentsController implements FXController {
 
@@ -56,26 +50,20 @@ public abstract class AbstractFinesAndPaymentsController implements FXController
 
     private ObservableValue<String> getType(TableColumn.CellDataFeatures<Transaction, String> transaction) {
         Transaction transactionValue = transaction.getValue();
+        String type = null;
         if (transactionValue instanceof Fine) {
-            return new SimpleStringProperty("Fine" + getFineReason(transactionValue));
+            type = "Fine" + getFineReason((Fine) transactionValue);
         }
         if (transactionValue instanceof Payment) {
-            return new SimpleStringProperty("Payment");
+            type = "Payment";
         }
-        return null;
+        return new SimpleStringProperty(type);
     }
 
-    private String getFineReason(Transaction transaction) {
-        Assert.isInstanceOf(Fine.class, transaction, "Transaction is not of type Fine");
-
-        Optional<Copy> optionalCopy = transactionService.getCopyFromFine((Fine) transaction);
-        if (optionalCopy.isPresent()) {
-            Copy copy = optionalCopy.get();
-            Optional<ResourceDTO> optionalResourceDTO = resourceService.getResourceDTOFromCopy(copy);
-            return " for late return of " + optionalResourceDTO.map(resourceDTO -> resourceDTO + " (" + copy + ")")
-                    .orElseGet(() -> copy.getResourceType() + " (ID: " + copy.getId() + ")");
-        }
-        return StringUtils.EMPTY;
+    private String getFineReason(Fine fine) {
+        return transactionService.getCopyFromFine(fine)
+                .map(copy -> " for late return of " + copy.getResource() + "(" + copy + ")")
+                .orElse(StringUtils.EMPTY);
     }
 
     protected abstract ObservableList<Transaction> getFinesAndPayments();

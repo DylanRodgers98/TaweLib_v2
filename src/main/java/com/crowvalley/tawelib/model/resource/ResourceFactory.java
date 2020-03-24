@@ -58,14 +58,11 @@ public class ResourceFactory {
      *                           days this {@link Copy} can be loaned for.
      * @return The created {@link Copy} object
      */
-    public static Copy createCopy(Resource resource, Integer loanDurationAsDays) {
-        Long id = resource.getId();
-        Assert.notNull(id, RESOURCE_HAS_NO_ID_ERROR_MESSAGE);
-
-        ResourceType resourceType = resource.getResourceType();
-        Assert.notNull(resourceType, CANNOT_GET_RESOURCE_TYPE_ERROR_MESSAGE);
-
-        return new Copy(id, resourceType, loanDurationAsDays);
+    public static Copy createCopy(Resource resource, Integer loanDurationAsDays, String location) {
+        Assert.notNull(resource, "Copy must have an attached Resource of which it is a Copy of");
+        Assert.notNull(loanDurationAsDays, "Copy must have a Loan Duration in Days");
+        Assert.hasText(location, "Copy must have a Location");
+        return new Copy(resource, loanDurationAsDays, location);
     }
 
 }

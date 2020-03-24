@@ -25,7 +25,7 @@
                     <TableColumn fx:id="colUsername" prefWidth="80.0" text="Username"/>
                     <TableColumn fx:id="colName" prefWidth="100.0" text="Name"/>
                     <TableColumn fx:id="colPhone" prefWidth="100.0" text="Phone Number"/>
-                    <TableColumn fx:id="colAddress" prefWidth="285.0" text="Address"/>
+                    <TableColumn fx:id="colAddress" prefWidth="284.0" text="Address"/>
                     <TableColumn fx:id="colBalance" prefWidth="60.0" text="Balance"/>
                 </columns>
                 <BorderPane.margin>

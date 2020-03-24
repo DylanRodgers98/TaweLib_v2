@@ -3,7 +3,6 @@ package com.crowvalley.tawelib.dao;
 import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.util.ListUtils;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 
@@ -22,8 +21,8 @@ public class CopyDAOImpl extends BaseDAOImpl implements CopyDAO {
     public List<Copy> getAllCopiesForResource(Long resourceId) {
         return ListUtils.castList(Copy.class,
                 sessionFactory.getCurrentSession()
-                        .createCriteria(Copy.class)
-                        .add(Restrictions.eq("resourceId", resourceId))
+                        .createQuery("select c from Resource r join r.copies c where r.id = :rId")
+                        .setParameter("rId", resourceId)
                         .list());
     }
 

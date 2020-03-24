@@ -42,7 +42,7 @@
     </bean>
 
     <bean id="viewCopyRequestsController" class="com.crowvalley.tawelib.controller.librarian.resources.ViewCopyRequestsController" >
-        <property name="resourceService" ref="resourceService" />
+        <property name="copyService" ref="copyService" />
         <property name="loanService" ref="loanService" />
     </bean>
 
@@ -114,6 +114,11 @@
     <bean id="userFinesAndPaymentsController" class="com.crowvalley.tawelib.controller.user.UserFinesAndPaymentsController" >
         <property name="resourceService" ref="resourceService" />
         <property name="transactionService" ref="transactionService" />
+    </bean>
+
+    <bean id="userViewResourceController" class="com.crowvalley.tawelib.controller.user.UserViewResourceController" >
+        <property name="loanService" ref="loanService" />
+        <property name="copyService" ref="copyService" />
     </bean>
 
     <!-- Service beans -->

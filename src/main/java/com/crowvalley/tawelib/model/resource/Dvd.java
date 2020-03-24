@@ -10,7 +10,7 @@ import javax.persistence.Table;
  * @author Dylan Rodgers
  */
 @Entity
-@Table(name = "dvd")
+@Table
 public class Dvd extends Resource {
 
     private String director;

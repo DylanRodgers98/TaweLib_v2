@@ -1,8 +1,11 @@
 package com.crowvalley.tawelib.service;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 import com.crowvalley.tawelib.dao.LoanDAO;
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.resource.Copy;
+import com.crowvalley.tawelib.model.resource.CopyRequest;
 import com.crowvalley.tawelib.model.resource.Loan;
 import com.crowvalley.tawelib.model.resource.ResourceType;
 import com.crowvalley.tawelib.model.user.User;
@@ -12,11 +15,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
+import java.util.Set;
 
 /**
  * Service class for retrieving data about {@link Loan} objects
@@ -120,11 +125,24 @@ public class LoanServiceImpl implements LoanService {
         Long id = copy.getId();
         Assert.notNull(id, COPY_HAS_NO_ID_ERROR_MESSAGE);
 
-        long startTimeInMillis = System.currentTimeMillis();
-        Date startDate = new Date(startTimeInMillis);
-        Date endDate = new Date(startTimeInMillis + TimeUnit.DAYS.toMillis(copy.getLoanDurationAsDays()));
+        LocalDateTime startDateTime = LocalDateTime.now();
+        LocalDate endDate = startDateTime.plusDays(copy.getLoanDurationAsDays()).toLocalDate();
+        LocalDateTime endDateTime = LocalDateTime.of(endDate, LocalTime.of(23, 59, 59));
 
-        saveOrUpdate(new Loan(id, borrowerUsername, startDate, endDate));
+        saveOrUpdate(new Loan(id, borrowerUsername, startDateTime, endDateTime));
+
+        setCollectedStatusThenRemoveCopyRequest(copy, borrowerUsername);
+    }
+
+    private void setCollectedStatusThenRemoveCopyRequest(Copy copy, String borrowerUsername) {
+        Optional<CopyRequest.Status> status = copyService.getRequestStatusForUser(copy, borrowerUsername);
+        if (status.isPresent()) {
+            Set<CopyRequest.Status> nonCollectedStatus = EnumSet.complementOf(EnumSet.of(CopyRequest.Status.COLLECTED));
+            if (nonCollectedStatus.contains(status.get())) {
+                copyService.setRequestStatusForUser(copy, borrowerUsername, CopyRequest.Status.COLLECTED);
+            }
+            copyService.removeCopyRequest(copy, borrowerUsername);
+        }
     }
 
     /**
@@ -160,21 +178,21 @@ public class LoanServiceImpl implements LoanService {
      */
     @Override
     public void endLoan(Loan loan) {
-        loan.setReturnDate(new Date(System.currentTimeMillis()));
+        loan.setReturnDate(LocalDateTime.now());
         saveOrUpdate(loan);
         LOGGER.info("Copy (ID: {}) returned by {} on {}",
                 loan.getCopyId(), loan.getBorrowerUsername(), loan.getReturnDate());
 
-        Date endDate = loan.getEndDate();
-        Date returnDate = loan.getReturnDate();
+        LocalDateTime endDate = loan.getEndDate();
+        LocalDateTime returnDate = loan.getReturnDate();
 
-        if (returnDate.after(endDate)) {
+        if (returnDate.isAfter(endDate)) {
             Optional<Copy> copy = copyService.get(loan.getCopyId());
             if (copy.isEmpty()) {
                 LOGGER.error("Could not retrieve copy (ID: {}) from database", loan.getCopyId());
                 throw new IllegalStateException("Could not retrieve copy (ID: "+ loan.getCopyId() + ") from database");
             } else {
-                ResourceType copyType = copy.get().getResourceType();
+                ResourceType copyType = copy.get().getResource().getResourceType();
 
                 BigDecimal fineAmount = null;
                 if (copyType.equals(ResourceType.BOOK)) {
@@ -186,7 +204,7 @@ public class LoanServiceImpl implements LoanService {
                 }
                 Assert.notNull(fineAmount, "Cannot resolve fine amount against late-returned loan (ID: " + loan.getId() + ")");
 
-                long dayDiffBetweenEndAndReturnDates = ChronoUnit.DAYS.between(endDate.toLocalDate(), returnDate.toLocalDate());
+                long dayDiffBetweenEndAndReturnDates = DAYS.between(endDate, returnDate);
                 fineAmount = fineAmount.multiply(BigDecimal.valueOf(dayDiffBetweenEndAndReturnDates));
 
                 Fine fine = new Fine(loan.getBorrowerUsername(), loan.getId(), fineAmount);

@@ -10,7 +10,7 @@ import javax.persistence.Table;
  * @author Dylan Rodgers
  */
 @Entity
-@Table(name = "laptop")
+@Table
 public class Laptop extends Resource {
 
     private String manufacturer;

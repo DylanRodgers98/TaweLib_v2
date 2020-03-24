@@ -9,17 +9,13 @@ import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Comparator;
 import java.util.Optional;
 
 public class LibrarianLoansTabController extends AbstractLoansController {
@@ -73,7 +69,7 @@ public class LibrarianLoansTabController extends AbstractLoansController {
     @Override
     protected ObservableList<Loan> getLoans() {
         ObservableList<Loan> loans = FXCollections.observableArrayList(loanService.getAll());
-        loans.sort(Comparator.comparing(Loan::getReturnDate, Comparator.nullsFirst(Comparator.reverseOrder())));
+        loans.sort(Loan.getComparator());
         return loans;
     }
 

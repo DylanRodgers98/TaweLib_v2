@@ -2,7 +2,6 @@ package com.crowvalley.tawelib.controller.user;
 
 import com.crowvalley.tawelib.UserContextHolder;
 import com.crowvalley.tawelib.controller.base.AbstractFinesAndPaymentsController;
-import com.crowvalley.tawelib.controller.librarian.LibrarianFinesAndPaymentsTabController;
 import com.crowvalley.tawelib.model.fine.Transaction;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.service.TransactionService;

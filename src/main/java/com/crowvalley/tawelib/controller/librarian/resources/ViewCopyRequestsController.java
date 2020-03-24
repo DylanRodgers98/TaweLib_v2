@@ -2,9 +2,13 @@ package com.crowvalley.tawelib.controller.librarian.resources;
 
 import com.crowvalley.tawelib.controller.SelectionAwareFXController;
 import com.crowvalley.tawelib.model.resource.*;
+import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.LoanService;
-import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableStringValue;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,8 +20,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Timestamp;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 public class ViewCopyRequestsController implements SelectionAwareFXController<Copy> {
 
@@ -25,7 +29,7 @@ public class ViewCopyRequestsController implements SelectionAwareFXController<Co
 
     private static final String VIEW_RESOURCE_FXML = "/fxml/librarian/resources/viewResource.fxml";
 
-    private ResourceService resourceService;
+    private CopyService copyService;
 
     private LoanService loanService;
 
@@ -38,7 +42,10 @@ public class ViewCopyRequestsController implements SelectionAwareFXController<Co
     private TableColumn<CopyRequest, String> colUsername;
 
     @FXML
-    private TableColumn<CopyRequest, Timestamp> colRequestDate;
+    private TableColumn<CopyRequest, LocalDate> colRequestDate;
+
+    @FXML
+    private TableColumn<CopyRequest, String> colRequestStatus;
 
     @FXML
     private Button btnBack;
@@ -59,18 +66,28 @@ public class ViewCopyRequestsController implements SelectionAwareFXController<Co
     }
 
     private void setCopyTitleLabel() {
-        Optional<ResourceDTO> optionalResourceDTO = resourceService.getResourceDTOFromCopy(selectedCopy);
-        optionalResourceDTO.ifPresent(resourceDTO -> lblCopyTitle.setText("Copy: " + resourceDTO + " (" + selectedCopy + ")"));
+        lblCopyTitle.setText("Copy: " + selectedCopy.getResource() + " (" + selectedCopy + ")");
     }
 
     private void populateTable() {
         colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
-        colRequestDate.setCellValueFactory(new PropertyValueFactory<>("requestDate"));
+        colRequestDate.setCellValueFactory(this::getRequestDate);
+        colRequestStatus.setCellValueFactory(this::getRequestStatus);
         tblCopyRequests.setItems(getCopyRequests());
     }
 
+    private ObservableValue<LocalDate> getRequestDate(TableColumn.CellDataFeatures<CopyRequest, LocalDate> copyRequest) {
+        return new SimpleObjectProperty<>(copyRequest.getValue().getRequestDate().toLocalDate());
+    }
+
+    private ObservableStringValue getRequestStatus(TableColumn.CellDataFeatures<CopyRequest, String> copyRequest) {
+        return new ReadOnlyStringWrapper(copyRequest.getValue().getRequestStatus().toString());
+    }
+
     private ObservableList<CopyRequest> getCopyRequests() {
-        return FXCollections.observableArrayList(selectedCopy.getCopyRequests());
+        ObservableList<CopyRequest> copyRequests = FXCollections.observableArrayList(selectedCopy.getCopyRequests().values());
+        copyRequests.sort(CopyRequest.getComparator());
+        return copyRequests;
     }
 
     private void setOnActions() {
@@ -80,28 +97,22 @@ public class ViewCopyRequestsController implements SelectionAwareFXController<Co
     }
 
     private void enableButtonsIfCopyRequestSelected() {
-        if (getSelectedCopyRequest() != null) {
-            FXMLUtils.makeNodesEnabled(btnApproveRequest);
+        CopyRequest copyRequest = getSelectedCopyRequest();
+        if (copyRequest != null && copyRequest.getRequestStatus() == CopyRequest.Status.REQUESTED) {
+            Optional<Loan> loan = loanService.getCurrentLoanForCopy(selectedCopy.getId());
+            if (loan.isEmpty()) {
+                FXMLUtils.makeNodesEnabled(btnApproveRequest);
+            }
         }
     }
 
     private void approveCopyRequest() {
-        Optional<Loan> optionalLoan = loanService.getCurrentLoanForCopy(selectedCopy.getId());
-        if (optionalLoan.isPresent()) {
-            FXMLUtils.displayErrorDialogBox("Cannot Approve Copy Request", "Copy already on loan");
-        } else {
-            createNewLoan();
-        }
-    }
-
-    private void createNewLoan() {
         CopyRequest selectedCopyRequest = getSelectedCopyRequest();
-        String username = selectedCopyRequest.getUsername();
+        selectedCopyRequest.setRequestStatus(CopyRequest.Status.READY_FOR_COLLECTION);
+        copyService.saveOrUpdate(selectedCopy);
 
-        loanService.createLoanForCopy(selectedCopy, username);
-        selectedCopy.deleteCopyRequestForUser(username);
-
-        tblCopyRequests.getItems().remove(selectedCopyRequest);
+        FXMLUtils.displayInformationDialogBox("Request Approved", "Copy request approved for user '" + selectedCopyRequest.getUsername() + "'");
+        FXMLUtils.loadNewScene(VIEW_RESOURCE_FXML);
     }
 
     private CopyRequest getSelectedCopyRequest() {
@@ -113,9 +124,9 @@ public class ViewCopyRequestsController implements SelectionAwareFXController<Co
         this.selectedCopy = selectedItem;
     }
 
-    public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
+    public void setCopyService(CopyService copyService) {
+        this.copyService = copyService;
+        LOGGER.info("{} CopyService set to {}", this.getClass().getSimpleName(), copyService.getClass().getSimpleName());
     }
 
     public void setLoanService(LoanService loanService) {

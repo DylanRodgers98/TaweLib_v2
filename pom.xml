@@ -25,6 +25,7 @@
         <commons-dbcp.version>1.4</commons-dbcp.version>
         <commons-io.version>2.6</commons-io.version>
         <commons-lang3.version>3.9</commons-lang3.version>
+        <guava.version>28.2-jre</guava.version>
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
         <postgres.version>42.2.9</postgres.version>
@@ -56,6 +57,12 @@
             <version>${postgres.version}</version>
         </dependency>
 
+        <!-- GOOGLE -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
 
         <!-- LOGGING -->
         <dependency>

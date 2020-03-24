@@ -10,7 +10,7 @@
         <center>
             <TableView fx:id="tblLoans" prefHeight="298.0" prefWidth="640.0" BorderPane.alignment="CENTER">
                 <columns>
-                    <TableColumn fx:id="colCopy" prefWidth="273.0" text="Copy"/>
+                    <TableColumn fx:id="colCopy" prefWidth="272.0" text="Copy"/>
                     <TableColumn fx:id="colBorrower" prefWidth="100.0" text="Borrower"/>
                     <TableColumn fx:id="colStartDate" prefWidth="82.0" text="Start Date"/>
                     <TableColumn fx:id="colEndDate" prefWidth="82.0" text="End Date"/>

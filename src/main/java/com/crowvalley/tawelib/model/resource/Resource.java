@@ -3,7 +3,9 @@ package com.crowvalley.tawelib.model.resource;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Resource abstract class to be used as a superclass for creating
@@ -18,6 +20,7 @@ public abstract class Resource {
 
     @Id
     @GeneratedValue
+    @Column
     private Long id;
 
     private ResourceType resourceType;
@@ -27,6 +30,9 @@ public abstract class Resource {
     private String year;
 
     private String imageUrl;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "resource")
+    private Set<Copy> copies;
 
     protected Resource(ResourceType resourceType, String title, String year, String imageUrl) {
         this.resourceType = resourceType;
@@ -70,6 +76,13 @@ public abstract class Resource {
 
     public void setImageUrl(String imageURL) {
         this.imageUrl = imageURL;
+    }
+
+    public Set<Copy> getCopies() {
+        if (copies == null) {
+            copies = new HashSet<>();
+        }
+        return copies;
     }
 
 }

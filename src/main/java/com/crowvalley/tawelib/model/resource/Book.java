@@ -10,7 +10,7 @@ import javax.persistence.Table;
  * @author Dylan Rodgers
  */
 @Entity
-@Table(name = "book")
+@Table
 public class Book extends Resource {
 
     private String author;

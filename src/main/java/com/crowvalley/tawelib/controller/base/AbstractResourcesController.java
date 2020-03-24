@@ -61,12 +61,7 @@ public abstract class AbstractResourcesController implements FXController {
     }
 
     protected void openViewResourcePage() {
-        try {
-            openSelectionAwarePage(getViewResourceFxml());
-        } catch (ClassCastException e) {
-            LOGGER.error("ClassCastException caught when trying to cast controller from FXML to ViewResourceController", e);
-            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
-        }
+        openSelectionAwarePage(getViewResourceFxml());
     }
 
     protected void openSelectionAwarePage(String fxml) {

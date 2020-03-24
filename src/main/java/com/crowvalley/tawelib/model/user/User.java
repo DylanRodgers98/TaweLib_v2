@@ -12,12 +12,12 @@ import java.util.Optional;
  * @author Dylan Rodgers
  */
 @Entity
-@Table(name = "users")
+@Table
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User {
 
     @Id
-    @Column(name = "username")
+    @Column
     private String username;
 
     private String firstName;

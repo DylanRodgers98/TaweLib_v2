@@ -14,7 +14,7 @@ import java.math.RoundingMode;
  * @author Dylan Rodgers
  */
 @Entity
-@Table(name = "fine")
+@Table
 public class Fine extends Transaction {
 
     public static final BigDecimal BOOK_FINE_AMOUNT_PER_DAY = new BigDecimal("2").setScale(2, RoundingMode.HALF_EVEN);

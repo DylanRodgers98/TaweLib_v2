@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -49,13 +50,8 @@ public class CopyServiceImpl implements CopyService {
     }
 
     @Override
-    public List<Copy> getAllCopiesForResource(Long resourceId) {
-        return DAO.getAllCopiesForResource(resourceId);
-    }
-
-    @Override
     public List<Copy> getAllCopiesNotOnLoanForResource(Long resourceId) {
-        return getAllCopiesForResource(resourceId).stream()
+        return DAO.getAllCopiesForResource(resourceId).stream()
                 .filter(copy -> !loanService.isCopyOnLoan(copy.getId()))
                 .collect(Collectors.toList());
     }
@@ -68,7 +64,7 @@ public class CopyServiceImpl implements CopyService {
     @Override
     public void saveOrUpdate(Copy copy) {
         DAO.saveOrUpdate(copy);
-        LOGGER.info("Copy (ID: {}) of {} (ID: {}) saved successfully", copy.getId(), copy.getResourceType(), copy.getResourceId());
+        LOGGER.info("Copy (ID: {}) of '{}' saved successfully", copy.getId(), copy.getResource());
     }
 
     /**
@@ -79,20 +75,7 @@ public class CopyServiceImpl implements CopyService {
     @Override
     public void delete(Copy copy) {
         DAO.delete(copy);
-        LOGGER.info("Copy (ID: {}) of {} (ID: {}) deleted successfully", copy.getId(), copy.getResourceType(), copy.getResourceId());
-    }
-
-    /**
-     * Adds a {@link CopyRequest} within a persisted {@link Copy} object.
-     *
-     * @param copyId The ID of the {@link Copy} object for which to create a
-     *           {@link CopyRequest} for.
-     * @param username The {@code username} of the {@link User} for which
-     *                 to create a {@link CopyRequest} for.
-     */
-    @Override
-    public void createCopyRequestForPersistedCopy(Long copyId, String username) {
-        get(copyId).ifPresent(copy -> createCopyRequestForPersistedCopy(copy, username));
+        LOGGER.info("Copy (ID: {}) of '{}' deleted successfully", copy.getId(), copy.getResource());
     }
 
     /**
@@ -104,23 +87,13 @@ public class CopyServiceImpl implements CopyService {
      *                 to create a {@link CopyRequest} for.
      */
     @Override
-    public void createCopyRequestForPersistedCopy(Copy copy, String username) {
-        copy.createCopyRequest(username);
-        saveOrUpdate(copy);
-    }
-
-    /**
-     * Deletes a {@link CopyRequest} from within a persisted {@link Copy}
-     * object.
-     *
-     * @param copyId The ID of the {@link Copy} object for which to delete a
-     *           {@link CopyRequest} from.
-     * @param username The {@code username} of the {@link User} for which
-     *                 to delete the {@link CopyRequest} for.
-     */
-    @Override
-    public void deleteCopyRequestFromPersistedCopy(Long copyId, String username) {
-        get(copyId).ifPresent(copy -> deleteCopyRequestFromPersistedCopy(copy, username));
+    public void createCopyRequest(Copy copy, String username) {
+        Map<String, CopyRequest> copyRequests = copy.getCopyRequests();
+        if (!copyRequests.containsKey(username)) {
+            copyRequests.put(username, new CopyRequest(copy, username));
+            saveOrUpdate(copy);
+            LOGGER.info("Request made for copy (ID: {}) by user {} created", copy.getId(), username);
+        }
     }
 
     /**
@@ -133,9 +106,32 @@ public class CopyServiceImpl implements CopyService {
      *                 to delete the {@link CopyRequest} for.
      */
     @Override
-    public void deleteCopyRequestFromPersistedCopy(Copy copy, String username) {
-        copy.deleteCopyRequestForUser(username);
-        saveOrUpdate(copy);
+    public void removeCopyRequest(Copy copy, String username) {
+        Map<String, CopyRequest> copyRequests = copy.getCopyRequests();
+        if (copyRequests.containsKey(username)) {
+            copyRequests.remove(username);
+            saveOrUpdate(copy);
+            LOGGER.info("Request made for copy (ID: {}) by user {} deleted", copy.getId(), username);
+        }
+    }
+
+    @Override
+    public void setRequestStatusForUser(Copy copy, String username, CopyRequest.Status requestStatus) {
+        Map<String, CopyRequest> copyRequests = copy.getCopyRequests();
+        if (copyRequests.containsKey(username)) {
+            CopyRequest copyRequest = copyRequests.get(username);
+            copyRequest.setRequestStatus(requestStatus);
+            saveOrUpdate(copy);
+            LOGGER.info("Request made for copy (ID: {}) by user {} set to status: {}", copy.getId(), username, requestStatus);
+        }
+    }
+
+    @Override
+    public Optional<CopyRequest.Status> getRequestStatusForUser(Copy copy, String username) {
+        CopyRequest copyRequest = copy.getCopyRequests().get(username);
+        return copyRequest != null
+                ? Optional.of(copyRequest.getRequestStatus())
+                : Optional.empty();
     }
 
     @Override

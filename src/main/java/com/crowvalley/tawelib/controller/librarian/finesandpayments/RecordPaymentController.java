@@ -9,10 +9,6 @@ import com.crowvalley.tawelib.util.FXMLUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Locale;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
