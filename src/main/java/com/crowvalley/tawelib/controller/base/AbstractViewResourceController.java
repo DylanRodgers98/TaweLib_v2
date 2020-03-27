@@ -211,6 +211,10 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
         this.selectedResource = selectedItem;
     }
 
+    protected abstract String getBackButtonFxml();
+
+    protected abstract void enableButtonsIfResourceSelected();
+    
     public void setCopyService(CopyService copyService) {
         this.copyService = copyService;
         LOGGER.info("{} CopyService set to {}", this.getClass().getSimpleName(), copyService.getClass().getSimpleName());
@@ -220,9 +224,5 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
         this.loanService = loanService;
         LOGGER.info("{} LoanService set to {}", this.getClass().getSimpleName(), loanService.getClass().getSimpleName());
     }
-
-    protected abstract String getBackButtonFxml();
-
-    protected abstract void enableButtonsIfResourceSelected();
 
 }

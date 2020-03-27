@@ -18,8 +18,6 @@ import java.util.List;
 
 public class UserFinesAndPaymentsController extends AbstractFinesAndPaymentsController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserFinesAndPaymentsController.class);
-
     private static final String USER_HOME_FXML = "/fxml/user/userHome.fxml";
 
     @FXML
@@ -38,16 +36,6 @@ public class UserFinesAndPaymentsController extends AbstractFinesAndPaymentsCont
         ObservableList<Transaction> transactions = FXCollections.observableArrayList(transactionsForUser);
         transactions.sort(Comparator.comparingLong(Transaction::getId).reversed());
         return transactions;
-    }
-
-    public void setTransactionService(TransactionService transactionService) {
-        this.transactionService = transactionService;
-        LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), transactionService.getClass().getSimpleName());
-    }
-
-    public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
     }
 
 }

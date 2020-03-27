@@ -31,5 +31,5 @@ public interface TransactionService {
 
     BigDecimal getTotalPaymentsAmountForUser(String username);
 
-    void setDAO(TransactionDAO DAO);
+    void setTransactionDAO(TransactionDAO transactionDAO);
 }

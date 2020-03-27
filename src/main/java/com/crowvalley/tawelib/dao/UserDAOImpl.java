@@ -59,9 +59,10 @@ public class UserDAOImpl extends BaseDAOImpl implements UserDAO {
     @Override
     public Optional<Librarian> getLibrarianUserWithStaffNumber(Long staffNum) {
         Librarian librarian = (Librarian) sessionFactory.getCurrentSession()
-                .createCriteria(Librarian.class)
-                .add(Restrictions.eq("staffNum", staffNum))
+                .createQuery("select l from Librarian l join l.staffNum n where n.staffNum = :staffNum")
+                .setParameter("staffNum", staffNum)
                 .uniqueResult();
+
         return Optional.ofNullable(librarian);
     }
 

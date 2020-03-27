@@ -123,28 +123,28 @@
 
     <!-- Service beans -->
     <bean id="copyService" class="com.crowvalley.tawelib.service.CopyServiceImpl">
-        <property name="DAO" ref="copyDAO"/>
+        <property name="copyDAO" ref="copyDAO"/>
         <property name="loanService" ref="loanService" />
     </bean>
 
     <bean id="loanService" class="com.crowvalley.tawelib.service.LoanServiceImpl">
-        <property name="DAO" ref="loanDAO"/>
+        <property name="loanDAO" ref="loanDAO"/>
         <property name="copyService" ref="copyService" />
         <property name="transactionService" ref="transactionService" />
     </bean>
 
     <bean id="resourceService" class="com.crowvalley.tawelib.service.ResourceServiceImpl">
-        <property name="DAO" ref="resourceDAO"/>
+        <property name="resourceDAO" ref="resourceDAO"/>
     </bean>
 
     <bean id="transactionService" class="com.crowvalley.tawelib.service.TransactionServiceImpl">
-        <property name="DAO" ref="transactionDAO"/>
+        <property name="transactionDAO" ref="transactionDAO"/>
         <property name="loanService" ref="loanService" />
         <property name="copyService" ref="copyService" />
     </bean>
 
     <bean id="userService" class="com.crowvalley.tawelib.service.UserServiceImpl">
-        <property name="DAO" ref="userDAO"/>
+        <property name="userDAO" ref="userDAO"/>
         <property name="transactionService" ref="transactionService" />
     </bean>
 

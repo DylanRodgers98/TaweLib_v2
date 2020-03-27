@@ -30,5 +30,5 @@ public interface UserService {
 
     List<OutstandingFinesDTO> getAllUsersWithOutstandingFines();
 
-    void setDAO(UserDAO DAO);
+    void setUserDAO(UserDAO userDAO);
 }

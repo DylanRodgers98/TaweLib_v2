@@ -18,8 +18,6 @@ import java.util.Comparator;
 
 public class UserLoansController extends AbstractLoansController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserLoansController.class);
-
     private static final String USER_HOME_FXML = "/fxml/user/userHome.fxml";
 
     @FXML
@@ -37,24 +35,6 @@ public class UserLoansController extends AbstractLoansController {
         ObservableList<Loan> loans = FXCollections.observableArrayList(loanService.getAllLoansForUser(username));
         loans.sort(Comparator.comparing(Loan::getReturnDate, Comparator.nullsFirst(Comparator.reverseOrder())));
         return loans;
-    }
-
-    @Override
-    public void setLoanService(LoanService loanService) {
-        this.loanService = loanService;
-        LOGGER.info("{} LoanService set to {}", this.getClass().getSimpleName(), loanService.getClass().getSimpleName());
-    }
-
-    @Override
-    public void setCopyService(CopyService copyService) {
-        this.copyService = copyService;
-        LOGGER.info("{} CopyService set to {}", this.getClass().getSimpleName(), copyService.getClass().getSimpleName());
-    }
-
-    @Override
-    public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
     }
 
 }

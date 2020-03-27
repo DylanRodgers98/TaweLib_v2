@@ -10,11 +10,6 @@ import org.springframework.util.Assert;
  */
 public class ResourceFactory {
 
-    private static final String RESOURCE_HAS_NO_ID_ERROR_MESSAGE = "Cannot create copy. The resource has no ID, so a " +
-            "copy instance cannot reference it. Likely cause is that the resource hasn't been persisted to the database yet";
-
-    private static final String CANNOT_GET_RESOURCE_TYPE_ERROR_MESSAGE = "Cannot get resource type from resource";
-
     public static Book createBook(String title, String year, String imageUrl,
                                   String author, String publisher, String genre,
                                   String isbn, String language) {

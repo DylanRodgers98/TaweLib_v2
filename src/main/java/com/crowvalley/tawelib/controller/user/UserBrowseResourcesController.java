@@ -10,8 +10,6 @@ import org.slf4j.LoggerFactory;
 
 public class UserBrowseResourcesController extends AbstractResourcesController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserBrowseResourcesController.class);
-
     private static final String USER_HOME_FXML = "/fxml/user/userHome.fxml";
 
     private static final String VIEW_RESOURCE_FXML = "/fxml/user/userViewResource.fxml";
@@ -41,12 +39,6 @@ public class UserBrowseResourcesController extends AbstractResourcesController {
     @Override
     protected String getViewResourceFxml() {
         return VIEW_RESOURCE_FXML;
-    }
-
-    @Override
-    public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
     }
 
 }

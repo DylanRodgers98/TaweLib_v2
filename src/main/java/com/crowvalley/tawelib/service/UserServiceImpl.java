@@ -6,6 +6,7 @@ import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.model.fine.OutstandingFinesDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -21,7 +22,7 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    private UserDAO DAO;
+    private UserDAO userDAO;
 
     private TransactionService transactionService;
 
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Optional<? extends User> getWithUsername(String username) {
-        return DAO.getWithUsername(username);
+        return userDAO.getWithUsername(username);
     }
 
     /**
@@ -53,7 +54,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Optional<Librarian> getLibrarianUserWithStaffNumber(Long staffNum) {
-        return DAO.getLibrarianUserWithStaffNumber(staffNum);
+        return userDAO.getLibrarianUserWithStaffNumber(staffNum);
     }
 
     /**
@@ -61,12 +62,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<? extends User> getAll() {
-        return DAO.getAll(User.class);
+        return userDAO.getAll(User.class);
     }
 
     @Override
     public List<String> getAllUsernames() {
-        return DAO.getAllUsernames();
+        return userDAO.getAllUsernames();
     }
 
     @Override
@@ -90,7 +91,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void saveOrUpdate(User user) {
-        DAO.saveOrUpdate(user);
+        userDAO.saveOrUpdate(user);
         LOGGER.info("User with username {} saved successfully", user.getUsername());
     }
 
@@ -101,14 +102,14 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void delete(User user) {
-        DAO.delete(user);
+        userDAO.delete(user);
         LOGGER.info("User with username {} deleted successfully", user.getUsername());
     }
 
     @Override
-    public void setDAO(UserDAO DAO) {
-        this.DAO = DAO;
-        LOGGER.info("{} DAO set to {}", this.getClass().getSimpleName(), DAO.getClass().getSimpleName());
+    public void setUserDAO(UserDAO userDAO) {
+        this.userDAO = userDAO;
+        LOGGER.info("{} UserDAO set to {}", this.getClass().getSimpleName(), userDAO.getClass().getSimpleName());
     }
 
     public void setTransactionService(TransactionService transactionService) {

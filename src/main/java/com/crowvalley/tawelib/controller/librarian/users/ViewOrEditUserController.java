@@ -1,25 +1,96 @@
 package com.crowvalley.tawelib.controller.librarian.users;
 
+import com.crowvalley.tawelib.UserContextHolder;
 import com.crowvalley.tawelib.controller.base.AbstractProfileController;
+import com.crowvalley.tawelib.model.user.Address;
+import com.crowvalley.tawelib.model.user.Librarian;
+import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.UserService;
+import com.crowvalley.tawelib.util.FXMLUtils;
+import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ViewOrEditUserController extends AbstractProfileController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ViewOrEditUserController.class);
-
     private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
+
+    @FXML
+    private CheckBox chkLibrarian;
+
+    @FXML
+    private Label lblEmploymentDate;
+
+    @FXML
+    private DatePicker datePicker;
+
+    @Override
+    public void initialize() {
+        super.initialize();
+        setDatePickerVisibility();
+    }
+
+    @Override
+    protected void populateFields() {
+        if (selectedUser instanceof Librarian) {
+            Librarian librarian = (Librarian) selectedUser;
+            datePicker.setValue(librarian.getEmploymentDate());
+            chkLibrarian.setSelected(true);
+        }
+        super.populateFields();
+    }
+
+    @Override
+    protected void disableFields() {
+        FXMLUtils.makeNodesDisabled(chkLibrarian, datePicker);
+        super.disableFields();
+    }
+
+    @Override
+    protected void enableFields() {
+        // Don't enable checkbox if selected user is currently logged in user
+        // This is to prevent them revoking their own Librarian rights
+        if (!UserContextHolder.getLoggedInUser().equals(selectedUser.getUsername())) {
+            FXMLUtils.makeNodesEnabled(chkLibrarian);
+        }
+        FXMLUtils.makeNodesEnabled(datePicker);
+        super.enableFields();
+    }
+
+    @Override
+    protected void setOnActions() {
+        chkLibrarian.setOnAction(e -> setDatePickerVisibility());
+        super.setOnActions();
+    }
+
+    private void setDatePickerVisibility() {
+        if (chkLibrarian.isSelected()) {
+            FXMLUtils.makeNodesVisible(lblEmploymentDate, datePicker);
+        } else {
+            FXMLUtils.makeNodesNotVisible(lblEmploymentDate, datePicker);
+        }
+    }
+
+    @Override
+    protected User initUpdatedUser() {
+        if (chkLibrarian.isSelected()) {
+            if (!(selectedUser instanceof Librarian)) {
+                Librarian librarian = new Librarian();
+                librarian.setEmploymentDate(datePicker.getValue());
+                return librarian;
+            }
+        } else if (selectedUser instanceof Librarian) {
+            return new User();
+        }
+        return selectedUser;
+    }
 
     @Override
     protected String getFxmlForBackButton() {
         return LIBRARIAN_HOME_FXML;
-    }
-
-    @Override
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-        LOGGER.info("{} UserService set to {}", this.getClass().getSimpleName(), userService.getClass().getSimpleName());
     }
 
 }

@@ -1,46 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.crowvalley.tawelib.controller.librarian.users.AddNewUserController" >
-    <BorderPane prefHeight="200.0" prefWidth="200.0">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.crowvalley.tawelib.controller.librarian.users.AddNewUserController">
+    <BorderPane prefHeight="405.0" prefWidth="640.0">
         <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                <Label layoutX="97.0" layoutY="34.0" text="Username:"/>
-                <Label layoutX="93.0" layoutY="65.0" text="First Name:"/>
-                <Label layoutX="103.0" layoutY="96.0" text="Surname:"/>
-                <Label layoutX="69.0" layoutY="127.0" text="Phone Number:"/>
-                <Label layoutX="50.0" layoutY="158.0" text="House Num/Name:"/>
-                <Label layoutX="118.0" layoutY="189.0" text="Street:"/>
-                <Label layoutX="120.0" layoutY="220.0" text="Town:"/>
-                <Label layoutX="111.0" layoutY="251.0" text="County:"/>
-                <Label layoutX="100.0" layoutY="282.0" text="Postcode:"/>
+                <Label layoutX="98.0" layoutY="47.0" text="Username:" />
+                <Label layoutX="94.0" layoutY="78.0" text="First Name:" />
+                <Label layoutX="104.0" layoutY="109.0" text="Surname:" />
+                <Label layoutX="70.0" layoutY="140.0" text="Phone Number:" />
+                <Label layoutX="51.0" layoutY="171.0" text="House Num/Name:" />
+                <Label layoutX="119.0" layoutY="202.0" text="Street:" />
+                <Label layoutX="121.0" layoutY="233.0" text="Town:" />
+                <Label layoutX="112.0" layoutY="264.0" text="County:" />
+                <Label layoutX="101.0" layoutY="295.0" text="Postcode:" />
+                <Label fx:id="lblEmploymentDate" layoutX="55.0" layoutY="326.0" text="Employment Date:" visible="false"/>
 
-                <TextField fx:id="txtUsername" layoutX="161.0" layoutY="30.0"/>
-                <TextField fx:id="txtFirstName" layoutX="161.0" layoutY="61.0"/>
-                <TextField fx:id="txtSurname" layoutX="161.0" layoutY="92.0"/>
-                <TextField fx:id="txtPhoneNum" layoutX="161.0" layoutY="123.0"/>
-                <TextField fx:id="txtHouseNum" layoutX="161.0" layoutY="154.0"/>
-                <TextField fx:id="txtStreet" layoutX="161.0" layoutY="185.0"/>
-                <TextField fx:id="txtTown" layoutX="161.0" layoutY="216.0"/>
-                <TextField fx:id="txtCounty" layoutX="161.0" layoutY="247.0"/>
-                <TextField fx:id="txtPostcode" layoutX="161.0" layoutY="278.0"/>
+                <CheckBox fx:id="chkLibrarian" layoutX="162.0" layoutY="17.0" text="Librarian?" />
 
-                <Button fx:id="btnAdd" layoutX="133.0" layoutY="323.0" prefHeight="25.0" prefWidth="120.0"
-                        text="Add User"/>
+                <TextField fx:id="txtUsername" layoutX="162.0" layoutY="43.0" />
+                <TextField fx:id="txtFirstName" layoutX="162.0" layoutY="74.0" />
+                <TextField fx:id="txtSurname" layoutX="162.0" layoutY="105.0" />
+                <TextField fx:id="txtPhoneNum" layoutX="162.0" layoutY="136.0" />
+                <TextField fx:id="txtHouseNum" layoutX="162.0" layoutY="167.0" />
+                <TextField fx:id="txtStreet" layoutX="162.0" layoutY="198.0" />
+                <TextField fx:id="txtTown" layoutX="162.0" layoutY="229.0" />
+                <TextField fx:id="txtCounty" layoutX="162.0" layoutY="260.0" />
+                <TextField fx:id="txtPostcode" layoutX="162.0" layoutY="291.0" />
+                <DatePicker fx:id="datePicker" layoutX="162.0" layoutY="322.0" visible="false"/>
+
+                <Button fx:id="btnAdd" layoutX="176.0" layoutY="357.0" prefHeight="25.0" prefWidth="120.0" text="Add User" />
             </AnchorPane>
         </center>
         <left>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                <ImageView fx:id="imgProfilePic" fitHeight="250.0" fitWidth="240.0" layoutY="54.0"
-                           pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0"/>
-                <Button fx:id="btnChoosePic" layoutX="63.0" layoutY="323.0" prefHeight="25.0" prefWidth="143.0"
-                        text="Choose Profile Picture"/>
+                <ImageView fx:id="imgProfilePic" fitHeight="250.0" fitWidth="240.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" />
+                <Button fx:id="btnChoosePic" layoutX="63.0" layoutY="323.0" prefHeight="25.0" prefWidth="143.0" text="Choose Profile Picture" />
                 <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" />
             </AnchorPane>
         </left>

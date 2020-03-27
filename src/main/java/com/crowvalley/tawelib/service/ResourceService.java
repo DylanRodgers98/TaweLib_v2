@@ -28,6 +28,6 @@ public interface ResourceService {
 
     void deleteWithId(Long id);
 
-    void setDAO(ResourceDAO DAO);
+    void setResourceDAO(ResourceDAO resourceDAO);
 
 }

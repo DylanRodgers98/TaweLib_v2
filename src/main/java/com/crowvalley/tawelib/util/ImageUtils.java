@@ -1,5 +1,6 @@
 package com.crowvalley.tawelib.util;
 
+import com.crowvalley.tawelib.Main;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -29,17 +30,16 @@ public class ImageUtils {
     private static final int IMAGE_HEIGHT = 250;
 
     public static void chooseImage(String fileChooserTitle, String copiedImageDirectory, ImageView imageView) {
-        Optional<Image> image = chooseAndCopyImage(fileChooserTitle, copiedImageDirectory, imageView);
+        Optional<Image> image = chooseAndCopyImage(fileChooserTitle, copiedImageDirectory);
         if (image.isPresent() && !isSameAsCurrentImage(image.get(), imageView)) {
             deleteOldImage(imageView);
             imageView.setImage(image.get());
         }
     }
 
-    private static Optional<Image> chooseAndCopyImage(String fileChooserTitle, String copiedImageDirectory, ImageView imageView) {
-        File selectedImageFile = getImageFile(fileChooserTitle, imageView);
+    private static Optional<Image> chooseAndCopyImage(String fileChooserTitle, String copiedImageDirectory) {
+        File selectedImageFile = getImageFile(fileChooserTitle);
 
-        Image image = null;
         if (selectedImageFile != null) {
             try {
                 File destinationDirectory = getDestinationDirectory(copiedImageDirectory);
@@ -50,22 +50,21 @@ public class ImageUtils {
 
                 Files.copy(pathToSelectedFile, pathToCopiedFile, StandardCopyOption.REPLACE_EXISTING);
 
-                image = new Image(FILE_PROTOCOL + pathToCopiedFile, IMAGE_WIDTH, IMAGE_HEIGHT, true, true);
+                Image image = new Image(FILE_PROTOCOL + pathToCopiedFile, IMAGE_WIDTH, IMAGE_HEIGHT, true, true);
+                return Optional.of(image);
             } catch (IOException e) {
                 FXMLUtils.displayErrorDialogBox("Error Choosing Image", e.getMessage());
             }
         }
 
-        return Optional.ofNullable(image);
+        return Optional.empty();
     }
 
-    private static File getImageFile(String fileChooserTitle, ImageView imageView) {
+    private static File getImageFile(String fileChooserTitle) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(fileChooserTitle);
         fileChooser.getExtensionFilters().add(IMAGE_FILTER);
-
-        Stage stage = (Stage) imageView.getScene().getWindow();
-        return fileChooser.showOpenDialog(stage);
+        return fileChooser.showOpenDialog(Main.primaryStage);
     }
 
     private static File getDestinationDirectory(String destinationDirectory) throws IOException {

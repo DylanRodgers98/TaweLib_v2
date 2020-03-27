@@ -17,8 +17,6 @@ import java.util.Comparator;
 
 public class LibrarianFinesAndPaymentsTabController extends AbstractFinesAndPaymentsController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LibrarianFinesAndPaymentsTabController.class);
-
     private static final String RECORD_PAYMENT_FXML = "/fxml/librarian/finesAndPayments/recordPayment.fxml";
 
     @FXML
@@ -39,18 +37,6 @@ public class LibrarianFinesAndPaymentsTabController extends AbstractFinesAndPaym
         ObservableList<Transaction> transactions = FXCollections.observableArrayList(transactionService.getAll());
         transactions.sort(Comparator.comparingLong(Transaction::getId).reversed());
         return transactions;
-    }
-
-    @Override
-    public void setTransactionService(TransactionService transactionService) {
-        this.transactionService = transactionService;
-        LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), transactionService.getClass().getSimpleName());
-    }
-
-    @Override
-    public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
     }
 
 }

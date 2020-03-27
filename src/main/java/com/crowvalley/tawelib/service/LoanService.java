@@ -37,5 +37,5 @@ public interface LoanService {
 
     List<Loan> getAllLoansForUser(String username);
 
-    void setDAO(LoanDAO DAO);
+    void setLoanDAO(LoanDAO loanDAO);
 }

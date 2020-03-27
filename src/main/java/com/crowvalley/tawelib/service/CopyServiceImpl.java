@@ -22,7 +22,7 @@ public class CopyServiceImpl implements CopyService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CopyServiceImpl.class);
 
-    private CopyDAO DAO;
+    private CopyDAO copyDAO;
 
     private LoanService loanService;
 
@@ -38,7 +38,7 @@ public class CopyServiceImpl implements CopyService {
      */
     @Override
     public Optional<Copy> get(Long id) {
-        return DAO.getWithId(id, Copy.class);
+        return copyDAO.getWithId(id, Copy.class);
     }
 
     /**
@@ -46,12 +46,12 @@ public class CopyServiceImpl implements CopyService {
      */
     @Override
     public List<Copy> getAll() {
-        return DAO.getAll(Copy.class);
+        return copyDAO.getAll(Copy.class);
     }
 
     @Override
     public List<Copy> getAllCopiesNotOnLoanForResource(Long resourceId) {
-        return DAO.getAllCopiesForResource(resourceId).stream()
+        return copyDAO.getAllCopiesForResource(resourceId).stream()
                 .filter(copy -> !loanService.isCopyOnLoan(copy.getId()))
                 .collect(Collectors.toList());
     }
@@ -63,7 +63,7 @@ public class CopyServiceImpl implements CopyService {
      */
     @Override
     public void saveOrUpdate(Copy copy) {
-        DAO.saveOrUpdate(copy);
+        copyDAO.saveOrUpdate(copy);
         LOGGER.info("Copy (ID: {}) of '{}' saved successfully", copy.getId(), copy.getResource());
     }
 
@@ -74,7 +74,7 @@ public class CopyServiceImpl implements CopyService {
      */
     @Override
     public void delete(Copy copy) {
-        DAO.delete(copy);
+        copyDAO.delete(copy);
         LOGGER.info("Copy (ID: {}) of '{}' deleted successfully", copy.getId(), copy.getResource());
     }
 
@@ -135,9 +135,9 @@ public class CopyServiceImpl implements CopyService {
     }
 
     @Override
-    public void setDAO(CopyDAO DAO) {
-        this.DAO = DAO;
-        LOGGER.info("{} DAO set to {}", this.getClass().getSimpleName(), DAO.getClass().getSimpleName());
+    public void setCopyDAO(CopyDAO copyDAO) {
+        this.copyDAO = copyDAO;
+        LOGGER.info("{} CopyDAO set to {}", this.getClass().getSimpleName(), copyDAO.getClass().getSimpleName());
     }
 
     public void setLoanService(LoanService loanService) {

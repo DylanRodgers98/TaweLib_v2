@@ -86,6 +86,9 @@ public abstract class AbstractResourcesController implements FXController {
 
     protected abstract String getViewResourceFxml();
 
-    public abstract void setResourceService(ResourceService resourceService);
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
+    }
 
 }

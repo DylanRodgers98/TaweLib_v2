@@ -76,10 +76,4 @@ public class LibrarianResourcesTabController extends AbstractResourcesController
         return VIEW_RESOURCE_FXML;
     }
 
-    @Override
-    public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
-    }
-
 }

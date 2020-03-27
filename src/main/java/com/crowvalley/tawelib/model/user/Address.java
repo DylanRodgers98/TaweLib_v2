@@ -74,15 +74,15 @@ public class Address {
 
     @Override
     public String toString() {
-        return new StringBuilder(getHouseNum())
+        return new StringBuilder(houseNum)
                 .append(" ")
-                .append(getStreet())
+                .append(street)
                 .append(", ")
-                .append(getTown())
+                .append(town)
                 .append(", ")
-                .append(getCounty())
+                .append(county)
                 .append(", ")
-                .append(getPostcode())
+                .append(postcode)
                 .toString();
     }
 }

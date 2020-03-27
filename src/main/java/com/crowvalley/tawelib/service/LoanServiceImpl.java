@@ -37,7 +37,7 @@ public class LoanServiceImpl implements LoanService {
     private static final String COPY_HAS_NO_ID_ERROR_MESSAGE = "Cannot create loan. The copy has no ID, so a " +
             "loan instance cannot reference it. Likely cause is that the copy hasn't been persisted to the database yet";
 
-    private LoanDAO DAO;
+    private LoanDAO loanDAO;
 
     private TransactionService transactionService;
 
@@ -55,7 +55,7 @@ public class LoanServiceImpl implements LoanService {
      */
     @Override
     public Optional<Loan> get(Long loanId) {
-        return DAO.getWithId(loanId, Loan.class);
+        return loanDAO.getWithId(loanId, Loan.class);
     }
 
     /**
@@ -69,12 +69,12 @@ public class LoanServiceImpl implements LoanService {
      */
     @Override
     public List<Loan> getAllLoansForCopy(Long copyId) {
-        return DAO.getAllLoansForCopy(copyId);
+        return loanDAO.getAllLoansForCopy(copyId);
     }
 
     @Override
     public Optional<Loan> getCurrentLoanForCopy(Long copyId) {
-        return DAO.getCurrentLoanForCopy(copyId);
+        return loanDAO.getCurrentLoanForCopy(copyId);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class LoanServiceImpl implements LoanService {
      */
     @Override
     public List<Loan> getAllLoansForUser(String username) {
-        return DAO.getAllLoansForUser(username);
+        return loanDAO.getAllLoansForUser(username);
     }
 
     /**
@@ -110,7 +110,7 @@ public class LoanServiceImpl implements LoanService {
      */
     @Override
     public List<Loan> getAll() {
-        return DAO.getAll(Loan.class);
+        return loanDAO.getAll(Loan.class);
     }
 
     /**
@@ -152,7 +152,7 @@ public class LoanServiceImpl implements LoanService {
      */
     @Override
     public void saveOrUpdate(Loan loan) {
-        DAO.saveOrUpdate(loan);
+        loanDAO.saveOrUpdate(loan);
         LOGGER.info("Loan (ID: {}) for copy (ID: {}) saved successfully", loan.getId(), loan.getCopyId());
     }
 
@@ -163,7 +163,7 @@ public class LoanServiceImpl implements LoanService {
      */
     @Override
     public void delete(Loan loan) {
-        DAO.delete(loan);
+        loanDAO.delete(loan);
         LOGGER.info("Loan (ID: {}) for copy (ID: {}) deleted successfully", loan.getId(), loan.getCopyId());
     }
 
@@ -216,9 +216,9 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public void setDAO(LoanDAO DAO) {
-        this.DAO = DAO;
-        LOGGER.info("{} DAO set to {}", this.getClass().getSimpleName(), DAO.getClass().getSimpleName());
+    public void setLoanDAO(LoanDAO loanDAO) {
+        this.loanDAO = loanDAO;
+        LOGGER.info("{} LoanDAO set to {}", this.getClass().getSimpleName(), loanDAO.getClass().getSimpleName());
     }
 
     public void setTransactionService(TransactionService transactionService) {

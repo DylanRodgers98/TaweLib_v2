@@ -1,18 +1,22 @@
 package com.crowvalley.tawelib.controller.librarian.users;
 
 import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.UserService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import com.crowvalley.tawelib.util.ImageUtils;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class AddNewUserController implements FXController {
 
@@ -25,6 +29,9 @@ public class AddNewUserController implements FXController {
     private static final String PROFILE_PICTURE_DIRECTORY_NAME = "profile";
 
     private UserService userService;
+
+    @FXML
+    private CheckBox chkLibrarian;
 
     @FXML
     private TextField txtUsername;
@@ -65,11 +72,26 @@ public class AddNewUserController implements FXController {
     @FXML
     private Button btnBack;
 
+    @FXML
+    private Label lblEmploymentDate;
+
+    @FXML
+    private DatePicker datePicker;
+
     @Override
     public void initialize() {
+        chkLibrarian.setOnAction(e -> setDatePickerVisibility());
         btnAdd.setOnAction(e -> addUser());
         btnChoosePic.setOnAction(e -> ImageUtils.chooseImage(FILE_CHOOSER_TITLE, PROFILE_PICTURE_DIRECTORY_NAME, imgProfilePic));
         btnBack.setOnAction(e -> goBack());
+    }
+
+    private void setDatePickerVisibility() {
+        if (chkLibrarian.isSelected()) {
+            FXMLUtils.makeNodesVisible(lblEmploymentDate, datePicker);
+        } else {
+            FXMLUtils.makeNodesNotVisible(lblEmploymentDate, datePicker);
+        }
     }
 
     private void addUser() {
@@ -86,7 +108,13 @@ public class AddNewUserController implements FXController {
         Image image = imgProfilePic.getImage();
         String imageUrl = image == null ? StringUtils.EMPTY : image.getUrl(); //TODO: replace empty string with default img
 
-        User user = new User(username, firstName, surname, phoneNum, houseNum, street, town, county, postcode, imageUrl);
+        User user;
+        if (chkLibrarian.isSelected()) {
+            LocalDate employmentDate = datePicker.getValue();
+            user = new Librarian(username, firstName, surname, phoneNum, houseNum, street, town, county, postcode, imageUrl, employmentDate);
+        } else {
+            user = new User(username, firstName, surname, phoneNum, houseNum, street, town, county, postcode, imageUrl);
+        }
         userService.saveOrUpdate(user);
         goBack();
     }

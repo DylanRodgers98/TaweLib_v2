@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.controller.base;
 
 import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.controller.user.UserLoansController;
 import com.crowvalley.tawelib.model.resource.Loan;
 import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.LoanService;
@@ -13,11 +14,15 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public abstract class AbstractLoansController implements FXController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractLoansController.class);
 
     protected LoanService loanService;
 
@@ -72,10 +77,19 @@ public abstract class AbstractLoansController implements FXController {
 
     protected abstract ObservableList<Loan> getLoans();
 
-    public abstract void setLoanService(LoanService loanService);
+    public void setLoanService(LoanService loanService) {
+        this.loanService = loanService;
+        LOGGER.info("{} LoanService set to {}", this.getClass().getSimpleName(), loanService.getClass().getSimpleName());
+    }
 
-    public abstract void setCopyService(CopyService copyService);
+    public void setCopyService(CopyService copyService) {
+        this.copyService = copyService;
+        LOGGER.info("{} CopyService set to {}", this.getClass().getSimpleName(), copyService.getClass().getSimpleName());
+    }
 
-    public abstract void setResourceService(ResourceService resourceService);
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
+    }
 
 }

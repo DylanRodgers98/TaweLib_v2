@@ -22,7 +22,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransactionServiceImpl.class);
 
-    private TransactionDAO DAO;
+    private TransactionDAO transactionDAO;
 
     private LoanService loanService;
 
@@ -33,12 +33,12 @@ public class TransactionServiceImpl implements TransactionService {
      */
     @Override
     public List<Transaction> getAll() {
-        return DAO.getAll(Transaction.class);
+        return transactionDAO.getAll(Transaction.class);
     }
 
     @Override
     public List<? extends Transaction> getAllTransactionsForUser(String username) {
-        return DAO.getAllTransactionsForUser(username);
+        return transactionDAO.getAllTransactionsForUser(username);
     }
 
     /**
@@ -48,7 +48,7 @@ public class TransactionServiceImpl implements TransactionService {
      */
     @Override
     public void save(Transaction transaction) {
-        DAO.saveOrUpdate(transaction);
+        transactionDAO.saveOrUpdate(transaction);
         LOGGER.info("Fine with ID {} saved successfully", transaction.getId());
     }
 
@@ -59,7 +59,7 @@ public class TransactionServiceImpl implements TransactionService {
      */
     @Override
     public void delete(Transaction transaction) {
-        DAO.delete(transaction);
+        transactionDAO.delete(transaction);
         LOGGER.info("Fine with ID {} deleted successfully", transaction.getId());
     }
 
@@ -75,20 +75,20 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public BigDecimal getTotalFinesAmountForUser(String username) {
-        BigDecimal totalFinesAmount = DAO.getTotalFineAmountForUser(username);
+        BigDecimal totalFinesAmount = transactionDAO.getTotalFineAmountForUser(username);
         return totalFinesAmount != null ? totalFinesAmount : BigDecimal.ZERO;
     }
 
     @Override
     public BigDecimal getTotalPaymentsAmountForUser(String username) {
-        BigDecimal totalPaymentsAmount = DAO.getTotalPaymentAmountForUser(username);
+        BigDecimal totalPaymentsAmount = transactionDAO.getTotalPaymentAmountForUser(username);
         return totalPaymentsAmount != null ? totalPaymentsAmount : BigDecimal.ZERO;
     }
 
     @Override
-    public void setDAO(TransactionDAO DAO) {
-        this.DAO = DAO;
-        LOGGER.info("{} DAO set to {}", this.getClass().getSimpleName(), DAO.getClass().getSimpleName());
+    public void setTransactionDAO(TransactionDAO transactionDAO) {
+        this.transactionDAO = transactionDAO;
+        LOGGER.info("{} TransactionDAO set to {}", this.getClass().getSimpleName(), transactionDAO.getClass().getSimpleName());
     }
 
     public void setLoanService(LoanService loanService) {

@@ -2,19 +2,23 @@ package com.crowvalley.tawelib.controller.base;
 
 import com.crowvalley.tawelib.controller.SelectionAwareFXController;
 import com.crowvalley.tawelib.model.user.Address;
+import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.UserService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import com.crowvalley.tawelib.util.ImageUtils;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
 public abstract class AbstractProfileController implements SelectionAwareFXController<User> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractProfileController.class);
 
     private static final String UPDATE_PROFILE_BUTTON_TEXT = "Update Profile";
 
@@ -26,7 +30,7 @@ public abstract class AbstractProfileController implements SelectionAwareFXContr
 
     protected UserService userService;
 
-    private User selectedUser;
+    protected User selectedUser;
 
     @FXML
     private TextField txtUsername;
@@ -71,24 +75,22 @@ public abstract class AbstractProfileController implements SelectionAwareFXContr
     public void initialize() {
         if (selectedUser != null) {
             loadProfile();
-            disableTextFields();
-            btnSaveOrUpdate.setOnAction(e -> saveOrUpdateProfile());
-            btnChangePic.setOnAction(e -> chooseImage());
-            btnBack.setOnAction(e -> FXMLUtils.loadNewScene(getFxmlForBackButton()));
         }
+        disableFields();
+        setOnActions();
     }
 
     private void loadProfile() {
-        populateTextFields(selectedUser);
-        loadProfilePic(selectedUser);
+        populateFields();
+        loadProfilePic();
     }
 
-    private void populateTextFields(User user) {
-        txtUsername.setText(user.getUsername());
-        txtFirstName.setText(user.getFirstName());
-        txtSurname.setText(user.getSurname());
-        txtPhoneNum.setText(user.getPhoneNum());
-        populateAddressFields(user.getAddress());
+    protected void populateFields() {
+        txtUsername.setText(selectedUser.getUsername());
+        txtFirstName.setText(selectedUser.getFirstName());
+        txtSurname.setText(selectedUser.getSurname());
+        txtPhoneNum.setText(selectedUser.getPhoneNum());
+        populateAddressFields(selectedUser.getAddress());
     }
 
     private void populateAddressFields(Address address) {
@@ -99,29 +101,28 @@ public abstract class AbstractProfileController implements SelectionAwareFXContr
         txtPostcode.setText(address.getPostcode());
     }
 
-    private void loadProfilePic(User user) {
-        Optional<String> imageUrl = user.getProfileImagePath();
+    private void loadProfilePic() {
+        Optional<String> imageUrl = selectedUser.getProfileImagePath();
         imageUrl.ifPresent(e -> imgProfilePic.setImage(new Image(e)));
     }
-    private void disableTextFields() {
-        setDisableTextFields(true);
+
+    protected void disableFields() {
+        FXMLUtils.makeNodesDisabled(txtUsername, txtFirstName, txtSurname, txtPhoneNum,
+                txtHouseNum, txtStreet, txtTown, txtCounty, txtPostcode);
     }
 
-    private void enableTextFields() {
-        setDisableTextFields(false);
+    protected void enableFields() {
+        FXMLUtils.makeNodesEnabled(txtUsername, txtFirstName, txtSurname, txtPhoneNum,
+                txtHouseNum, txtStreet, txtTown, txtCounty, txtPostcode);
     }
 
-    private void setDisableTextFields(boolean disabled) {
-        txtUsername.setDisable(disabled);
-        txtFirstName.setDisable(disabled);
-        txtSurname.setDisable(disabled);
-        txtPhoneNum.setDisable(disabled);
-        txtHouseNum.setDisable(disabled);
-        txtStreet.setDisable(disabled);
-        txtTown.setDisable(disabled);
-        txtCounty.setDisable(disabled);
-        txtPostcode.setDisable(disabled);
+    protected void setOnActions() {
+        btnSaveOrUpdate.setOnAction(e -> saveOrUpdateProfile());
+        btnChangePic.setOnAction(e -> chooseImage());
+        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(getFxmlForBackButton()));
     }
+
+    protected abstract String getFxmlForBackButton();
 
     private void saveOrUpdateProfile() {
         if (btnSaveOrUpdate.getText().equals(UPDATE_PROFILE_BUTTON_TEXT)) {
@@ -132,23 +133,35 @@ public abstract class AbstractProfileController implements SelectionAwareFXContr
     }
 
     private void startUpdateProfile() {
-        enableTextFields();
+        enableFields();
         btnSaveOrUpdate.setText(SAVE_CHANGES_BUTTON_TEXT);
     }
 
     private void finishUpdateProfile() {
-        disableTextFields();
+        disableFields();
         btnSaveOrUpdate.setText(UPDATE_PROFILE_BUTTON_TEXT);
         updateProfile();
-        userService.saveOrUpdate(selectedUser);
     }
 
     private void updateProfile() {
-        selectedUser.setUsername(txtUsername.getText());
-        selectedUser.setFirstName(txtFirstName.getText());
-        selectedUser.setSurname(txtSurname.getText());
-        selectedUser.setPhoneNum(txtPhoneNum.getText());
-        updateAddress(selectedUser.getAddress());
+        User user = initUpdatedUser();
+        updateInfo(user);
+        if (user != selectedUser) {
+            // If a new object has been created for update, delete the old object
+            userService.delete(selectedUser);
+        }
+        userService.saveOrUpdate(user);
+        selectedUser = user;
+    }
+
+    protected abstract User initUpdatedUser();
+
+    private void updateInfo(User user) {
+        user.setUsername(txtUsername.getText());
+        user.setFirstName(txtFirstName.getText());
+        user.setSurname(txtSurname.getText());
+        user.setPhoneNum(txtPhoneNum.getText());
+        updateAddress(user.getAddress());
     }
 
     private void updateAddress(Address address) {
@@ -173,8 +186,9 @@ public abstract class AbstractProfileController implements SelectionAwareFXContr
         this.selectedUser = selectedItem;
     }
 
-    protected abstract String getFxmlForBackButton();
-
-    public abstract void setUserService(UserService userService);
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+        LOGGER.info("{} UserService set to {}", this.getClass().getSimpleName(), userService.getClass().getSimpleName());
+    }
 
 }

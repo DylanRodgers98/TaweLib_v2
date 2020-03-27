@@ -12,8 +12,8 @@ import java.util.Optional;
  * @author Dylan Rodgers
  */
 @Entity
-@Table
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
     @Id
@@ -58,6 +58,7 @@ public class User {
     }
 
     public User() {
+        address = new Address();
     }
 
     public String getUsername() {

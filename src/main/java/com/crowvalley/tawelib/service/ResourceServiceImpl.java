@@ -21,7 +21,7 @@ public class ResourceServiceImpl implements ResourceService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourceServiceImpl.class);
 
-    private ResourceDAO DAO;
+    private ResourceDAO resourceDAO;
 
     /**
      * Retrieves a {@link Resource} from the DAO using the {@link Resource}'s
@@ -35,7 +35,7 @@ public class ResourceServiceImpl implements ResourceService {
      */
     @Override
     public Optional<? extends Resource> get(Long id, ResourceType resourceType) {
-        return DAO.getWithId(id, resourceType.getModelClass());
+        return resourceDAO.getWithId(id, resourceType.getModelClass());
     }
 
     /**
@@ -43,12 +43,12 @@ public class ResourceServiceImpl implements ResourceService {
      */
     @Override
     public List<ResourceDTO> getAllResourceDTOs() {
-        return DAO.getAllResourceDTOs(Resource.class);
+        return resourceDAO.getAllResourceDTOs(Resource.class);
     }
 
     @Override
     public List<ResourceDTO> getAllResourceDTOs(ResourceType resourceType) {
-        return DAO.getAllResourceDTOs(resourceType.getModelClass());
+        return resourceDAO.getAllResourceDTOs(resourceType.getModelClass());
     }
 
     /**
@@ -58,7 +58,7 @@ public class ResourceServiceImpl implements ResourceService {
      */
     @Override
     public void saveOrUpdate(Resource resource) {
-        DAO.saveOrUpdate(resource);
+        resourceDAO.saveOrUpdate(resource);
         LOGGER.info("Resource \"{}\" with ID {} saved successfully", resource, resource.getId());
     }
 
@@ -69,20 +69,20 @@ public class ResourceServiceImpl implements ResourceService {
      */
     @Override
     public void delete(Resource resource) {
-        DAO.delete(resource);
+        resourceDAO.delete(resource);
         LOGGER.info("Resource \"{}\" (ID: {}) deleted successfully", resource, resource.getId());
     }
 
     @Override
     public void deleteWithId(Long id) {
-        DAO.deleteWithId(id);
+        resourceDAO.deleteWithId(id);
         LOGGER.info("Resource (ID: {}) deleted successfully", id);
     }
 
     @Override
-    public void setDAO(ResourceDAO DAO) {
-        this.DAO = DAO;
-        LOGGER.info("{} DAO set to {}", this.getClass().getSimpleName(), DAO.getClass().getSimpleName());
+    public void setResourceDAO(ResourceDAO resourceDAO) {
+        this.resourceDAO = resourceDAO;
+        LOGGER.info("{} ResourceDAO set to {}", this.getClass().getSimpleName(), resourceDAO.getClass().getSimpleName());
     }
 
 }

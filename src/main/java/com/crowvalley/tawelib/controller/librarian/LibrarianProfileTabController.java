@@ -6,9 +6,11 @@ import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.UserService;
+import com.crowvalley.tawelib.util.FXMLUtils;
 import com.crowvalley.tawelib.util.ImageUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -67,10 +69,13 @@ public class LibrarianProfileTabController implements FXController {
     @FXML
     private Button btnChangePic;
 
+    @FXML
+    private DatePicker datePicker;
+
     @Override
     public void initialize() {
         loadProfile();
-        disableTextFields();
+        disableFields();
         btnSaveOrUpdate.setOnAction(e -> saveOrUpdateProfile());
         btnChangePic.setOnAction(e -> chooseImage());
     }
@@ -80,17 +85,18 @@ public class LibrarianProfileTabController implements FXController {
         Optional<? extends User> optionalLibrarian = userService.getWithUsername(currentUser);
         if (optionalLibrarian.isPresent()) {
             loggedInLibrarian = (Librarian) optionalLibrarian.get();
-            populateTextFields(loggedInLibrarian);
+            populateFields(loggedInLibrarian);
             loadProfilePic(loggedInLibrarian);
         }
     }
 
-    private void populateTextFields(Librarian librarian) {
+    private void populateFields(Librarian librarian) {
         txtUsername.setText(librarian.getUsername());
         txtFirstName.setText(librarian.getFirstName());
         txtSurname.setText(librarian.getSurname());
         txtPhoneNum.setText(librarian.getPhoneNum());
         populateAddressFields(librarian.getAddress());
+        datePicker.setValue(librarian.getEmploymentDate());
     }
 
     private void populateAddressFields(Address address) {
@@ -106,24 +112,14 @@ public class LibrarianProfileTabController implements FXController {
         imageUrl.ifPresent(e -> imgProfilePic.setImage(new Image(e)));
     }
 
-    private void disableTextFields() {
-        setDisableTextFields(true);
+    private void disableFields() {
+        FXMLUtils.makeNodesDisabled(txtUsername, txtFirstName, txtSurname, txtPhoneNum,
+                txtHouseNum, txtStreet, txtTown, txtCounty, txtPostcode, datePicker);
     }
 
     private void enableTextFields() {
-        setDisableTextFields(false);
-    }
-
-    private void setDisableTextFields(boolean disabled) {
-        txtUsername.setDisable(disabled);
-        txtFirstName.setDisable(disabled);
-        txtSurname.setDisable(disabled);
-        txtPhoneNum.setDisable(disabled);
-        txtHouseNum.setDisable(disabled);
-        txtStreet.setDisable(disabled);
-        txtTown.setDisable(disabled);
-        txtCounty.setDisable(disabled);
-        txtPostcode.setDisable(disabled);
+        FXMLUtils.makeNodesEnabled(txtUsername, txtFirstName, txtSurname, txtPhoneNum,
+                txtHouseNum, txtStreet, txtTown, txtCounty, txtPostcode, datePicker);
     }
 
     private void saveOrUpdateProfile() {
@@ -140,18 +136,23 @@ public class LibrarianProfileTabController implements FXController {
     }
 
     private void finishUpdateProfile() {
-        disableTextFields();
+        disableFields();
         btnSaveOrUpdate.setText(UPDATE_PROFILE_BUTTON_TEXT);
         updateProfile();
-        userService.saveOrUpdate(loggedInLibrarian);
     }
 
     private void updateProfile() {
+        updateInfo();
+        updateAddress(loggedInLibrarian.getAddress());
+        loggedInLibrarian.setEmploymentDate(datePicker.getValue());
+        userService.saveOrUpdate(loggedInLibrarian);
+    }
+
+    private void updateInfo() {
         loggedInLibrarian.setUsername(txtUsername.getText());
         loggedInLibrarian.setFirstName(txtFirstName.getText());
         loggedInLibrarian.setSurname(txtSurname.getText());
         loggedInLibrarian.setPhoneNum(txtPhoneNum.getText());
-        updateAddress(loggedInLibrarian.getAddress());
     }
 
     private void updateAddress(Address address) {

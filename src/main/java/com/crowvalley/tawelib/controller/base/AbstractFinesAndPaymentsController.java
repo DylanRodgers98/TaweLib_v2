@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.controller.base;
 
 import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.controller.user.UserFinesAndPaymentsController;
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.fine.Transaction;
@@ -14,12 +15,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
 
 public abstract class AbstractFinesAndPaymentsController implements FXController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractFinesAndPaymentsController.class);
 
     private static final NumberFormat CURRENCY_FORMAT = NumberFormat.getCurrencyInstance(Locale.UK);
 
@@ -62,14 +67,20 @@ public abstract class AbstractFinesAndPaymentsController implements FXController
 
     private String getFineReason(Fine fine) {
         return transactionService.getCopyFromFine(fine)
-                .map(copy -> " for late return of " + copy.getResource() + "(" + copy + ")")
+                .map(copy -> " for late return of " + copy.getResource() + " (" + copy + ")")
                 .orElse(StringUtils.EMPTY);
     }
 
     protected abstract ObservableList<Transaction> getFinesAndPayments();
 
-    public abstract void setTransactionService(TransactionService transactionService);
+    public void setTransactionService(TransactionService transactionService) {
+        this.transactionService = transactionService;
+        LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), transactionService.getClass().getSimpleName());
+    }
 
-    public abstract void setResourceService(ResourceService resourceService);
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
+    }
 
 }

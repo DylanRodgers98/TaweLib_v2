@@ -33,6 +33,6 @@ public interface CopyService {
 
     Optional<CopyRequest.Status> getRequestStatusForUser(Copy copy, String username);
 
-    void setDAO(CopyDAO DAO);
+    void setCopyDAO(CopyDAO copyDAO);
 
 }
