@@ -11,15 +11,16 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 public abstract class AbstractResourcesController implements FXController {
@@ -43,6 +44,42 @@ public abstract class AbstractResourcesController implements FXController {
     @FXML
     protected Button btnViewResource;
 
+    @FXML
+    private ChoiceBox<ResourceType> cmbType;
+
+    @FXML
+    private TextField txtSearch;
+
+    @FXML
+    private Button btnSearch;
+
+    @Override
+    public void initialize() {
+        cmbType.setValue(ResourceType.ALL);
+        populateTable();
+        setOnActions();
+    }
+
+    protected void setOnActions() {
+        cmbType.setOnAction(e -> executeTypeChange());
+        tblResources.setOnMouseClicked(e -> enableButtonsIfResourceSelected());
+        btnViewResource.setOnAction(e -> openViewResourcePage());
+        btnSearch.setOnAction(e -> search());
+        txtSearch.setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.ENTER)) {
+                search();
+            }
+        });
+    }
+
+    private void executeTypeChange() {
+        if (StringUtils.isBlank(txtSearch.getText())) {
+            populateTable();
+        } else {
+            search();
+        }
+    }
+
     protected void populateTable() {
         colType.setCellValueFactory(this::getResourceType);
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -50,12 +87,19 @@ public abstract class AbstractResourcesController implements FXController {
         tblResources.setItems(getResources());
     }
 
+    protected abstract void enableButtonsIfResourceSelected();
+
     private ObservableValue<ResourceType> getResourceType(TableColumn.CellDataFeatures<ResourceDTO, ResourceType> resource) {
         return new ReadOnlyObjectWrapper<>(resource.getValue().getResourceType());
     }
 
     private ObservableList<ResourceDTO> getResources() {
-        ObservableList<ResourceDTO> resources = FXCollections.observableArrayList(resourceService.getAllResourceDTOs());
+        List<ResourceDTO> resourceDTOS = resourceService.getAllResourceDTOs(cmbType.getValue());
+        return constructObservableList(resourceDTOS);
+    }
+
+    private ObservableList<ResourceDTO> constructObservableList(List<ResourceDTO> resourceDTOS) {
+        ObservableList<ResourceDTO> resources = FXCollections.observableArrayList(resourceDTOS);
         resources.sort(Comparator.comparing(ResourceDTO::getTitle));
         return resources;
     }
@@ -77,6 +121,15 @@ public abstract class AbstractResourcesController implements FXController {
         } catch (IOException e) {
             LOGGER.error("IOException caught when loading new scene from FXML", e);
             FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
+        }
+    }
+
+    private void search() {
+        if (StringUtils.isBlank(txtSearch.getText())) {
+            populateTable();
+        } else {
+            List<ResourceDTO> searchResult = resourceService.search(txtSearch.getText(), cmbType.getValue());
+            tblResources.setItems(constructObservableList(searchResult));
         }
     }
 

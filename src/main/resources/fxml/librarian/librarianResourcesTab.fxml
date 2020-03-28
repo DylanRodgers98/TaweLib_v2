@@ -4,34 +4,54 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
+<?import javafx.collections.FXCollections?>
+<?import com.crowvalley.tawelib.model.resource.ResourceType?>
 <Tab xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" closable="false" text="Resources"
      fx:controller="com.crowvalley.tawelib.controller.librarian.LibrarianResourcesTabController">
     <BorderPane>
         <bottom>
             <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                 <buttons>
-                    <Button fx:id="btnNewResource" minWidth="0.0" prefHeight="25.0" prefWidth="143.0"
-                            text="Create New Resource"/>
-                    <Button fx:id="btnViewResource" disable="true" text="View Resource/Copies"/>
-                    <Button fx:id="btnEditResource" disable="true" text="Edit Resource"/>
-                    <Button fx:id="btnDeleteResource" disable="true" text="Delete Resource"/>
+                    <Button fx:id="btnNewResource" minWidth="0.0" prefHeight="25.0" prefWidth="143.0" text="Create New Resource" />
+                    <Button fx:id="btnViewResource" disable="true" text="View Resource/Copies" />
+                    <Button fx:id="btnEditResource" disable="true" text="Edit Resource" />
+                    <Button fx:id="btnDeleteResource" disable="true" text="Delete Resource" />
                 </buttons>
                 <BorderPane.margin>
-                    <Insets right="20.0"/>
+                    <Insets right="20.0" />
                 </BorderPane.margin>
             </ButtonBar>
         </bottom>
         <center>
-            <TableView fx:id="tblResources" prefHeight="302.0" prefWidth="416.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="tblResources" prefHeight="281.0" prefWidth="416.0" BorderPane.alignment="CENTER">
                 <columns>
-                    <TableColumn fx:id="colType" prefWidth="70.0" text="Type"/>
-                    <TableColumn fx:id="colTitle" prefWidth="478.0" text="Title"/>
-                    <TableColumn fx:id="colYear" prefWidth="70.0" text="Year"/>
+                    <TableColumn fx:id="colType" prefWidth="70.0" text="Type" />
+                    <TableColumn fx:id="colTitle" prefWidth="478.0" text="Title" />
+                    <TableColumn fx:id="colYear" prefWidth="70.0" text="Year" />
                 </columns>
                 <BorderPane.margin>
-                    <Insets left="10.0" right="10.0" top="10.0"/>
+                    <Insets left="10.0" right="10.0" top="10.0" />
                 </BorderPane.margin>
             </TableView>
         </center>
+        <top>
+            <AnchorPane prefHeight="21.0" prefWidth="640.0" BorderPane.alignment="CENTER">
+                <children>
+                    <Label layoutX="227.0" layoutY="14.0" text="Resource Type:" />
+                    <ChoiceBox fx:id="cmbType" layoutX="311.0" layoutY="10.0" prefHeight="25.0" prefWidth="112.0" >
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <ResourceType fx:value="ALL" />
+                                <ResourceType fx:value="BOOK" />
+                                <ResourceType fx:value="DVD" />
+                                <ResourceType fx:value="LAPTOP" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <TextField fx:id="txtSearch" layoutX="432.0" layoutY="10.0" />
+                    <Button fx:id="btnSearch" layoutX="577.0" layoutY="10.0" mnemonicParsing="false" text="Search" />
+                </children>
+            </AnchorPane>
+        </top>
     </BorderPane>
 </Tab>

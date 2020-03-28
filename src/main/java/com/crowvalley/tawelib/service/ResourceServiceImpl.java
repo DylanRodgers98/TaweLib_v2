@@ -75,8 +75,13 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public void deleteWithId(Long id) {
-        resourceDAO.deleteWithId(id);
+        resourceDAO.deleteWithId(id, Resource.class);
         LOGGER.info("Resource (ID: {}) deleted successfully", id);
+    }
+
+    @Override
+    public List<ResourceDTO> search(String query, ResourceType resourceType) {
+        return resourceDAO.search(query, resourceType.getModelClass());
     }
 
     @Override

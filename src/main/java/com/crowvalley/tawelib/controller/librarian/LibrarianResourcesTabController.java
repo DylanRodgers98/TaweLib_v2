@@ -32,20 +32,20 @@ public class LibrarianResourcesTabController extends AbstractResourcesController
 
     @Override
     public void initialize() {
-        populateTable();
         FXMLUtils.makeNodesDisabled(btnViewResource, btnEditResource, btnDeleteResource);
-        setOnActions();
+        super.initialize();
     }
 
-    private void setOnActions() {
-        tblResources.setOnMouseClicked(e -> enableButtonsIfResourceSelected());
+    @Override
+    protected void setOnActions() {
         btnNewResource.setOnAction(e -> FXMLUtils.loadNewScene(ADD_NEW_RESOURCE_FXML));
-        btnViewResource.setOnAction(e -> openViewResourcePage());
         btnEditResource.setOnAction(e -> openEditResourcePage());
         btnDeleteResource.setOnAction(e -> deleteSelectedResource());
+        super.setOnActions();
     }
 
-    private void enableButtonsIfResourceSelected() {
+    @Override
+    protected void enableButtonsIfResourceSelected() {
         if (getSelectedResource() != null) {
             FXMLUtils.makeNodesEnabled(btnViewResource, btnEditResource, btnDeleteResource);
         }

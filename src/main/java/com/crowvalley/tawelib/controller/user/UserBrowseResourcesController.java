@@ -1,12 +1,19 @@
 package com.crowvalley.tawelib.controller.user;
 
 import com.crowvalley.tawelib.controller.base.AbstractResourcesController;
+import com.crowvalley.tawelib.model.resource.ResourceDTO;
+import com.crowvalley.tawelib.model.resource.ResourceType;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.awt.*;
+import java.util.List;
 
 public class UserBrowseResourcesController extends AbstractResourcesController {
 
@@ -19,18 +26,18 @@ public class UserBrowseResourcesController extends AbstractResourcesController {
 
     @Override
     public void initialize() {
-        populateTable();
         FXMLUtils.makeNodesDisabled(btnViewResource);
-        setOnActions();
+        super.initialize();
     }
 
-    private void setOnActions() {
-        tblResources.setOnMouseClicked(e -> enableButtonsIfResourceSelected());
-        btnViewResource.setOnAction(e -> openViewResourcePage());
+    @Override
+    protected void setOnActions() {
         btnBack.setOnAction(e -> FXMLUtils.loadNewScene(USER_HOME_FXML));
+        super.setOnActions();
     }
 
-    private void enableButtonsIfResourceSelected() {
+    @Override
+    protected void enableButtonsIfResourceSelected() {
         if (getSelectedResource() != null) {
             FXMLUtils.makeNodesEnabled(btnViewResource);
         }

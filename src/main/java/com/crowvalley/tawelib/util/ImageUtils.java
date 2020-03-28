@@ -5,7 +5,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.ClassPathResource;
 
@@ -31,30 +30,39 @@ public class ImageUtils {
 
     public static void chooseImage(String fileChooserTitle, String copiedImageDirectory, ImageView imageView) {
         Optional<Image> image = chooseAndCopyImage(fileChooserTitle, copiedImageDirectory);
-        if (image.isPresent() && !isSameAsCurrentImage(image.get(), imageView)) {
-            deleteOldImage(imageView);
+        if (image.isPresent()) {
             imageView.setImage(image.get());
+
+            // If new image has a different path, delete the old image
+            // If the have the same path, the old image would have been overwritten in chooseAndCopyImage
+            if (!doImagesHaveSamePath(image.get(), imageView.getImage())) {
+                deleteOldImage(imageView);
+            }
         }
     }
 
     private static Optional<Image> chooseAndCopyImage(String fileChooserTitle, String copiedImageDirectory) {
         File selectedImageFile = getImageFile(fileChooserTitle);
 
-        if (selectedImageFile != null) {
-            try {
-                File destinationDirectory = getDestinationDirectory(copiedImageDirectory);
-                File copiedFile = new File(destinationDirectory, selectedImageFile.getName());
+        if (selectedImageFile == null) {
+            return Optional.empty();
+        }
 
-                Path pathToCopiedFile = Paths.get(copiedFile.getPath());
-                Path pathToSelectedFile = Paths.get(selectedImageFile.getPath());
+        try {
+            // Create destination image directory if it doesn't exist
+            File destinationDirectory = getDestinationDirectory(copiedImageDirectory);
+            Files.createDirectories(Paths.get(destinationDirectory.getPath()));
+            File destinationFile = new File(destinationDirectory, selectedImageFile.getName());
 
-                Files.copy(pathToSelectedFile, pathToCopiedFile, StandardCopyOption.REPLACE_EXISTING);
+            Path selectedFilePath = Paths.get(selectedImageFile.getPath());
+            Path destinationFilePath = Paths.get(destinationFile.getPath());
 
-                Image image = new Image(FILE_PROTOCOL + pathToCopiedFile, IMAGE_WIDTH, IMAGE_HEIGHT, true, true);
-                return Optional.of(image);
-            } catch (IOException e) {
-                FXMLUtils.displayErrorDialogBox("Error Choosing Image", e.getMessage());
-            }
+            Files.copy(selectedFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING);
+
+            Image image = new Image(FILE_PROTOCOL + destinationFilePath, IMAGE_WIDTH, IMAGE_HEIGHT, true, true);
+            return Optional.of(image);
+        } catch (IOException e) {
+            FXMLUtils.displayErrorDialogBox("Error Choosing Image", e.getMessage());
         }
 
         return Optional.empty();
@@ -75,15 +83,13 @@ public class ImageUtils {
         return new ClassPathResource(destination).getFile();
     }
 
-    private static boolean isSameAsCurrentImage(Image newImage, ImageView imageView) {
-        Image currentImage = imageView.getImage();
-        if (currentImage == null) {
+    private static boolean doImagesHaveSamePath(Image oldImage, Image newImage) {
+        if (oldImage == null) {
             return false;
-        } else {
-            String currentImageUrl = currentImage.getUrl();
-            String newImageUrl = newImage.getUrl();
-            return currentImageUrl.equals(newImageUrl);
         }
+        String oldImageUrl = oldImage.getUrl();
+        String newImageUrl = newImage.getUrl();
+        return oldImageUrl.equals(newImageUrl);
     }
 
     private static void deleteOldImage(ImageView imageView) {

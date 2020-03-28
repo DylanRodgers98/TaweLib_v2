@@ -28,6 +28,8 @@ public interface ResourceService {
 
     void deleteWithId(Long id);
 
+    List<ResourceDTO> search(String query, ResourceType resourceType);
+
     void setResourceDAO(ResourceDAO resourceDAO);
 
 }

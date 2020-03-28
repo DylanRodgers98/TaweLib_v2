@@ -75,9 +75,9 @@ public abstract class AbstractProfileController implements SelectionAwareFXContr
     public void initialize() {
         if (selectedUser != null) {
             loadProfile();
+            disableFields();
+            setOnActions();
         }
-        disableFields();
-        setOnActions();
     }
 
     private void loadProfile() {
