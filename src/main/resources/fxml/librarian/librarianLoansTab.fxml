@@ -7,6 +7,15 @@
 <Tab xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" closable="false" text="Loans"
      fx:controller="com.crowvalley.tawelib.controller.librarian.LibrarianLoansTabController">
     <BorderPane>
+        <top>
+            <AnchorPane>
+                <Label layoutX="257.0" layoutY="14.0" text="Between:" />
+                <DatePicker fx:id="dateStart" layoutX="310.0" layoutY="10.0" prefHeight="25.0" prefWidth="120.0" />
+                <Label layoutX="435.0" layoutY="14.0" text="and" />
+                <DatePicker fx:id="dateEnd" layoutX="460.0" layoutY="10.0" prefHeight="25.0" prefWidth="120.0" />
+                <Button fx:id="btnClearDate" layoutX="585.0" layoutY="10.0" text="Clear" />
+            </AnchorPane>
+        </top>
         <center>
             <TableView fx:id="tblLoans" prefHeight="298.0" prefWidth="640.0" BorderPane.alignment="CENTER">
                 <columns>

@@ -112,7 +112,12 @@ public class LibrarianUsersTabController implements FXController {
 
     private void enableButtonsIfUserSelected() {
         if (getSelectedUser() != null) {
-            FXMLUtils.makeNodesEnabled(btnViewOrEditUser, btnDeleteUser);
+            if (!getSelectedUser().getUsername().equals(UserContextHolder.getLoggedInUser())) {
+                FXMLUtils.makeNodesEnabled(btnDeleteUser);
+            } else {
+                FXMLUtils.makeNodesDisabled(btnDeleteUser);
+            }
+            FXMLUtils.makeNodesEnabled(btnViewOrEditUser);
         }
     }
 
@@ -131,12 +136,8 @@ public class LibrarianUsersTabController implements FXController {
         Optional<ButtonType> result = FXMLUtils.displayConfirmationDialogBox("Delete User",  message);
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            if (selectedUser.getUsername().equals(UserContextHolder.getLoggedInUser())) {
-                FXMLUtils.displayErrorDialogBox("Error Deleting User", "Cannot delete currently logged in user");
-            } else {
-                userService.delete(selectedUser);
-                tblUsers.getItems().remove(selectedUser);
-            }
+            userService.delete(selectedUser);
+            tblUsers.getItems().remove(selectedUser);
         }
     }
 

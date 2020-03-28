@@ -2,13 +2,15 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="353.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.crowvalley.tawelib.controller.user.UserLoansController">
+<VBox prefHeight="353.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.crowvalley.tawelib.controller.user.UserLoansController">
     <BorderPane prefWidth="540.0">
         <center>
             <TableView fx:id="tblLoans" prefHeight="298.0" prefWidth="520.0" BorderPane.alignment="CENTER">
@@ -24,11 +26,16 @@
             </TableView>
         </center>
         <top>
-            <Button fx:id="btnBack" text="&lt;&lt; Back" BorderPane.alignment="TOP_LEFT">
-                <BorderPane.margin>
-                    <Insets left="10.0" top="10.0" />
-                </BorderPane.margin>
-            </Button>
-         </top>
+            <AnchorPane prefHeight="0.0" prefWidth="540.0" BorderPane.alignment="CENTER">
+                <children>
+                    <Button fx:id="btnBack" layoutX="11.0" layoutY="11.0" text="&lt;&lt; Back" />
+                    <Label layoutX="157.0" layoutY="15.0" text="Between:" />
+                    <DatePicker fx:id="dateStart" layoutX="210.0" layoutY="11.0" prefHeight="25.0" prefWidth="120.0" />
+                    <Label layoutX="335.0" layoutY="15.0" text="and" />
+                    <DatePicker fx:id="dateEnd" layoutX="360.0" layoutY="11.0" prefHeight="25.0" prefWidth="120.0" />
+                    <Button fx:id="btnClearDate" layoutX="485.0" layoutY="11.0" text="Clear" />
+                 </children>
+            </AnchorPane>
+        </top>
     </BorderPane>
 </VBox>

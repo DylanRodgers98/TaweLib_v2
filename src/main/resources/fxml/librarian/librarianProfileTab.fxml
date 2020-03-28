@@ -29,7 +29,7 @@
                 <TextField fx:id="txtTown" layoutX="161.0" layoutY="200.0" />
                 <TextField fx:id="txtCounty" layoutX="161.0" layoutY="231.0" />
                 <TextField fx:id="txtPostcode" layoutX="161.0" layoutY="262.0" />
-                <DatePicker fx:id="datePicker" layoutX="161.0" layoutY="294.0" />
+                <TextField fx:id="txtEmploymentDate" layoutX="161.0" layoutY="294.0" disable="true" />
 
                 <Button fx:id="btnSaveOrUpdate" layoutX="175.0" layoutY="331.0" prefHeight="25.0" prefWidth="120.0" text="Update Profile" />
             </AnchorPane>

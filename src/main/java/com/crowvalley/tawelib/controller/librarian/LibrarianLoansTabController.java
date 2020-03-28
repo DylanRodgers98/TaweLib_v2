@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class LibrarianLoansTabController extends AbstractLoansController {
@@ -32,17 +33,17 @@ public class LibrarianLoansTabController extends AbstractLoansController {
     private Button btnEndLoan;
 
     @Override
-    public void initialize() {
+    protected void populateTable() {
         colBorrower.setCellValueFactory(new PropertyValueFactory<>("borrowerUsername"));
-        FXMLUtils.makeNodesDisabled(btnEndLoan);
-        setOnActions();
-        super.initialize();
+        super.populateTable();
     }
 
-    private void setOnActions() {
+    @Override
+    protected void setOnActions() {
         tblLoans.setOnMouseClicked(e -> enableButtonsIfLoanSelected());
         btnNewLoan.setOnAction(e -> FXMLUtils.loadNewScene(NEW_LOAN_CONTROLLER_FXML));
         btnEndLoan.setOnAction(e -> endLoan());
+        super.setOnActions();
     }
 
     private void enableButtonsIfLoanSelected() {
@@ -67,6 +68,13 @@ public class LibrarianLoansTabController extends AbstractLoansController {
     @Override
     protected ObservableList<Loan> getLoans() {
         ObservableList<Loan> loans = FXCollections.observableArrayList(loanService.getAll());
+        loans.sort(Loan.getComparator());
+        return loans;
+    }
+
+    @Override
+    protected ObservableList<Loan> search(LocalDateTime startDate, LocalDateTime endDate) {
+        ObservableList<Loan> loans = FXCollections.observableArrayList(loanService.search(startDate, endDate));
         loans.sort(Loan.getComparator());
         return loans;
     }

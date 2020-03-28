@@ -2,11 +2,19 @@ package com.crowvalley.tawelib.dao;
 
 import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.model.resource.Loan;
+import com.crowvalley.tawelib.model.resource.Resource;
+import com.crowvalley.tawelib.model.resource.ResourceDTO;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.util.ListUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,6 +73,24 @@ public class LoanDAOImpl extends BaseDAOImpl implements LoanDAO {
                         .createCriteria(Loan.class)
                         .add(Restrictions.eq("borrowerUsername", username))
                         .list());
+    }
+
+    @Override
+    public List<Loan> search(String username, LocalDateTime startDate, LocalDateTime endDate) {
+        Disjunction dateDisjunction = Restrictions.disjunction();
+        dateDisjunction.add(Restrictions.between("startDate", startDate, endDate));
+        dateDisjunction.add(Restrictions.between("endDate", startDate, endDate));
+        dateDisjunction.add(Restrictions.between("returnDate", startDate, endDate));
+
+        Criteria criteria = sessionFactory.getCurrentSession()
+                .createCriteria(Loan.class)
+                .add(dateDisjunction);
+
+        if (username != null) {
+            criteria.add(Restrictions.eq("borrowerUsername", username));
+        }
+
+        return ListUtils.castList(Loan.class, criteria.list());
     }
 
 }

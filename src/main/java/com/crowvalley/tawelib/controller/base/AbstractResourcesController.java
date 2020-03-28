@@ -74,7 +74,7 @@ public abstract class AbstractResourcesController implements FXController {
 
     private void executeTypeChange() {
         if (StringUtils.isBlank(txtSearch.getText())) {
-            populateTable();
+            tblResources.setItems(getResources());
         } else {
             search();
         }
@@ -126,7 +126,7 @@ public abstract class AbstractResourcesController implements FXController {
 
     private void search() {
         if (StringUtils.isBlank(txtSearch.getText())) {
-            populateTable();
+            tblResources.setItems(getResources());
         } else {
             List<ResourceDTO> searchResult = resourceService.search(txtSearch.getText(), cmbType.getValue());
             tblResources.setItems(constructObservableList(searchResult));

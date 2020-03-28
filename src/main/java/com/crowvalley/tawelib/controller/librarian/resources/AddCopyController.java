@@ -5,6 +5,7 @@ import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.model.resource.Resource;
 import com.crowvalley.tawelib.model.resource.ResourceFactory;
 import com.crowvalley.tawelib.service.CopyService;
+import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -21,7 +22,7 @@ public class AddCopyController implements SelectionAwareFXController<Resource> {
 
     private static final String VIEW_RESOURCE_FXML = "/fxml/librarian/resources/viewResource.fxml";
 
-    private CopyService copyService;
+    private ResourceService resourceService;
 
     private Resource selectedResource;
 
@@ -52,7 +53,8 @@ public class AddCopyController implements SelectionAwareFXController<Resource> {
     private void addCopy() {
         if (txtLoanDuration.getText() != null) {
             Copy copy = ResourceFactory.createCopy(selectedResource, Integer.parseInt(txtLoanDuration.getText()), txtLocation.getText());
-            copyService.saveOrUpdate(copy);
+            selectedResource.getCopies().add(copy);
+            resourceService.saveOrUpdate(selectedResource);
             FXMLUtils.displayInformationDialogBox("Success!", "Successfully created new copy of " + selectedResource);
             loadViewResourcePage();
         }
@@ -72,9 +74,9 @@ public class AddCopyController implements SelectionAwareFXController<Resource> {
         this.selectedResource = selectedItem;
     }
 
-    public void setCopyService(CopyService copyService) {
-        this.copyService = copyService;
-        LOGGER.info("{} CopyService set to {}", this.getClass().getSimpleName(), copyService.getClass().getSimpleName());
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
     }
 
 }

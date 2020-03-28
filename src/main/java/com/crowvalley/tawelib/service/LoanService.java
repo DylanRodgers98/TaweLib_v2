@@ -4,6 +4,7 @@ import com.crowvalley.tawelib.dao.LoanDAO;
 import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.model.resource.Loan;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,10 @@ public interface LoanService {
     String getUsernameOfCurrentBorrowerForCopy(Long copyId);
 
     List<Loan> getAllLoansForUser(String username);
+
+    List<Loan> search(LocalDateTime startDate, LocalDateTime endDate);
+
+    List<Loan> search(String username, LocalDateTime startDate, LocalDateTime endDate);
 
     void setLoanDAO(LoanDAO loanDAO);
 }

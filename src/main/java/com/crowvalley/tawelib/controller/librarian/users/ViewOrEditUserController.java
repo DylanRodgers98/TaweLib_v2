@@ -51,12 +51,11 @@ public class ViewOrEditUserController extends AbstractProfileController {
 
     @Override
     protected void enableFields() {
-        // Don't enable checkbox if selected user is currently logged in user
-        // This is to prevent them revoking their own Librarian rights
+        // Don't enable checkbox or datepicker if selected user is currently logged in user
+        // This is to prevent them revoking their own Librarian rights or changing their employment date
         if (!UserContextHolder.getLoggedInUser().equals(selectedUser.getUsername())) {
-            FXMLUtils.makeNodesEnabled(chkLibrarian);
+            FXMLUtils.makeNodesEnabled(chkLibrarian, datePicker);
         }
-        FXMLUtils.makeNodesEnabled(datePicker);
         super.enableFields();
     }
 

@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 
 public class UserLoansController extends AbstractLoansController {
@@ -34,6 +35,14 @@ public class UserLoansController extends AbstractLoansController {
         String username = UserContextHolder.getLoggedInUser();
         ObservableList<Loan> loans = FXCollections.observableArrayList(loanService.getAllLoansForUser(username));
         loans.sort(Comparator.comparing(Loan::getReturnDate, Comparator.nullsFirst(Comparator.reverseOrder())));
+        return loans;
+    }
+
+    @Override
+    protected ObservableList<Loan> search(LocalDateTime startDate, LocalDateTime endDate) {
+        String username = UserContextHolder.getLoggedInUser();
+        ObservableList<Loan> loans = FXCollections.observableArrayList(loanService.search(username, startDate, endDate));
+        loans.sort(Loan.getComparator());
         return loans;
     }
 

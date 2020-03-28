@@ -216,6 +216,16 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
+    public List<Loan> search(LocalDateTime startDate, LocalDateTime endDate) {
+        return search(null, startDate, endDate);
+    }
+
+    @Override
+    public List<Loan> search(String username, LocalDateTime startDate, LocalDateTime endDate) {
+        return loanDAO.search(username, startDate, endDate);
+    }
+
+    @Override
     public void setLoanDAO(LoanDAO loanDAO) {
         this.loanDAO = loanDAO;
         LOGGER.info("{} LoanDAO set to {}", this.getClass().getSimpleName(), loanDAO.getClass().getSimpleName());

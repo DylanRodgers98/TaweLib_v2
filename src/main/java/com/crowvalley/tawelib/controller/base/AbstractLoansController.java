@@ -3,15 +3,20 @@ package com.crowvalley.tawelib.controller.base;
 import com.crowvalley.tawelib.controller.FXController;
 import com.crowvalley.tawelib.controller.user.UserLoansController;
 import com.crowvalley.tawelib.model.resource.Loan;
+import com.crowvalley.tawelib.model.resource.ResourceDTO;
 import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.LoanService;
 import com.crowvalley.tawelib.service.ResourceService;
+import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableStringValue;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import org.slf4j.Logger;
@@ -19,6 +24,10 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 public abstract class AbstractLoansController implements FXController {
 
@@ -45,13 +54,33 @@ public abstract class AbstractLoansController implements FXController {
     @FXML
     private TableColumn<Loan, LocalDate> colReturnDate;
 
+    @FXML
+    private DatePicker dateStart;
+
+    @FXML
+    private DatePicker dateEnd;
+
+    @FXML
+    private Button btnClearDate;
+
     @Override
     public void initialize() {
+        populateTable();
+        setOnActions();
+    }
+
+    protected void populateTable() {
         colCopy.setCellValueFactory(this::getCopyTitle);
         colStartDate.setCellValueFactory(this::getStartDate);
         colEndDate.setCellValueFactory(this::getEndDate);
         colReturnDate.setCellValueFactory(this::getReturnDate);
         tblLoans.setItems(getLoans());
+    }
+
+    protected void setOnActions() {
+        dateStart.setOnAction(e -> filterOnDate());
+        dateEnd.setOnAction(e -> filterOnDate());
+        btnClearDate.setOnAction(e -> clearDate());
     }
 
     private ObservableStringValue getCopyTitle(TableColumn.CellDataFeatures<Loan, String> loan) {
@@ -76,6 +105,32 @@ public abstract class AbstractLoansController implements FXController {
     }
 
     protected abstract ObservableList<Loan> getLoans();
+
+    private void filterOnDate() {
+        LocalDate startDate = dateStart.getValue();
+        if (startDate == null) {
+            return;
+        }
+
+        LocalDate endDate = dateEnd.getValue() != null ? dateEnd.getValue() : LocalDate.now();
+        if (endDate.isBefore(startDate)) {
+            FXMLUtils.displayErrorDialogBox("Date Error", "End date cannot be before start date");
+            return;
+        }
+
+        LocalDateTime startDateTime = LocalDateTime.of(dateStart.getValue(), LocalTime.MIDNIGHT);
+        LocalDateTime endDateTime = LocalDateTime.of(endDate, LocalTime.of(23, 59, 59));
+
+        tblLoans.setItems(search(startDateTime, endDateTime));
+    }
+
+    protected abstract ObservableList<Loan> search(LocalDateTime startDate, LocalDateTime endDate);
+
+    private void clearDate() {
+        dateStart.setValue(null);
+        dateEnd.setValue(null);
+        tblLoans.setItems(getLoans());
+    }
 
     public void setLoanService(LoanService loanService) {
         this.loanService = loanService;

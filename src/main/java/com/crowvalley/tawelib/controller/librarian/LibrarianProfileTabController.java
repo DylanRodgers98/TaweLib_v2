@@ -70,7 +70,7 @@ public class LibrarianProfileTabController implements FXController {
     private Button btnChangePic;
 
     @FXML
-    private DatePicker datePicker;
+    private TextField txtEmploymentDate;
 
     @Override
     public void initialize() {
@@ -96,7 +96,7 @@ public class LibrarianProfileTabController implements FXController {
         txtSurname.setText(librarian.getSurname());
         txtPhoneNum.setText(librarian.getPhoneNum());
         populateAddressFields(librarian.getAddress());
-        datePicker.setValue(librarian.getEmploymentDate());
+        txtEmploymentDate.setText(librarian.getEmploymentDate().toString());
     }
 
     private void populateAddressFields(Address address) {
@@ -114,12 +114,12 @@ public class LibrarianProfileTabController implements FXController {
 
     private void disableFields() {
         FXMLUtils.makeNodesDisabled(txtUsername, txtFirstName, txtSurname, txtPhoneNum,
-                txtHouseNum, txtStreet, txtTown, txtCounty, txtPostcode, datePicker);
+                txtHouseNum, txtStreet, txtTown, txtCounty, txtPostcode);
     }
 
     private void enableTextFields() {
         FXMLUtils.makeNodesEnabled(txtUsername, txtFirstName, txtSurname, txtPhoneNum,
-                txtHouseNum, txtStreet, txtTown, txtCounty, txtPostcode, datePicker);
+                txtHouseNum, txtStreet, txtTown, txtCounty, txtPostcode);
     }
 
     private void saveOrUpdateProfile() {
@@ -144,7 +144,6 @@ public class LibrarianProfileTabController implements FXController {
     private void updateProfile() {
         updateInfo();
         updateAddress(loggedInLibrarian.getAddress());
-        loggedInLibrarian.setEmploymentDate(datePicker.getValue());
         userService.saveOrUpdate(loggedInLibrarian);
     }
 
