@@ -55,12 +55,13 @@ public class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     @Override
     public List<Transaction> search(String username, LocalDateTime startDate, LocalDateTime endDate) {
-        Criteria criteria = sessionFactory.getCurrentSession()
-                .createCriteria(Transaction.class)
-                .add(Restrictions.between("transactionDate", startDate, endDate));
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Transaction.class);
 
+        if (startDate != null && endDate != null) {
+            criteria.add(Restrictions.between("transactionDate", startDate, endDate));
+        }
         if (username != null) {
-            criteria.add(Restrictions.eq("username", username));
+            criteria.add(Restrictions.ilike("username", username));
         }
 
         return ListUtils.castList(Transaction.class, criteria.list());

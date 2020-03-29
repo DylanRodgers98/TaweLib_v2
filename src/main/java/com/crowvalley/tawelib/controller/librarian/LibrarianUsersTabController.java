@@ -2,6 +2,7 @@ package com.crowvalley.tawelib.controller.librarian;
 
 import com.crowvalley.tawelib.UserContextHolder;
 import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.model.resource.ResourceDTO;
 import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.TransactionService;
@@ -12,11 +13,10 @@ import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -68,6 +69,12 @@ public class LibrarianUsersTabController implements FXController {
     @FXML
     private Button btnDeleteUser;
 
+    @FXML
+    private TextField txtSearch;
+
+    @FXML
+    private Button btnSearch;
+
     @Override
     public void initialize() {
         populateTable();
@@ -98,7 +105,11 @@ public class LibrarianUsersTabController implements FXController {
     }
 
     private ObservableList<User> getUsers() {
-        ObservableList<User> users = FXCollections.observableArrayList(userService.getAll());
+        return constructObservableList(userService.getAll());
+    }
+
+    private ObservableList<User> constructObservableList(List<? extends User> userList) {
+        ObservableList<User> users = FXCollections.observableArrayList(userList);
         users.sort(Comparator.comparing(User::getUsername));
         return users;
     }
@@ -108,6 +119,13 @@ public class LibrarianUsersTabController implements FXController {
         btnNewUser.setOnAction(e -> FXMLUtils.loadNewScene(ADD_NEW_USER_FXML));
         btnViewOrEditUser.setOnAction(e -> openViewOrEditUserPage());
         btnDeleteUser.setOnAction(e -> deleteSelectedUser());
+        btnSearch.setOnAction(e -> search());
+        txtSearch.setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.ENTER)) {
+                search();
+            }
+        });
+
     }
 
     private void enableButtonsIfUserSelected() {
@@ -143,6 +161,15 @@ public class LibrarianUsersTabController implements FXController {
 
     private User getSelectedUser() {
         return tblUsers.getSelectionModel().getSelectedItem();
+    }
+
+    private void search() {
+        if (StringUtils.isBlank(txtSearch.getText())) {
+            tblUsers.setItems(getUsers());
+        } else {
+            List<User> searchResult = userService.search(txtSearch.getText());
+            tblUsers.setItems(constructObservableList(searchResult));
+        }
     }
 
     public void setUserService(UserService userService) {

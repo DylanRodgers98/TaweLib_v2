@@ -30,5 +30,7 @@ public interface UserService {
 
     List<OutstandingFinesDTO> getAllUsersWithOutstandingFines();
 
+    List<User> search(String username);
+
     void setUserDAO(UserDAO userDAO);
 }

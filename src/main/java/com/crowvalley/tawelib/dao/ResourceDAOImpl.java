@@ -46,10 +46,9 @@ public class ResourceDAOImpl extends BaseDAOImpl implements ResourceDAO {
     @Override
     public List<ResourceDTO> search(String query, Class<? extends Resource> clazz) {
         Disjunction searchDisjunction = Restrictions.disjunction();
-        searchDisjunction.add(Restrictions.like("title", query));
+        searchDisjunction.add(Restrictions.ilike("title", query));
         if (StringUtils.isNumeric(query)) {
-            searchDisjunction.add(Restrictions.idEq(query));
-            searchDisjunction.add(Restrictions.like("year", query));
+            searchDisjunction.add(Restrictions.eq("year", query));
         }
 
         return ListUtils.castList(ResourceDTO.class,

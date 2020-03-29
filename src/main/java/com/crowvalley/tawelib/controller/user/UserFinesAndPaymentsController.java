@@ -41,6 +41,10 @@ public class UserFinesAndPaymentsController extends AbstractFinesAndPaymentsCont
 
     @Override
     protected ObservableList<Transaction> search(LocalDateTime startDate, LocalDateTime endDate) {
+        if (startDate == null || endDate == null) {
+            return getFinesAndPayments();
+        }
+
         String username = UserContextHolder.getLoggedInUser();
         List<Transaction> queryResult = transactionService.search(username, startDate, endDate);
         ObservableList<Transaction> transactions = FXCollections.observableArrayList(queryResult);

@@ -2,17 +2,16 @@ package com.crowvalley.tawelib.controller.librarian;
 
 import com.crowvalley.tawelib.controller.base.AbstractFinesAndPaymentsController;
 import com.crowvalley.tawelib.model.fine.Transaction;
-import com.crowvalley.tawelib.model.resource.Loan;
-import com.crowvalley.tawelib.service.*;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javafx.scene.input.KeyCode;
+import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -28,6 +27,12 @@ public class LibrarianFinesAndPaymentsTabController extends AbstractFinesAndPaym
     @FXML
     private Button btnRecordPayment;
 
+    @FXML
+    private TextField txtSearch;
+
+    @FXML
+    private Button btnSearch;
+
     @Override
     protected void populateTable() {
         colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
@@ -37,6 +42,12 @@ public class LibrarianFinesAndPaymentsTabController extends AbstractFinesAndPaym
     @Override
     protected void setOnActions() {
         btnRecordPayment.setOnAction(e -> FXMLUtils.loadNewScene(RECORD_PAYMENT_FXML));
+        btnSearch.setOnAction(e -> search());
+        txtSearch.setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.ENTER)) {
+                search();
+            }
+        });
         super.setOnActions();
     }
 
@@ -49,7 +60,15 @@ public class LibrarianFinesAndPaymentsTabController extends AbstractFinesAndPaym
 
     @Override
     protected ObservableList<Transaction> search(LocalDateTime startDate, LocalDateTime endDate) {
-        List<Transaction> queryResult = transactionService.search(startDate, endDate);
+        List<Transaction> queryResult;
+        if (StringUtils.isNotBlank(txtSearch.getText())) {
+            queryResult = transactionService.search(txtSearch.getText(), startDate, endDate);
+        } else if (startDate != null && endDate != null) {
+            queryResult = transactionService.search(startDate, endDate);
+        } else {
+            return getFinesAndPayments();
+        }
+
         ObservableList<Transaction> transactions = FXCollections.observableArrayList(queryResult);
         transactions.sort(Comparator.comparingLong(Transaction::getId).reversed());
         return transactions;

@@ -21,4 +21,6 @@ public interface UserDAO extends BaseDAO {
 
     Optional<Librarian> getLibrarianUserWithStaffNumber(Long staffNum);
 
+    List<User> search(String username);
+
 }

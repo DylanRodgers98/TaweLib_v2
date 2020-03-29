@@ -84,6 +84,11 @@ public class UserServiceImpl implements UserService {
         return usersWithOutstandingFines;
     }
 
+    @Override
+    public List<User> search(String username) {
+        return userDAO.search(username);
+    }
+
     /**
      * Persists a {@link User} object to the database through the DAO.
      *

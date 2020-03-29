@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.List;
 
 public class UserLoansController extends AbstractLoansController {
 
@@ -40,8 +41,13 @@ public class UserLoansController extends AbstractLoansController {
 
     @Override
     protected ObservableList<Loan> search(LocalDateTime startDate, LocalDateTime endDate) {
+        if (startDate == null || endDate == null) {
+            return getLoans();
+        }
+
         String username = UserContextHolder.getLoggedInUser();
-        ObservableList<Loan> loans = FXCollections.observableArrayList(loanService.search(username, startDate, endDate));
+        List<Loan> queryResult = loanService.search(username, startDate, endDate);
+        ObservableList<Loan> loans = FXCollections.observableArrayList(queryResult);
         loans.sort(Loan.getComparator());
         return loans;
     }

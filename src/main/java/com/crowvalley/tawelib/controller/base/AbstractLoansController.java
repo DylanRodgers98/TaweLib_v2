@@ -1,9 +1,7 @@
 package com.crowvalley.tawelib.controller.base;
 
 import com.crowvalley.tawelib.controller.FXController;
-import com.crowvalley.tawelib.controller.user.UserLoansController;
 import com.crowvalley.tawelib.model.resource.Loan;
-import com.crowvalley.tawelib.model.resource.ResourceDTO;
 import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.LoanService;
 import com.crowvalley.tawelib.service.ResourceService;
@@ -12,7 +10,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableStringValue;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -25,9 +22,6 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
 
 public abstract class AbstractLoansController implements FXController {
 
@@ -78,8 +72,8 @@ public abstract class AbstractLoansController implements FXController {
     }
 
     protected void setOnActions() {
-        dateStart.setOnAction(e -> filterOnDate());
-        dateEnd.setOnAction(e -> filterOnDate());
+        dateStart.setOnAction(e -> search());
+        dateEnd.setOnAction(e -> search());
         btnClearDate.setOnAction(e -> clearDate());
     }
 
@@ -106,22 +100,26 @@ public abstract class AbstractLoansController implements FXController {
 
     protected abstract ObservableList<Loan> getLoans();
 
-    private void filterOnDate() {
+    protected void search() {
+        tblLoans.setItems(searchInternal());
+    }
+
+    private ObservableList<Loan> searchInternal() {
         LocalDate startDate = dateStart.getValue();
         if (startDate == null) {
-            return;
+            return search(null, null);
         }
 
         LocalDate endDate = dateEnd.getValue() != null ? dateEnd.getValue() : LocalDate.now();
         if (endDate.isBefore(startDate)) {
             FXMLUtils.displayErrorDialogBox("Date Error", "End date cannot be before start date");
-            return;
+            return getLoans();
         }
 
         LocalDateTime startDateTime = LocalDateTime.of(dateStart.getValue(), LocalTime.MIDNIGHT);
         LocalDateTime endDateTime = LocalDateTime.of(endDate, LocalTime.of(23, 59, 59));
 
-        tblLoans.setItems(search(startDateTime, endDateTime));
+        return search(startDateTime, endDateTime);
     }
 
     protected abstract ObservableList<Loan> search(LocalDateTime startDate, LocalDateTime endDate);

@@ -1,6 +1,7 @@
 package com.crowvalley.tawelib.controller.librarian;
 
 import com.crowvalley.tawelib.controller.base.AbstractLoansController;
+import com.crowvalley.tawelib.model.fine.Transaction;
 import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.LoanService;
@@ -12,11 +13,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public class LibrarianLoansTabController extends AbstractLoansController {
@@ -32,6 +37,12 @@ public class LibrarianLoansTabController extends AbstractLoansController {
     @FXML
     private Button btnEndLoan;
 
+    @FXML
+    private TextField txtSearch;
+
+    @FXML
+    private Button btnSearch;
+
     @Override
     protected void populateTable() {
         colBorrower.setCellValueFactory(new PropertyValueFactory<>("borrowerUsername"));
@@ -43,6 +54,12 @@ public class LibrarianLoansTabController extends AbstractLoansController {
         tblLoans.setOnMouseClicked(e -> enableButtonsIfLoanSelected());
         btnNewLoan.setOnAction(e -> FXMLUtils.loadNewScene(NEW_LOAN_CONTROLLER_FXML));
         btnEndLoan.setOnAction(e -> endLoan());
+        btnSearch.setOnAction(e -> search());
+        txtSearch.setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.ENTER)) {
+                search();
+            }
+        });
         super.setOnActions();
     }
 
@@ -74,7 +91,16 @@ public class LibrarianLoansTabController extends AbstractLoansController {
 
     @Override
     protected ObservableList<Loan> search(LocalDateTime startDate, LocalDateTime endDate) {
-        ObservableList<Loan> loans = FXCollections.observableArrayList(loanService.search(startDate, endDate));
+        List<Loan> queryResult;
+        if (StringUtils.isNotBlank(txtSearch.getText())) {
+            queryResult = loanService.search(txtSearch.getText(), startDate, endDate);
+        } else if (startDate != null && endDate != null) {
+            queryResult = loanService.search(startDate, endDate);
+        } else {
+            return getLoans();
+        }
+
+        ObservableList<Loan> loans = FXCollections.observableArrayList(queryResult);
         loans.sort(Loan.getComparator());
         return loans;
     }

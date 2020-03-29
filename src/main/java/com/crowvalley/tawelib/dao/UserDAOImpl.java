@@ -66,4 +66,13 @@ public class UserDAOImpl extends BaseDAOImpl implements UserDAO {
         return Optional.ofNullable(librarian);
     }
 
+    @Override
+    public List<User> search(String username) {
+        return ListUtils.castList(User.class,
+                sessionFactory.getCurrentSession()
+                        .createCriteria(User.class)
+                        .add(Restrictions.ilike("username", username))
+                        .list());
+    }
+
 }

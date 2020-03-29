@@ -77,17 +77,17 @@ public class LoanDAOImpl extends BaseDAOImpl implements LoanDAO {
 
     @Override
     public List<Loan> search(String username, LocalDateTime startDate, LocalDateTime endDate) {
-        Disjunction dateDisjunction = Restrictions.disjunction();
-        dateDisjunction.add(Restrictions.between("startDate", startDate, endDate));
-        dateDisjunction.add(Restrictions.between("endDate", startDate, endDate));
-        dateDisjunction.add(Restrictions.between("returnDate", startDate, endDate));
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Loan.class);
 
-        Criteria criteria = sessionFactory.getCurrentSession()
-                .createCriteria(Loan.class)
-                .add(dateDisjunction);
-
+        if (startDate != null  && endDate != null) {
+            Disjunction dateDisjunction = Restrictions.disjunction();
+            dateDisjunction.add(Restrictions.between("startDate", startDate, endDate));
+            dateDisjunction.add(Restrictions.between("endDate", startDate, endDate));
+            dateDisjunction.add(Restrictions.between("returnDate", startDate, endDate));
+            criteria.add(dateDisjunction);
+        }
         if (username != null) {
-            criteria.add(Restrictions.eq("borrowerUsername", username));
+            criteria.add(Restrictions.ilike("borrowerUsername", username));
         }
 
         return ListUtils.castList(Loan.class, criteria.list());

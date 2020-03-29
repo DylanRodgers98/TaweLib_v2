@@ -1,11 +1,9 @@
 package com.crowvalley.tawelib.controller.base;
 
 import com.crowvalley.tawelib.controller.FXController;
-import com.crowvalley.tawelib.controller.user.UserFinesAndPaymentsController;
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.fine.Transaction;
-import com.crowvalley.tawelib.model.resource.Loan;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.service.TransactionService;
 import com.crowvalley.tawelib.util.FXMLUtils;
@@ -28,6 +26,7 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Locale;
 
 public abstract class AbstractFinesAndPaymentsController implements FXController {
@@ -75,8 +74,8 @@ public abstract class AbstractFinesAndPaymentsController implements FXController
     }
 
     protected void setOnActions() {
-        dateStart.setOnAction(e -> filterOnDate());
-        dateEnd.setOnAction(e -> filterOnDate());
+        dateStart.setOnAction(e -> search());
+        dateEnd.setOnAction(e -> search());
         btnClearDate.setOnAction(e -> clearDate());
     }
 
@@ -109,22 +108,26 @@ public abstract class AbstractFinesAndPaymentsController implements FXController
 
     protected abstract ObservableList<Transaction> getFinesAndPayments();
 
-    private void filterOnDate() {
+    protected void search() {
+        tblFinesAndPayments.setItems(searchInternal());
+    }
+
+    private ObservableList<Transaction> searchInternal() {
         LocalDate startDate = dateStart.getValue();
         if (startDate == null) {
-            return;
+            return search(null, null);
         }
 
         LocalDate endDate = dateEnd.getValue() != null ? dateEnd.getValue() : LocalDate.now();
         if (endDate.isBefore(startDate)) {
             FXMLUtils.displayErrorDialogBox("Date Error", "End date cannot be before start date");
-            return;
+            return getFinesAndPayments();
         }
 
         LocalDateTime startDateTime = LocalDateTime.of(dateStart.getValue(), LocalTime.MIDNIGHT);
         LocalDateTime endDateTime = LocalDateTime.of(endDate, LocalTime.of(23, 59, 59));
 
-        tblFinesAndPayments.setItems(search(startDateTime, endDateTime));
+        return search(startDateTime, endDateTime);
     }
 
     protected abstract ObservableList<Transaction> search(LocalDateTime startDate, LocalDateTime endDate);
