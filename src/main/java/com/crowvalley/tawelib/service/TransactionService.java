@@ -6,6 +6,7 @@ import com.crowvalley.tawelib.model.fine.Transaction;
 import com.crowvalley.tawelib.model.resource.Copy;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +31,10 @@ public interface TransactionService {
     BigDecimal getTotalFinesAmountForUser(String username);
 
     BigDecimal getTotalPaymentsAmountForUser(String username);
+
+    List<Transaction> search(LocalDateTime startDate, LocalDateTime endDate);
+
+    List<Transaction> search(String username, LocalDateTime startDate, LocalDateTime endDate);
 
     void setTransactionDAO(TransactionDAO transactionDAO);
 }

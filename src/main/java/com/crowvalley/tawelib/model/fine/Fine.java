@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Fine class for creating objects to store information about fines
@@ -25,8 +27,8 @@ public class Fine extends Transaction {
 
     private Long loanId;
 
-    public Fine(String username, Long loanId, BigDecimal amount) {
-        super(username, amount);
+    public Fine(String username, Long loanId, BigDecimal amount, LocalDateTime fineDate) {
+        super(username, amount, fineDate);
         this.loanId = loanId;
     }
 

@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
@@ -24,9 +25,9 @@ public class UserFinesAndPaymentsController extends AbstractFinesAndPaymentsCont
     private Button btnBack;
 
     @Override
-    public void initialize() {
+    protected void setOnActions() {
         btnBack.setOnAction(e -> FXMLUtils.loadNewScene(USER_HOME_FXML));
-        super.initialize();
+        super.setOnActions();
     }
 
     @Override
@@ -34,6 +35,15 @@ public class UserFinesAndPaymentsController extends AbstractFinesAndPaymentsCont
         String username = UserContextHolder.getLoggedInUser();
         List<? extends Transaction> transactionsForUser = transactionService.getAllTransactionsForUser(username);
         ObservableList<Transaction> transactions = FXCollections.observableArrayList(transactionsForUser);
+        transactions.sort(Comparator.comparingLong(Transaction::getId).reversed());
+        return transactions;
+    }
+
+    @Override
+    protected ObservableList<Transaction> search(LocalDateTime startDate, LocalDateTime endDate) {
+        String username = UserContextHolder.getLoggedInUser();
+        List<Transaction> queryResult = transactionService.search(username, startDate, endDate);
+        ObservableList<Transaction> transactions = FXCollections.observableArrayList(queryResult);
         transactions.sort(Comparator.comparingLong(Transaction::getId).reversed());
         return transactions;
     }

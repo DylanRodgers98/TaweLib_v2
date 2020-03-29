@@ -9,6 +9,8 @@ import com.crowvalley.tawelib.util.FXMLUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -71,7 +73,7 @@ public class RecordPaymentController implements FXController {
                 amount = outstandingFines;
             }
 
-            Payment payment = new Payment(username, amount);
+            Payment payment = new Payment(username, amount, LocalDateTime.now());
             transactionService.save(payment);
 
             FXMLUtils.displayInformationDialogBox("Payment Successful",

@@ -8,12 +8,24 @@
      text="Fines &amp; Payments"
      fx:controller="com.crowvalley.tawelib.controller.librarian.LibrarianFinesAndPaymentsTabController">
     <BorderPane prefHeight="200.0" prefWidth="200.0">
+        <top>
+            <AnchorPane prefHeight="0.0" prefWidth="540.0" BorderPane.alignment="CENTER">
+                <children>
+                    <Label layoutX="257.0" layoutY="14.0" text="Between:" />
+                    <DatePicker fx:id="dateStart" layoutX="310.0" layoutY="10.0" prefHeight="25.0" prefWidth="120.0" />
+                    <Label layoutX="435.0" layoutY="14.0" text="and" />
+                    <DatePicker fx:id="dateEnd" layoutX="460.0" layoutY="10.0" prefHeight="25.0" prefWidth="120.0" />
+                    <Button fx:id="btnClearDate" layoutX="585.0" layoutY="10.0" text="Clear" />
+                </children>
+            </AnchorPane>
+        </top>
         <center>
             <TableView fx:id="tblFinesAndPayments" prefHeight="302.0" prefWidth="622.0" BorderPane.alignment="CENTER">
                 <columns>
                     <TableColumn fx:id="colUsername" prefWidth="100.0" text="Username"/>
                     <TableColumn fx:id="colAmount" prefWidth="80.0" text="Amount"/>
-                    <TableColumn fx:id="colType" prefWidth="454.0" text="Fine or Payment?"/>
+                    <TableColumn fx:id="colDate" prefWidth="80.0" text="Date" />
+                    <TableColumn fx:id="colType" prefWidth="357.0" text="Fine or Payment?"/>
                 </columns>
                 <BorderPane.margin>
                     <Insets left="10.0" right="10.0" top="10.0"/>

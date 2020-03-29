@@ -1,7 +1,6 @@
 package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.TransactionDAO;
-import com.crowvalley.tawelib.dao.TransactionDAOImpl;
 import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.fine.Transaction;
 import org.junit.Test;
@@ -11,10 +10,11 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -22,11 +22,11 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class TransactionServiceImplTest {
 
-    private static final Transaction payment1 = new Payment("User 1", new BigDecimal("2.50"));
+    private static final Transaction PAYMENT_1 = new Payment("User 1", new BigDecimal("2.50"), LocalDateTime.now());
 
-    private static final Transaction payment2 = new Payment("User 2", new BigDecimal("2.50"));
+    private static final Transaction PAYMENT_2 = new Payment("User 2", new BigDecimal("2.50"), LocalDateTime.now());
 
-    private static final List<Transaction> payments = Arrays.asList(payment1, payment2);
+    private static final List<Transaction> PAYMENTS = Arrays.asList(PAYMENT_1, PAYMENT_2);
 
     @Mock
     private TransactionDAO DAO;
@@ -36,11 +36,11 @@ public class TransactionServiceImplTest {
 
     @Test
     public void testGetAll() {
-        when(DAO.getAll(Transaction.class)).thenReturn(payments);
+        when(DAO.getAll(Transaction.class)).thenReturn(PAYMENTS);
 
         assertThat(paymentService.getAll())
                 .as("Retrieve all payments stored in the database")
-                .isEqualTo(payments);
+                .isEqualTo(PAYMENTS);
     }
 
     @Test
@@ -54,14 +54,14 @@ public class TransactionServiceImplTest {
 
     @Test
     public void test_verifySave() {
-        paymentService.save(payment1);
-        verify(DAO).saveOrUpdate(payment1);
+        paymentService.save(PAYMENT_1);
+        verify(DAO).saveOrUpdate(PAYMENT_1);
     }
 
     @Test
     public void test_verifyDelete() {
-        paymentService.delete(payment2);
-        verify(DAO).delete(payment2);
+        paymentService.delete(PAYMENT_2);
+        verify(DAO).delete(PAYMENT_2);
     }
 
 }

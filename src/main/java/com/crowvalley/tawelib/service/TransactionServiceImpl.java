@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,6 +84,16 @@ public class TransactionServiceImpl implements TransactionService {
     public BigDecimal getTotalPaymentsAmountForUser(String username) {
         BigDecimal totalPaymentsAmount = transactionDAO.getTotalPaymentAmountForUser(username);
         return totalPaymentsAmount != null ? totalPaymentsAmount : BigDecimal.ZERO;
+    }
+
+    @Override
+    public List<Transaction> search(LocalDateTime startDate, LocalDateTime endDate) {
+        return search(null, startDate, endDate);
+    }
+
+    @Override
+    public List<Transaction> search(String username, LocalDateTime startDate, LocalDateTime endDate) {
+        return transactionDAO.search(username, startDate, endDate);
     }
 
     @Override

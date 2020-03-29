@@ -2,8 +2,10 @@ package com.crowvalley.tawelib.dao;
 
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.fine.Transaction;
+import com.crowvalley.tawelib.model.resource.Loan;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -19,5 +21,7 @@ public interface TransactionDAO extends BaseDAO {
     BigDecimal getTotalFineAmountForUser(String username);
 
     BigDecimal getTotalPaymentAmountForUser(String username);
+
+    List<Transaction> search(String username, LocalDateTime startDate, LocalDateTime endDate);
 
 }

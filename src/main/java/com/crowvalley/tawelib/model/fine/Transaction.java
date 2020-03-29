@@ -4,6 +4,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @MappedSuperclass
 public class Transaction {
@@ -16,9 +18,12 @@ public class Transaction {
 
     private BigDecimal amount;
 
-    public Transaction(String username, BigDecimal amount) {
+    private LocalDateTime transactionDate;
+
+    public Transaction(String username, BigDecimal amount, LocalDateTime transactionDate) {
         this.username = username;
         this.amount = amount;
+        this.transactionDate = transactionDate;
     }
 
     public Transaction(){
@@ -34,5 +39,9 @@ public class Transaction {
 
     public BigDecimal getAmount() {
         return amount;
+    }
+
+    public LocalDateTime getTransactionDate() {
+        return transactionDate;
     }
 }

@@ -207,7 +207,7 @@ public class LoanServiceImpl implements LoanService {
                 long dayDiffBetweenEndAndReturnDates = DAYS.between(endDate, returnDate);
                 fineAmount = fineAmount.multiply(BigDecimal.valueOf(dayDiffBetweenEndAndReturnDates));
 
-                Fine fine = new Fine(loan.getBorrowerUsername(), loan.getId(), fineAmount);
+                Fine fine = new Fine(loan.getBorrowerUsername(), loan.getId(), fineAmount, LocalDateTime.now());
                 transactionService.save(fine);
                 LOGGER.info("£{} fine (ID: {}) issued to {}",
                         String.format("%.2f", fine.getAmount()), fine.getId(), fine.getUsername());
