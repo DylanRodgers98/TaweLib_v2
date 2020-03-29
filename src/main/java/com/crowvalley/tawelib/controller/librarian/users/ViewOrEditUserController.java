@@ -2,17 +2,13 @@ package com.crowvalley.tawelib.controller.librarian.users;
 
 import com.crowvalley.tawelib.UserContextHolder;
 import com.crowvalley.tawelib.controller.base.AbstractProfileController;
-import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
-import com.crowvalley.tawelib.service.UserService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ViewOrEditUserController extends AbstractProfileController {
 

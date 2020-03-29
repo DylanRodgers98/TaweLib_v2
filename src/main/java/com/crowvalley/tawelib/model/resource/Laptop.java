@@ -32,15 +32,7 @@ public class Laptop extends Resource {
 
     @Override
     public String toString() {
-        return new StringBuilder(getTitle())
-                .append(" (")
-                .append(getYear())
-                .append(" ")
-                .append(manufacturer)
-                .append(" ")
-                .append(model)
-                .append(")")
-                .toString();
+        return title + " (" + year + " " + manufacturer + " " + model + ")";
     }
 
     public String getManufacturer() {

@@ -53,7 +53,6 @@
     <bean id="librarianLoansTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianLoansTabController" >
         <property name="loanService" ref="loanService" />
         <property name="copyService" ref="copyService" />
-        <property name="resourceService" ref="resourceService" />
     </bean>
 
     <bean id="newLoanController" class="com.crowvalley.tawelib.controller.librarian.loans.NewLoanController" >
@@ -78,7 +77,6 @@
 
     <bean id="librarianFinesAndPaymentsTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianFinesAndPaymentsTabController" >
         <property name="transactionService" ref="transactionService" />
-        <property name="resourceService" ref="resourceService" />
     </bean>
 
     <bean id="recordPaymentController" class="com.crowvalley.tawelib.controller.librarian.finesandpayments.RecordPaymentController" >
@@ -106,13 +104,11 @@
     </bean>
 
     <bean id="userLoansController" class="com.crowvalley.tawelib.controller.user.UserLoansController" >
-        <property name="resourceService" ref="resourceService" />
         <property name="copyService" ref="copyService" />
         <property name="loanService" ref="loanService" />
     </bean>
 
     <bean id="userFinesAndPaymentsController" class="com.crowvalley.tawelib.controller.user.UserFinesAndPaymentsController" >
-        <property name="resourceService" ref="resourceService" />
         <property name="transactionService" ref="transactionService" />
     </bean>
 

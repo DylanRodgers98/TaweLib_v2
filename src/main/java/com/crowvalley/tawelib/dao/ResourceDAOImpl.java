@@ -11,7 +11,6 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 
 import java.util.List;
-import java.util.Optional;
 
 public class ResourceDAOImpl extends BaseDAOImpl implements ResourceDAO {
 
@@ -23,24 +22,12 @@ public class ResourceDAOImpl extends BaseDAOImpl implements ResourceDAO {
 
     @Override
     public List<ResourceDTO> getAllResourceDTOs(Class<? extends Resource> clazz) {
-
         return ListUtils.castList(ResourceDTO.class,
                 sessionFactory.getCurrentSession()
                         .createCriteria(clazz)
                         .setProjection(RESOURCE_DTO_PROJECTION_LIST)
                         .setResultTransformer(Transformers.aliasToBean(ResourceDTO.class))
                         .list());
-    }
-
-    @Override
-    public Optional<ResourceDTO> getResourceDTO(Long id, Class<? extends Resource> clazz) {
-        ResourceDTO resourceDTO = (ResourceDTO) sessionFactory.getCurrentSession()
-                .createCriteria(clazz)
-                .add(Restrictions.eq("id", id))
-                .setProjection(RESOURCE_DTO_PROJECTION_LIST)
-                .setResultTransformer(Transformers.aliasToBean(ResourceDTO.class))
-                .uniqueResult();
-        return Optional.ofNullable(resourceDTO);
     }
 
     @Override

@@ -38,14 +38,6 @@ public class ResourceServiceImpl implements ResourceService {
         return resourceDAO.getWithId(id, resourceType.getModelClass());
     }
 
-    /**
-     * @return A {@link List} of all {@link Resource}s retrieved by the DAO.
-     */
-    @Override
-    public List<ResourceDTO> getAllResourceDTOs() {
-        return resourceDAO.getAllResourceDTOs(Resource.class);
-    }
-
     @Override
     public List<ResourceDTO> getAllResourceDTOs(ResourceType resourceType) {
         return resourceDAO.getAllResourceDTOs(resourceType.getModelClass());

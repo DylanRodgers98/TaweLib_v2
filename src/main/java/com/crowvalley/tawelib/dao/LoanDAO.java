@@ -14,8 +14,6 @@ import java.util.Optional;
  */
 public interface LoanDAO extends BaseDAO {
 
-    List<Loan> getAllLoansForCopy(Long copyId);
-
     Optional<Loan> getCurrentLoanForCopy(Long copyId);
 
     List<Loan> getAllLoansForUser(String username);

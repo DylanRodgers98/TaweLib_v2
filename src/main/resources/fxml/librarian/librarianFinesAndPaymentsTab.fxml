@@ -10,16 +10,14 @@
     <BorderPane prefHeight="200.0" prefWidth="200.0">
         <top>
             <AnchorPane prefHeight="0.0" prefWidth="540.0" BorderPane.alignment="CENTER">
-                <children>
-                    <Label layoutX="11.0" layoutY="14.0" text="User:" />
-                    <TextField fx:id="txtSearch" layoutX="43.0" layoutY="10.0" />
-                    <Button fx:id="btnSearch" layoutX="187.0" layoutY="10.0" text="Search" />
-                    <Label layoutX="257.0" layoutY="14.0" text="Between:" />
-                    <DatePicker fx:id="dateStart" layoutX="310.0" layoutY="10.0" prefHeight="25.0" prefWidth="120.0" />
-                    <Label layoutX="435.0" layoutY="14.0" text="and" />
-                    <DatePicker fx:id="dateEnd" layoutX="460.0" layoutY="10.0" prefHeight="25.0" prefWidth="120.0" />
-                    <Button fx:id="btnClearDate" layoutX="585.0" layoutY="10.0" text="Clear" />
-                    </children>
+                <Label layoutX="11.0" layoutY="14.0" text="User:"/>
+                <TextField fx:id="txtSearch" layoutX="43.0" layoutY="10.0"/>
+                <Button fx:id="btnSearch" layoutX="187.0" layoutY="10.0" text="Search"/>
+                <Label layoutX="257.0" layoutY="14.0" text="Between:"/>
+                <DatePicker fx:id="dateStart" layoutX="310.0" layoutY="10.0" prefHeight="25.0" prefWidth="120.0"/>
+                <Label layoutX="435.0" layoutY="14.0" text="and"/>
+                <DatePicker fx:id="dateEnd" layoutX="460.0" layoutY="10.0" prefHeight="25.0" prefWidth="120.0"/>
+                <Button fx:id="btnClearDate" layoutX="585.0" layoutY="10.0" text="Clear"/>
             </AnchorPane>
         </top>
         <center>

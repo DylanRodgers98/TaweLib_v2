@@ -2,7 +2,6 @@ package com.crowvalley.tawelib.controller.librarian;
 
 import com.crowvalley.tawelib.UserContextHolder;
 import com.crowvalley.tawelib.controller.FXController;
-import com.crowvalley.tawelib.model.resource.ResourceDTO;
 import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.TransactionService;

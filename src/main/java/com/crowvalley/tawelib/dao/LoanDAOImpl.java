@@ -1,19 +1,13 @@
 package com.crowvalley.tawelib.dao;
 
-import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.model.resource.Loan;
-import com.crowvalley.tawelib.model.resource.Resource;
-import com.crowvalley.tawelib.model.resource.ResourceDTO;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.util.ListUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.Transformers;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -28,24 +22,6 @@ import java.util.Optional;
  * @author Dylan Rodgers
  */
 public class LoanDAOImpl extends BaseDAOImpl implements LoanDAO {
-
-    /**
-     * Retrieves a {@link List} of all {@link Loan}s created, past and present,
-     * for a given {@link Copy} stored in the database.
-     *
-     * @param copyId The ID of the {@link Copy} for which to generate the
-     *               list of {@link Loan}s for.
-     * @return A {@link List} of all {@link Loan}s stored in the database
-     * for a given {@link Copy}.
-     */
-    @Override
-    public List<Loan> getAllLoansForCopy(Long copyId) {
-        return ListUtils.castList(Loan.class,
-                sessionFactory.getCurrentSession()
-                        .createCriteria(Loan.class)
-                        .add(Restrictions.eq("copyId", copyId))
-                        .list());
-    }
 
     @Override
     public Optional<Loan> getCurrentLoanForCopy(Long copyId) {

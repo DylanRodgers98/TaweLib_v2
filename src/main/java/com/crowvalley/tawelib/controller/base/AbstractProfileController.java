@@ -2,7 +2,6 @@ package com.crowvalley.tawelib.controller.base;
 
 import com.crowvalley.tawelib.controller.SelectionAwareFXController;
 import com.crowvalley.tawelib.model.user.Address;
-import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.UserService;
 import com.crowvalley.tawelib.util.FXMLUtils;

@@ -36,11 +36,7 @@ public class Dvd extends Resource {
 
     @Override
     public String toString() {
-        return new StringBuilder(getTitle())
-                .append(" (")
-                .append(getYear())
-                .append(")")
-                .toString();
+        return title + " (" + year + ")";
     }
 
     public String getLanguage() {

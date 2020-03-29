@@ -74,15 +74,6 @@ public class Address {
 
     @Override
     public String toString() {
-        return new StringBuilder(houseNum)
-                .append(" ")
-                .append(street)
-                .append(", ")
-                .append(town)
-                .append(", ")
-                .append(county)
-                .append(", ")
-                .append(postcode)
-                .toString();
+        return houseNum + " " + street + ", " + town + ", " + county + ", " + postcode;
     }
 }

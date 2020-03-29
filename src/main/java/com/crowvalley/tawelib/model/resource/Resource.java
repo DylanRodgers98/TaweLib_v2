@@ -25,9 +25,9 @@ public abstract class Resource {
 
     private ResourceType resourceType;
 
-    private String title;
+    protected String title;
 
-    private String year;
+    protected String year;
 
     private String imageUrl;
 

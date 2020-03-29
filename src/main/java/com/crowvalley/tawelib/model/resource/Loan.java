@@ -76,14 +76,6 @@ public class Loan {
         return returnDate;
     }
 
-    public void setCopyId(Long copyId) {
-        this.copyId = copyId;
-    }
-
-    public void setBorrowerUsername(String borrowerUsername) {
-        this.borrowerUsername = borrowerUsername;
-    }
-
     public void setReturnDate(LocalDateTime returnDate) {
         this.returnDate = returnDate;
     }

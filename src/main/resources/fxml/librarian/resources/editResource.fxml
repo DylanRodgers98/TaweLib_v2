@@ -9,9 +9,9 @@
     <BorderPane prefHeight="200.0" prefWidth="200.0">
         <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                <Label fx:id="lblResource" layoutX="74.0" layoutY="71.0" text="Resource Type:" />
-                <Label fx:id="lblTitle" layoutX="128.0" layoutY="102.0" text="Title:" />
-                <Label fx:id="lblYear" layoutX="128.0" layoutY="133.0" text="Year:" />
+                <Label layoutX="74.0" layoutY="71.0" text="Resource Type:" />
+                <Label layoutX="128.0" layoutY="102.0" text="Title:" />
+                <Label layoutX="128.0" layoutY="133.0" text="Year:" />
                 <Label fx:id="lblOptional1" layoutX="114.0" layoutY="164.0" visible="false" />
                 <Label fx:id="lblOptional2" layoutX="102.0" layoutY="195.0" visible="false" />
                 <Label fx:id="lblOptional3" layoutX="119.0" layoutY="226.0" visible="false" />

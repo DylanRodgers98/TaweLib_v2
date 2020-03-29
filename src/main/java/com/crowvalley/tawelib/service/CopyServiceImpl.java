@@ -41,14 +41,6 @@ public class CopyServiceImpl implements CopyService {
         return copyDAO.getWithId(id, Copy.class);
     }
 
-    /**
-     * @return A {@link List} of all {@link Copy}s retrieved by the DAO.
-     */
-    @Override
-    public List<Copy> getAll() {
-        return copyDAO.getAll(Copy.class);
-    }
-
     @Override
     public List<Copy> getAllCopiesNotOnLoanForResource(Long resourceId) {
         return copyDAO.getAllCopiesForResource(resourceId).stream()

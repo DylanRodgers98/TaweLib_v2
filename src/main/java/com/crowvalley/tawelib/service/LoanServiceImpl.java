@@ -58,20 +58,6 @@ public class LoanServiceImpl implements LoanService {
         return loanDAO.getWithId(loanId, Loan.class);
     }
 
-    /**
-     * Retrieves a {@link List} of all {@link Loan}s created, past and present,
-     * for a given {@link Copy} stored in the database.
-     *
-     * @param copyId The ID of the {@link Copy} for which to generate the
-     *               list of {@link Loan}s for.
-     * @return A {@link List} of all {@link Loan}s stored in the database
-     * for a given {@link Copy}.
-     */
-    @Override
-    public List<Loan> getAllLoansForCopy(Long copyId) {
-        return loanDAO.getAllLoansForCopy(copyId);
-    }
-
     @Override
     public Optional<Loan> getCurrentLoanForCopy(Long copyId) {
         return loanDAO.getCurrentLoanForCopy(copyId);

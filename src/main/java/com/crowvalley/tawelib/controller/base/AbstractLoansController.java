@@ -4,7 +4,6 @@ import com.crowvalley.tawelib.controller.FXController;
 import com.crowvalley.tawelib.model.resource.Loan;
 import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.LoanService;
-import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -30,8 +29,6 @@ public abstract class AbstractLoansController implements FXController {
     protected LoanService loanService;
 
     protected CopyService copyService;
-
-    protected ResourceService resourceService;
 
     @FXML
     protected TableView<Loan> tblLoans;
@@ -138,11 +135,6 @@ public abstract class AbstractLoansController implements FXController {
     public void setCopyService(CopyService copyService) {
         this.copyService = copyService;
         LOGGER.info("{} CopyService set to {}", this.getClass().getSimpleName(), copyService.getClass().getSimpleName());
-    }
-
-    public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
     }
 
 }

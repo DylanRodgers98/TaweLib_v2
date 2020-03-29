@@ -35,10 +35,8 @@
         </center>
         <top>
             <AnchorPane prefHeight="21.0" prefWidth="640.0" BorderPane.alignment="CENTER">
-                <children>
-                    <TextField fx:id="txtSearch" layoutX="432.0" layoutY="10.0" />
-                    <Button fx:id="btnSearch" layoutX="577.0" layoutY="10.0" text="Search" />
-                </children>
+                <TextField fx:id="txtSearch" layoutX="432.0" layoutY="10.0"/>
+                <Button fx:id="btnSearch" layoutX="577.0" layoutY="10.0" text="Search"/>
             </AnchorPane>
         </top>
     </BorderPane>

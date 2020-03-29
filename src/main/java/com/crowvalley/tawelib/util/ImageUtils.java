@@ -76,10 +76,7 @@ public class ImageUtils {
     }
 
     private static File getDestinationDirectory(String destinationDirectory) throws IOException {
-        String destination = new StringBuilder(IMAGES_DIRECTORY)
-                .append(File.separator)
-                .append(destinationDirectory)
-                .toString();
+        String destination = IMAGES_DIRECTORY + File.separator + destinationDirectory;
         return new ClassPathResource(destination).getFile();
     }
 

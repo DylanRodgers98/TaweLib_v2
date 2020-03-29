@@ -3,16 +3,11 @@ package com.crowvalley.tawelib.controller.user;
 import com.crowvalley.tawelib.UserContextHolder;
 import com.crowvalley.tawelib.controller.base.AbstractLoansController;
 import com.crowvalley.tawelib.model.resource.Loan;
-import com.crowvalley.tawelib.service.CopyService;
-import com.crowvalley.tawelib.service.LoanService;
-import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;

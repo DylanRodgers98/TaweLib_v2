@@ -4,7 +4,6 @@ import com.crowvalley.tawelib.controller.FXController;
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.fine.Transaction;
-import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.service.TransactionService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.beans.property.SimpleObjectProperty;
@@ -26,7 +25,6 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.Locale;
 
 public abstract class AbstractFinesAndPaymentsController implements FXController {
@@ -36,8 +34,6 @@ public abstract class AbstractFinesAndPaymentsController implements FXController
     private static final NumberFormat CURRENCY_FORMAT = NumberFormat.getCurrencyInstance(Locale.UK);
 
     protected TransactionService transactionService;
-
-    protected ResourceService resourceService;
 
     @FXML
     private TableView<Transaction> tblFinesAndPayments;
@@ -141,11 +137,6 @@ public abstract class AbstractFinesAndPaymentsController implements FXController
     public void setTransactionService(TransactionService transactionService) {
         this.transactionService = transactionService;
         LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), transactionService.getClass().getSimpleName());
-    }
-
-    public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-        LOGGER.info("{} ResourceService set to {}", this.getClass().getSimpleName(), resourceService.getClass().getSimpleName());
     }
 
 }

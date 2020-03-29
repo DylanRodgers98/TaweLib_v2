@@ -24,8 +24,6 @@ public interface TransactionService {
 
     void save(Transaction transaction);
 
-    void delete(Transaction transaction);
-
     Optional<Copy> getCopyFromFine(Fine fine);
 
     BigDecimal getTotalFinesAmountForUser(String username);

@@ -1,11 +1,7 @@
 package com.crowvalley.tawelib.controller.librarian;
 
 import com.crowvalley.tawelib.controller.base.AbstractLoansController;
-import com.crowvalley.tawelib.model.fine.Transaction;
 import com.crowvalley.tawelib.model.resource.*;
-import com.crowvalley.tawelib.service.CopyService;
-import com.crowvalley.tawelib.service.LoanService;
-import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,8 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.List;

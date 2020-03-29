@@ -4,7 +4,6 @@ import com.crowvalley.tawelib.controller.SelectionAwareFXController;
 import com.crowvalley.tawelib.model.resource.Copy;
 import com.crowvalley.tawelib.model.resource.Resource;
 import com.crowvalley.tawelib.model.resource.ResourceFactory;
-import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.fxml.FXML;

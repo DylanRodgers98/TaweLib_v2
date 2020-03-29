@@ -39,13 +39,7 @@ public class Book extends Resource {
 
     @Override
     public String toString() {
-        return new StringBuilder(getTitle())
-                .append(" by ")
-                .append(author)
-                .append(" (")
-                .append(getYear())
-                .append(")")
-                .toString();
+        return title + " by " + author + " (" + year + ")";
     }
 
     public String getAuthor() {

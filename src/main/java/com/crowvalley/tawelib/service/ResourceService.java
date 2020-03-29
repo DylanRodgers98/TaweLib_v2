@@ -18,8 +18,6 @@ public interface ResourceService {
 
     Optional<? extends Resource> get(Long id, ResourceType resourceType);
 
-    List<ResourceDTO> getAllResourceDTOs();
-
     List<ResourceDTO> getAllResourceDTOs(ResourceType resourceType);
 
     void saveOrUpdate(Resource resource);

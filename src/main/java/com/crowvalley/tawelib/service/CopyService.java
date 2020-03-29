@@ -17,8 +17,6 @@ public interface CopyService {
 
     Optional<Copy> get(Long id);
 
-    List<Copy> getAll();
-
     void saveOrUpdate(Copy copy);
 
     void delete(Copy copy);

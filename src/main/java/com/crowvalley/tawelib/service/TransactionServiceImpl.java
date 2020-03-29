@@ -53,17 +53,6 @@ public class TransactionServiceImpl implements TransactionService {
         LOGGER.info("Fine with ID {} saved successfully", transaction.getId());
     }
 
-    /**
-     * Deletes a {@link Transaction} object from the database through the DAO.
-     *
-     * @param transaction The {@link Transaction} object to be deleted from the database.
-     */
-    @Override
-    public void delete(Transaction transaction) {
-        transactionDAO.delete(transaction);
-        LOGGER.info("Fine with ID {} deleted successfully", transaction.getId());
-    }
-
     @Override
     public Optional<Copy> getCopyFromFine(Fine fine) {
         Optional<Loan> optionalLoan = loanService.get(fine.getLoanId());

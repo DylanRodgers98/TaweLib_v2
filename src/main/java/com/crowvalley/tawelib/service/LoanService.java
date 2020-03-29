@@ -28,8 +28,6 @@ public interface LoanService {
 
     void endLoan(Loan loan);
 
-    List<Loan> getAllLoansForCopy(Long copyId);
-
     Optional<Loan> getCurrentLoanForCopy(Long copyId);
 
     boolean isCopyOnLoan(Long copyId);

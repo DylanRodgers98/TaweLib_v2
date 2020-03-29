@@ -6,7 +6,6 @@ import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.model.fine.OutstandingFinesDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.*;

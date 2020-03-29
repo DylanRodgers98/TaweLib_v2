@@ -2,7 +2,6 @@ package com.crowvalley.tawelib.model.user;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * Librarian class for creating objects to store information about librarian

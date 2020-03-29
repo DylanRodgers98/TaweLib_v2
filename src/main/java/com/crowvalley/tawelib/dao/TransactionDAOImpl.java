@@ -3,11 +3,9 @@ package com.crowvalley.tawelib.dao;
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.fine.Transaction;
-import com.crowvalley.tawelib.model.resource.Loan;
 import com.crowvalley.tawelib.util.ListUtils;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 

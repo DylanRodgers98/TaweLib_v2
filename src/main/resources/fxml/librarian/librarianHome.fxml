@@ -11,6 +11,6 @@
       <fx:include fx:id="tabUsers" source="librarianUsersTab.fxml"/>
       <fx:include fx:id="tabFinesAndPayments" source="librarianFinesAndPaymentsTab.fxml"/>
       <fx:include fx:id="tabProfile" source="librarianProfileTab.fxml"/>
-      <fx:include fx:id="tabLogOut" source="librarianLogOutTab.fxml"/>
+      <fx:include source="librarianLogOutTab.fxml"/>
    </TabPane>
 </VBox>
