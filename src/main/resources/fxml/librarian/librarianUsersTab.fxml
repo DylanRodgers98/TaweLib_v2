@@ -10,9 +10,9 @@
         <bottom>
             <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                 <buttons>
-                    <Button fx:id="btnNewUser" prefHeight="25.0" prefWidth="200.0" text="Create New User"/>
-                    <Button fx:id="btnViewOrEditUser" disable="true" prefHeight="25.0" prefWidth="200.0" text="View/Edit User"/>
-                    <Button fx:id="btnDeleteUser" disable="true" prefHeight="25.0" prefWidth="200.0" text="Delete User"/>
+                    <Button prefHeight="25.0" prefWidth="200.0" text="Create New User" onAction="#openAddNewUserPage" />
+                    <Button fx:id="btnViewOrEditUser" disable="true" prefHeight="25.0" prefWidth="200.0" text="View/Edit User" onAction="#openViewOrEditUserPage" />
+                    <Button fx:id="btnDeleteUser" disable="true" prefHeight="25.0" prefWidth="200.0" text="Delete User" onAction="#deleteSelectedUser" />
                 </buttons>
                 <BorderPane.margin>
                     <Insets right="20.0"/>
@@ -20,7 +20,7 @@
             </ButtonBar>
         </bottom>
         <center>
-            <TableView fx:id="tblUsers" prefHeight="302.0" prefWidth="416.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="tblUsers" prefHeight="302.0" prefWidth="416.0" BorderPane.alignment="CENTER" onMouseClicked="#enableButtonsIfUserSelected" >
                 <columns>
                     <TableColumn fx:id="colUsername" prefWidth="80.0" text="Username"/>
                     <TableColumn fx:id="colName" prefWidth="100.0" text="Name"/>
@@ -35,8 +35,8 @@
         </center>
         <top>
             <AnchorPane prefHeight="21.0" prefWidth="640.0" BorderPane.alignment="CENTER">
-                <TextField fx:id="txtSearch" layoutX="432.0" layoutY="10.0"/>
-                <Button fx:id="btnSearch" layoutX="577.0" layoutY="10.0" text="Search"/>
+                <TextField fx:id="txtSearch" layoutX="432.0" layoutY="10.0" onKeyPressed="#searchIfEnterPressed" />
+                <Button layoutX="577.0" layoutY="10.0" text="Search" onAction="#search" />
             </AnchorPane>
         </top>
     </BorderPane>
