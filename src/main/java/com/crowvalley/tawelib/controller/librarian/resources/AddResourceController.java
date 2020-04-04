@@ -77,19 +77,16 @@ public class AddResourceController implements FXController {
     private ImageView imgResourcePic;
 
     @FXML
-    private Button btnChangePic;
-
-    @FXML
-    private Button btnBack;
-
-    @Override
-    public void initialize() {
-        cmbType.setOnAction(e -> showTextFieldsAndLabels());
-        btnSave.setOnAction(e -> saveResource());
-        btnChangePic.setOnAction(e -> ImageUtils.chooseImage(FILE_CHOOSER_TITLE, RESOURCES_DIRECTORY_NAME, imgResourcePic));
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML));
+    private void chooseImage() {
+        ImageUtils.chooseImage(FILE_CHOOSER_TITLE, RESOURCES_DIRECTORY_NAME, imgResourcePic);
     }
 
+    @FXML
+    private void loadLibrarianHome() {
+        FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
+    }
+
+    @FXML
     private void showTextFieldsAndLabels() {
         ResourceType resourceType = cmbType.getValue();
         if (resourceType.equals(ResourceType.BOOK)) {
@@ -145,6 +142,7 @@ public class AddResourceController implements FXController {
         lblOptional3.setLayoutX(57.0);
     }
 
+    @FXML
     private void saveResource() {
         String title = txtTitle.getText();
         String year = txtYear.getText();

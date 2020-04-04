@@ -7,9 +7,9 @@ import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.UserService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,20 +27,16 @@ public class LoginController implements FXController {
     private UserService userService;
 
     @FXML
-    private Button btnLogin;
-
-    @FXML
     private TextField txtUsername;
 
-    public void initialize() {
-        btnLogin.setOnAction(e -> tryLogin());
-        txtUsername.setOnKeyPressed(e -> {
-            if (e.getCode().equals(KeyCode.ENTER)) {
-                tryLogin();
-            }
-        });
+    @FXML
+    private void loginIfEnterPressed(KeyEvent e) {
+        if (e.getCode().equals(KeyCode.ENTER)) {
+            tryLogin();
+        }
     }
 
+    @FXML
     private void tryLogin() {
         try {
             login();

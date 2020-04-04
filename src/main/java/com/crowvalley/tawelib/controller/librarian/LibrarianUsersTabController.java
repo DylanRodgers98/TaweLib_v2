@@ -1,7 +1,7 @@
 package com.crowvalley.tawelib.controller.librarian;
 
 import com.crowvalley.tawelib.UserContextHolder;
-import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.controller.InitializableFXController;
 import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.TransactionService;
@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-public class LibrarianUsersTabController implements FXController {
+public class LibrarianUsersTabController implements InitializableFXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LibrarianUsersTabController.class);
 
@@ -60,9 +61,6 @@ public class LibrarianUsersTabController implements FXController {
     private TableColumn<User, String> colBalance;
 
     @FXML
-    private Button btnNewUser;
-
-    @FXML
     private Button btnViewOrEditUser;
 
     @FXML
@@ -71,17 +69,8 @@ public class LibrarianUsersTabController implements FXController {
     @FXML
     private TextField txtSearch;
 
-    @FXML
-    private Button btnSearch;
-
     @Override
     public void initialize() {
-        populateTable();
-        FXMLUtils.makeNodesDisabled(btnViewOrEditUser, btnDeleteUser);
-        setOnActions();
-    }
-
-    private void populateTable() {
         colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
         colName.setCellValueFactory(this::getFullName);
         colPhone.setCellValueFactory(new PropertyValueFactory<>("phoneNum"));
@@ -113,20 +102,19 @@ public class LibrarianUsersTabController implements FXController {
         return users;
     }
 
-    private void setOnActions() {
-        tblUsers.setOnMouseClicked(e -> enableButtonsIfUserSelected());
-        btnNewUser.setOnAction(e -> FXMLUtils.loadNewScene(ADD_NEW_USER_FXML));
-        btnViewOrEditUser.setOnAction(e -> openViewOrEditUserPage());
-        btnDeleteUser.setOnAction(e -> deleteSelectedUser());
-        btnSearch.setOnAction(e -> search());
-        txtSearch.setOnKeyPressed(e -> {
-            if (e.getCode().equals(KeyCode.ENTER)) {
-                search();
-            }
-        });
-
+    @FXML
+    private void searchIfEnterPressed(KeyEvent e) {
+        if (e.getCode().equals(KeyCode.ENTER)) {
+            search();
+        }
     }
 
+    @FXML
+    private void openAddNewUserPage() {
+        FXMLUtils.loadNewScene(ADD_NEW_USER_FXML);
+    }
+
+    @FXML
     private void enableButtonsIfUserSelected() {
         if (getSelectedUser() != null) {
             if (!getSelectedUser().getUsername().equals(UserContextHolder.getLoggedInUser())) {
@@ -138,6 +126,7 @@ public class LibrarianUsersTabController implements FXController {
         }
     }
 
+    @FXML
     private void openViewOrEditUserPage() {
         try {
             FXMLUtils.loadNewSceneWithSelectedItem(VIEW_OR_EDIT_USER_FXML, getSelectedUser());
@@ -147,6 +136,7 @@ public class LibrarianUsersTabController implements FXController {
         }
     }
 
+    @FXML
     private void deleteSelectedUser() {
         User selectedUser = getSelectedUser();
         String message = String.format("Are you sure you want to delete user '%s'?", selectedUser.getUsername());
@@ -162,6 +152,7 @@ public class LibrarianUsersTabController implements FXController {
         return tblUsers.getSelectionModel().getSelectedItem();
     }
 
+    @FXML
     private void search() {
         if (StringUtils.isBlank(txtSearch.getText())) {
             tblUsers.setItems(getUsers());

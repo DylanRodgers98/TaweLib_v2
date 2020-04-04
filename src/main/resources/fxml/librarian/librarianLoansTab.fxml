@@ -9,18 +9,21 @@
     <BorderPane>
         <top>
             <AnchorPane>
-                <Label layoutX="11.0" layoutY="14.0" text="User:" />
-                <TextField fx:id="txtSearch" layoutX="43.0" layoutY="10.0" />
-                <Button fx:id="btnSearch" layoutX="187.0" layoutY="10.0" text="Search" />
-                <Label layoutX="257.0" layoutY="14.0" text="Between:" />
-                <DatePicker fx:id="dateStart" layoutX="310.0" layoutY="10.0" prefHeight="25.0" prefWidth="120.0" />
-                <Label layoutX="435.0" layoutY="14.0" text="and" />
-                <DatePicker fx:id="dateEnd" layoutX="460.0" layoutY="10.0" prefHeight="25.0" prefWidth="120.0" />
-                <Button fx:id="btnClearDate" layoutX="585.0" layoutY="10.0" text="Clear" />
+                <Label layoutX="11.0" layoutY="14.0" text="User:"/>
+                <TextField fx:id="txtSearch" layoutX="43.0" layoutY="10.0" onKeyPressed="#searchIfEnterPressed"/>
+                <Button layoutX="187.0" layoutY="10.0" text="Search" onAction="#search"/>
+                <Label layoutX="257.0" layoutY="14.0" text="Between:"/>
+                <DatePicker fx:id="dateStart" layoutX="310.0" layoutY="10.0" prefHeight="25.0" prefWidth="120.0"
+                            onAction="#search"/>
+                <Label layoutX="435.0" layoutY="14.0" text="and"/>
+                <DatePicker fx:id="dateEnd" layoutX="460.0" layoutY="10.0" prefHeight="25.0" prefWidth="120.0"
+                            onAction="#search"/>
+                <Button layoutX="585.0" layoutY="10.0" text="Clear" onAction="#clearDate"/>
             </AnchorPane>
         </top>
         <center>
-            <TableView fx:id="tblLoans" prefHeight="298.0" prefWidth="640.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="tblLoans" prefHeight="298.0" prefWidth="640.0" BorderPane.alignment="CENTER"
+                       onMouseClicked="#enableButtonsIfLoanSelected">
                 <columns>
                     <TableColumn fx:id="colCopy" prefWidth="272.0" text="Copy"/>
                     <TableColumn fx:id="colBorrower" prefWidth="100.0" text="Borrower"/>
@@ -36,8 +39,9 @@
         <bottom>
             <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                 <buttons>
-                    <Button fx:id="btnNewLoan" prefHeight="25.0" prefWidth="300.0" text="Create New Loan"/>
-                    <Button fx:id="btnEndLoan" prefHeight="25.0" prefWidth="300.0" disable="true" text="End Loan"/>
+                    <Button prefHeight="25.0" prefWidth="300.0" text="Create New Loan" onAction="#loanNewLoanPage"/>
+                    <Button fx:id="btnEndLoan" prefHeight="25.0" prefWidth="300.0" disable="true" text="End Loan"
+                            onAction="#endLoan"/>
                 </buttons>
                 <opaqueInsets>
                     <Insets/>

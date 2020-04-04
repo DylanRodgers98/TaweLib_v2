@@ -64,18 +64,11 @@ public abstract class AbstractProfileController implements SelectionAwareFXContr
     @FXML
     private ImageView imgProfilePic;
 
-    @FXML
-    private Button btnChangePic;
-
-    @FXML
-    private Button btnBack;
-
     @Override
     public void initialize() {
         if (selectedUser != null) {
             loadProfile();
             disableFields();
-            setOnActions();
         }
     }
 
@@ -115,14 +108,7 @@ public abstract class AbstractProfileController implements SelectionAwareFXContr
                 txtHouseNum, txtStreet, txtTown, txtCounty, txtPostcode);
     }
 
-    protected void setOnActions() {
-        btnSaveOrUpdate.setOnAction(e -> saveOrUpdateProfile());
-        btnChangePic.setOnAction(e -> chooseImage());
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(getFxmlForBackButton()));
-    }
-
-    protected abstract String getFxmlForBackButton();
-
+    @FXML
     private void saveOrUpdateProfile() {
         if (btnSaveOrUpdate.getText().equals(UPDATE_PROFILE_BUTTON_TEXT)) {
             startUpdateProfile();
@@ -153,7 +139,9 @@ public abstract class AbstractProfileController implements SelectionAwareFXContr
         selectedUser = user;
     }
 
-    protected abstract User initUpdatedUser();
+    protected User initUpdatedUser() {
+        return selectedUser;
+    }
 
     private void updateInfo(User user) {
         user.setUsername(txtUsername.getText());
@@ -171,6 +159,7 @@ public abstract class AbstractProfileController implements SelectionAwareFXContr
         address.setPostcode(txtPostcode.getText());
     }
 
+    @FXML
     private void chooseImage() {
         ImageUtils.chooseImage(FILE_CHOOSER_TITLE, PROFILE_PICTURE_DIRECTORY_NAME, imgProfilePic);
         Image image = imgProfilePic.getImage();

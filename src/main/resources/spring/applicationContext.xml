@@ -7,125 +7,139 @@
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <import resource="hibernateContext.xml" />
+    <import resource="hibernateContext.xml"/>
 
-    <context:annotation-config />
+    <context:annotation-config/>
 
     <!-- JavaFX Controller beans -->
-    <bean id="loginController" class="com.crowvalley.tawelib.controller.LoginController" >
-        <property name="userService" ref="userService" />
+    <bean id="loginController" class="com.crowvalley.tawelib.controller.LoginController">
+        <property name="userService" ref="userService"/>
     </bean>
 
-    <bean id="librarianHomeController" class="com.crowvalley.tawelib.controller.librarian.LibrarianHomeController" >
-        <property name="resourcesTabController" ref="librarianResourcesTabController" />
-        <property name="loansTabController" ref="librarianLoansTabController" />
-        <property name="usersTabController" ref="librarianUsersTabController" />
-        <property name="finesAndPaymentsTabController" ref="librarianFinesAndPaymentsTabController" />
-        <property name="profileTabController" ref="librarianProfileTabController" />
+    <bean id="librarianHomeController" class="com.crowvalley.tawelib.controller.librarian.LibrarianHomeController">
+        <property name="resourcesTabController" ref="librarianResourcesTabController"/>
+        <property name="loansTabController" ref="librarianLoansTabController"/>
+        <property name="usersTabController" ref="librarianUsersTabController"/>
+        <property name="finesAndPaymentsTabController" ref="librarianFinesAndPaymentsTabController"/>
+        <property name="profileTabController" ref="librarianProfileTabController"/>
+        <property name="userService" ref="userService"/>
     </bean>
 
-    <bean id="librarianResourcesTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianResourcesTabController" >
-        <property name="resourceService" ref="resourceService" />
+    <bean id="librarianResourcesTabController"
+          class="com.crowvalley.tawelib.controller.librarian.LibrarianResourcesTabController">
+        <property name="resourceService" ref="resourceService"/>
     </bean>
 
-    <bean id="addResourceController" class="com.crowvalley.tawelib.controller.librarian.resources.AddResourceController" >
-        <property name="resourceService" ref="resourceService" />
+    <bean id="addResourceController"
+          class="com.crowvalley.tawelib.controller.librarian.resources.AddResourceController">
+        <property name="resourceService" ref="resourceService"/>
     </bean>
 
-    <bean id="viewResourceController" class="com.crowvalley.tawelib.controller.librarian.resources.ViewResourceController" >
-        <property name="copyService" ref="copyService" />
-        <property name="loanService" ref="loanService" />
+    <bean id="viewResourceController"
+          class="com.crowvalley.tawelib.controller.librarian.resources.ViewResourceController">
+        <property name="copyService" ref="copyService"/>
+        <property name="loanService" ref="loanService"/>
     </bean>
 
-    <bean id="addCopyController" class="com.crowvalley.tawelib.controller.librarian.resources.AddCopyController" >
-        <property name="resourceService" ref="resourceService" />
+    <bean id="addCopyController" class="com.crowvalley.tawelib.controller.librarian.resources.AddCopyController">
+        <property name="resourceService" ref="resourceService"/>
     </bean>
 
-    <bean id="viewCopyRequestsController" class="com.crowvalley.tawelib.controller.librarian.resources.ViewCopyRequestsController" >
-        <property name="copyService" ref="copyService" />
-        <property name="loanService" ref="loanService" />
+    <bean id="viewCopyRequestsController"
+          class="com.crowvalley.tawelib.controller.librarian.resources.ViewCopyRequestsController">
+        <property name="copyService" ref="copyService"/>
+        <property name="loanService" ref="loanService"/>
     </bean>
 
-    <bean id="editResourceController" class="com.crowvalley.tawelib.controller.librarian.resources.EditResourceController" >
-        <property name="resourceService" ref="resourceService" />
+    <bean id="editResourceController"
+          class="com.crowvalley.tawelib.controller.librarian.resources.EditResourceController">
+        <property name="resourceService" ref="resourceService"/>
     </bean>
 
-    <bean id="librarianLoansTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianLoansTabController" >
-        <property name="loanService" ref="loanService" />
-        <property name="copyService" ref="copyService" />
+    <bean id="librarianLoansTabController"
+          class="com.crowvalley.tawelib.controller.librarian.LibrarianLoansTabController">
+        <property name="loanService" ref="loanService"/>
+        <property name="copyService" ref="copyService"/>
     </bean>
 
-    <bean id="newLoanController" class="com.crowvalley.tawelib.controller.librarian.loans.NewLoanController" >
-        <property name="resourceService" ref="resourceService" />
-        <property name="copyService" ref="copyService" />
-        <property name="userService" ref="userService" />
-        <property name="loanService" ref="loanService" />
-    </bean>
-    
-    <bean id="librarianUsersTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianUsersTabController" >
-        <property name="userService" ref="userService" />
-        <property name="transactionService" ref="transactionService" />
+    <bean id="newLoanController" class="com.crowvalley.tawelib.controller.librarian.loans.NewLoanController">
+        <property name="resourceService" ref="resourceService"/>
+        <property name="copyService" ref="copyService"/>
+        <property name="userService" ref="userService"/>
+        <property name="loanService" ref="loanService"/>
     </bean>
 
-    <bean id="addNewUserController" class="com.crowvalley.tawelib.controller.librarian.users.AddNewUserController" >
-        <property name="userService" ref="userService" />
+    <bean id="librarianUsersTabController"
+          class="com.crowvalley.tawelib.controller.librarian.LibrarianUsersTabController">
+        <property name="userService" ref="userService"/>
+        <property name="transactionService" ref="transactionService"/>
     </bean>
 
-    <bean id="viewOrEditUserController" class="com.crowvalley.tawelib.controller.librarian.users.ViewOrEditUserController" >
-        <property name="userService" ref="userService" />
+    <bean id="addNewUserController" class="com.crowvalley.tawelib.controller.librarian.users.AddNewUserController">
+        <property name="userService" ref="userService"/>
     </bean>
 
-    <bean id="librarianFinesAndPaymentsTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianFinesAndPaymentsTabController" >
-        <property name="transactionService" ref="transactionService" />
+    <bean id="viewOrEditUserController"
+          class="com.crowvalley.tawelib.controller.librarian.users.ViewOrEditUserController">
+        <property name="userService" ref="userService"/>
     </bean>
 
-    <bean id="recordPaymentController" class="com.crowvalley.tawelib.controller.librarian.finesandpayments.RecordPaymentController" >
-        <property name="transactionService" ref="transactionService" />
+    <bean id="librarianFinesAndPaymentsTabController"
+          class="com.crowvalley.tawelib.controller.librarian.LibrarianFinesAndPaymentsTabController">
+        <property name="transactionService" ref="transactionService"/>
     </bean>
 
-    <bean id="librarianProfileTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianProfileTabController" >
-        <property name="userService" ref="userService" />
+    <bean id="recordPaymentController"
+          class="com.crowvalley.tawelib.controller.librarian.finesandpayments.RecordPaymentController">
+        <property name="transactionService" ref="transactionService"/>
     </bean>
 
-    <bean id="librarianLogOutController" class="com.crowvalley.tawelib.controller.librarian.LibrarianLogOutController" />
-
-    <bean id="userHomeController" class="com.crowvalley.tawelib.controller.user.UserHomeController" >
-        <property name="transactionService" ref="transactionService" />
-        <property name="userService" ref="userService" />
+    <bean id="librarianProfileTabController"
+          class="com.crowvalley.tawelib.controller.librarian.LibrarianProfileTabController">
+        <property name="userService" ref="userService"/>
     </bean>
 
-    <bean id="userProfileController" class="com.crowvalley.tawelib.controller.user.UserProfileController" >
-        <property name="userService" ref="userService" />
+    <bean id="librarianLogOutController" class="com.crowvalley.tawelib.controller.librarian.LibrarianLogOutController"/>
+
+    <bean id="userHomeController" class="com.crowvalley.tawelib.controller.user.UserHomeController">
+        <property name="transactionService" ref="transactionService"/>
+        <property name="userService" ref="userService"/>
     </bean>
 
-    <bean id="userBrowseResourcesController" class="com.crowvalley.tawelib.controller.user.UserBrowseResourcesController" >
-        <property name="resourceService" ref="resourceService" />
+    <bean id="userProfileController" class="com.crowvalley.tawelib.controller.user.UserProfileController">
+        <property name="userService" ref="userService"/>
     </bean>
 
-    <bean id="userLoansController" class="com.crowvalley.tawelib.controller.user.UserLoansController" >
-        <property name="copyService" ref="copyService" />
-        <property name="loanService" ref="loanService" />
+    <bean id="userBrowseResourcesController"
+          class="com.crowvalley.tawelib.controller.user.UserBrowseResourcesController">
+        <property name="resourceService" ref="resourceService"/>
     </bean>
 
-    <bean id="userFinesAndPaymentsController" class="com.crowvalley.tawelib.controller.user.UserFinesAndPaymentsController" >
-        <property name="transactionService" ref="transactionService" />
+    <bean id="userLoansController" class="com.crowvalley.tawelib.controller.user.UserLoansController">
+        <property name="copyService" ref="copyService"/>
+        <property name="loanService" ref="loanService"/>
     </bean>
 
-    <bean id="userViewResourceController" class="com.crowvalley.tawelib.controller.user.UserViewResourceController" >
-        <property name="loanService" ref="loanService" />
-        <property name="copyService" ref="copyService" />
+    <bean id="userFinesAndPaymentsController"
+          class="com.crowvalley.tawelib.controller.user.UserFinesAndPaymentsController">
+        <property name="transactionService" ref="transactionService"/>
+    </bean>
+
+    <bean id="userViewResourceController" class="com.crowvalley.tawelib.controller.user.UserViewResourceController">
+        <property name="loanService" ref="loanService"/>
+        <property name="copyService" ref="copyService"/>
     </bean>
 
     <!-- Service beans -->
     <bean id="copyService" class="com.crowvalley.tawelib.service.CopyServiceImpl">
         <property name="copyDAO" ref="copyDAO"/>
-        <property name="loanService" ref="loanService" />
+        <property name="loanService" ref="loanService"/>
     </bean>
 
     <bean id="loanService" class="com.crowvalley.tawelib.service.LoanServiceImpl">
         <property name="loanDAO" ref="loanDAO"/>
-        <property name="copyService" ref="copyService" />
-        <property name="transactionService" ref="transactionService" />
+        <property name="copyService" ref="copyService"/>
+        <property name="transactionService" ref="transactionService"/>
     </bean>
 
     <bean id="resourceService" class="com.crowvalley.tawelib.service.ResourceServiceImpl">
@@ -134,9 +148,9 @@
 
     <bean id="transactionService" class="com.crowvalley.tawelib.service.TransactionServiceImpl">
         <property name="transactionDAO" ref="transactionDAO"/>
-        <property name="loanService" ref="loanService" />
-        <property name="copyService" ref="copyService" />
-        <property name="userService" ref="userService" />
+        <property name="loanService" ref="loanService"/>
+        <property name="copyService" ref="copyService"/>
+        <property name="userService" ref="userService"/>
     </bean>
 
     <bean id="userService" class="com.crowvalley.tawelib.service.UserServiceImpl">
@@ -144,7 +158,7 @@
     </bean>
 
     <!-- DAO beans -->
-    <bean id="baseDAO" class="com.crowvalley.tawelib.dao.BaseDAOImpl" >
+    <bean id="baseDAO" class="com.crowvalley.tawelib.dao.BaseDAOImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
@@ -152,7 +166,7 @@
 
     <bean id="loanDAO" parent="baseDAO" class="com.crowvalley.tawelib.dao.LoanDAOImpl"/>
 
-    <bean id="resourceDAO" parent="baseDAO" class="com.crowvalley.tawelib.dao.ResourceDAOImpl" />
+    <bean id="resourceDAO" parent="baseDAO" class="com.crowvalley.tawelib.dao.ResourceDAOImpl"/>
 
     <bean id="transactionDAO" parent="baseDAO" class="com.crowvalley.tawelib.dao.TransactionDAOImpl"/>
 

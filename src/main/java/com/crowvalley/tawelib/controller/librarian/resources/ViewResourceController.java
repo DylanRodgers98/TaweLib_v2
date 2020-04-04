@@ -47,13 +47,7 @@ public class ViewResourceController extends AbstractViewResourceController {
         return new ReadOnlyStringWrapper(username.orElse(StringUtils.EMPTY));
     }
 
-    protected void setOnActions() {
-        btnAddCopy.setOnAction(e -> openAddCopyPage());
-        btnDelete.setOnAction(e -> deleteCopy());
-        btnViewRequests.setOnAction(e -> openViewRequestsPage());
-        super.setOnActions();
-    }
-
+    @FXML
     private void openAddCopyPage() {
         try {
             FXMLUtils.loadNewSceneWithSelectedItem(ADD_COPY_FXML, selectedResource);
@@ -63,6 +57,7 @@ public class ViewResourceController extends AbstractViewResourceController {
         }
     }
 
+    @FXML
     private void deleteCopy() {
         Copy selectedCopy = getSelectedCopy();
         String message = String.format("Are you sure you want to delete copy '%s (%s)'?", selectedResource.getTitle(), selectedCopy.toString());
@@ -75,6 +70,7 @@ public class ViewResourceController extends AbstractViewResourceController {
         }
     }
 
+    @FXML
     private void openViewRequestsPage() {
         try {
             FXMLUtils.loadNewSceneWithSelectedItem(VIEW_COPY_REQUESTS_FXML, getSelectedCopy());

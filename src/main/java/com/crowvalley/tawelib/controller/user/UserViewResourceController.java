@@ -58,12 +58,7 @@ public class UserViewResourceController extends AbstractViewResourceController {
         }
     }
 
-    @Override
-    protected void setOnActions() {
-        btnMakeRequest.setOnAction(e -> makeRequest());
-        super.setOnActions();
-    }
-
+    @FXML
     private void makeRequest() {
         Copy selectedCopy = getSelectedCopy();
         Optional<ButtonType> result = FXMLUtils.displayConfirmationDialogBox("Request Copy", "Make request for " + selectedCopy + "?");

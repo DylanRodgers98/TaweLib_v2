@@ -1,10 +1,9 @@
 package com.crowvalley.tawelib.controller.librarian.finesandpayments;
 
-import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.controller.InitializableFXController;
 import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.fine.OutstandingFinesDTO;
 import com.crowvalley.tawelib.service.TransactionService;
-import com.crowvalley.tawelib.service.UserService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 
 import java.math.BigDecimal;
@@ -20,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RecordPaymentController implements FXController {
+public class RecordPaymentController implements InitializableFXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RecordPaymentController.class);
 
@@ -37,28 +36,24 @@ public class RecordPaymentController implements FXController {
     @FXML
     private Button btnRecord;
 
-    @FXML
-    private Button btnBack;
-
     @Override
     public void initialize() {
-        populateUsersAndFines();
-        cmbUsers.setOnAction(e -> enableRecordButtonIfUserSelectedAndAmountTyped());
-        txtAmount.setOnKeyReleased(e -> enableRecordButtonIfUserSelectedAndAmountTyped());
-        btnRecord.setOnAction(e -> recordPayment());
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML));
-    }
-
-    private void populateUsersAndFines() {
         cmbUsers.setItems(FXCollections.observableArrayList(transactionService.getAllUsersWithOutstandingFines()));
     }
 
+    @FXML
+    private void loadLibrarianHome() {
+        FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
+    }
+
+    @FXML
     private void enableRecordButtonIfUserSelectedAndAmountTyped() {
         if (cmbUsers.getValue() != null && StringUtils.isNotBlank(txtAmount.getText())) {
             FXMLUtils.makeNodesEnabled(btnRecord);
         }
     }
 
+    @FXML
     private void recordPayment() {
         OutstandingFinesDTO outstandingFinesDTO = cmbUsers.getValue();
         String username = outstandingFinesDTO.getUsername();

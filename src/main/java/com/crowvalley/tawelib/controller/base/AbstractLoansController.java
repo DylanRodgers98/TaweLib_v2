@@ -1,6 +1,6 @@
 package com.crowvalley.tawelib.controller.base;
 
-import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.controller.InitializableFXController;
 import com.crowvalley.tawelib.model.resource.Loan;
 import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.LoanService;
@@ -11,7 +11,6 @@ import javafx.beans.value.ObservableStringValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -22,7 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public abstract class AbstractLoansController implements FXController {
+public abstract class AbstractLoansController implements InitializableFXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractLoansController.class);
 
@@ -51,27 +50,13 @@ public abstract class AbstractLoansController implements FXController {
     @FXML
     private DatePicker dateEnd;
 
-    @FXML
-    private Button btnClearDate;
-
     @Override
     public void initialize() {
-        populateTable();
-        setOnActions();
-    }
-
-    protected void populateTable() {
         colCopy.setCellValueFactory(this::getCopyTitle);
         colStartDate.setCellValueFactory(this::getStartDate);
         colEndDate.setCellValueFactory(this::getEndDate);
         colReturnDate.setCellValueFactory(this::getReturnDate);
         tblLoans.setItems(getLoans());
-    }
-
-    protected void setOnActions() {
-        dateStart.setOnAction(e -> search());
-        dateEnd.setOnAction(e -> search());
-        btnClearDate.setOnAction(e -> clearDate());
     }
 
     private ObservableStringValue getCopyTitle(TableColumn.CellDataFeatures<Loan, String> loan) {
@@ -97,6 +82,7 @@ public abstract class AbstractLoansController implements FXController {
 
     protected abstract ObservableList<Loan> getLoans();
 
+    @FXML
     protected void search() {
         tblLoans.setItems(searchInternal());
     }
@@ -104,7 +90,7 @@ public abstract class AbstractLoansController implements FXController {
     private ObservableList<Loan> searchInternal() {
         LocalDate startDate = dateStart.getValue();
         if (startDate == null) {
-            return search(null, null);
+            return searchInternal(null, null);
         }
 
         LocalDate endDate = dateEnd.getValue() != null ? dateEnd.getValue() : LocalDate.now();
@@ -116,11 +102,12 @@ public abstract class AbstractLoansController implements FXController {
         LocalDateTime startDateTime = LocalDateTime.of(dateStart.getValue(), LocalTime.MIDNIGHT);
         LocalDateTime endDateTime = LocalDateTime.of(endDate, LocalTime.of(23, 59, 59));
 
-        return search(startDateTime, endDateTime);
+        return searchInternal(startDateTime, endDateTime);
     }
 
-    protected abstract ObservableList<Loan> search(LocalDateTime startDate, LocalDateTime endDate);
+    protected abstract ObservableList<Loan> searchInternal(LocalDateTime startDate, LocalDateTime endDate);
 
+    @FXML
     private void clearDate() {
         dateStart.setValue(null);
         dateEnd.setValue(null);

@@ -5,12 +5,12 @@
 
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.crowvalley.tawelib.controller.librarian.LibrarianHomeController">
-   <TabPane fx:id="tabPane" prefHeight="403.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
-      <fx:include fx:id="tabResources" source="librarianResourcesTab.fxml"/>
-      <fx:include fx:id="tabLoans" source="librarianLoansTab.fxml"/>
-      <fx:include fx:id="tabUsers" source="librarianUsersTab.fxml"/>
-      <fx:include fx:id="tabFinesAndPayments" source="librarianFinesAndPaymentsTab.fxml"/>
-      <fx:include fx:id="tabProfile" source="librarianProfileTab.fxml"/>
-      <fx:include source="librarianLogOutTab.fxml"/>
-   </TabPane>
+    <TabPane fx:id="tabPane" prefHeight="403.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
+        <fx:include fx:id="tabResources" source="librarianResourcesTab.fxml"/>
+        <fx:include fx:id="tabLoans" source="librarianLoansTab.fxml"/>
+        <fx:include fx:id="tabUsers" source="librarianUsersTab.fxml"/>
+        <fx:include fx:id="tabFinesAndPayments" source="librarianFinesAndPaymentsTab.fxml"/>
+        <fx:include fx:id="tabProfile" source="librarianProfileTab.fxml"/>
+        <fx:include source="librarianLogOutTab.fxml"/>
+    </TabPane>
 </VBox>

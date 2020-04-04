@@ -5,7 +5,6 @@ import com.crowvalley.tawelib.model.user.User;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 /**

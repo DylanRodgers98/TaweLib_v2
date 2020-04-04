@@ -55,12 +55,7 @@ public class ViewOrEditUserController extends AbstractProfileController {
         super.enableFields();
     }
 
-    @Override
-    protected void setOnActions() {
-        chkLibrarian.setOnAction(e -> setDatePickerVisibility());
-        super.setOnActions();
-    }
-
+    @FXML
     private void setDatePickerVisibility() {
         if (chkLibrarian.isSelected()) {
             FXMLUtils.makeNodesVisible(lblEmploymentDate, datePicker);
@@ -83,9 +78,9 @@ public class ViewOrEditUserController extends AbstractProfileController {
         return selectedUser;
     }
 
-    @Override
-    protected String getFxmlForBackButton() {
-        return LIBRARIAN_HOME_FXML;
+    @FXML
+    private void loadLibrarianHome() {
+        FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
     }
 
 }
