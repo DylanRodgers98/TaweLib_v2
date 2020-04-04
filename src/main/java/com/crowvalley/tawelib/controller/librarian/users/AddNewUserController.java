@@ -1,6 +1,6 @@
 package com.crowvalley.tawelib.controller.librarian.users;
 
-import com.crowvalley.tawelib.controller.InitializableFXController;
+import com.crowvalley.tawelib.controller.FXController;
 import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.UserService;
@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 
-public class AddNewUserController implements InitializableFXController {
+public class AddNewUserController implements FXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AddNewUserController.class);
 
@@ -62,28 +62,17 @@ public class AddNewUserController implements InitializableFXController {
     private ImageView imgProfilePic;
 
     @FXML
-    private Button btnAdd;
-
-    @FXML
-    private Button btnChoosePic;
-
-    @FXML
-    private Button btnBack;
-
-    @FXML
     private Label lblEmploymentDate;
 
     @FXML
     private DatePicker datePicker;
 
-    @Override
-    public void initialize() {
-        chkLibrarian.setOnAction(e -> setDatePickerVisibility());
-        btnAdd.setOnAction(e -> addUser());
-        btnChoosePic.setOnAction(e -> ImageUtils.chooseImage(FILE_CHOOSER_TITLE, PROFILE_PICTURE_DIRECTORY_NAME, imgProfilePic));
-        btnBack.setOnAction(e -> goBack());
+    @FXML
+    private void chooseImage() {
+        ImageUtils.chooseImage(FILE_CHOOSER_TITLE, PROFILE_PICTURE_DIRECTORY_NAME, imgProfilePic);
     }
 
+    @FXML
     private void setDatePickerVisibility() {
         if (chkLibrarian.isSelected()) {
             FXMLUtils.makeNodesVisible(lblEmploymentDate, datePicker);
@@ -92,6 +81,7 @@ public class AddNewUserController implements InitializableFXController {
         }
     }
 
+    @FXML
     private void addUser() {
         String username = txtUsername.getText();
         String firstName = txtFirstName.getText();
@@ -117,6 +107,7 @@ public class AddNewUserController implements InitializableFXController {
         goBack();
     }
 
+    @FXML
     private void goBack() {
         FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
     }

@@ -23,6 +23,8 @@ public class EditResourceController implements SelectionAwareFXController<Resour
 
     private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
 
+    private static final String IMAGE_CHOOSER_TITLE = "Choose Resource Picture";
+
     private static final String RESOURCES_DIRECTORY_NAME = "resources";
 
     private ResourceService resourceService;
@@ -168,7 +170,7 @@ public class EditResourceController implements SelectionAwareFXController<Resour
 
     @FXML
     private void chooseImage() {
-        ImageUtils.chooseImage("Choose Resource Picture", RESOURCES_DIRECTORY_NAME, imgResourcePic);
+        ImageUtils.chooseImage(IMAGE_CHOOSER_TITLE, RESOURCES_DIRECTORY_NAME, imgResourcePic);
     }
 
     @FXML
