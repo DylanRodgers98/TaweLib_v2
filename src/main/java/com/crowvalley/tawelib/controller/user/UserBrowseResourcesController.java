@@ -11,12 +11,6 @@ public class UserBrowseResourcesController extends AbstractResourcesController {
 
     private static final String VIEW_RESOURCE_FXML = "/fxml/user/userViewResource.fxml";
 
-    @Override
-    public void initialize() {
-        FXMLUtils.makeNodesDisabled(btnViewResource);
-        super.initialize();
-    }
-
     @FXML
     private void loadUserHome() {
         FXMLUtils.loadNewScene(USER_HOME_FXML);

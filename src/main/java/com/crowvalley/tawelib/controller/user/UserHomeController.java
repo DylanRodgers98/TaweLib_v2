@@ -45,34 +45,30 @@ public class UserHomeController implements InitializableFXController {
     private Label lblWelcome;
 
     @FXML
-    private Label lblLogOut;
-
-    @FXML
     private Label lblBalance;
-
-    @FXML
-    private Button btnResources;
-
-    @FXML
-    private Button btnLoans;
-
-    @FXML
-    private Button btnProfile;
-
-    @FXML
-    private Button btnFinesAndPayments;
 
     @Override
     public void initialize() {
         lblWelcome.setText(WELCOME_TEXT + UserContextHolder.getLoggedInUser());
         lblBalance.setText(BALANCE_TEXT + getBalance());
-        lblLogOut.setOnMouseClicked(e -> logOut());
-        btnResources.setOnAction(e -> FXMLUtils.loadNewScene(RESOURCES_PAGE_FXML));
-        btnLoans.setOnAction(e -> FXMLUtils.loadNewScene(LOANS_PAGE_FXML));
-        btnProfile.setOnAction(e -> openUserProfilePage());
-        btnFinesAndPayments.setOnAction(e -> FXMLUtils.loadNewScene(FINES_AND_PAYMENTS_PAGE_FXML));
     }
 
+    @FXML
+    private void openResourcesPage() {
+        FXMLUtils.loadNewScene(RESOURCES_PAGE_FXML);
+    }
+
+    @FXML
+    private void openLoansPage() {
+        FXMLUtils.loadNewScene(LOANS_PAGE_FXML);
+    }
+
+    @FXML
+    private void openFinesAndPaymentsPage() {
+        FXMLUtils.loadNewScene(FINES_AND_PAYMENTS_PAGE_FXML);
+    }
+
+    @FXML
     private void logOut() {
         UserContextHolder.clear();
         FXMLUtils.loadNewScene(Main.LOGIN_PAGE_FXML);
@@ -86,6 +82,7 @@ public class UserHomeController implements InitializableFXController {
         return CURRENCY_FORMAT.format(balance);
     }
 
+    @FXML
     private void openUserProfilePage() {
         try {
             String username = UserContextHolder.getLoggedInUser();
