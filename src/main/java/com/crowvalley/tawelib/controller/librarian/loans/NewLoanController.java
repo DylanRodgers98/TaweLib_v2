@@ -50,19 +50,15 @@ public class NewLoanController implements FXController {
 
     @Override
     public void initialize() {
-        populateUsers();
-        cmbType.setOnAction(e -> populateResources());
-        cmbResource.setOnAction(e -> populateCopies());
-        cmbCopy.setOnAction(e -> setEnabledOnCreateLoanButton());
-        cmbUsers.setOnAction(e -> setEnabledOnCreateLoanButton());
-        btnCreateLoan.setOnAction(e -> createLoan());
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML));
-    }
-
-    private void populateUsers() {
         cmbUsers.setItems(FXCollections.observableArrayList(userService.getAllUsernames()));
     }
 
+    @FXML
+    private void loadLibrarianHome() {
+        FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
+    }
+
+    @FXML
     private void populateResources() {
         ResourceType resourceType = cmbType.getValue();
         if (resourceType != null) {
@@ -73,6 +69,7 @@ public class NewLoanController implements FXController {
         }
     }
 
+    @FXML
     private void populateCopies() {
         ResourceDTO resource = cmbResource.getValue();
         if (resource != null) {
@@ -83,6 +80,7 @@ public class NewLoanController implements FXController {
         }
     }
 
+    @FXML
     private void createLoan() {
         Copy copy = cmbCopy.getValue();
         String username = cmbUsers.getValue();
@@ -93,6 +91,7 @@ public class NewLoanController implements FXController {
         FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
     }
 
+    @FXML
     private void setEnabledOnCreateLoanButton() {
         if (cmbType.getValue() != null && cmbResource.getValue() != null
                 && cmbCopy.getValue() != null && cmbUsers.getValue() != null) {
