@@ -37,28 +37,24 @@ public class RecordPaymentController implements FXController {
     @FXML
     private Button btnRecord;
 
-    @FXML
-    private Button btnBack;
-
     @Override
     public void initialize() {
-        populateUsersAndFines();
-        cmbUsers.setOnAction(e -> enableRecordButtonIfUserSelectedAndAmountTyped());
-        txtAmount.setOnKeyReleased(e -> enableRecordButtonIfUserSelectedAndAmountTyped());
-        btnRecord.setOnAction(e -> recordPayment());
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML));
-    }
-
-    private void populateUsersAndFines() {
         cmbUsers.setItems(FXCollections.observableArrayList(transactionService.getAllUsersWithOutstandingFines()));
     }
 
+    @FXML
+    private void loadLibrarianHome() {
+        FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
+    }
+
+    @FXML
     private void enableRecordButtonIfUserSelectedAndAmountTyped() {
         if (cmbUsers.getValue() != null && StringUtils.isNotBlank(txtAmount.getText())) {
             FXMLUtils.makeNodesEnabled(btnRecord);
         }
     }
 
+    @FXML
     private void recordPayment() {
         OutstandingFinesDTO outstandingFinesDTO = cmbUsers.getValue();
         String username = outstandingFinesDTO.getUsername();
