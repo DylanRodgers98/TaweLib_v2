@@ -6,7 +6,6 @@ import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -25,30 +24,26 @@ public class LibrarianFinesAndPaymentsTabController extends AbstractFinesAndPaym
     private TableColumn<Transaction, String> colUsername;
 
     @FXML
-    private Button btnRecordPayment;
-
-    @FXML
     private TextField txtSearch;
 
-    @FXML
-    private Button btnSearch;
-
     @Override
-    protected void populateTable() {
+    public void initialize() {
         colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
-        super.populateTable();
+        super.initialize();
     }
 
-    @Override
-    protected void setOnActions() {
-        btnRecordPayment.setOnAction(e -> FXMLUtils.loadNewScene(RECORD_PAYMENT_FXML));
-        btnSearch.setOnAction(e -> search());
+    @FXML
+    private void searchIfEnterPressed() {
         txtSearch.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER)) {
                 search();
             }
         });
-        super.setOnActions();
+    }
+
+    @FXML
+    private void loadRecordPaymentPage() {
+        FXMLUtils.loadNewScene(RECORD_PAYMENT_FXML);
     }
 
     @Override
@@ -59,7 +54,7 @@ public class LibrarianFinesAndPaymentsTabController extends AbstractFinesAndPaym
     }
 
     @Override
-    protected ObservableList<Transaction> search(LocalDateTime startDate, LocalDateTime endDate) {
+    protected ObservableList<Transaction> searchInternal(LocalDateTime startDate, LocalDateTime endDate) {
         List<Transaction> queryResult;
         if (StringUtils.isNotBlank(txtSearch.getText())) {
             queryResult = transactionService.search(txtSearch.getText(), startDate, endDate);

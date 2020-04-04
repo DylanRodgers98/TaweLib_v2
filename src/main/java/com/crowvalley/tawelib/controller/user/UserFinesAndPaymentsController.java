@@ -18,12 +18,8 @@ public class UserFinesAndPaymentsController extends AbstractFinesAndPaymentsCont
     private static final String USER_HOME_FXML = "/fxml/user/userHome.fxml";
 
     @FXML
-    private Button btnBack;
-
-    @Override
-    protected void setOnActions() {
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(USER_HOME_FXML));
-        super.setOnActions();
+    private void loadUserHome() {
+        FXMLUtils.loadNewScene(USER_HOME_FXML);
     }
 
     @Override
@@ -36,7 +32,7 @@ public class UserFinesAndPaymentsController extends AbstractFinesAndPaymentsCont
     }
 
     @Override
-    protected ObservableList<Transaction> search(LocalDateTime startDate, LocalDateTime endDate) {
+    protected ObservableList<Transaction> searchInternal(LocalDateTime startDate, LocalDateTime endDate) {
         if (startDate == null || endDate == null) {
             return getFinesAndPayments();
         }

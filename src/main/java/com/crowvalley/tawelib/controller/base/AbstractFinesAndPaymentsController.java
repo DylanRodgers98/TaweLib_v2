@@ -12,7 +12,6 @@ import javafx.beans.value.ObservableStringValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -53,26 +52,12 @@ public abstract class AbstractFinesAndPaymentsController implements FXController
     @FXML
     private DatePicker dateEnd;
 
-    @FXML
-    private Button btnClearDate;
-
     @Override
     public void initialize() {
-        populateTable();
-        setOnActions();
-    }
-
-    protected void populateTable() {
         colAmount.setCellValueFactory(this::getAmount);
         colDate.setCellValueFactory(this::getDate);
         colType.setCellValueFactory(this::getType);
         tblFinesAndPayments.setItems(getFinesAndPayments());
-    }
-
-    protected void setOnActions() {
-        dateStart.setOnAction(e -> search());
-        dateEnd.setOnAction(e -> search());
-        btnClearDate.setOnAction(e -> clearDate());
     }
 
     private ObservableStringValue getAmount(TableColumn.CellDataFeatures<Transaction, String> transaction) {
@@ -104,6 +89,7 @@ public abstract class AbstractFinesAndPaymentsController implements FXController
 
     protected abstract ObservableList<Transaction> getFinesAndPayments();
 
+    @FXML
     protected void search() {
         tblFinesAndPayments.setItems(searchInternal());
     }
@@ -111,7 +97,7 @@ public abstract class AbstractFinesAndPaymentsController implements FXController
     private ObservableList<Transaction> searchInternal() {
         LocalDate startDate = dateStart.getValue();
         if (startDate == null) {
-            return search(null, null);
+            return searchInternal(null, null);
         }
 
         LocalDate endDate = dateEnd.getValue() != null ? dateEnd.getValue() : LocalDate.now();
@@ -123,11 +109,12 @@ public abstract class AbstractFinesAndPaymentsController implements FXController
         LocalDateTime startDateTime = LocalDateTime.of(dateStart.getValue(), LocalTime.MIDNIGHT);
         LocalDateTime endDateTime = LocalDateTime.of(endDate, LocalTime.of(23, 59, 59));
 
-        return search(startDateTime, endDateTime);
+        return searchInternal(startDateTime, endDateTime);
     }
 
-    protected abstract ObservableList<Transaction> search(LocalDateTime startDate, LocalDateTime endDate);
+    protected abstract ObservableList<Transaction> searchInternal(LocalDateTime startDate, LocalDateTime endDate);
 
+    @FXML
     private void clearDate() {
         dateStart.setValue(null);
         dateEnd.setValue(null);
