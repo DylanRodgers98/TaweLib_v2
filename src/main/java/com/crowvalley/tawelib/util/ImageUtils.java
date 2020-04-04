@@ -72,7 +72,7 @@ public class ImageUtils {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(fileChooserTitle);
         fileChooser.getExtensionFilters().add(IMAGE_FILTER);
-        return fileChooser.showOpenDialog(Main.primaryStage);
+        return fileChooser.showOpenDialog(Main.getPrimaryStage());
     }
 
     private static File getDestinationDirectory(String destinationDirectory) throws IOException {

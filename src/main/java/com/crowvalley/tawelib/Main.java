@@ -16,7 +16,7 @@ public class Main extends Application {
 
     public static final String TAWELIB_STAGE_TITLE = "TaweLib";
 
-    public static Stage primaryStage;
+    private static Stage primaryStage;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
