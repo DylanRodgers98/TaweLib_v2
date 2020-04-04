@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
-public class LoginController implements FXController {
+public class LoginController implements InitializableFXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 

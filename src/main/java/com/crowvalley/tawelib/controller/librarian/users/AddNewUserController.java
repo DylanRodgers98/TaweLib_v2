@@ -1,6 +1,6 @@
 package com.crowvalley.tawelib.controller.librarian.users;
 
-import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.controller.InitializableFXController;
 import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.UserService;
@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 
-public class AddNewUserController implements FXController {
+public class AddNewUserController implements InitializableFXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AddNewUserController.class);
 

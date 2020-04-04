@@ -2,12 +2,12 @@ package com.crowvalley.tawelib.controller.librarian;
 
 import com.crowvalley.tawelib.Main;
 import com.crowvalley.tawelib.UserContextHolder;
-import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.controller.InitializableFXController;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
-public class LibrarianLogOutController implements FXController {
+public class LibrarianLogOutController implements InitializableFXController {
 
     @FXML
     private Button btnLogOut;

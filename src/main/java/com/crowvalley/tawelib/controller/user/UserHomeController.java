@@ -2,7 +2,7 @@ package com.crowvalley.tawelib.controller.user;
 
 import com.crowvalley.tawelib.Main;
 import com.crowvalley.tawelib.UserContextHolder;
-import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.controller.InitializableFXController;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.TransactionService;
 import com.crowvalley.tawelib.service.UserService;
@@ -19,7 +19,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Optional;
 
-public class UserHomeController implements FXController {
+public class UserHomeController implements InitializableFXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserHomeController.class);
 

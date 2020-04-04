@@ -1,6 +1,6 @@
 package com.crowvalley.tawelib.controller.librarian.loans;
 
-import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.controller.InitializableFXController;
 import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.LoanService;
@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-public class NewLoanController implements FXController {
+public class NewLoanController implements InitializableFXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NewLoanController.class);
 

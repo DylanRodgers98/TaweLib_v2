@@ -1,10 +1,8 @@
 package com.crowvalley.tawelib.controller.librarian;
 
 import com.crowvalley.tawelib.UserContextHolder;
-import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.controller.InitializableFXController;
 import com.crowvalley.tawelib.controller.SelectionAwareFXController;
-import com.crowvalley.tawelib.exception.NoSuchUserException;
-import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.UserService;
 import com.crowvalley.tawelib.util.FXMLUtils;
@@ -16,19 +14,19 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
-public class LibrarianHomeController implements FXController {
+public class LibrarianHomeController implements InitializableFXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LibrarianHomeController.class);
 
     private UserService userService;
 
-    private FXController resourcesTabController;
+    private InitializableFXController resourcesTabController;
 
-    private FXController loansTabController;
+    private InitializableFXController loansTabController;
 
-    private FXController usersTabController;
+    private InitializableFXController usersTabController;
 
-    private FXController finesAndPaymentsTabController;
+    private InitializableFXController finesAndPaymentsTabController;
 
     private SelectionAwareFXController<User> profileTabController;
 

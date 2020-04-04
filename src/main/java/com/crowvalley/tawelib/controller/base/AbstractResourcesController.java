@@ -1,6 +1,6 @@
 package com.crowvalley.tawelib.controller.base;
 
-import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.controller.InitializableFXController;
 import com.crowvalley.tawelib.model.resource.Resource;
 import com.crowvalley.tawelib.model.resource.ResourceDTO;
 import com.crowvalley.tawelib.model.resource.ResourceType;
@@ -24,7 +24,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractResourcesController implements FXController {
+public abstract class AbstractResourcesController implements InitializableFXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractResourcesController.class);
 

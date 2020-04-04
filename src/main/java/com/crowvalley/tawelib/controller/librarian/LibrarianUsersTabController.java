@@ -1,7 +1,7 @@
 package com.crowvalley.tawelib.controller.librarian;
 
 import com.crowvalley.tawelib.UserContextHolder;
-import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.controller.InitializableFXController;
 import com.crowvalley.tawelib.model.user.Address;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.TransactionService;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-public class LibrarianUsersTabController implements FXController {
+public class LibrarianUsersTabController implements InitializableFXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LibrarianUsersTabController.class);
 

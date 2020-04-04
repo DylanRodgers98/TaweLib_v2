@@ -1,10 +1,9 @@
 package com.crowvalley.tawelib.controller.librarian.finesandpayments;
 
-import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.controller.InitializableFXController;
 import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.fine.OutstandingFinesDTO;
 import com.crowvalley.tawelib.service.TransactionService;
-import com.crowvalley.tawelib.service.UserService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 
 import java.math.BigDecimal;
@@ -20,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RecordPaymentController implements FXController {
+public class RecordPaymentController implements InitializableFXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RecordPaymentController.class);
 

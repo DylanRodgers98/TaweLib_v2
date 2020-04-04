@@ -16,7 +16,7 @@
         <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                 <Label layoutX="74.0" layoutY="71.0" text="Resource Type:" />
-                <ChoiceBox fx:id="cmbType" layoutX="162.0" layoutY="67.0" prefWidth="150.0">
+                <ChoiceBox fx:id="cmbType" layoutX="162.0" layoutY="67.0" prefWidth="150.0" onAction="#showTextFieldsAndLabels" >
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <ResourceType fx:value="BOOK" />
@@ -42,15 +42,15 @@
                 <TextField fx:id="txtOptional4" layoutX="162.0" layoutY="253.0" visible="false" />
                 <TextField fx:id="txtOptional5" layoutX="162.0" layoutY="284.0" visible="false" />
 
-                <Button fx:id="btnSave" layoutX="133.0" layoutY="323.0" prefHeight="25.0" prefWidth="120.0" text="Save Resource" visible="false" />
+                <Button fx:id="btnSave" layoutX="133.0" layoutY="323.0" prefHeight="25.0" prefWidth="120.0" text="Save Resource" visible="false" onAction="#saveResource" />
             </AnchorPane>
         </center>
         <left>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                 <ImageView fx:id="imgResourcePic" fitHeight="250.0" fitWidth="240.0" layoutY="54.0"
                            pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" />
-                <Button fx:id="btnChangePic" layoutX="63.0" layoutY="323.0" prefHeight="25.0" prefWidth="143.0" text="Choose Picture" />
-                <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" />
+                <Button fx:id="btnChangePic" layoutX="63.0" layoutY="323.0" prefHeight="25.0" prefWidth="143.0" text="Choose Picture" onAction="#chooseImage" />
+                <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" onAction="#loadLibrarianHome" />
             </AnchorPane>
         </left>
     </BorderPane>

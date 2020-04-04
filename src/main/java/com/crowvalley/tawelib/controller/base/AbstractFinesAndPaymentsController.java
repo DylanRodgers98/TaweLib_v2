@@ -1,6 +1,6 @@
 package com.crowvalley.tawelib.controller.base;
 
-import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.controller.InitializableFXController;
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.fine.Transaction;
@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Locale;
 
-public abstract class AbstractFinesAndPaymentsController implements FXController {
+public abstract class AbstractFinesAndPaymentsController implements InitializableFXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractFinesAndPaymentsController.class);
 

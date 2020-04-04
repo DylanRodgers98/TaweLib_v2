@@ -1,6 +1,6 @@
 package com.crowvalley.tawelib.controller.base;
 
-import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.controller.InitializableFXController;
 import com.crowvalley.tawelib.model.resource.Loan;
 import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.LoanService;
@@ -21,7 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public abstract class AbstractLoansController implements FXController {
+public abstract class AbstractLoansController implements InitializableFXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractLoansController.class);
 
