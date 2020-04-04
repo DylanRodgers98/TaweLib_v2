@@ -32,14 +32,14 @@
                 <TextField fx:id="txtCounty" layoutX="161.0" layoutY="258.0" />
                 <TextField fx:id="txtPostcode" layoutX="161.0" layoutY="289.0" />
 
-                <Button fx:id="btnSaveOrUpdate" layoutX="133.0" layoutY="334.0" prefHeight="25.0" prefWidth="120.0" text="Update Profile" />
+                <Button fx:id="btnSaveOrUpdate" layoutX="133.0" layoutY="334.0" prefHeight="25.0" prefWidth="120.0" text="Update Profile" onAction="#saveOrUpdateProfile"/>
             </AnchorPane>
         </center>
         <left>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                 <ImageView fx:id="imgProfilePic" fitHeight="250.0" fitWidth="240.0" layoutX="14.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-                <Button fx:id="btnChangePic" layoutX="62.0" layoutY="334.0" prefHeight="25.0" prefWidth="143.0" text="Change Profile Picture" />
-                <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" />
+                <Button fx:id="btnChangePic" layoutX="62.0" layoutY="334.0" prefHeight="25.0" prefWidth="143.0" text="Change Profile Picture" onAction="#chooseImage"/>
+                <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" onAction="#loadUserHome"/>
             </AnchorPane>
         </left>
     </BorderPane>

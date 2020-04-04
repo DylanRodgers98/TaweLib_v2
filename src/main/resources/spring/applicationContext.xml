@@ -22,6 +22,7 @@
         <property name="usersTabController" ref="librarianUsersTabController" />
         <property name="finesAndPaymentsTabController" ref="librarianFinesAndPaymentsTabController" />
         <property name="profileTabController" ref="librarianProfileTabController" />
+        <property name="userService" ref="userService" />
     </bean>
 
     <bean id="librarianResourcesTabController" class="com.crowvalley.tawelib.controller.librarian.LibrarianResourcesTabController" >

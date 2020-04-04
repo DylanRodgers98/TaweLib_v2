@@ -6,6 +6,7 @@ import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -55,12 +56,7 @@ public class ViewOrEditUserController extends AbstractProfileController {
         super.enableFields();
     }
 
-    @Override
-    protected void setOnActions() {
-        chkLibrarian.setOnAction(e -> setDatePickerVisibility());
-        super.setOnActions();
-    }
-
+    @FXML
     private void setDatePickerVisibility() {
         if (chkLibrarian.isSelected()) {
             FXMLUtils.makeNodesVisible(lblEmploymentDate, datePicker);
@@ -83,9 +79,9 @@ public class ViewOrEditUserController extends AbstractProfileController {
         return selectedUser;
     }
 
-    @Override
-    protected String getFxmlForBackButton() {
-        return LIBRARIAN_HOME_FXML;
+    @FXML
+    private void loadLibrarianHome() {
+        FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
     }
 
 }

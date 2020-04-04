@@ -10,6 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
@@ -29,12 +30,14 @@ public class LibrarianFinesAndPaymentsTabController extends AbstractFinesAndPaym
     @Override
     public void initialize() {
         colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
-        txtSearch.setOnKeyPressed(e -> {
-            if (e.getCode().equals(KeyCode.ENTER)) {
-                search();
-            }
-        });
         super.initialize();
+    }
+
+    @FXML
+    private void searchIfEnterPressed(KeyEvent e) {
+        if (e.getCode().equals(KeyCode.ENTER)) {
+            search();
+        }
     }
 
     @FXML
