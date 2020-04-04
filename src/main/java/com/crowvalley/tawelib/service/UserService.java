@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 public interface UserService {
 
-    Optional<? extends User> getWithUsername(String username);
+    Optional<User> getWithUsername(String username);
 
     Optional<Librarian> getLibrarianUserWithStaffNumber(Long staffNum);
 
@@ -27,8 +27,6 @@ public interface UserService {
     void delete(User user);
 
     List<String> getAllUsernames();
-
-    List<OutstandingFinesDTO> getAllUsersWithOutstandingFines();
 
     List<User> search(String username);
 

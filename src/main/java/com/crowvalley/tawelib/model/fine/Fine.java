@@ -18,12 +18,6 @@ import java.time.LocalDateTime;
 @Table
 public class Fine extends Transaction {
 
-    public static final BigDecimal BOOK_FINE_AMOUNT_PER_DAY = new BigDecimal("2").setScale(2, RoundingMode.HALF_EVEN);
-
-    public static final BigDecimal DVD_FINE_AMOUNT_PER_DAY = new BigDecimal("2").setScale(2, RoundingMode.HALF_EVEN);
-
-    public static final BigDecimal LAPTOP_FINE_AMOUNT_PER_DAY = new BigDecimal("10").setScale(2, RoundingMode.HALF_EVEN);
-
     private Long loanId;
 
     public Fine(String username, Long loanId, BigDecimal amount, LocalDateTime fineDate) {

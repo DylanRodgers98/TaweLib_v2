@@ -17,7 +17,7 @@ public interface UserDAO extends BaseDAO {
 
     List<String> getAllUsernames();
 
-    Optional<? extends User> getWithUsername(String username);
+    Optional<User> getWithUsername(String username);
 
     Optional<Librarian> getLibrarianUserWithStaffNumber(Long staffNum);
 

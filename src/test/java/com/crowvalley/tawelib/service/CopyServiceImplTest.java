@@ -1,18 +1,15 @@
 package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.CopyDAO;
-import com.crowvalley.tawelib.model.resource.Book;
 import com.crowvalley.tawelib.model.resource.Copy;
+import com.crowvalley.tawelib.model.resource.CopyRequest;
+import org.assertj.core.util.Maps;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -20,67 +17,145 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class CopyServiceImplTest {
 
-    private static final Long ID = 1L;
+    private static final Long COPY_ID_1 = 1L;
 
-    private static final Book BOOK = new Book("Book 1", "2019", "url", "Dylan Rodgers", "Penguin", "Sci-fi", "isbn", "English");
+    private static final Long COPY_ID_2 = 2L;
 
-    private static final Copy COPY_1 = new Copy(BOOK, 7, "Location 1");
+    private static final Long RESOURCE_ID = 3L;
 
-    private static final Copy COPY_2 = new Copy(BOOK, 3, "Location 2");
-
-    private static final List<Copy> COPIES = Arrays.asList(COPY_1, COPY_2);
+    private static final String USERNAME = "TEST_USER";
 
     @Mock
-    private CopyDAO DAO;
+    private Copy mockCopy;
+
+    @Mock
+    private Copy mockCopyOnLoan;
+
+    @Spy
+    private CopyRequest spyCopyRequest;
+
+    @Mock
+    private CopyDAO mockCopyDAO;
+
+    @Mock
+    private LoanService mockLoanService;
 
     @InjectMocks
     private CopyServiceImpl copyService;
 
     @Test
     public void testGet() {
-        when(DAO.getWithId(ID, Copy.class)).thenReturn(Optional.of(COPY_1));
+        when(mockCopyDAO.getWithId(COPY_ID_1, Copy.class)).thenReturn(Optional.of(mockCopy));
 
-        assertThat(copyService.get(ID).get())
-                .as("Retrieve copy from database with ID 1")
-                .isEqualTo(COPY_1);
+        assertThat(copyService.get(COPY_ID_1))
+                .as("Copy retrieved from database")
+                .isEqualTo(Optional.of(mockCopy));
     }
 
     @Test
-    public void testGet_noCopyFromDAO() {
-        when(DAO.getWithId(ID, Copy.class)).thenReturn(Optional.empty());
+    public void testGet_noCopyFromDatabase() {
+        when(mockCopyDAO.getWithId(COPY_ID_1, Copy.class)).thenReturn(Optional.empty());
 
-        assertThat(copyService.get(ID))
-                .as("Retrieve empty Optional from DAO")
+        assertThat(copyService.get(COPY_ID_1))
+                .as("No copy retrieved from database")
                 .isEqualTo(Optional.empty());
     }
 
     @Test
-    public void testGetAll() {
-        when(DAO.getAll(Copy.class)).thenReturn(COPIES);
+    public void testGetAllCopiesNotOnLoanForResource() {
+        when(mockCopyDAO.getAllCopiesForResource(RESOURCE_ID)).thenReturn(Arrays.asList(mockCopy, mockCopyOnLoan));
+        when(mockCopy.getId()).thenReturn(COPY_ID_1);
+        when(mockCopyOnLoan.getId()).thenReturn(COPY_ID_2);
+        when(mockLoanService.isCopyOnLoan(COPY_ID_1)).thenReturn(false);
+        when(mockLoanService.isCopyOnLoan(COPY_ID_2)).thenReturn(true);
 
-        assertThat(copyService.getAll())
-                .as("Retrieve all copies stored in the database")
-                .isEqualTo(COPIES);
+        assertThat(copyService.getAllCopiesNotOnLoanForResource(RESOURCE_ID))
+                .as("Copy not on loan retrieved from database")
+                .containsExactly(mockCopy);
     }
 
     @Test
-    public void testGetAll_noCopiesFromDAO() {
-        when(DAO.getAll(Copy.class)).thenReturn(new ArrayList<>());
-
-        assertThat(copyService.getAll().isEmpty())
-                .as("Retrieve no copies from DAO")
-                .isTrue();
+    public void testSaveOrUpdate() {
+        copyService.saveOrUpdate(mockCopy);
+        verify(mockCopyDAO).saveOrUpdate(mockCopy);
     }
 
     @Test
-    public void test_verifySave() {
-        copyService.saveOrUpdate(COPY_1);
-        verify(DAO).saveOrUpdate(COPY_1);
+    public void testDelete() {
+        copyService.delete(mockCopy);
+        verify(mockCopyDAO).delete(mockCopy);
     }
 
     @Test
-    public void test_verifyDelete() {
-        copyService.delete(COPY_2);
-        verify(DAO).delete(COPY_2);
+    public void testCreateCopyRequest() {
+        Map<String, CopyRequest> copyRequests = new HashMap<>();
+        when(mockCopy.getCopyRequests()).thenReturn(copyRequests);
+
+        copyService.createCopyRequest(mockCopy, USERNAME);
+
+        verify(mockCopyDAO).saveOrUpdate(mockCopy);
+
+        assertThat(copyRequests)
+                .as("Copy only has request from passed in user")
+                .containsOnlyKeys(USERNAME);
+
+        assertThat(copyRequests.get(USERNAME))
+                .extracting(CopyRequest::getCopy, CopyRequest::getUsername, CopyRequest::getRequestStatus)
+                .as("Created CopyRequest has the correct copy, username, and status")
+                .containsExactly(mockCopy, USERNAME, CopyRequest.Status.REQUESTED);
     }
+
+    @Test
+    public void testRemoveCopyRequest() {
+        Map<String, CopyRequest> copyRequests = Maps.newHashMap(USERNAME, spyCopyRequest);
+        when(mockCopy.getCopyRequests()).thenReturn(copyRequests);
+
+        copyService.removeCopyRequest(mockCopy, USERNAME);
+
+        verify(mockCopyDAO).saveOrUpdate(mockCopy);
+
+        assertThat(copyRequests)
+                .as("CopyRequest removed from Copy")
+                .doesNotContain(Map.entry(USERNAME, spyCopyRequest));
+    }
+
+    @Test
+    public void testSetRequestStatusForUser() {
+        Map<String, CopyRequest> copyRequests = Maps.newHashMap(USERNAME, spyCopyRequest);
+        when(mockCopy.getCopyRequests()).thenReturn(copyRequests);
+
+        copyService.setRequestStatusForUser(mockCopy, USERNAME, CopyRequest.Status.READY_FOR_COLLECTION);
+
+        verify(mockCopyDAO).saveOrUpdate(mockCopy);
+
+        assertThat(copyRequests.get(USERNAME))
+                .extracting(CopyRequest::getRequestStatus)
+                .as("Copy request has updated status")
+                .isEqualTo(CopyRequest.Status.READY_FOR_COLLECTION);
+    }
+
+    @Test
+    public void testGetRequestStatusForUser() {
+        Map<String, CopyRequest> copyRequests = Maps.newHashMap(USERNAME, spyCopyRequest);
+        when(mockCopy.getCopyRequests()).thenReturn(copyRequests);
+        when(spyCopyRequest.getRequestStatus()).thenReturn(CopyRequest.Status.COLLECTED);
+
+        Optional<CopyRequest.Status> requestStatus = copyService.getRequestStatusForUser(mockCopy, USERNAME);
+
+        assertThat(requestStatus)
+                .as("Request status retrieved from Copy for given user")
+                .isEqualTo(Optional.of(CopyRequest.Status.COLLECTED));
+    }
+
+    @Test
+    public void testGetRequestStatusForUser_NoRequest() {
+        when(mockCopy.getCopyRequests()).thenReturn(Collections.emptyMap());
+
+        Optional<CopyRequest.Status> requestStatus = copyService.getRequestStatusForUser(mockCopy, USERNAME);
+
+        assertThat(requestStatus)
+                .as("No request status retrieved from Copy for given user")
+                .isEqualTo(Optional.empty());
+    }
+
 }

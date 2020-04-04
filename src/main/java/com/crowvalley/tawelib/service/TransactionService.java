@@ -2,6 +2,7 @@ package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.TransactionDAO;
 import com.crowvalley.tawelib.model.fine.Fine;
+import com.crowvalley.tawelib.model.fine.OutstandingFinesDTO;
 import com.crowvalley.tawelib.model.fine.Transaction;
 import com.crowvalley.tawelib.model.resource.Copy;
 
@@ -18,13 +19,15 @@ import java.util.Optional;
  */
 public interface TransactionService {
 
-    List<? extends Transaction> getAll();
+    List<Transaction> getAll();
 
-    List<? extends Transaction> getAllTransactionsForUser(String username);
+    List<Transaction> getAllTransactionsForUser(String username);
 
     void save(Transaction transaction);
 
     Optional<Copy> getCopyFromFine(Fine fine);
+
+    List<OutstandingFinesDTO> getAllUsersWithOutstandingFines();
 
     BigDecimal getTotalFinesAmountForUser(String username);
 

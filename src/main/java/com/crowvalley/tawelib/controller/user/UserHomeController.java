@@ -89,7 +89,7 @@ public class UserHomeController implements FXController {
     private void openUserProfilePage() {
         try {
             String username = UserContextHolder.getLoggedInUser();
-            Optional<? extends User> user = userService.getWithUsername(username);
+            Optional<User> user = userService.getWithUsername(username);
             if (user.isPresent()) {
                 FXMLUtils.loadNewSceneWithSelectedItem(PROFILE_PAGE_FXML, user.get());
             } else {

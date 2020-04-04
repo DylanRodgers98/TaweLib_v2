@@ -26,8 +26,6 @@ public class RecordPaymentController implements FXController {
 
     private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
 
-    private UserService userService;
-
     private TransactionService transactionService;
 
     @FXML
@@ -52,7 +50,7 @@ public class RecordPaymentController implements FXController {
     }
 
     private void populateUsersAndFines() {
-        cmbUsers.setItems(FXCollections.observableArrayList(userService.getAllUsersWithOutstandingFines()));
+        cmbUsers.setItems(FXCollections.observableArrayList(transactionService.getAllUsersWithOutstandingFines()));
     }
 
     private void enableRecordButtonIfUserSelectedAndAmountTyped() {
@@ -83,11 +81,6 @@ public class RecordPaymentController implements FXController {
             FXMLUtils.displayErrorDialogBox("Record Payment Failed",
                     amountString + " is not a monetary amount");
         }
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-        LOGGER.info("{} UserService set to {}", this.getClass().getSimpleName(), userService.getClass().getSimpleName());
     }
 
     public void setTransactionService(TransactionService transactionService) {

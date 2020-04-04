@@ -25,7 +25,7 @@ import java.util.List;
 public class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     @Override
-    public List<? extends Transaction> getAllTransactionsForUser(String username) {
+    public List<Transaction> getAllTransactionsForUser(String username) {
         return ListUtils.castList(Transaction.class,
                 sessionFactory.getCurrentSession()
                         .createCriteria(Transaction.class)
@@ -34,7 +34,7 @@ public class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
     }
 
     @Override
-    public BigDecimal getTotalFineAmountForUser(String username) {
+    public BigDecimal getTotalFinesAmountForUser(String username) {
         return (BigDecimal) sessionFactory.getCurrentSession()
                 .createCriteria(Fine.class)
                 .add(Restrictions.eq("username", username))
@@ -43,7 +43,7 @@ public class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
     }
 
     @Override
-    public BigDecimal getTotalPaymentAmountForUser(String username) {
+    public BigDecimal getTotalPaymentsAmountForUser(String username) {
         return (BigDecimal) sessionFactory.getCurrentSession()
                 .createCriteria(Payment.class)
                 .add(Restrictions.eq("username", username))

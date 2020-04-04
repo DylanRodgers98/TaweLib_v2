@@ -15,11 +15,11 @@ import java.util.List;
  */
 public interface TransactionDAO extends BaseDAO {
 
-    List<? extends Transaction> getAllTransactionsForUser(String username);
+    List<Transaction> getAllTransactionsForUser(String username);
 
-    BigDecimal getTotalFineAmountForUser(String username);
+    BigDecimal getTotalFinesAmountForUser(String username);
 
-    BigDecimal getTotalPaymentAmountForUser(String username);
+    BigDecimal getTotalPaymentsAmountForUser(String username);
 
     List<Transaction> search(String username, LocalDateTime startDate, LocalDateTime endDate);
 

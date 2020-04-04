@@ -32,7 +32,7 @@ public interface LoanService {
 
     boolean isCopyOnLoan(Long copyId);
 
-    String getUsernameOfCurrentBorrowerForCopy(Long copyId);
+    Optional<String> getUsernameOfCurrentBorrowerForCopy(Long copyId);
 
     List<Loan> getAllLoansForUser(String username);
 

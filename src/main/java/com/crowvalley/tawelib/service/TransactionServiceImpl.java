@@ -2,6 +2,7 @@ package com.crowvalley.tawelib.service;
 
 import com.crowvalley.tawelib.dao.TransactionDAO;
 import com.crowvalley.tawelib.model.fine.Fine;
+import com.crowvalley.tawelib.model.fine.OutstandingFinesDTO;
 import com.crowvalley.tawelib.model.fine.Transaction;
 import com.crowvalley.tawelib.model.resource.*;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +31,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     private CopyService copyService;
 
+    private UserService userService;
+
     /**
      * @return A {@link List} of all {@link Transaction}s retrieved by the DAO.
      */
@@ -38,7 +42,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<? extends Transaction> getAllTransactionsForUser(String username) {
+    public List<Transaction> getAllTransactionsForUser(String username) {
         return transactionDAO.getAllTransactionsForUser(username);
     }
 
@@ -64,14 +68,28 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public List<OutstandingFinesDTO> getAllUsersWithOutstandingFines() {
+        List<OutstandingFinesDTO> usersWithOutstandingFines = new ArrayList<>();
+        for (String username : userService.getAllUsernames()) {
+            BigDecimal finesForUser = getTotalFinesAmountForUser(username);
+            BigDecimal paymentsForUser = getTotalPaymentsAmountForUser(username);
+            BigDecimal outstandingFines = finesForUser.subtract(paymentsForUser);
+            if (outstandingFines.compareTo(BigDecimal.ZERO) > 0) {
+                usersWithOutstandingFines.add(new OutstandingFinesDTO(username, outstandingFines));
+            }
+        }
+        return usersWithOutstandingFines;
+    }
+
+    @Override
     public BigDecimal getTotalFinesAmountForUser(String username) {
-        BigDecimal totalFinesAmount = transactionDAO.getTotalFineAmountForUser(username);
+        BigDecimal totalFinesAmount = transactionDAO.getTotalFinesAmountForUser(username);
         return totalFinesAmount != null ? totalFinesAmount : BigDecimal.ZERO;
     }
 
     @Override
     public BigDecimal getTotalPaymentsAmountForUser(String username) {
-        BigDecimal totalPaymentsAmount = transactionDAO.getTotalPaymentAmountForUser(username);
+        BigDecimal totalPaymentsAmount = transactionDAO.getTotalPaymentsAmountForUser(username);
         return totalPaymentsAmount != null ? totalPaymentsAmount : BigDecimal.ZERO;
     }
 
@@ -99,6 +117,11 @@ public class TransactionServiceImpl implements TransactionService {
     public void setCopyService(CopyService copyService) {
         this.copyService = copyService;
         LOGGER.info("{} CopyService set to {}", this.getClass().getSimpleName(), copyService.getClass().getSimpleName());
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+        LOGGER.info("{} UserService set to {}", this.getClass().getSimpleName(), userService.getClass().getSimpleName());
     }
 
 }

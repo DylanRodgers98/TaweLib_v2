@@ -80,7 +80,6 @@
     </bean>
 
     <bean id="recordPaymentController" class="com.crowvalley.tawelib.controller.librarian.finesandpayments.RecordPaymentController" >
-        <property name="userService" ref="userService" />
         <property name="transactionService" ref="transactionService" />
     </bean>
 
@@ -137,11 +136,11 @@
         <property name="transactionDAO" ref="transactionDAO"/>
         <property name="loanService" ref="loanService" />
         <property name="copyService" ref="copyService" />
+        <property name="userService" ref="userService" />
     </bean>
 
     <bean id="userService" class="com.crowvalley.tawelib.service.UserServiceImpl">
         <property name="userDAO" ref="userDAO"/>
-        <property name="transactionService" ref="transactionService" />
     </bean>
 
     <!-- DAO beans -->

@@ -9,7 +9,6 @@ import com.crowvalley.tawelib.model.resource.CopyRequest;
 import com.crowvalley.tawelib.model.resource.Loan;
 import com.crowvalley.tawelib.model.resource.ResourceType;
 import com.crowvalley.tawelib.model.user.User;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -69,12 +68,9 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public String getUsernameOfCurrentBorrowerForCopy(Long copyId) {
+    public Optional<String> getUsernameOfCurrentBorrowerForCopy(Long copyId) {
         Optional<Loan> loanForCopy = getCurrentLoanForCopy(copyId);
-        if (loanForCopy.isPresent()) {
-            return loanForCopy.get().getBorrowerUsername();
-        }
-        return StringUtils.EMPTY;
+        return loanForCopy.map(Loan::getBorrowerUsername);
     }
 
     /**
@@ -179,16 +175,7 @@ public class LoanServiceImpl implements LoanService {
                 throw new IllegalStateException("Could not retrieve copy (ID: "+ loan.getCopyId() + ") from database");
             } else {
                 ResourceType copyType = copy.get().getResource().getResourceType();
-
-                BigDecimal fineAmount = null;
-                if (copyType.equals(ResourceType.BOOK)) {
-                    fineAmount = Fine.BOOK_FINE_AMOUNT_PER_DAY;
-                } else if (copyType.equals(ResourceType.DVD)) {
-                    fineAmount = Fine.DVD_FINE_AMOUNT_PER_DAY;
-                } else if (copyType.equals(ResourceType.LAPTOP)) {
-                    fineAmount = Fine.LAPTOP_FINE_AMOUNT_PER_DAY;
-                }
-                Assert.notNull(fineAmount, "Cannot resolve fine amount against late-returned loan (ID: " + loan.getId() + ")");
+                BigDecimal fineAmount = copyType.getFineRate();
 
                 long dayDiffBetweenEndAndReturnDates = DAYS.between(endDate, returnDate);
                 fineAmount = fineAmount.multiply(BigDecimal.valueOf(dayDiffBetweenEndAndReturnDates));

@@ -70,7 +70,7 @@ public class LoginController implements FXController {
     }
 
     private void logInWithUsername(String username) throws NoSuchUserException {
-        Optional<? extends User> user = userService.getWithUsername(username);
+        Optional<User> user = userService.getWithUsername(username);
         if (user.isPresent()) {
             if (user.get() instanceof Librarian) {
                 librarianLogIn(username);

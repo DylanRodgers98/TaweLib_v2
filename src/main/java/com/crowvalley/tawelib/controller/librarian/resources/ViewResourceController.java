@@ -7,6 +7,7 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableStringValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,8 +43,8 @@ public class ViewResourceController extends AbstractViewResourceController {
 
     private ObservableStringValue getCurrentBorrower(TableColumn.CellDataFeatures<Copy, String> copy) {
         Copy copyFromTable = copy.getValue();
-        String username = loanService.getUsernameOfCurrentBorrowerForCopy(copyFromTable.getId());
-        return new ReadOnlyStringWrapper(username);
+        Optional<String> username = loanService.getUsernameOfCurrentBorrowerForCopy(copyFromTable.getId());
+        return new ReadOnlyStringWrapper(username.orElse(StringUtils.EMPTY));
     }
 
     protected void setOnActions() {

@@ -41,7 +41,7 @@ public class UserDAOImpl extends BaseDAOImpl implements UserDAO {
      * if it is found in the database, or an empty {@link Optional} if not.
      */
     @Override
-    public Optional<? extends User> getWithUsername(String username) {
+    public Optional<User> getWithUsername(String username) {
         User user = sessionFactory.getCurrentSession().get(User.class, username);
         return Optional.ofNullable(user);
     }

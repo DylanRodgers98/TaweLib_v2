@@ -81,7 +81,7 @@ public class LibrarianProfileTabController implements FXController {
 
     private void loadProfile() {
         String currentUser = UserContextHolder.getLoggedInUser();
-        Optional<? extends User> optionalLibrarian = userService.getWithUsername(currentUser);
+        Optional<User> optionalLibrarian = userService.getWithUsername(currentUser);
         if (optionalLibrarian.isPresent()) {
             loggedInLibrarian = (Librarian) optionalLibrarian.get();
             populateFields(loggedInLibrarian);

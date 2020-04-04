@@ -1,19 +1,15 @@
 package com.crowvalley.tawelib.service;
 
-import com.crowvalley.tawelib.dao.BaseDAO;
 import com.crowvalley.tawelib.dao.ResourceDAO;
-import com.crowvalley.tawelib.model.resource.Book;
-import com.crowvalley.tawelib.model.resource.Resource;
-import com.crowvalley.tawelib.model.resource.ResourceDTO;
-import com.crowvalley.tawelib.model.resource.ResourceType;
+import com.crowvalley.tawelib.model.resource.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,62 +21,122 @@ public class ResourceServiceImplTest {
 
     private static final Long ID = 1L;
 
-    private static final Book BOOK_1 = new Book("Book 1", "2019", "url", "Dylan Rodgers", "Penguin", "Sci-fi", "isbn", "English");
-
-    private static final List<ResourceDTO> RESOURCES = Arrays.asList(new ResourceDTO());
+    @Mock
+    private Book mockBook;
 
     @Mock
-    private ResourceDAO DAO;
+    private Dvd mockDvd;
+
+    @Mock
+    private Laptop mockLaptop;
+
+    @Mock
+    private ResourceDTO mockResourceDTO;
+
+    @Mock
+    private ResourceDAO mockResourceDAO;
 
     @InjectMocks
     private ResourceServiceImpl resourceService;
 
     @Test
-    public void testGet() {
-        when(DAO.getWithId(ID, Book.class)).thenReturn(Optional.of(BOOK_1));
+    public void testGet_Book() {
+        when(mockResourceDAO.getWithId(ID, Book.class)).thenReturn(Optional.of(mockBook));
 
-        assertThat(resourceService.get(ID, ResourceType.BOOK).get())
-                .as("Book retrieved from DAO")
-                .isEqualTo(BOOK_1);
+        assertThat(resourceService.get(ID, ResourceType.BOOK))
+                .as("Book retrieved from database")
+                .isEqualTo(Optional.of(mockBook));
     }
 
     @Test
-    public void testGet_noBookFromDAO() {
-        when(DAO.getWithId(ID, Book.class)).thenReturn(Optional.empty());
+    public void testGet_NoBookFromDAO() {
+        when(mockResourceDAO.getWithId(ID, Book.class)).thenReturn(Optional.empty());
 
         assertThat(resourceService.get(ID, ResourceType.BOOK))
-                .as("No resource retrieved from DAO")
+                .as("No Book retrieved from DAO")
                 .isEqualTo(Optional.empty());
     }
 
     @Test
-    public void testGetAll() {
-        when(DAO.getAllResourceDTOs(Resource.class)).thenReturn(RESOURCES);
+    public void testGet_Dvd() {
+        when(mockResourceDAO.getWithId(ID, Dvd.class)).thenReturn(Optional.of(mockDvd));
 
-        assertThat(resourceService.getAllResourceDTOs())
-                .as("All resources retrieved from DAO")
-                .isEqualTo(RESOURCES);
+        assertThat(resourceService.get(ID, ResourceType.DVD))
+                .as("DVD retrieved from database")
+                .isEqualTo(Optional.of(mockDvd));
     }
 
     @Test
-    public void testGetAll_noBooksFromDAO() {
-        when(DAO.getAllResourceDTOs(Resource.class)).thenReturn(new ArrayList<>());
+    public void testGet_NoDvdFromDAO() {
+        when(mockResourceDAO.getWithId(ID, Dvd.class)).thenReturn(Optional.empty());
 
-        assertThat(resourceService.getAllResourceDTOs().isEmpty())
-                .as("No resources retrieved from DAO")
-                .isTrue();
+        assertThat(resourceService.get(ID, ResourceType.DVD))
+                .as("No DVD retrieved from DAO")
+                .isEqualTo(Optional.empty());
     }
 
     @Test
-    public void test_verifySaveOrUpdate() {
-        resourceService.saveOrUpdate(BOOK_1);
-        verify(DAO).saveOrUpdate(BOOK_1);
+    public void testGet_Laptop() {
+        when(mockResourceDAO.getWithId(ID, Laptop.class)).thenReturn(Optional.of(mockLaptop));
+
+        assertThat(resourceService.get(ID, ResourceType.LAPTOP))
+                .as("Laptop retrieved from database")
+                .isEqualTo(Optional.of(mockLaptop));
     }
 
     @Test
-    public void test_verifyDelete() {
-        resourceService.delete(BOOK_1);
-        verify(DAO).delete(BOOK_1);
+    public void testGet_NoLaptopFromDAO() {
+        when(mockResourceDAO.getWithId(ID, Laptop.class)).thenReturn(Optional.empty());
+
+        assertThat(resourceService.get(ID, ResourceType.LAPTOP))
+                .as("No Laptop retrieved from DAO")
+                .isEqualTo(Optional.empty());
+    }
+
+    @Test
+    public void testGetAllResourceDTOs() {
+        when(mockResourceDAO.getAllResourceDTOs(Resource.class)).thenReturn(Collections.singletonList(mockResourceDTO));
+
+        assertThat(resourceService.getAllResourceDTOs(ResourceType.ALL))
+                .as("All ResourceDTOs retrieved from database")
+                .containsExactly(mockResourceDTO);
+    }
+
+    @Test
+    public void testGetAllResourceDTOs_NothingReturned() {
+        when(mockResourceDAO.getAllResourceDTOs(Resource.class)).thenReturn(Collections.emptyList());
+
+        assertThat(resourceService.getAllResourceDTOs(ResourceType.ALL))
+                .as("No ResourceDTOs retrieved from database")
+                .isEmpty();
+    }
+
+    @Test
+    public void testSaveOrUpdate() {
+        resourceService.saveOrUpdate(mockBook);
+        verify(mockResourceDAO).saveOrUpdate(mockBook);
+    }
+
+    @Test
+    public void testDelete() {
+        resourceService.delete(mockBook);
+        verify(mockResourceDAO).delete(mockBook);
+    }
+
+    @Test
+    public void testDeleteWithId() {
+        resourceService.deleteWithId(ID);
+        verify(mockResourceDAO).deleteWithId(ID, Resource.class);
+    }
+
+    @Test
+    public void testSearch() {
+        when(mockResourceDAO.search(anyString(), eq(Resource.class)))
+                .thenReturn(Collections.singletonList(mockResourceDTO));
+
+        assertThat(resourceService.search("TEST_SEARCH", ResourceType.ALL))
+                .as("ResourceDTOs found with search query")
+                .containsExactly(mockResourceDTO);
     }
 
 }

@@ -23,8 +23,6 @@ public class UserServiceImpl implements UserService {
 
     private UserDAO userDAO;
 
-    private TransactionService transactionService;
-
     /**
      * Retrieves a {@link User} from the DAO using the {@link User}'s
      * {@code username} and returns it wrapped in an {@link Optional}. If a
@@ -36,7 +34,7 @@ public class UserServiceImpl implements UserService {
      * if it isn't retrieved by the DAO, or an empty {@link Optional} if not.
      */
     @Override
-    public Optional<? extends User> getWithUsername(String username) {
+    public Optional<User> getWithUsername(String username) {
         return userDAO.getWithUsername(username);
     }
 
@@ -70,20 +68,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<OutstandingFinesDTO> getAllUsersWithOutstandingFines() {
-        List<OutstandingFinesDTO> usersWithOutstandingFines = new ArrayList<>();
-        for (String username : getAllUsernames()) {
-            BigDecimal finesForUser = transactionService.getTotalFinesAmountForUser(username);
-            BigDecimal paymentsForUser = transactionService.getTotalPaymentsAmountForUser(username);
-            BigDecimal outstandingFines = finesForUser.subtract(paymentsForUser);
-            if (outstandingFines.compareTo(BigDecimal.ZERO) > 0) {
-                usersWithOutstandingFines.add(new OutstandingFinesDTO(username, outstandingFines));
-            }
-        }
-        return usersWithOutstandingFines;
-    }
-
-    @Override
     public List<User> search(String username) {
         return userDAO.search(username);
     }
@@ -114,11 +98,6 @@ public class UserServiceImpl implements UserService {
     public void setUserDAO(UserDAO userDAO) {
         this.userDAO = userDAO;
         LOGGER.info("{} UserDAO set to {}", this.getClass().getSimpleName(), userDAO.getClass().getSimpleName());
-    }
-
-    public void setTransactionService(TransactionService transactionService) {
-        this.transactionService = transactionService;
-        LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), transactionService.getClass().getSimpleName());
     }
 
 }
