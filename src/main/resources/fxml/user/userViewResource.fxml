@@ -36,8 +36,8 @@
         </center>
         <left>
             <AnchorPane prefHeight="389.0" prefWidth="314.0" BorderPane.alignment="CENTER">
-                <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" />
-                <TableView fx:id="tblCopies" layoutX="14.0" layoutY="54.0" prefHeight="300.0" prefWidth="354.0">
+                <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" onAction="#goBack" />
+                <TableView fx:id="tblCopies" layoutX="14.0" layoutY="54.0" prefHeight="300.0" prefWidth="354.0" onMouseClicked="#enableButtonsIfResourceSelected" >
                     <columns>
                         <TableColumn fx:id="colLoanDuration" prefWidth="85.0" text="Loan Duration" />
                         <TableColumn fx:id="colLocation" prefWidth="77.0" text="Location" />
@@ -45,7 +45,7 @@
                         <TableColumn fx:id="colInfo" prefWidth="120.0" text="Additional Info" />
                     </columns>
                 </TableView>
-                <Button fx:id="btnMakeRequest" disable="true" layoutX="145.0" layoutY="362.0" text="Make Request" />
+                <Button fx:id="btnMakeRequest" disable="true" layoutX="145.0" layoutY="362.0" text="Make Request" onAction="#makeRequest" />
             </AnchorPane>
         </left>
     </BorderPane>

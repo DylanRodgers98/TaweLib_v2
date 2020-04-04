@@ -37,8 +37,8 @@
         </center>
         <left>
             <AnchorPane prefHeight="389.0" prefWidth="314.0" BorderPane.alignment="CENTER">
-                <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" />
-                <TableView fx:id="tblCopies" layoutX="14.0" layoutY="54.0" prefHeight="300.0" prefWidth="354.0">
+                <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" onAction="#goBack" />
+                <TableView fx:id="tblCopies" layoutX="14.0" layoutY="54.0" prefHeight="300.0" prefWidth="354.0" onMouseClicked="#enableButtonsIfResourceSelected" >
                     <columns>
                         <TableColumn fx:id="colCurrentBorrower" prefWidth="120.0" text="Current Borrower" />
                         <TableColumn fx:id="colLoanDuration" prefWidth="85.0" text="Loan Duration" />
@@ -48,9 +48,9 @@
                 </TableView>
                 <ButtonBar layoutX="14.0" layoutY="353.0" prefHeight="40.0" prefWidth="289.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="353.0">
                     <buttons>
-                        <Button fx:id="btnAddCopy" prefHeight="25.0" prefWidth="119.0" text="Add Copy" />
-                        <Button fx:id="btnDelete" disable="true" text="Delete Copy" />
-                        <Button fx:id="btnViewRequests" disable="true" text="View Requests" />
+                        <Button fx:id="btnAddCopy" prefHeight="25.0" prefWidth="119.0" text="Add Copy" onAction="#openAddCopyPage" />
+                        <Button fx:id="btnDelete" disable="true" text="Delete Copy" onAction="#deleteCopy" />
+                        <Button fx:id="btnViewRequests" disable="true" text="View Requests" onAction="#openViewRequestsPage" />
                     </buttons>
                     <padding>
                         <Insets left="-20.0" top="10.0" />
