@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,28 +51,22 @@ public abstract class AbstractResourcesController implements FXController {
     @FXML
     private TextField txtSearch;
 
-    @FXML
-    private Button btnSearch;
-
     @Override
     public void initialize() {
-        cmbType.setValue(ResourceType.ALL);
-        populateTable();
-        setOnActions();
+        colType.setCellValueFactory(this::getResourceType);
+        colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        colYear.setCellValueFactory(new PropertyValueFactory<>("year"));
+        tblResources.setItems(getResources());
     }
 
-    protected void setOnActions() {
-        cmbType.setOnAction(e -> executeTypeChange());
-        tblResources.setOnMouseClicked(e -> enableButtonsIfResourceSelected());
-        btnViewResource.setOnAction(e -> openViewResourcePage());
-        btnSearch.setOnAction(e -> search());
-        txtSearch.setOnKeyPressed(e -> {
-            if (e.getCode().equals(KeyCode.ENTER)) {
-                search();
-            }
-        });
+    @FXML
+    private void searchIfEnterPressed(KeyEvent e) {
+        if (e.getCode().equals(KeyCode.ENTER)) {
+            search();
+        }
     }
 
+    @FXML
     private void executeTypeChange() {
         if (StringUtils.isBlank(txtSearch.getText())) {
             tblResources.setItems(getResources());
@@ -80,13 +75,7 @@ public abstract class AbstractResourcesController implements FXController {
         }
     }
 
-    protected void populateTable() {
-        colType.setCellValueFactory(this::getResourceType);
-        colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-        colYear.setCellValueFactory(new PropertyValueFactory<>("year"));
-        tblResources.setItems(getResources());
-    }
-
+    @FXML
     protected abstract void enableButtonsIfResourceSelected();
 
     private ObservableValue<ResourceType> getResourceType(TableColumn.CellDataFeatures<ResourceDTO, ResourceType> resource) {
@@ -104,6 +93,7 @@ public abstract class AbstractResourcesController implements FXController {
         return resources;
     }
 
+    @FXML
     protected void openViewResourcePage() {
         openSelectionAwarePage(getViewResourceFxml());
     }
@@ -124,6 +114,7 @@ public abstract class AbstractResourcesController implements FXController {
         }
     }
 
+    @FXML
     private void search() {
         if (StringUtils.isBlank(txtSearch.getText())) {
             tblResources.setItems(getResources());

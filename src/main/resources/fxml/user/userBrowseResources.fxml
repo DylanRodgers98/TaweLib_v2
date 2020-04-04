@@ -16,7 +16,7 @@
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.crowvalley.tawelib.controller.user.UserBrowseResourcesController">
     <BorderPane prefHeight="408.0" prefWidth="640.0">
         <center>
-            <TableView fx:id="tblResources" prefHeight="302.0" prefWidth="620.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="tblResources" prefHeight="302.0" prefWidth="620.0" BorderPane.alignment="CENTER" onMouseClicked="#enableButtonsIfResourceSelected">
                 <columns>
                     <TableColumn fx:id="colType" prefWidth="70.0" text="Type" />
                     <TableColumn fx:id="colTitle" prefWidth="478.0" text="Title" />
@@ -28,7 +28,7 @@
             </TableView>
         </center>
         <bottom>
-            <Button fx:id="btnViewResource" disable="true" text="View Resource/Copies" BorderPane.alignment="CENTER">
+            <Button fx:id="btnViewResource" disable="true" text="View Resource/Copies" BorderPane.alignment="CENTER" onAction="#openViewResourcePage" >
                 <BorderPane.margin>
                     <Insets bottom="10.0" />
                 </BorderPane.margin>
@@ -36,9 +36,12 @@
         </bottom>
         <top>
             <AnchorPane prefHeight="21.0" prefWidth="640.0" BorderPane.alignment="CENTER">
-                <Button fx:id="btnBack" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="&lt;&lt; Back" />
+                <Button fx:id="btnBack" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="&lt;&lt; Back" onAction="#loadUserHome" />
                 <Label layoutX="227.0" layoutY="14.0" text="Resource Type:" />
-                <ChoiceBox fx:id="cmbType" layoutX="311.0" layoutY="10.0" prefHeight="25.0" prefWidth="112.0">
+                <ChoiceBox fx:id="cmbType" layoutX="311.0" layoutY="10.0" prefHeight="25.0" prefWidth="112.0" onAction="#executeTypeChange">
+                    <value>
+                        <ResourceType fx:value="ALL" />
+                    </value>
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <ResourceType fx:value="ALL" />
@@ -48,8 +51,8 @@
                         </FXCollections>
                     </items>
                 </ChoiceBox>
-                <TextField fx:id="txtSearch" layoutX="432.0" layoutY="10.0" />
-                <Button fx:id="btnSearch" layoutX="577.0" layoutY="10.0" text="Search" />
+                <TextField fx:id="txtSearch" layoutX="432.0" layoutY="10.0" onKeyPressed="#searchIfEnterPressed"/>
+                <Button layoutX="577.0" layoutY="10.0" text="Search" onAction="#search" />
           </AnchorPane>
         </top>
     </BorderPane>

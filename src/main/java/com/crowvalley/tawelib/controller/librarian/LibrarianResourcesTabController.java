@@ -32,15 +32,10 @@ public class LibrarianResourcesTabController extends AbstractResourcesController
     @Override
     public void initialize() {
         FXMLUtils.makeNodesDisabled(btnViewResource, btnEditResource, btnDeleteResource);
-        super.initialize();
-    }
-
-    @Override
-    protected void setOnActions() {
         btnNewResource.setOnAction(e -> FXMLUtils.loadNewScene(ADD_NEW_RESOURCE_FXML));
         btnEditResource.setOnAction(e -> openEditResourcePage());
         btnDeleteResource.setOnAction(e -> deleteSelectedResource());
-        super.setOnActions();
+        super.initialize();
     }
 
     @Override
