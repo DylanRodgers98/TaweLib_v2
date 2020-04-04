@@ -16,7 +16,7 @@
             </font>
         </Text>
         <TextField fx:id="txtUsername" layoutX="97.0" layoutY="141.0" prefHeight="25.0" prefWidth="200.0"
-                   promptText="Username/Staff Number" onKeyPressed="#loginIfEnterPressed" />
-        <Button layoutX="306.0" layoutY="141.0" mnemonicParsing="false" text="Log In" onAction="#tryLogin" />
+                   promptText="Username/Staff Number" onKeyPressed="#loginIfEnterPressed"/>
+        <Button layoutX="306.0" layoutY="141.0" mnemonicParsing="false" text="Log In" onAction="#tryLogin"/>
     </AnchorPane>
 </VBox>

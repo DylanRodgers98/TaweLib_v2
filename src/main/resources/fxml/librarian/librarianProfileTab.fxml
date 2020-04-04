@@ -9,35 +9,38 @@
     <BorderPane prefHeight="400.0" prefWidth="640.0">
         <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                <Label layoutX="97.0" layoutY="18.0" text="Username:" />
-                <Label layoutX="93.0" layoutY="49.0" text="First Name:" />
-                <Label layoutX="103.0" layoutY="80.0" text="Surname:" />
-                <Label layoutX="69.0" layoutY="111.0" text="Phone Number:" />
-                <Label layoutX="50.0" layoutY="142.0" text="House Num/Name:" />
-                <Label layoutX="118.0" layoutY="173.0" text="Street:" />
-                <Label layoutX="120.0" layoutY="204.0" text="Town:" />
-                <Label layoutX="111.0" layoutY="235.0" text="County:" />
-                <Label layoutX="100.0" layoutY="266.0" text="Postcode:" />
-                <Label layoutX="54.0" layoutY="298.0" text="Employment Date:" />
+                <Label layoutX="97.0" layoutY="18.0" text="Username:"/>
+                <Label layoutX="93.0" layoutY="49.0" text="First Name:"/>
+                <Label layoutX="103.0" layoutY="80.0" text="Surname:"/>
+                <Label layoutX="69.0" layoutY="111.0" text="Phone Number:"/>
+                <Label layoutX="50.0" layoutY="142.0" text="House Num/Name:"/>
+                <Label layoutX="118.0" layoutY="173.0" text="Street:"/>
+                <Label layoutX="120.0" layoutY="204.0" text="Town:"/>
+                <Label layoutX="111.0" layoutY="235.0" text="County:"/>
+                <Label layoutX="100.0" layoutY="266.0" text="Postcode:"/>
+                <Label layoutX="54.0" layoutY="298.0" text="Employment Date:"/>
 
-                <TextField fx:id="txtUsername" layoutX="161.0" layoutY="14.0" />
-                <TextField fx:id="txtFirstName" layoutX="161.0" layoutY="45.0" />
-                <TextField fx:id="txtSurname" layoutX="161.0" layoutY="76.0" />
-                <TextField fx:id="txtPhoneNum" layoutX="161.0" layoutY="107.0" />
-                <TextField fx:id="txtHouseNum" layoutX="161.0" layoutY="138.0" />
-                <TextField fx:id="txtStreet" layoutX="161.0" layoutY="169.0" />
-                <TextField fx:id="txtTown" layoutX="161.0" layoutY="200.0" />
-                <TextField fx:id="txtCounty" layoutX="161.0" layoutY="231.0" />
-                <TextField fx:id="txtPostcode" layoutX="161.0" layoutY="262.0" />
-                <TextField fx:id="txtEmploymentDate" layoutX="161.0" layoutY="294.0" disable="true" />
+                <TextField fx:id="txtUsername" layoutX="161.0" layoutY="14.0"/>
+                <TextField fx:id="txtFirstName" layoutX="161.0" layoutY="45.0"/>
+                <TextField fx:id="txtSurname" layoutX="161.0" layoutY="76.0"/>
+                <TextField fx:id="txtPhoneNum" layoutX="161.0" layoutY="107.0"/>
+                <TextField fx:id="txtHouseNum" layoutX="161.0" layoutY="138.0"/>
+                <TextField fx:id="txtStreet" layoutX="161.0" layoutY="169.0"/>
+                <TextField fx:id="txtTown" layoutX="161.0" layoutY="200.0"/>
+                <TextField fx:id="txtCounty" layoutX="161.0" layoutY="231.0"/>
+                <TextField fx:id="txtPostcode" layoutX="161.0" layoutY="262.0"/>
+                <TextField fx:id="txtEmploymentDate" layoutX="161.0" layoutY="294.0" disable="true"/>
 
-                <Button fx:id="btnSaveOrUpdate" layoutX="175.0" layoutY="331.0" prefHeight="25.0" prefWidth="120.0" text="Update Profile" onAction="#saveOrUpdateProfile"/>
+                <Button fx:id="btnSaveOrUpdate" layoutX="175.0" layoutY="331.0" prefHeight="25.0" prefWidth="120.0"
+                        text="Update Profile" onAction="#saveOrUpdateProfile"/>
             </AnchorPane>
         </center>
         <left>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                <ImageView fx:id="imgProfilePic" fitHeight="250.0" fitWidth="240.0" layoutX="14.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" />
-                <Button fx:id="btnChangePic" layoutX="62.0" layoutY="318.0" prefHeight="25.0" prefWidth="143.0" text="Change Profile Picture" onAction="#chooseImage"/>
+                <ImageView fx:id="imgProfilePic" fitHeight="250.0" fitWidth="240.0" layoutX="14.0" layoutY="56.0"
+                           pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0"/>
+                <Button layoutX="62.0" layoutY="318.0" prefHeight="25.0" prefWidth="143.0" text="Change Profile Picture"
+                        onAction="#chooseImage"/>
             </AnchorPane>
         </left>
     </BorderPane>

@@ -15,38 +15,43 @@
     <BorderPane prefHeight="405.0" prefWidth="640.0">
         <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                <Label layoutX="98.0" layoutY="47.0" text="Username:" />
-                <Label layoutX="94.0" layoutY="78.0" text="First Name:" />
-                <Label layoutX="104.0" layoutY="109.0" text="Surname:" />
-                <Label layoutX="70.0" layoutY="140.0" text="Phone Number:" />
-                <Label layoutX="51.0" layoutY="171.0" text="House Num/Name:" />
-                <Label layoutX="119.0" layoutY="202.0" text="Street:" />
-                <Label layoutX="121.0" layoutY="233.0" text="Town:" />
-                <Label layoutX="112.0" layoutY="264.0" text="County:" />
-                <Label layoutX="101.0" layoutY="295.0" text="Postcode:" />
-                <Label fx:id="lblEmploymentDate" layoutX="55.0" layoutY="326.0" text="Employment Date:" visible="false"/>
+                <Label layoutX="98.0" layoutY="47.0" text="Username:"/>
+                <Label layoutX="94.0" layoutY="78.0" text="First Name:"/>
+                <Label layoutX="104.0" layoutY="109.0" text="Surname:"/>
+                <Label layoutX="70.0" layoutY="140.0" text="Phone Number:"/>
+                <Label layoutX="51.0" layoutY="171.0" text="House Num/Name:"/>
+                <Label layoutX="119.0" layoutY="202.0" text="Street:"/>
+                <Label layoutX="121.0" layoutY="233.0" text="Town:"/>
+                <Label layoutX="112.0" layoutY="264.0" text="County:"/>
+                <Label layoutX="101.0" layoutY="295.0" text="Postcode:"/>
+                <Label fx:id="lblEmploymentDate" layoutX="55.0" layoutY="326.0" text="Employment Date:"
+                       visible="false"/>
 
-                <CheckBox fx:id="chkLibrarian" layoutX="162.0" layoutY="17.0" text="Librarian?" onAction="#setDatePickerVisibility" />
+                <CheckBox fx:id="chkLibrarian" layoutX="162.0" layoutY="17.0" text="Librarian?"
+                          onAction="#setDatePickerVisibility"/>
 
-                <TextField fx:id="txtUsername" layoutX="162.0" layoutY="43.0" />
-                <TextField fx:id="txtFirstName" layoutX="162.0" layoutY="74.0" />
-                <TextField fx:id="txtSurname" layoutX="162.0" layoutY="105.0" />
-                <TextField fx:id="txtPhoneNum" layoutX="162.0" layoutY="136.0" />
-                <TextField fx:id="txtHouseNum" layoutX="162.0" layoutY="167.0" />
-                <TextField fx:id="txtStreet" layoutX="162.0" layoutY="198.0" />
-                <TextField fx:id="txtTown" layoutX="162.0" layoutY="229.0" />
-                <TextField fx:id="txtCounty" layoutX="162.0" layoutY="260.0" />
-                <TextField fx:id="txtPostcode" layoutX="162.0" layoutY="291.0" />
+                <TextField fx:id="txtUsername" layoutX="162.0" layoutY="43.0"/>
+                <TextField fx:id="txtFirstName" layoutX="162.0" layoutY="74.0"/>
+                <TextField fx:id="txtSurname" layoutX="162.0" layoutY="105.0"/>
+                <TextField fx:id="txtPhoneNum" layoutX="162.0" layoutY="136.0"/>
+                <TextField fx:id="txtHouseNum" layoutX="162.0" layoutY="167.0"/>
+                <TextField fx:id="txtStreet" layoutX="162.0" layoutY="198.0"/>
+                <TextField fx:id="txtTown" layoutX="162.0" layoutY="229.0"/>
+                <TextField fx:id="txtCounty" layoutX="162.0" layoutY="260.0"/>
+                <TextField fx:id="txtPostcode" layoutX="162.0" layoutY="291.0"/>
                 <DatePicker fx:id="datePicker" layoutX="162.0" layoutY="322.0" visible="false"/>
 
-                <Button fx:id="btnAdd" layoutX="176.0" layoutY="357.0" prefHeight="25.0" prefWidth="120.0" text="Add User" onAction="#addUser" />
+                <Button layoutX="176.0" layoutY="357.0" prefHeight="25.0" prefWidth="120.0" text="Add User"
+                        onAction="#addUser"/>
             </AnchorPane>
         </center>
         <left>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                <ImageView fx:id="imgProfilePic" fitHeight="250.0" fitWidth="240.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" />
-                <Button fx:id="btnChoosePic" layoutX="63.0" layoutY="323.0" prefHeight="25.0" prefWidth="143.0" text="Choose Profile Picture" onAction="#chooseImage" />
-                <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" onAction="#goBack" />
+                <ImageView fx:id="imgProfilePic" fitHeight="250.0" fitWidth="240.0" layoutY="54.0" pickOnBounds="true"
+                           preserveRatio="true" AnchorPane.leftAnchor="14.0"/>
+                <Button layoutX="63.0" layoutY="323.0" prefHeight="25.0" prefWidth="143.0" text="Choose Profile Picture"
+                        onAction="#chooseImage"/>
+                <Button layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" onAction="#goBack"/>
             </AnchorPane>
         </left>
     </BorderPane>

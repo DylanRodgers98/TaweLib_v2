@@ -3,7 +3,6 @@ package com.crowvalley.tawelib.service;
 import com.crowvalley.tawelib.dao.UserDAO;
 import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
-import com.crowvalley.tawelib.model.fine.OutstandingFinesDTO;
 
 import java.util.List;
 import java.util.Optional;

@@ -14,9 +14,11 @@
                 <TextField fx:id="txtSearch" layoutX="43.0" layoutY="10.0" onKeyPressed="#searchIfEnterPressed"/>
                 <Button layoutX="187.0" layoutY="10.0" text="Search" onAction="#search"/>
                 <Label layoutX="257.0" layoutY="14.0" text="Between:"/>
-                <DatePicker fx:id="dateStart" layoutX="310.0" layoutY="10.0" prefHeight="25.0" prefWidth="120.0" onAction="#search"/>
+                <DatePicker fx:id="dateStart" layoutX="310.0" layoutY="10.0" prefHeight="25.0" prefWidth="120.0"
+                            onAction="#search"/>
                 <Label layoutX="435.0" layoutY="14.0" text="and"/>
-                <DatePicker fx:id="dateEnd" layoutX="460.0" layoutY="10.0" prefHeight="25.0" prefWidth="120.0" onAction="#search"/>
+                <DatePicker fx:id="dateEnd" layoutX="460.0" layoutY="10.0" prefHeight="25.0" prefWidth="120.0"
+                            onAction="#search"/>
                 <Button layoutX="585.0" layoutY="10.0" text="Clear" onAction="#clearDate"/>
             </AnchorPane>
         </top>
@@ -25,7 +27,7 @@
                 <columns>
                     <TableColumn fx:id="colUsername" prefWidth="100.0" text="Username"/>
                     <TableColumn fx:id="colAmount" prefWidth="80.0" text="Amount"/>
-                    <TableColumn fx:id="colDate" prefWidth="80.0" text="Date" />
+                    <TableColumn fx:id="colDate" prefWidth="80.0" text="Date"/>
                     <TableColumn fx:id="colType" prefWidth="357.0" text="Fine or Payment?"/>
                 </columns>
                 <BorderPane.margin>
@@ -34,7 +36,8 @@
             </TableView>
         </center>
         <bottom>
-            <Button text="Record a Payment" prefHeight="25.0" prefWidth="192.0" BorderPane.alignment="CENTER" onAction="#loadRecordPaymentPage" >
+            <Button text="Record a Payment" prefHeight="25.0" prefWidth="192.0" BorderPane.alignment="CENTER"
+                    onAction="#loadRecordPaymentPage">
                 <BorderPane.margin>
                     <Insets bottom="7.0" top="8.0"/>
                 </BorderPane.margin>
