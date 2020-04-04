@@ -29,16 +29,12 @@ public class LibrarianFinesAndPaymentsTabController extends AbstractFinesAndPaym
     @Override
     public void initialize() {
         colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
-        super.initialize();
-    }
-
-    @FXML
-    private void searchIfEnterPressed() {
         txtSearch.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER)) {
                 search();
             }
         });
+        super.initialize();
     }
 
     @FXML

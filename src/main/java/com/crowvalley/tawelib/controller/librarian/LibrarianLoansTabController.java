@@ -20,13 +20,10 @@ import java.util.Optional;
 
 public class LibrarianLoansTabController extends AbstractLoansController {
 
-    private static final String NEW_LOAN_CONTROLLER_FXML = "/fxml/librarian/loans/newLoan.fxml";
+    private static final String NEW_LOAN_FXML = "/fxml/librarian/loans/newLoan.fxml";
 
     @FXML
     private TableColumn<Loan, String> colBorrower;
-
-    @FXML
-    private Button btnNewLoan;
 
     @FXML
     private Button btnEndLoan;
@@ -34,29 +31,23 @@ public class LibrarianLoansTabController extends AbstractLoansController {
     @FXML
     private TextField txtSearch;
 
-    @FXML
-    private Button btnSearch;
-
     @Override
-    protected void populateTable() {
+    public void initialize() {
         colBorrower.setCellValueFactory(new PropertyValueFactory<>("borrowerUsername"));
-        super.populateTable();
-    }
-
-    @Override
-    protected void setOnActions() {
-        tblLoans.setOnMouseClicked(e -> enableButtonsIfLoanSelected());
-        btnNewLoan.setOnAction(e -> FXMLUtils.loadNewScene(NEW_LOAN_CONTROLLER_FXML));
-        btnEndLoan.setOnAction(e -> endLoan());
-        btnSearch.setOnAction(e -> search());
         txtSearch.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER)) {
                 search();
             }
         });
-        super.setOnActions();
+        super.initialize();
     }
 
+    @FXML
+    private void loanNewLoanPage() {
+        FXMLUtils.loadNewScene(NEW_LOAN_FXML);
+    }
+
+    @FXML
     private void enableButtonsIfLoanSelected() {
         Loan loan = getSelectedLoan();
         if (loan != null && loan.getReturnDate() == null) {
@@ -64,6 +55,7 @@ public class LibrarianLoansTabController extends AbstractLoansController {
         }
     }
 
+    @FXML
     private void endLoan() {
         Optional<ButtonType> result = FXMLUtils.displayConfirmationDialogBox("End Loan", "Are you sure you want to end the loan?");
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -84,7 +76,7 @@ public class LibrarianLoansTabController extends AbstractLoansController {
     }
 
     @Override
-    protected ObservableList<Loan> search(LocalDateTime startDate, LocalDateTime endDate) {
+    protected ObservableList<Loan> searchInternal(LocalDateTime startDate, LocalDateTime endDate) {
         List<Loan> queryResult;
         if (StringUtils.isNotBlank(txtSearch.getText())) {
             queryResult = loanService.search(txtSearch.getText(), startDate, endDate);

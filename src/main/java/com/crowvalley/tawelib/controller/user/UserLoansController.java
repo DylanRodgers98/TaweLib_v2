@@ -18,12 +18,8 @@ public class UserLoansController extends AbstractLoansController {
     private static final String USER_HOME_FXML = "/fxml/user/userHome.fxml";
 
     @FXML
-    private Button btnBack;
-
-    @Override
-    public void initialize() {
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(USER_HOME_FXML));
-        super.initialize();
+    private void loadUserHome() {
+        FXMLUtils.loadNewScene(USER_HOME_FXML);
     }
 
     @Override
@@ -35,7 +31,7 @@ public class UserLoansController extends AbstractLoansController {
     }
 
     @Override
-    protected ObservableList<Loan> search(LocalDateTime startDate, LocalDateTime endDate) {
+    protected ObservableList<Loan> searchInternal(LocalDateTime startDate, LocalDateTime endDate) {
         if (startDate == null || endDate == null) {
             return getLoans();
         }
