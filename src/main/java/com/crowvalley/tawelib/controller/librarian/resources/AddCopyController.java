@@ -7,7 +7,6 @@ import com.crowvalley.tawelib.model.resource.ResourceFactory;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.slf4j.Logger;
@@ -34,21 +33,14 @@ public class AddCopyController implements SelectionAwareFXController<Resource> {
     @FXML
     private TextField txtLocation;
 
-    @FXML
-    private Button btnAddCopy;
-
-    @FXML
-    private Button btnBack;
-
     @Override
     public void initialize() {
         if (selectedResource != null) {
             lblResource.setText("Resource: " + selectedResource);
-            btnAddCopy.setOnAction(e -> addCopy());
-            btnBack.setOnAction(e -> loadViewResourcePage());
         }
     }
 
+    @FXML
     private void addCopy() {
         if (txtLoanDuration.getText() != null) {
             Copy copy = ResourceFactory.createCopy(selectedResource, Integer.parseInt(txtLoanDuration.getText()), txtLocation.getText());
@@ -59,6 +51,7 @@ public class AddCopyController implements SelectionAwareFXController<Resource> {
         }
     }
 
+    @FXML
     private void loadViewResourcePage() {
         try {
             FXMLUtils.loadNewSceneWithSelectedItem(VIEW_RESOURCE_FXML, selectedResource);

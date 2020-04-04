@@ -3,11 +3,9 @@ package com.crowvalley.tawelib.service;
 import com.crowvalley.tawelib.dao.UserDAO;
 import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
-import com.crowvalley.tawelib.model.fine.OutstandingFinesDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 /**

@@ -6,17 +6,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="168.0" prefWidth="279.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.crowvalley.tawelib.controller.librarian.resources.AddCopyController">
+<VBox prefHeight="168.0" prefWidth="279.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.crowvalley.tawelib.controller.librarian.resources.AddCopyController">
     <AnchorPane prefHeight="168.0" prefWidth="279.0">
-         <Label fx:id="lblResource" layoutX="56.0" layoutY="47.0" text="Resource:" />
+        <Label fx:id="lblResource" layoutX="56.0" layoutY="47.0" text="Resource:"/>
 
-         <Label layoutX="56.0" layoutY="75.0" text="Loan Duration:" />
-         <TextField fx:id="txtLoanDuration" layoutX="143.0" layoutY="71.0" prefHeight="25.0" prefWidth="51.0" />
-         <Label layoutX="198.0" layoutY="78.0" text="days" />
+        <Label layoutX="56.0" layoutY="75.0" text="Loan Duration:"/>
+        <TextField fx:id="txtLoanDuration" layoutX="143.0" layoutY="71.0" prefHeight="25.0" prefWidth="51.0"/>
+        <Label layoutX="198.0" layoutY="78.0" text="days"/>
 
-        <Button fx:id="btnBack" layoutX="10.0" layoutY="10.0" text="&lt;&lt; Back" />
-        <Button fx:id="btnAddCopy" layoutX="99.0" layoutY="134.0" text="Create Copy" />
-      <Label layoutX="56.0" layoutY="103.0" text="Location:" />
-      <TextField fx:id="txtLocation" layoutX="112.0" layoutY="99.0" prefHeight="25.0" prefWidth="112.0" />
-      </AnchorPane>
+        <Button layoutX="10.0" layoutY="10.0" text="&lt;&lt; Back" onAction="#loadViewResourcePage"/>
+        <Button layoutX="99.0" layoutY="134.0" text="Create Copy" onAction="#addCopy"/>
+        <Label layoutX="56.0" layoutY="103.0" text="Location:"/>
+        <TextField fx:id="txtLocation" layoutX="112.0" layoutY="99.0" prefHeight="25.0" prefWidth="112.0"/>
+    </AnchorPane>
 </VBox>

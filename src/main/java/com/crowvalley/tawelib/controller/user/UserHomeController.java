@@ -2,13 +2,12 @@ package com.crowvalley.tawelib.controller.user;
 
 import com.crowvalley.tawelib.Main;
 import com.crowvalley.tawelib.UserContextHolder;
-import com.crowvalley.tawelib.controller.FXController;
+import com.crowvalley.tawelib.controller.InitializableFXController;
 import com.crowvalley.tawelib.model.user.User;
 import com.crowvalley.tawelib.service.TransactionService;
 import com.crowvalley.tawelib.service.UserService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +18,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Optional;
 
-public class UserHomeController implements FXController {
+public class UserHomeController implements InitializableFXController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserHomeController.class);
 
@@ -45,34 +44,30 @@ public class UserHomeController implements FXController {
     private Label lblWelcome;
 
     @FXML
-    private Label lblLogOut;
-
-    @FXML
     private Label lblBalance;
-
-    @FXML
-    private Button btnResources;
-
-    @FXML
-    private Button btnLoans;
-
-    @FXML
-    private Button btnProfile;
-
-    @FXML
-    private Button btnFinesAndPayments;
 
     @Override
     public void initialize() {
         lblWelcome.setText(WELCOME_TEXT + UserContextHolder.getLoggedInUser());
         lblBalance.setText(BALANCE_TEXT + getBalance());
-        lblLogOut.setOnMouseClicked(e -> logOut());
-        btnResources.setOnAction(e -> FXMLUtils.loadNewScene(RESOURCES_PAGE_FXML));
-        btnLoans.setOnAction(e -> FXMLUtils.loadNewScene(LOANS_PAGE_FXML));
-        btnProfile.setOnAction(e -> openUserProfilePage());
-        btnFinesAndPayments.setOnAction(e -> FXMLUtils.loadNewScene(FINES_AND_PAYMENTS_PAGE_FXML));
     }
 
+    @FXML
+    private void openResourcesPage() {
+        FXMLUtils.loadNewScene(RESOURCES_PAGE_FXML);
+    }
+
+    @FXML
+    private void openLoansPage() {
+        FXMLUtils.loadNewScene(LOANS_PAGE_FXML);
+    }
+
+    @FXML
+    private void openFinesAndPaymentsPage() {
+        FXMLUtils.loadNewScene(FINES_AND_PAYMENTS_PAGE_FXML);
+    }
+
+    @FXML
     private void logOut() {
         UserContextHolder.clear();
         FXMLUtils.loadNewScene(Main.LOGIN_PAGE_FXML);
@@ -86,6 +81,7 @@ public class UserHomeController implements FXController {
         return CURRENCY_FORMAT.format(balance);
     }
 
+    @FXML
     private void openUserProfilePage() {
         try {
             String username = UserContextHolder.getLoggedInUser();

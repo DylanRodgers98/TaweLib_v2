@@ -10,28 +10,32 @@
 
 <VBox prefHeight="269.0" prefWidth="517.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.crowvalley.tawelib.controller.librarian.loans.NewLoanController">
-      <AnchorPane prefHeight="269.0" prefWidth="525.0">
-            <Label layoutX="64.0" layoutY="68.0" text="Resource Type:" />
-            <ChoiceBox fx:id="cmbType" layoutX="153.0" layoutY="64.0" prefWidth="150.0" >
-                  <items>
-                        <FXCollections fx:factory="observableArrayList">
-                              <ResourceType fx:value="BOOK" />
-                              <ResourceType fx:value="DVD" />
-                              <ResourceType fx:value="LAPTOP" />
-                        </FXCollections>
-                  </items>
-            </ChoiceBox>
+    <AnchorPane prefHeight="269.0" prefWidth="525.0">
+        <Label layoutX="64.0" layoutY="68.0" text="Resource Type:"/>
+        <ChoiceBox fx:id="cmbType" layoutX="153.0" layoutY="64.0" prefWidth="150.0" onAction="#populateResources">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <ResourceType fx:value="BOOK"/>
+                    <ResourceType fx:value="DVD"/>
+                    <ResourceType fx:value="LAPTOP"/>
+                </FXCollections>
+            </items>
+        </ChoiceBox>
 
-            <Label layoutX="92.0" layoutY="103.0" text="Resource:" />
-            <ChoiceBox fx:id="cmbResource" layoutX="153.0" layoutY="99.0" prefHeight="25.0" prefWidth="300.0" />
+        <Label layoutX="92.0" layoutY="103.0" text="Resource:"/>
+        <ChoiceBox fx:id="cmbResource" layoutX="153.0" layoutY="99.0" prefHeight="25.0" prefWidth="300.0"
+                   onAction="#populateCopies"/>
 
-            <Label layoutX="114.0" layoutY="138.0" text="Copy:" />
-            <ChoiceBox fx:id="cmbCopy" layoutX="153.0" layoutY="134.0" prefHeight="25.0" prefWidth="300.0" />
+        <Label layoutX="114.0" layoutY="138.0" text="Copy:"/>
+        <ChoiceBox fx:id="cmbCopy" layoutX="153.0" layoutY="134.0" prefHeight="25.0" prefWidth="300.0"
+                   onAction="#setEnabledOnCreateLoanButton"/>
 
-            <Label layoutX="92.0" layoutY="173.0" text="Borrower:" />
-            <ChoiceBox fx:id="cmbUsers" layoutX="153.0" layoutY="169.0" prefHeight="25.0" prefWidth="300.0" />
+        <Label layoutX="92.0" layoutY="173.0" text="Borrower:"/>
+        <ChoiceBox fx:id="cmbUsers" layoutX="153.0" layoutY="169.0" prefHeight="25.0" prefWidth="300.0"
+                   onAction="#setEnabledOnCreateLoanButton"/>
 
-            <Button fx:id="btnCreateLoan" disable="true" layoutX="202.0" layoutY="218.0" prefHeight="25.0" prefWidth="113.0" text="Create Loan" />
-            <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" />
-      </AnchorPane>
+        <Button fx:id="btnCreateLoan" disable="true" layoutX="202.0" layoutY="218.0" prefHeight="25.0" prefWidth="113.0"
+                text="Create Loan" onAction="#createLoan"/>
+        <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" onAction="#loadLibrarianHome"/>
+    </AnchorPane>
 </VBox>

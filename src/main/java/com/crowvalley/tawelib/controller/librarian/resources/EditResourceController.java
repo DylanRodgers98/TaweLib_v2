@@ -6,7 +6,6 @@ import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import com.crowvalley.tawelib.util.ImageUtils;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -22,6 +21,8 @@ public class EditResourceController implements SelectionAwareFXController<Resour
     private static final Logger LOGGER = LoggerFactory.getLogger(EditResourceController.class);
 
     private static final String LIBRARIAN_HOME_FXML = "/fxml/librarian/librarianHome.fxml";
+
+    private static final String IMAGE_CHOOSER_TITLE = "Choose Resource Picture";
 
     private static final String RESOURCES_DIRECTORY_NAME = "resources";
 
@@ -69,22 +70,12 @@ public class EditResourceController implements SelectionAwareFXController<Resour
     private Label lblOptional5;
 
     @FXML
-    private Button btnUpdate;
-
-    @FXML
     private ImageView imgResourcePic;
-
-    @FXML
-    private Button btnChangePic;
-
-    @FXML
-    private Button btnBack;
 
     @Override
     public void initialize() {
         if (selectedResource != null) {
             populateFields();
-            setOnActions();
         }
     }
 
@@ -176,12 +167,17 @@ public class EditResourceController implements SelectionAwareFXController<Resour
         lblOptional3.setLayoutX(57.0);
     }
 
-    private void setOnActions() {
-        btnUpdate.setOnAction(e -> updateResource());
-        btnChangePic.setOnAction(e -> ImageUtils.chooseImage("Choose Resource Picture", RESOURCES_DIRECTORY_NAME, imgResourcePic));
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML));
+    @FXML
+    private void chooseImage() {
+        ImageUtils.chooseImage(IMAGE_CHOOSER_TITLE, RESOURCES_DIRECTORY_NAME, imgResourcePic);
     }
 
+    @FXML
+    private void loadLibrarianHome() {
+        FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
+    }
+
+    @FXML
     private void updateResource() {
         selectedResource.setTitle(txtTitle.getText());
         selectedResource.setYear(txtYear.getText());

@@ -89,7 +89,6 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
         if (selectedResource != null) {
             populateTable();
             populateFields();
-            setOnActions();
         }
     }
 
@@ -197,9 +196,9 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
         lblOptional3.setLayoutX(30.0);
     }
 
-    protected void setOnActions() {
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(getBackButtonFxml()));
-        tblCopies.setOnMouseClicked(e -> enableButtonsIfResourceSelected());
+    @FXML
+    private void goBack() {
+        FXMLUtils.loadNewScene(getBackButtonFxml());
     }
 
     protected Copy getSelectedCopy() {
@@ -213,6 +212,7 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
 
     protected abstract String getBackButtonFxml();
 
+    @FXML
     protected abstract void enableButtonsIfResourceSelected();
     
     public void setCopyService(CopyService copyService) {

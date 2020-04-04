@@ -7,17 +7,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="279.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.crowvalley.tawelib.controller.librarian.resources.ViewCopyRequestsController">
-      <AnchorPane prefHeight="278.0" prefWidth="375.0">
-            <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" />
-            <Label fx:id="lblCopyTitle" alignment="CENTER" layoutX="88.0" layoutY="18.0" prefHeight="17.0" prefWidth="273.0" text="Copy: " />
-            <Button fx:id="btnApproveRequest" disable="true" layoutX="134.0" layoutY="244.0" text="Approve Request" />
-            <TableView fx:id="tblCopyRequests" layoutX="14.0" layoutY="54.0" prefHeight="179.0" prefWidth="347.0">
-                <columns>
-                    <TableColumn fx:id="colUsername" prefWidth="145.0" text="Username" />
-                    <TableColumn fx:id="colRequestDate" prefWidth="82.0" text="Request Date" />
-                    <TableColumn fx:id="colRequestStatus" prefWidth="120.0" text="Request Status" />
-               </columns>
-            </TableView>
-      </AnchorPane>
+<VBox prefHeight="279.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.crowvalley.tawelib.controller.librarian.resources.ViewCopyRequestsController">
+    <AnchorPane prefHeight="278.0" prefWidth="375.0">
+        <Button layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" onAction="#loadViewResourcePage"/>
+        <Label fx:id="lblCopyTitle" alignment="CENTER" layoutX="88.0" layoutY="18.0" prefHeight="17.0" prefWidth="273.0"
+               text="Copy: "/>
+        <Button fx:id="btnApproveRequest" disable="true" layoutX="134.0" layoutY="244.0" text="Approve Request"
+                onAction="#approveCopyRequest"/>
+        <TableView fx:id="tblCopyRequests" layoutX="14.0" layoutY="54.0" prefHeight="179.0" prefWidth="347.0"
+                   onMouseClicked="#enableButtonsIfCopyRequestSelected">
+            <columns>
+                <TableColumn fx:id="colUsername" prefWidth="145.0" text="Username"/>
+                <TableColumn fx:id="colRequestDate" prefWidth="82.0" text="Request Date"/>
+                <TableColumn fx:id="colRequestStatus" prefWidth="120.0" text="Request Status"/>
+            </columns>
+        </TableView>
+    </AnchorPane>
 </VBox>

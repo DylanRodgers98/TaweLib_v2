@@ -12,8 +12,8 @@
                 <Font name="System Bold" size="18.0"/>
             </font>
         </Label>
-        <Button fx:id="btnLogOut" layoutX="259.0" layoutY="191.0" prefHeight="30.0" prefWidth="120.0"
-                text="Yes, log me out">
+        <Button layoutX="259.0" layoutY="191.0" prefHeight="30.0" prefWidth="120.0" text="Yes, log me out"
+                onAction="#logOut">
             <font>
                 <Font size="14.0"/>
             </font>

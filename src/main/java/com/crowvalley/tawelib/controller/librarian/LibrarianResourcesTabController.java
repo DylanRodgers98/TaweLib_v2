@@ -21,26 +21,14 @@ public class LibrarianResourcesTabController extends AbstractResourcesController
     private static final String EDIT_RESOURCE_FXML = "/fxml/librarian/resources/editResource.fxml";
 
     @FXML
-    private Button btnNewResource;
-
-    @FXML
     private Button btnEditResource;
 
     @FXML
     private Button btnDeleteResource;
 
-    @Override
-    public void initialize() {
-        FXMLUtils.makeNodesDisabled(btnViewResource, btnEditResource, btnDeleteResource);
-        super.initialize();
-    }
-
-    @Override
-    protected void setOnActions() {
-        btnNewResource.setOnAction(e -> FXMLUtils.loadNewScene(ADD_NEW_RESOURCE_FXML));
-        btnEditResource.setOnAction(e -> openEditResourcePage());
-        btnDeleteResource.setOnAction(e -> deleteSelectedResource());
-        super.setOnActions();
+    @FXML
+    private void openAddNewResourcePage() {
+        FXMLUtils.loadNewScene(ADD_NEW_RESOURCE_FXML);
     }
 
     @Override
@@ -50,6 +38,7 @@ public class LibrarianResourcesTabController extends AbstractResourcesController
         }
     }
 
+    @FXML
     private void openEditResourcePage() {
         try {
             openSelectionAwarePage(EDIT_RESOURCE_FXML);
@@ -59,6 +48,7 @@ public class LibrarianResourcesTabController extends AbstractResourcesController
         }
     }
 
+    @FXML
     private void deleteSelectedResource() {
         ResourceDTO selectedResource = getSelectedResource();
         String message = String.format("Are you sure you want to delete resource '%s'?", selectedResource.getTitle());

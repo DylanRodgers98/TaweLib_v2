@@ -48,9 +48,6 @@ public class ViewCopyRequestsController implements SelectionAwareFXController<Co
     private TableColumn<CopyRequest, String> colRequestStatus;
 
     @FXML
-    private Button btnBack;
-
-    @FXML
     private Button btnApproveRequest;
 
     @FXML
@@ -61,7 +58,6 @@ public class ViewCopyRequestsController implements SelectionAwareFXController<Co
         if (selectedCopy != null) {
             setCopyTitleLabel();
             populateTable();
-            setOnActions();
         }
     }
 
@@ -90,12 +86,12 @@ public class ViewCopyRequestsController implements SelectionAwareFXController<Co
         return copyRequests;
     }
 
-    private void setOnActions() {
-        tblCopyRequests.setOnMouseClicked(e -> enableButtonsIfCopyRequestSelected());
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(VIEW_RESOURCE_FXML));
-        btnApproveRequest.setOnAction(e -> approveCopyRequest());
+    @FXML
+    private void loadViewResourcePage() {
+        FXMLUtils.loadNewScene(VIEW_RESOURCE_FXML);
     }
 
+    @FXML
     private void enableButtonsIfCopyRequestSelected() {
         CopyRequest copyRequest = getSelectedCopyRequest();
         if (copyRequest != null && copyRequest.getRequestStatus() == CopyRequest.Status.REQUESTED) {
@@ -106,6 +102,7 @@ public class ViewCopyRequestsController implements SelectionAwareFXController<Co
         }
     }
 
+    @FXML
     private void approveCopyRequest() {
         CopyRequest selectedCopyRequest = getSelectedCopyRequest();
         selectedCopyRequest.setRequestStatus(CopyRequest.Status.READY_FOR_COLLECTION);

@@ -7,7 +7,6 @@ import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -18,12 +17,8 @@ public class UserFinesAndPaymentsController extends AbstractFinesAndPaymentsCont
     private static final String USER_HOME_FXML = "/fxml/user/userHome.fxml";
 
     @FXML
-    private Button btnBack;
-
-    @Override
-    protected void setOnActions() {
-        btnBack.setOnAction(e -> FXMLUtils.loadNewScene(USER_HOME_FXML));
-        super.setOnActions();
+    private void loadUserHome() {
+        FXMLUtils.loadNewScene(USER_HOME_FXML);
     }
 
     @Override
@@ -36,7 +31,7 @@ public class UserFinesAndPaymentsController extends AbstractFinesAndPaymentsCont
     }
 
     @Override
-    protected ObservableList<Transaction> search(LocalDateTime startDate, LocalDateTime endDate) {
+    protected ObservableList<Transaction> searchInternal(LocalDateTime startDate, LocalDateTime endDate) {
         if (startDate == null || endDate == null) {
             return getFinesAndPayments();
         }
