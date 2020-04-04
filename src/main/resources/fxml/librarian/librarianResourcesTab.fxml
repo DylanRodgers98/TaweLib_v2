@@ -12,10 +12,10 @@
         <bottom>
             <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                 <buttons>
-                    <Button fx:id="btnNewResource" minWidth="0.0" prefHeight="25.0" prefWidth="143.0" text="Create New Resource" />
+                    <Button minWidth="0.0" prefHeight="25.0" prefWidth="143.0" text="Create New Resource" onAction="#openAddNewResourcePage" />
                     <Button fx:id="btnViewResource" disable="true" text="View Resource/Copies" onAction="#openViewResourcePage" />
-                    <Button fx:id="btnEditResource" disable="true" text="Edit Resource" />
-                    <Button fx:id="btnDeleteResource" disable="true" text="Delete Resource" />
+                    <Button fx:id="btnEditResource" disable="true" text="Edit Resource" onAction="#openEditResourcePage" />
+                    <Button fx:id="btnDeleteResource" disable="true" text="Delete Resource" onAction="#deleteSelectedResource" />
                 </buttons>
                 <BorderPane.margin>
                     <Insets right="20.0" />
