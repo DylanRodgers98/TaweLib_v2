@@ -31,7 +31,7 @@ public class Dvd extends Resource {
     }
 
     public Dvd() {
-        super();
+        super(ResourceType.DVD, null, null, null);
     }
 
     @Override

@@ -53,6 +53,10 @@ public class LoanDAOImpl extends BaseDAOImpl implements LoanDAO {
 
     @Override
     public List<Loan> search(String username, LocalDateTime startDate, LocalDateTime endDate) {
+        if (username == null && startDate == null && endDate == null) {
+            throw new IllegalArgumentException("Search must be carried out with either a username, start & end date, or both");
+        }
+
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Loan.class);
 
         if (startDate != null  && endDate != null) {

@@ -34,7 +34,7 @@ public class Book extends Resource {
     }
 
     public Book() {
-        super();
+        super(ResourceType.BOOK, null, null, null);
     }
 
     @Override

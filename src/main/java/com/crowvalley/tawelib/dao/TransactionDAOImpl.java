@@ -53,6 +53,10 @@ public class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     @Override
     public List<Transaction> search(String username, LocalDateTime startDate, LocalDateTime endDate) {
+        if (username == null && startDate == null && endDate == null) {
+            throw new IllegalArgumentException("Search must be carried out with either a username, start & end date, or both");
+        }
+
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Transaction.class);
 
         if (startDate != null && endDate != null) {
