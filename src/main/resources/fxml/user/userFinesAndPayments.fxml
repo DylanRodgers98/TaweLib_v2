@@ -11,7 +11,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <VBox prefHeight="353.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.crowvalley.tawelib.controller.user.UserFinesAndPaymentsController">
+      fx:controller="com.crowvalley.tawelib.controller.user.UserFinesAndPaymentsController"
+      fx:id="userFinesAndPayments">
     <BorderPane prefHeight="400.0" prefWidth="540.0">
         <center>
             <TableView fx:id="tblFinesAndPayments" prefHeight="345.0" prefWidth="529.0" BorderPane.alignment="CENTER">

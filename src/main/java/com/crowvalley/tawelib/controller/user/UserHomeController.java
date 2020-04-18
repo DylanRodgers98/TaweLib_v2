@@ -83,19 +83,19 @@ public class UserHomeController implements InitializableFXController {
 
     @FXML
     private void openUserProfilePage() {
-        try {
-            String username = UserContextHolder.getLoggedInUser();
-            Optional<User> user = userService.getWithUsername(username);
-            if (user.isPresent()) {
+        String username = UserContextHolder.getLoggedInUser();
+        Optional<User> user = userService.getWithUsername(username);
+        if (user.isPresent()) {
+            try {
                 FXMLUtils.loadNewSceneWithSelectedItem(PROFILE_PAGE_FXML, user.get());
-            } else {
-                String userNotFoundErrorMessage = String.format("Could not load User '%s' from database", username);
-                LOGGER.error(userNotFoundErrorMessage);
-                FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, userNotFoundErrorMessage);
+            } catch (IOException e) {
+                LOGGER.error("IOException caught when loading new scene from FXML", e);
+                FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
             }
-        } catch (IOException e) {
-            LOGGER.error("IOException caught when loading new scene from FXML", e);
-            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
+        } else {
+            String userNotFoundErrorMessage = String.format("Could not load User '%s' from database", username);
+            LOGGER.error(userNotFoundErrorMessage);
+            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, userNotFoundErrorMessage);
         }
     }
 

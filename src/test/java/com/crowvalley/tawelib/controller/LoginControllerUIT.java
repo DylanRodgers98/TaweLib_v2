@@ -4,9 +4,7 @@ import com.crowvalley.tawelib.UserContextHolder;
 import com.crowvalley.tawelib.dao.UserDAO;
 import com.crowvalley.tawelib.model.user.Librarian;
 import com.crowvalley.tawelib.model.user.User;
-import com.crowvalley.tawelib.util.FXMLUtils;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+import com.crowvalley.tawelib.util.FXMLTestUtils;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.After;
@@ -19,6 +17,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.testfx.framework.junit.ApplicationTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.testfx.api.FxAssert.verifyThat;
+import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/spring/applicationContext.xml")
@@ -60,91 +60,68 @@ public class LoginControllerUIT extends ApplicationTest {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
-        FXMLLoader loader = FXMLUtils.prepareFXMLLoader(LOGIN_PAGE_FXML);
-        Scene scene = new Scene(loader.load());
-        stage.setScene(scene);
-        stage.show();
+    public void start(Stage stage) throws IllegalAccessException, InstantiationException {
+        FXMLTestUtils.initTest(stage, LOGIN_PAGE_FXML);
     }
 
     @Test
     public void testLogIn_User_ClickLogInButton() {
         logInByClickingButton(USER_USERNAME);
-
-        String username = UserContextHolder.getLoggedInUser();
-        assertThat(username).isEqualTo(USER_USERNAME);
+        verifyLoggedIntoUserArea();
     }
 
     @Test
     public void testLogIn_User_PressEnter() {
         logInByPressingEnter(USER_USERNAME);
-
-        String username = UserContextHolder.getLoggedInUser();
-        assertThat(username).isEqualTo(USER_USERNAME);
+        verifyLoggedIntoUserArea();
     }
 
     @Test
     public void testLogIn_LibrarianUsername_ClickLogInButton() {
         logInByClickingButton(LIBRARIAN_USERNAME);
-
-        String username = UserContextHolder.getLoggedInUser();
-        assertThat(username).isEqualTo(LIBRARIAN_USERNAME);
+        verifyLoggedIn(LIBRARIAN_USERNAME);
     }
 
     @Test
     public void testLogIn_LibrarianUsername_PressEnter() {
         logInByPressingEnter(LIBRARIAN_USERNAME);
-
-        String username = UserContextHolder.getLoggedInUser();
-        assertThat(username).isEqualTo(LIBRARIAN_USERNAME);
+        verifyLoggedIn(LIBRARIAN_USERNAME);
     }
 
     @Test
     public void testLogIn_LibrarianStaffNumber_ClickLogInButton() {
         logInByClickingButton(String.valueOf(librarian.getStaffNum()));
-
-        String username = UserContextHolder.getLoggedInUser();
-        assertThat(username).isEqualTo(LIBRARIAN_USERNAME);
+        verifyLoggedIn(LIBRARIAN_USERNAME);
     }
 
     @Test
     public void testLogIn_LibrarianStaffNumber_PressEnter() {
         logInByPressingEnter(String.valueOf(librarian.getStaffNum()));
-
-        String username = UserContextHolder.getLoggedInUser();
-        assertThat(username).isEqualTo(LIBRARIAN_USERNAME);
+        verifyLoggedIn(LIBRARIAN_USERNAME);
     }
 
     @Test
     public void testLogIn_NonexistentUser_ClickLogInButton() {
         logInByClickingButton(NONEXISTENT_USER_USERNAME);
-
-        String username = UserContextHolder.getLoggedInUser();
-        assertThat(username).isNull();
+        verifyNoUserLoggedIn();
     }
 
     @Test
     public void testLogIn_NonexistentUser_PressEnter() {
         logInByPressingEnter(NONEXISTENT_USER_USERNAME);
-
-        String username = UserContextHolder.getLoggedInUser();
-        assertThat(username).isNull();
+        verifyNoUserLoggedIn();
     }
 
     @Test
     public void testLogIn_NonexistentLibrarian_ClickLogInButton() {
         logInByClickingButton(NONEXISTENT_LIBRARIAN_STAFF_NUMBER);
-
-        String username = UserContextHolder.getLoggedInUser();
-        assertThat(username).isNull();
+        verifyNoUserLoggedIn();
     }
 
     @Test
     public void testLogIn_NonexistentLibrarian_PressEnter() {
         logInByPressingEnter(NONEXISTENT_LIBRARIAN_STAFF_NUMBER);
-
-        String username = UserContextHolder.getLoggedInUser();
-        assertThat(username).isNull();
+        verifyNoUserLoggedIn();
     }
 
     private void logInByClickingButton(String text) {
@@ -160,6 +137,23 @@ public class LoginControllerUIT extends ApplicationTest {
     private void typeIntoUsernameTextField(String text) {
         clickOn("#txtUsername");
         write(text);
+    }
+
+    public void verifyLoggedIntoUserArea() {
+        verifyLoggedIn(USER_USERNAME);
+        verifyThat("#lblWelcome", hasText("Welcome Back, " + USER_USERNAME));
+    }
+
+    public void verifyLoggedIn(String username) {
+        assertThat(UserContextHolder.getLoggedInUser())
+                .as("UserContext has username '" + username + "' set as the logged in user")
+                .isEqualTo(username);
+    }
+
+    private void verifyNoUserLoggedIn() {
+        assertThat(UserContextHolder.getLoggedInUser())
+                .as("UserContext has no username set as the logged in user because no one is logged in")
+                .isNull();
     }
 
 }

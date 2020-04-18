@@ -15,7 +15,7 @@
                 <Font name="Modern No. 20" size="24.0"/>
             </font>
         </Label>
-        <Label layoutX="286.0" layoutY="5.0" text="Log Out" underline="true" onMouseClicked="#logOut">
+        <Label fx:id="lblLogOut" layoutX="286.0" layoutY="5.0" text="Log Out" underline="true" onMouseClicked="#logOut">
             <font>
                 <Font name="System Italic" size="11.0"/>
             </font>
@@ -26,12 +26,13 @@
                 <Font name="System Italic" size="11.0"/>
             </font>
         </Label>
-        <Button layoutX="49.0" layoutY="66.0" text="Browse Resources" onAction="#openResourcesPage"/>
-        <Button layoutX="49.0" layoutY="101.0" prefHeight="25.0" prefWidth="111.0" text="My Loans"
+        <Button fx:id="btnViewResources" layoutX="49.0" layoutY="66.0" text="Browse Resources"
+                onAction="#openResourcesPage"/>
+        <Button fx:id="btnViewLoans" layoutX="49.0" layoutY="101.0" prefHeight="25.0" prefWidth="111.0" text="My Loans"
                 onAction="#openLoansPage"/>
-        <Button layoutX="171.0" layoutY="66.0" prefHeight="25.0" prefWidth="111.0" text="My Profile"
-                onAction="#openUserProfilePage"/>
-        <Button layoutX="171.0" layoutY="101.0" prefHeight="25.0" prefWidth="111.0" text="Fines &amp; Payments"
-                onAction="#openFinesAndPaymentsPage"/>
+        <Button fx:id="btnViewProfile" layoutX="171.0" layoutY="66.0" prefHeight="25.0" prefWidth="111.0"
+                text="My Profile" onAction="#openUserProfilePage"/>
+        <Button fx:id="btnFinesAndPayments" layoutX="171.0" layoutY="101.0" prefHeight="25.0" prefWidth="111.0"
+                text="Fines &amp; Payments" onAction="#openFinesAndPaymentsPage"/>
     </AnchorPane>
 </VBox>

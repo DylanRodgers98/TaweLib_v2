@@ -14,7 +14,8 @@
 <?import javafx.scene.control.ChoiceBox?>
 
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.crowvalley.tawelib.controller.user.UserBrowseResourcesController">
+      fx:controller="com.crowvalley.tawelib.controller.user.UserBrowseResourcesController"
+      fx:id="userBrowseResources">
     <BorderPane prefHeight="408.0" prefWidth="640.0">
         <center>
             <TableView fx:id="tblResources" prefHeight="302.0" prefWidth="620.0" BorderPane.alignment="CENTER"

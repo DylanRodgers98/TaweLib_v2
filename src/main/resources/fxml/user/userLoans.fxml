@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox prefHeight="353.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.crowvalley.tawelib.controller.user.UserLoansController">
+      fx:controller="com.crowvalley.tawelib.controller.user.UserLoansController" fx:id="userLoans">
     <BorderPane prefWidth="540.0">
         <center>
             <TableView fx:id="tblLoans" prefHeight="298.0" prefWidth="520.0" BorderPane.alignment="CENTER">
