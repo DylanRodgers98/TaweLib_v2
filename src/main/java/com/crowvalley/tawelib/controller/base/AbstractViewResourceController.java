@@ -81,9 +81,6 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
     @FXML
     private TableColumn<Copy, Integer> colNumOfRequests;
 
-    @FXML
-    private Button btnBack;
-
     @Override
     public void initialize() {
         if (selectedResource != null) {
@@ -127,7 +124,7 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
 
     private void loadResourcePic(Resource resource) {
         Optional<String> imageUrl = resource.getImageUrl();
-        imageUrl.ifPresent(e -> imgResourcePic.setImage(new Image(e)));
+        imageUrl.ifPresent(url -> imgResourcePic.setImage(new Image(url)));
     }
 
     private void populateBookFields() {
@@ -197,9 +194,14 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
     }
 
     @FXML
+    protected abstract void enableButtonsIfResourceSelected();
+
+    @FXML
     private void goBack() {
         FXMLUtils.loadNewScene(getBackButtonFxml());
     }
+
+    protected abstract String getBackButtonFxml();
 
     protected Copy getSelectedCopy() {
         return tblCopies.getSelectionModel().getSelectedItem();
@@ -209,11 +211,6 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
     public void setSelectedItem(Resource selectedItem) {
         this.selectedResource = selectedItem;
     }
-
-    protected abstract String getBackButtonFxml();
-
-    @FXML
-    protected abstract void enableButtonsIfResourceSelected();
     
     public void setCopyService(CopyService copyService) {
         this.copyService = copyService;

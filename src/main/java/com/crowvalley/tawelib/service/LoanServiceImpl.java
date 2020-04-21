@@ -199,6 +199,20 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
+    public Loan.Status getLoanStatusForUser(Copy copy, String username) {
+        Optional<Loan> loan = getCurrentLoanForCopy(copy.getId());
+        if (loan.isPresent()) {
+            if (loan.get().getBorrowerUsername().equals(username)) {
+                return Loan.Status.ON_LOAN_TO_YOU;
+            } else {
+                return Loan.Status.ON_LOAN;
+            }
+        } else {
+            return Loan.Status.AVAILABLE;
+        }
+    }
+
+    @Override
     public void setLoanDAO(LoanDAO loanDAO) {
         this.loanDAO = loanDAO;
         LOGGER.info("{} LoanDAO set to {}", this.getClass().getSimpleName(), loanDAO.getClass().getSimpleName());

@@ -12,23 +12,22 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
+
 import java.util.Optional;
 
 public class UserViewResourceController extends AbstractViewResourceController {
 
     private static final String RESOURCES_PAGE_FXML = "/fxml/user/userBrowseResources.fxml";
 
-    private static final String AVAILABLE = "Available";
+    private static final String MAKE_REQUEST_BUTTON_TEXT = "Make Request";
 
-    private static final String ON_LOAN = "On loan";
-
-    private static final String ON_LOAN_TO_YOU = "On loan to you";
+    private static final String CANCEL_REQUEST_BUTTON_TEXT = "Cancel Request";
 
     @FXML
     private TableColumn<Copy, String> colInfo;
 
     @FXML
-    private Button btnMakeRequest;
+    private Button btnMakeOrCancelRequest;
 
     @Override
     protected void populateTable() {
@@ -37,28 +36,25 @@ public class UserViewResourceController extends AbstractViewResourceController {
     }
 
     private ObservableStringValue getAdditionalInfo(TableColumn.CellDataFeatures<Copy, String> copyRow) {
-        String username = UserContextHolder.getLoggedInUser();
-        Copy copy = copyRow.getValue();
-        Optional<CopyRequest.Status> copyRequestStatus = copyService.getRequestStatusForUser(copy, username);
-        String additionalInfo = copyRequestStatus.map(CopyRequest.Status::toString).orElse(getLoanStatus(copy));
-        return new ReadOnlyStringWrapper(additionalInfo);
+        return new ReadOnlyStringWrapper(getCopyStatus(copyRow.getValue()));
     }
 
-    private String getLoanStatus(Copy copy) {
-        Optional<Loan> loan = loanService.getCurrentLoanForCopy(copy.getId());
-        if (loan.isPresent()) {
-            String username = UserContextHolder.getLoggedInUser();
-            if (loan.get().getBorrowerUsername().equals(username)) {
-                return ON_LOAN_TO_YOU;
-            } else {
-                return ON_LOAN;
-            }
-        } else {
-            return AVAILABLE;
-        }
+    private String getCopyStatus(Copy copy) {
+        String username = UserContextHolder.getLoggedInUser();
+        return copyService.getRequestStatusForUser(copy, username)
+                .map(CopyRequest.Status::toString)
+                .orElse(loanService.getLoanStatusForUser(copy, username).toString());
     }
 
     @FXML
+    private void makeOrCancelRequest() {
+        if (btnMakeOrCancelRequest.getText().equals(MAKE_REQUEST_BUTTON_TEXT)) {
+            makeRequest();
+        } else if (btnMakeOrCancelRequest.getText().equals(CANCEL_REQUEST_BUTTON_TEXT)) {
+            cancelRequest();
+        }
+    }
+
     private void makeRequest() {
         Copy selectedCopy = getSelectedCopy();
         Optional<ButtonType> result = FXMLUtils.displayConfirmationDialogBox("Request Copy", "Make request for " + selectedCopy + "?");
@@ -69,11 +65,31 @@ public class UserViewResourceController extends AbstractViewResourceController {
         }
     }
 
+    private void cancelRequest() {
+        Copy selectedCopy = getSelectedCopy();
+        Optional<ButtonType> result = FXMLUtils.displayConfirmationDialogBox("Cancel Request", "Cancel request for " + selectedCopy + "?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            copyService.removeCopyRequest(selectedCopy, UserContextHolder.getLoggedInUser());
+            tblCopies.getItems().remove(selectedCopy);
+            tblCopies.getItems().add(selectedCopy);
+        }
+    }
+
     @Override
     protected void enableButtonsIfResourceSelected() {
         Copy copy = getSelectedCopy();
-        if (copy != null && getLoanStatus(copy).equals(ON_LOAN)) {
-            FXMLUtils.makeNodesEnabled(btnMakeRequest);
+        if (copy != null) {
+            String status = getCopyStatus(copy);
+            if (status.equals(Loan.Status.ON_LOAN.toString())) {
+                FXMLUtils.makeNodesEnabled(btnMakeOrCancelRequest);
+                btnMakeOrCancelRequest.setText(MAKE_REQUEST_BUTTON_TEXT);
+            } else if (status.equals(CopyRequest.Status.REQUESTED.toString())) {
+                FXMLUtils.makeNodesEnabled(btnMakeOrCancelRequest);
+                btnMakeOrCancelRequest.setText(CANCEL_REQUEST_BUTTON_TEXT);
+            } else {
+                FXMLUtils.makeNodesDisabled(btnMakeOrCancelRequest);
+                btnMakeOrCancelRequest.setText(MAKE_REQUEST_BUTTON_TEXT);
+            }
         }
     }
 

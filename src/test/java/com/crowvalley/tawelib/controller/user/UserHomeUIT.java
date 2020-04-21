@@ -29,6 +29,16 @@ public class UserHomeUIT extends ApplicationTest {
 
     private static final String NONEXISTENT_USER_USERNAME = "NONEXISTENT_USER";
 
+    private static final String VIEW_RESOURCES_BUTTON_NODE_QUERY = "#btnViewResources";
+
+    private static final String VIEW_LOANS_BUTTON_NODE_QUERY = "#btnViewLoans";
+
+    private static final String VIEW_PROFILE_BUTTON_NODE_QUERY = "#btnViewProfile";
+
+    private static final String FINES_AND_PAYMENTS_BUTTON_NODE_QUERY = "#btnFinesAndPayments";
+
+    private static final String LOG_OUT_LABEL_NODE_QUERY = "#lblLogOut";
+
     @Autowired
     private UserDAO userDAO;
 
@@ -54,32 +64,32 @@ public class UserHomeUIT extends ApplicationTest {
 
     @Test
     public void testOpenBrowseResourcesPage() {
-        clickOn("#btnViewResources");
-        verifyWindowShowing("userBrowseResources");
+        clickOn(VIEW_RESOURCES_BUTTON_NODE_QUERY);
+        verifyWindowShowing(FXMLTestUtils.USER_BROWSE_RESOURCES_WINDOW_ID);
     }
 
     @Test
     public void testOpenViewLoansPage() {
-        clickOn("#btnViewLoans");
-        verifyWindowShowing("userLoans");
+        clickOn(VIEW_LOANS_BUTTON_NODE_QUERY);
+        verifyWindowShowing(FXMLTestUtils.USER_LOANS_WINDOW_ID);
     }
 
     @Test
     public void testOpenFinesAndPaymentsPage() {
-        clickOn("#btnFinesAndPayments");
-        verifyWindowShowing("userFinesAndPayments");
+        clickOn(FINES_AND_PAYMENTS_BUTTON_NODE_QUERY);
+        verifyWindowShowing(FXMLTestUtils.USER_FINES_AND_PAYMENTS_WINDOW_ID);
     }
 
     @Test
     public void testLogOut() {
-        clickOn("#lblLogOut");
-        verifyWindowShowing("loginPage");
+        clickOn(LOG_OUT_LABEL_NODE_QUERY);
+        verifyWindowShowing(FXMLTestUtils.LOGIN_PAGE_WINDOW_ID);
     }
 
     @Test
     public void testOpenViewProfilePage() {
-        clickOn("#btnViewProfile");
-        verifyWindowShowing("userProfile");
+        clickOn(VIEW_PROFILE_BUTTON_NODE_QUERY);
+        verifyWindowShowing(FXMLTestUtils.USER_PROFILE_WINDOW_ID);
     }
 
     @Test
@@ -87,7 +97,7 @@ public class UserHomeUIT extends ApplicationTest {
         UserContextHolder.clear();
         UserContextHolder.setLoggedInUser(NONEXISTENT_USER_USERNAME);
 
-        clickOn("#btnViewProfile");
+        clickOn(VIEW_PROFILE_BUTTON_NODE_QUERY);
 
         Object root = listWindows().get(1).getScene().getRoot(); // get second window ([0] = main window, [1] = dialog box)
 
@@ -110,11 +120,7 @@ public class UserHomeUIT extends ApplicationTest {
     }
 
     private void verifyWindowShowing(String expectedWindowId) {
-        String actualWindowID = targetWindow().getScene().getRoot().getId();
-
-        assertThat(actualWindowID)
-                .as("Displayed window has ID '" + expectedWindowId + "' set from FXML definition")
-                .isEqualTo(expectedWindowId);
+        FXMLTestUtils.verifyWindowShowing(targetWindow(), expectedWindowId);
     }
 
 }

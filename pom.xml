@@ -18,6 +18,14 @@
                     <target>11</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.4</version>
+                <configuration>
+                    <mainClass>com.crowvalley.tawelib.Main</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -28,6 +36,7 @@
         <commons-lang3.version>3.9</commons-lang3.version>
         <guava.version>28.2-jre</guava.version>
         <hibernate.version>5.4.13.Final</hibernate.version>
+        <javafx.version>11.0.2</javafx.version>
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
         <postgres.version>42.2.9</postgres.version>
@@ -71,6 +80,18 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
+        </dependency>
+
+        <!-- JAVAFX -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
         </dependency>
 
         <!-- LOGGING -->

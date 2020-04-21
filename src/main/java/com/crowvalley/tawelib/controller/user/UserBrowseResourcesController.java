@@ -11,7 +11,7 @@ public class UserBrowseResourcesController extends AbstractResourcesController {
     private static final String VIEW_RESOURCE_FXML = "/fxml/user/userViewResource.fxml";
 
     @FXML
-    private void loadUserHome() {
+    private void goBack() {
         FXMLUtils.loadNewScene(USER_HOME_FXML);
     }
 

@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 
 <VBox prefHeight="165.0" prefWidth="331.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.crowvalley.tawelib.controller.user.UserHomeController">
+      fx:controller="com.crowvalley.tawelib.controller.user.UserHomeController" fx:id="userHome">
     <AnchorPane prefHeight="169.0" prefWidth="331.0">
         <Label fx:id="lblWelcome" alignment="CENTER" layoutY="26.0" prefHeight="26.0" prefWidth="331.0"
                textAlignment="CENTER" textFill="#4400ff">

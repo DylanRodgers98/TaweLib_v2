@@ -31,12 +31,14 @@ public class ImageUtils {
     public static void chooseImage(String fileChooserTitle, String copiedImageDirectory, ImageView imageView) {
         Optional<Image> image = chooseAndCopyImage(fileChooserTitle, copiedImageDirectory);
         if (image.isPresent()) {
-            imageView.setImage(image.get());
+            Image newImage = image.get();
+            imageView.setImage(newImage);
 
-            // If new image has a different path, delete the old image
-            // If the have the same path, the old image would have been overwritten in chooseAndCopyImage
-            if (!doImagesHaveSamePath(image.get(), imageView.getImage())) {
-                deleteOldImage(imageView);
+            // If new image has a different path, delete the old image. If they have the same path,
+            // the old image would have been overwritten in chooseAndCopyImage, and so won't need deleting
+            Image oldImage = imageView.getImage();
+            if (!doImagesHaveSamePath(oldImage, newImage)) {
+                deleteImage(oldImage);
             }
         }
     }
@@ -80,19 +82,18 @@ public class ImageUtils {
         return new ClassPathResource(destination).getFile();
     }
 
-    private static boolean doImagesHaveSamePath(Image oldImage, Image newImage) {
-        if (oldImage == null) {
+    private static boolean doImagesHaveSamePath(Image image1, Image image2) {
+        if (image1 == null || image2 == null) {
             return false;
         }
-        String oldImageUrl = oldImage.getUrl();
-        String newImageUrl = newImage.getUrl();
+        String oldImageUrl = image1.getUrl();
+        String newImageUrl = image2.getUrl();
         return oldImageUrl.equals(newImageUrl);
     }
 
-    private static void deleteOldImage(ImageView imageView) {
-        Image oldImage = imageView.getImage();
-        if (oldImage != null) {
-            String oldImageUrl = oldImage.getUrl();
+    private static void deleteImage(Image image) {
+        if (image != null) {
+            String oldImageUrl = image.getUrl();
             File oldImageFile = new File(oldImageUrl.substring(FILE_PROTOCOL.length()));
             try {
                 FileUtils.forceDelete(oldImageFile);

@@ -28,6 +28,8 @@ public class LoanServiceImplTest {
 
     private static final String USERNAME = "TEST_USER";
 
+    private static final String OTHER_USERNAME = "OTHER_USER";
+
     @Spy
     private Loan spyLoan;
 
@@ -277,6 +279,38 @@ public class LoanServiceImplTest {
         assertThat(loanService.search(USERNAME, LocalDateTime.now(), LocalDateTime.now()))
                 .as("Loans found using username and dates in search query")
                 .containsExactly(spyLoan);
+    }
+
+    @Test
+    public void testGetLoanStatusForUser_CopyOnLoanToLoggedInUser() {
+        when(mockCopy.getId()).thenReturn(COPY_ID);
+        when(mockLoanDAO.getCurrentLoanForCopy(COPY_ID)).thenReturn(Optional.of(spyLoan));
+        when(spyLoan.getBorrowerUsername()).thenReturn(USERNAME);
+
+        assertThat(loanService.getLoanStatusForUser(mockCopy, USERNAME))
+                .as("Loan status for copy on loan to current user is ON_LOAN_TO_YOU")
+                .isEqualTo(Loan.Status.ON_LOAN_TO_YOU);
+    }
+
+    @Test
+    public void testGetLoanStatusForUser_CopyOnLoan() {
+        when(mockCopy.getId()).thenReturn(COPY_ID);
+        when(mockLoanDAO.getCurrentLoanForCopy(COPY_ID)).thenReturn(Optional.of(spyLoan));
+        when(spyLoan.getBorrowerUsername()).thenReturn(OTHER_USERNAME);
+
+        assertThat(loanService.getLoanStatusForUser(mockCopy, USERNAME))
+                .as("Loan status for copy on loan to a different user is ON_LOAN")
+                .isEqualTo(Loan.Status.ON_LOAN);
+    }
+
+    @Test
+    public void testGetLoanStatusForUser_CopyNotOnLoan() {
+        when(mockCopy.getId()).thenReturn(COPY_ID);
+        when(mockLoanDAO.getCurrentLoanForCopy(COPY_ID)).thenReturn(Optional.empty());
+
+        assertThat(loanService.getLoanStatusForUser(mockCopy, USERNAME))
+                .as("Loan status for copy not on loan is AVAILABLE")
+                .isEqualTo(Loan.Status.AVAILABLE);
     }
 
 }

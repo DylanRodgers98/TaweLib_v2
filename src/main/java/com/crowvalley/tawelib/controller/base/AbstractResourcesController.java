@@ -59,6 +59,13 @@ public abstract class AbstractResourcesController implements InitializableFXCont
         tblResources.setItems(getResources());
     }
 
+    private ObservableValue<ResourceType> getResourceType(TableColumn.CellDataFeatures<ResourceDTO, ResourceType> resource) {
+        return new ReadOnlyObjectWrapper<>(resource.getValue().getResourceType());
+    }
+
+    @FXML
+    protected abstract void enableButtonsIfResourceSelected();
+
     @FXML
     private void searchIfEnterPressed(KeyEvent e) {
         if (e.getCode().equals(KeyCode.ENTER)) {
@@ -75,13 +82,6 @@ public abstract class AbstractResourcesController implements InitializableFXCont
         }
     }
 
-    @FXML
-    protected abstract void enableButtonsIfResourceSelected();
-
-    private ObservableValue<ResourceType> getResourceType(TableColumn.CellDataFeatures<ResourceDTO, ResourceType> resource) {
-        return new ReadOnlyObjectWrapper<>(resource.getValue().getResourceType());
-    }
-
     private ObservableList<ResourceDTO> getResources() {
         List<ResourceDTO> resourceDTOS = resourceService.getAllResourceDTOs(cmbType.getValue());
         return constructObservableList(resourceDTOS);
@@ -94,27 +94,6 @@ public abstract class AbstractResourcesController implements InitializableFXCont
     }
 
     @FXML
-    protected void openViewResourcePage() {
-        openSelectionAwarePage(getViewResourceFxml());
-    }
-
-    protected void openSelectionAwarePage(String fxml) {
-        try {
-            ResourceDTO selectedResource = getSelectedResource();
-            Optional<? extends Resource> resource = resourceService.get(selectedResource.getId(), selectedResource.getResourceType());
-            if (resource.isPresent()) {
-                FXMLUtils.loadNewSceneWithSelectedItem(fxml, resource.get());
-            } else {
-                LOGGER.error("Error loading Resource from database");
-                FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, "Error loading Resource from database");
-            }
-        } catch (IOException e) {
-            LOGGER.error("IOException caught when loading new scene from FXML", e);
-            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
-        }
-    }
-
-    @FXML
     private void search() {
         if (StringUtils.isBlank(txtSearch.getText())) {
             tblResources.setItems(getResources());
@@ -124,11 +103,32 @@ public abstract class AbstractResourcesController implements InitializableFXCont
         }
     }
 
-    protected ResourceDTO getSelectedResource() {
-        return tblResources.getSelectionModel().getSelectedItem();
+    @FXML
+    protected void openViewResourcePage() {
+        openSelectionAwarePage(getViewResourceFxml());
     }
 
     protected abstract String getViewResourceFxml();
+
+    protected void openSelectionAwarePage(String fxml) {
+        ResourceDTO selectedResource = getSelectedResource();
+        Optional<? extends Resource> resource = resourceService.get(selectedResource.getId(), selectedResource.getResourceType());
+        if (resource.isPresent()) {
+            try {
+                FXMLUtils.loadNewSceneWithSelectedItem(fxml, resource.get());
+            } catch (IOException e) {
+                LOGGER.error("IOException caught when loading new scene from FXML", e);
+                FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, e.toString());
+            }
+        } else {
+            LOGGER.error("Error loading Resource from database");
+            FXMLUtils.displayErrorDialogBox(FXMLUtils.ERROR_LOADING_NEW_SCENE_ERROR_MESSAGE, "Error loading Resource from database");
+        }
+    }
+
+    protected ResourceDTO getSelectedResource() {
+        return tblResources.getSelectionModel().getSelectedItem();
+    }
 
     public void setResourceService(ResourceService resourceService) {
         this.resourceService = resourceService;

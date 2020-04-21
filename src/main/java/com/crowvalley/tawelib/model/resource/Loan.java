@@ -80,4 +80,20 @@ public class Loan {
         this.returnDate = returnDate;
     }
 
+    public enum Status {
+        AVAILABLE("Available"),
+        ON_LOAN("On loan"),
+        ON_LOAN_TO_YOU("On loan to you");
+
+        private final String toString;
+
+        Status(String toString) {
+            this.toString = toString;
+        }
+
+        @Override
+        public String toString() {
+            return toString;
+        }
+    }
 }

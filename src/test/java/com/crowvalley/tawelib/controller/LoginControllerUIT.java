@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import org.testfx.framework.junit.ApplicationTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,6 +34,12 @@ public class LoginControllerUIT extends ApplicationTest {
     private static final String NONEXISTENT_USER_USERNAME = "NONEXISTENT_USER";
 
     private static final String NONEXISTENT_LIBRARIAN_STAFF_NUMBER = "0";
+
+    private static final String LOG_IN_BUTTON_NODE_QUERY = "#btnLogIn";
+
+    private static final String USERNAME_TEXT_FIELD_NODE_QUERY = "#txtUsername";
+
+    private static final String WELCOME_LABEL_NODE_QUERY = "#lblWelcome";
 
     @Autowired
     private UserDAO userDAO;
@@ -56,7 +63,8 @@ public class LoginControllerUIT extends ApplicationTest {
     public void tearDown() {
         UserContextHolder.clear();
         userDAO.delete(user);
-        userDAO.delete(librarian);
+        userDAO.delete(librarian
+        );
     }
 
     @Override
@@ -126,7 +134,7 @@ public class LoginControllerUIT extends ApplicationTest {
 
     private void logInByClickingButton(String text) {
         typeIntoUsernameTextField(text);
-        clickOn("#btnLogIn");
+        clickOn(LOG_IN_BUTTON_NODE_QUERY);
     }
 
     private void logInByPressingEnter(String text) {
@@ -135,13 +143,13 @@ public class LoginControllerUIT extends ApplicationTest {
     }
 
     private void typeIntoUsernameTextField(String text) {
-        clickOn("#txtUsername");
+        clickOn(USERNAME_TEXT_FIELD_NODE_QUERY);
         write(text);
     }
 
     public void verifyLoggedIntoUserArea() {
         verifyLoggedIn(USER_USERNAME);
-        verifyThat("#lblWelcome", hasText("Welcome Back, " + USER_USERNAME));
+        verifyThat(WELCOME_LABEL_NODE_QUERY, hasText("Welcome Back, " + USER_USERNAME));
     }
 
     public void verifyLoggedIn(String username) {
