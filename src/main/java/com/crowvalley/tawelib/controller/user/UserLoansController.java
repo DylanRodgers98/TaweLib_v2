@@ -30,7 +30,7 @@ public class UserLoansController extends AbstractLoansController {
     }
 
     @Override
-    protected ObservableList<Loan> searchInternal(LocalDateTime startDate, LocalDateTime endDate) {
+    protected ObservableList<Loan> searchByDate(LocalDateTime startDate, LocalDateTime endDate) {
         if (startDate == null || endDate == null) {
             return getLoans();
         }

@@ -25,8 +25,6 @@ public interface TransactionService {
 
     void save(Transaction transaction);
 
-    Optional<Copy> getCopyFromFine(Fine fine);
-
     List<OutstandingFinesDTO> getAllUsersWithOutstandingFines();
 
     BigDecimal getTotalFinesAmountForUser(String username);

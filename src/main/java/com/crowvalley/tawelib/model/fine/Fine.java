@@ -1,8 +1,10 @@
 package com.crowvalley.tawelib.model.fine;
 
+import com.crowvalley.tawelib.model.resource.Loan;
 import com.crowvalley.tawelib.model.user.User;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -17,18 +19,19 @@ import java.time.LocalDateTime;
 @Table
 public class Fine extends Transaction {
 
-    private Long loanId;
+    @OneToOne
+    private Loan loan;
 
-    public Fine(String username, Long loanId, BigDecimal amount, LocalDateTime fineDate) {
+    public Fine(String username, Loan loan, BigDecimal amount, LocalDateTime fineDate) {
         super(username, amount, fineDate);
-        this.loanId = loanId;
+        this.loan = loan;
     }
 
     public Fine() {
     }
 
-    public Long getLoanId() {
-        return loanId;
+    public Loan getLoan() {
+        return loan;
     }
 
 }

@@ -31,7 +31,7 @@ public class UserFinesAndPaymentsController extends AbstractFinesAndPaymentsCont
     }
 
     @Override
-    protected ObservableList<Transaction> searchInternal(LocalDateTime startDate, LocalDateTime endDate) {
+    protected ObservableList<Transaction> searchByDate(LocalDateTime startDate, LocalDateTime endDate) {
         if (startDate == null || endDate == null) {
             return getFinesAndPayments();
         }

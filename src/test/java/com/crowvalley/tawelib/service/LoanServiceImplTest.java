@@ -12,11 +12,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -29,6 +29,10 @@ public class LoanServiceImplTest {
     private static final String USERNAME = "TEST_USER";
 
     private static final String OTHER_USERNAME = "OTHER_USER";
+
+    private static final long DAYS_LATE = 3;
+
+    private static final long DAYS_EARLY = 1;
 
     @Spy
     private Loan spyLoan;
@@ -230,9 +234,9 @@ public class LoanServiceImplTest {
         Fine actualFine = (Fine) transaction;
 
         assertThat(actualFine)
-                .extracting(Transaction::getUsername, Fine::getLoanId)
+                .extracting(Transaction::getUsername, Fine::getLoan)
                 .as("Fine created has correct username and loan ID")
-                .containsExactly(USERNAME, LOAN_ID);
+                .containsExactly(USERNAME, spyLoan);
 
         assertThat(actualFine.getAmount())
                 .as("Fine amount equal to resource type's daily fine rate multiplied by the number of days the copy was returned late")
@@ -311,6 +315,49 @@ public class LoanServiceImplTest {
         assertThat(loanService.getLoanStatusForUser(mockCopy, USERNAME))
                 .as("Loan status for copy not on loan is AVAILABLE")
                 .isEqualTo(Loan.Status.AVAILABLE);
+    }
+
+    @Test
+    public void testGetNumberOfDaysLate_LateLoan() {
+        when(mockLoanDAO.getWithId(LOAN_ID, Loan.class)).thenReturn(Optional.of(spyLoan));
+        when(spyLoan.getEndDate()).thenReturn(LocalDateTime.now().minusDays(DAYS_LATE));
+        when(spyLoan.getReturnDate()).thenReturn(LocalDateTime.now());
+
+        assertThat(loanService.getNumberOfDaysLate(LOAN_ID))
+                .as("The number of days between the loan end date and return date is returned")
+                .isEqualTo(DAYS_LATE);
+    }
+
+    @Test
+    public void testGetNumberOfDaysLate_OnTimeLoan() {
+        when(mockLoanDAO.getWithId(LOAN_ID, Loan.class)).thenReturn(Optional.of(spyLoan));
+        when(spyLoan.getEndDate()).thenReturn(LocalDateTime.now());
+        when(spyLoan.getReturnDate()).thenReturn(LocalDateTime.now());
+
+        assertThat(loanService.getNumberOfDaysLate(LOAN_ID))
+                .as("Value for number of days late is 0 when loan is ended on time")
+                .isEqualTo(0);
+    }
+
+    @Test
+    public void testGetNumberOfDaysLate_EarlyLoan() {
+        when(mockLoanDAO.getWithId(LOAN_ID, Loan.class)).thenReturn(Optional.of(spyLoan));
+        when(spyLoan.getEndDate()).thenReturn(LocalDateTime.now());
+        when(spyLoan.getReturnDate()).thenReturn(LocalDateTime.now().minusDays(DAYS_EARLY));
+
+        assertThat(loanService.getNumberOfDaysLate(LOAN_ID))
+                .as("Value for number of days late is 0 when loan is ended early")
+                .isEqualTo(0);
+    }
+
+    @Test
+    public void testGetNumberOfDaysLate_LoanNotFound() {
+        when(mockLoanDAO.getWithId(LOAN_ID, Loan.class)).thenReturn(Optional.empty());
+
+        assertThatCode(() -> loanService.getNumberOfDaysLate(LOAN_ID))
+                .as("Exception thrown when loan cannot be found")
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Could not find Loan with ID: " + LOAN_ID);
     }
 
 }

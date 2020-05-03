@@ -42,5 +42,7 @@ public interface LoanService {
 
     Loan.Status getLoanStatusForUser(Copy copy, String username);
 
+    long getNumberOfDaysLate(Long loanId);
+
     void setLoanDAO(LoanDAO loanDAO);
 }

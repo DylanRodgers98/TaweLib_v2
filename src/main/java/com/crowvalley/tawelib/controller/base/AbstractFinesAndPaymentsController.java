@@ -4,6 +4,9 @@ import com.crowvalley.tawelib.controller.InitializableFXController;
 import com.crowvalley.tawelib.model.fine.Fine;
 import com.crowvalley.tawelib.model.fine.Payment;
 import com.crowvalley.tawelib.model.fine.Transaction;
+import com.crowvalley.tawelib.model.resource.Copy;
+import com.crowvalley.tawelib.service.CopyService;
+import com.crowvalley.tawelib.service.LoanService;
 import com.crowvalley.tawelib.service.TransactionService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import javafx.beans.property.SimpleObjectProperty;
@@ -25,6 +28,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Locale;
+import java.util.Optional;
 
 public abstract class AbstractFinesAndPaymentsController implements InitializableFXController {
 
@@ -33,6 +37,10 @@ public abstract class AbstractFinesAndPaymentsController implements Initializabl
     private static final NumberFormat CURRENCY_FORMAT = NumberFormat.getCurrencyInstance(Locale.UK);
 
     protected TransactionService transactionService;
+
+    private LoanService loanService;
+
+    private CopyService copyService;
 
     @FXML
     private TableView<Transaction> tblFinesAndPayments;
@@ -73,18 +81,21 @@ public abstract class AbstractFinesAndPaymentsController implements Initializabl
         Transaction transactionValue = transaction.getValue();
         String type = null;
         if (transactionValue instanceof Fine) {
-            type = "Fine" + getFineReason((Fine) transactionValue);
-        }
-        if (transactionValue instanceof Payment) {
+            type = getFineReason((Fine) transactionValue);
+        } else if (transactionValue instanceof Payment) {
             type = "Payment";
         }
         return new SimpleStringProperty(type);
     }
 
     private String getFineReason(Fine fine) {
-        return transactionService.getCopyFromFine(fine)
-                .map(copy -> " for late return of " + copy.getResource() + " (" + copy + ")")
-                .orElse(StringUtils.EMPTY);
+        Optional<Copy> optionalCopy = copyService.get(fine.getLoan().getCopyId());
+        if (optionalCopy.isPresent()) {
+            Copy copy = optionalCopy.get();
+            long daysLate = loanService.getNumberOfDaysLate(fine.getLoan().getId());
+            return "Fine for " + daysLate + " day late return of " + copy.getResource() + " [" + copy + "]";
+        }
+        return StringUtils.EMPTY;
     }
 
     protected abstract ObservableList<Transaction> getFinesAndPayments();
@@ -97,7 +108,7 @@ public abstract class AbstractFinesAndPaymentsController implements Initializabl
     private ObservableList<Transaction> searchInternal() {
         LocalDate startDate = dateStart.getValue();
         if (startDate == null) {
-            return searchInternal(null, null);
+            return searchByDate(null, null);
         }
 
         LocalDate endDate = dateEnd.getValue() != null ? dateEnd.getValue() : LocalDate.now();
@@ -109,10 +120,10 @@ public abstract class AbstractFinesAndPaymentsController implements Initializabl
         LocalDateTime startDateTime = LocalDateTime.of(dateStart.getValue(), LocalTime.MIDNIGHT);
         LocalDateTime endDateTime = LocalDateTime.of(endDate, LocalTime.of(23, 59, 59));
 
-        return searchInternal(startDateTime, endDateTime);
+        return searchByDate(startDateTime, endDateTime);
     }
 
-    protected abstract ObservableList<Transaction> searchInternal(LocalDateTime startDate, LocalDateTime endDate);
+    protected abstract ObservableList<Transaction> searchByDate(LocalDateTime startDate, LocalDateTime endDate);
 
     @FXML
     private void clearDate() {
@@ -123,7 +134,17 @@ public abstract class AbstractFinesAndPaymentsController implements Initializabl
 
     public void setTransactionService(TransactionService transactionService) {
         this.transactionService = transactionService;
-        LOGGER.info("{} FineService set to {}", this.getClass().getSimpleName(), transactionService.getClass().getSimpleName());
+        LOGGER.info("{} TransactionService set to {}", this.getClass().getSimpleName(), transactionService.getClass().getSimpleName());
+    }
+
+    public void setLoanService(LoanService loanService) {
+        this.loanService = loanService;
+        LOGGER.info("{} LoanService set to {}", this.getClass().getSimpleName(), loanService.getClass().getSimpleName());
+    }
+
+    public void setCopyService(CopyService copyService) {
+        this.copyService = copyService;
+        LOGGER.info("{} CopyService set to {}", this.getClass().getSimpleName(), copyService.getClass().getSimpleName());
     }
 
 }

@@ -5,6 +5,7 @@ import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import com.crowvalley.tawelib.util.ImageUtils;
+import com.google.common.collect.Sets;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -132,7 +133,7 @@ public class EditResourceController implements SelectionAwareFXController<Resour
         txtOptional1.setText(dvd.getDirector());
         txtOptional2.setText(dvd.getLanguage());
         txtOptional3.setText(String.valueOf(dvd.getRuntime()));
-        txtOptional4.setText(dvd.getSubLang());
+        txtOptional4.setText(dvd.getSubtitleLanguageString());
     }
 
     private void showTextFieldsAndLabelsForDvd() {
@@ -219,7 +220,8 @@ public class EditResourceController implements SelectionAwareFXController<Resour
         } catch (NumberFormatException e) {
             FXMLUtils.displayErrorDialogBox("Error Updating DVD", "Runtime must be numeric");
         }
-        dvd.setSubLang(txtOptional4.getText());
+        String[] subtitleLanguages = txtOptional4.getText().split(",\\s*");
+        dvd.setSubtitleLanguages(Sets.newHashSet(subtitleLanguages));
 
         try {
             resourceService.saveOrUpdate(dvd);

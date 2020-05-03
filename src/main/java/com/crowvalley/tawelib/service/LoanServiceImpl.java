@@ -180,7 +180,7 @@ public class LoanServiceImpl implements LoanService {
                 long dayDiffBetweenEndAndReturnDates = DAYS.between(endDate, returnDate);
                 fineAmount = fineAmount.multiply(BigDecimal.valueOf(dayDiffBetweenEndAndReturnDates));
 
-                Fine fine = new Fine(loan.getBorrowerUsername(), loan.getId(), fineAmount, LocalDateTime.now());
+                Fine fine = new Fine(loan.getBorrowerUsername(), loan, fineAmount, LocalDateTime.now());
                 transactionService.save(fine);
                 LOGGER.info("£{} fine (ID: {}) issued to {}",
                         String.format("%.2f", fine.getAmount()), fine.getId(), fine.getUsername());
@@ -210,6 +210,19 @@ public class LoanServiceImpl implements LoanService {
         } else {
             return Loan.Status.AVAILABLE;
         }
+    }
+
+    @Override
+    public long getNumberOfDaysLate(Long loanId) {
+        return get(loanId)
+                .map(this::getNumberOfDaysLate)
+                .orElseThrow(() -> new IllegalArgumentException("Could not find Loan with ID: " + loanId));
+    }
+
+    private long getNumberOfDaysLate(Loan loan) {
+        LocalDateTime endDate = loan.getEndDate();
+        LocalDateTime returnDate = loan.getReturnDate();
+        return returnDate.isAfter(endDate) ? DAYS.between(endDate, returnDate) : 0;
     }
 
     @Override

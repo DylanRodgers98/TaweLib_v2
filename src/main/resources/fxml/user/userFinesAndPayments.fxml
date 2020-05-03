@@ -19,7 +19,7 @@
                 <columns>
                     <TableColumn fx:id="colAmount" prefWidth="80.0" text="Amount"/>
                     <TableColumn fx:id="colDate" prefWidth="80.0" text="Date"/>
-                    <TableColumn fx:id="colType" prefWidth="357.0" text="Fine or Payment?"/>
+                    <TableColumn fx:id="colType" prefWidth="377.0" text="Fine or Payment?"/>
                 </columns>
                 <BorderPane.margin>
                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>

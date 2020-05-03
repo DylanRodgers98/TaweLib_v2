@@ -17,8 +17,8 @@
     <BorderPane prefHeight="200.0" prefWidth="200.0">
         <center>
             <AnchorPane prefHeight="389.0" prefWidth="309.0" BorderPane.alignment="CENTER">
-                <Label layoutX="102.0" layoutY="181.0" text="Title:"/>
-                <Label layoutX="102.0" layoutY="212.0" text="Year:"/>
+                <Label fx:id="lblTitle" layoutX="102.0" layoutY="181.0" text="Title:"/>
+                <Label fx:id="lblYear" layoutX="102.0" layoutY="212.0" text="Year:"/>
                 <Label fx:id="lblOptional1" layoutX="88.0" layoutY="243.0" visible="false"/>
                 <Label fx:id="lblOptional2" layoutX="76.0" layoutY="274.0" visible="false"/>
                 <Label fx:id="lblOptional3" layoutX="93.0" layoutY="305.0" visible="false"/>
@@ -41,7 +41,7 @@
             <AnchorPane prefHeight="389.0" prefWidth="314.0" BorderPane.alignment="CENTER">
                 <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" onAction="#goBack"/>
                 <TableView fx:id="tblCopies" layoutX="14.0" layoutY="54.0" prefHeight="300.0" prefWidth="354.0"
-                           onMouseClicked="#enableButtonsIfResourceSelected">
+                           onMouseClicked="#enableButtonsIfCopySelected">
                     <columns>
                         <TableColumn fx:id="colCurrentBorrower" prefWidth="120.0" text="Current Borrower"/>
                         <TableColumn fx:id="colLoanDuration" prefWidth="85.0" text="Loan Duration"/>

@@ -28,9 +28,6 @@ public class ViewResourceController extends AbstractViewResourceController {
     private TableColumn<Copy, String> colCurrentBorrower;
 
     @FXML
-    private Button btnAddCopy;
-
-    @FXML
     private Button btnDelete;
 
     @FXML
@@ -81,7 +78,7 @@ public class ViewResourceController extends AbstractViewResourceController {
     }
 
     @Override
-    protected void enableButtonsIfResourceSelected() {
+    protected void enableButtonsIfCopySelected() {
         if (getSelectedCopy() != null) {
             FXMLUtils.makeNodesEnabled(btnDelete, btnViewRequests);
         }

@@ -77,7 +77,7 @@ public class TransactionDAOIT {
 
     @Test
     public void testSearch() {
-        Transaction fine = new Fine(USERNAME, null, null, LocalDateTime.now().minusWeeks(1));
+        Transaction fine = new Fine(USERNAME, null, null, LocalDateTime.now().minusDays(6));
         Transaction payment = new Payment(USERNAME, null, LocalDateTime.now().minusDays(1));
         transactionDAO.saveOrUpdate(fine);
         transactionDAO.saveOrUpdate(payment);

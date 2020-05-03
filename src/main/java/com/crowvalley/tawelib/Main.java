@@ -43,6 +43,7 @@ public class Main extends Application {
         public void uncaughtException(Thread thread, Throwable throwable) {
             LOGGER.error("An uncaught exception occurred on thread: {}", thread, throwable);
             FXMLUtils.displayErrorDialogBox("System Error", "A fatal system error has occurred!" + System.lineSeparator() + throwable);
+            System.exit(1);
         }
 
     }

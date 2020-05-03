@@ -79,7 +79,7 @@ public class LibrarianLoansTabController extends AbstractLoansController {
     }
 
     @Override
-    protected ObservableList<Loan> searchInternal(LocalDateTime startDate, LocalDateTime endDate) {
+    protected ObservableList<Loan> searchByDate(LocalDateTime startDate, LocalDateTime endDate) {
         List<Loan> queryResult;
         if (StringUtils.isNotBlank(txtSearch.getText())) {
             queryResult = loanService.search(txtSearch.getText(), startDate, endDate);

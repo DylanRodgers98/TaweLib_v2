@@ -76,7 +76,7 @@ public class UserViewResourceController extends AbstractViewResourceController {
     }
 
     @Override
-    protected void enableButtonsIfResourceSelected() {
+    protected void enableButtonsIfCopySelected() {
         Copy copy = getSelectedCopy();
         if (copy != null) {
             String status = getCopyStatus(copy);

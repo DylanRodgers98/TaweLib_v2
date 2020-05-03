@@ -104,40 +104,6 @@ public class TransactionServiceImplTest {
     }
 
     @Test
-    public void testGetCopyFromFine() {
-        when(mockFine.getLoanId()).thenReturn(LOAN_ID);
-        when(mockLoanService.get(LOAN_ID)).thenReturn(Optional.of(mockLoan));
-        when(mockLoan.getCopyId()).thenReturn(COPY_ID);
-        when(mockCopyService.get(COPY_ID)).thenReturn(Optional.of(mockCopy));
-
-        assertThat(transactionService.getCopyFromFine(mockFine))
-                .as("Copy extracted from fine")
-                .isEqualTo(Optional.of(mockCopy));
-    }
-
-    @Test
-    public void testGetCopyFromFine_NoCopyFound() {
-        when(mockFine.getLoanId()).thenReturn(LOAN_ID);
-        when(mockLoanService.get(LOAN_ID)).thenReturn(Optional.of(mockLoan));
-        when(mockLoan.getCopyId()).thenReturn(COPY_ID);
-        when(mockCopyService.get(COPY_ID)).thenReturn(Optional.empty());
-
-        assertThat(transactionService.getCopyFromFine(mockFine))
-                .as("No copy extracted from fine as no copy was found")
-                .isEqualTo(Optional.empty());
-    }
-
-    @Test
-    public void testGetCopyFromFine_NoLoanFound() {
-        when(mockFine.getLoanId()).thenReturn(LOAN_ID);
-        when(mockLoanService.get(LOAN_ID)).thenReturn(Optional.empty());
-
-        assertThat(transactionService.getCopyFromFine(mockFine))
-                .as("No copy extracted from fine as no loan was found")
-                .isEqualTo(Optional.empty());
-    }
-
-    @Test
     public void testGetAllUsersWithOutstandingFines() {
         when(mockUserService.getAllUsernames()).thenReturn(Collections.singletonList(USERNAME));
         when(mockTransactionDAO.getTotalFinesAmountForUser(USERNAME)).thenReturn(TOTAL_FINES_AMOUNT);
