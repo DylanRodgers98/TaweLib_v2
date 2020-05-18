@@ -27,7 +27,7 @@ public class Laptop extends Resource {
     }
 
     public Laptop() {
-        super();
+        super(ResourceType.LAPTOP, null, null, null);
     }
 
     @Override

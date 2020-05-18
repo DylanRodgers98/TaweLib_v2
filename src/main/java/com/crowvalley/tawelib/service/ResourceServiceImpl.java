@@ -67,7 +67,13 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public void deleteWithId(Long id) {
-        resourceDAO.deleteWithId(id, Resource.class);
+        //Load Resource object into memory to cascase Delete operation onto any Copy objects
+        Optional<? extends Resource> resource = get(id, ResourceType.ALL);
+        if (resource.isEmpty()) {
+            LOGGER.error("Resource with ID {} not found so could not be deleted", id);
+            throw new IllegalArgumentException("Resource with ID " + id + " not found so could not be deleted");
+        }
+        delete(resource.get());
         LOGGER.info("Resource (ID: {}) deleted successfully", id);
     }
 

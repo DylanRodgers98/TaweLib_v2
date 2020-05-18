@@ -41,14 +41,6 @@ public class BaseDAOImpl implements BaseDAO {
     }
 
     @Override
-    public <T> void deleteWithId(Long id, Class<T> clazz) {
-        sessionFactory.getCurrentSession()
-                .createQuery("delete " + clazz.getName() + " where id = :id")
-                .setParameter("id", id)
-                .executeUpdate();
-    }
-
-    @Override
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
         LOGGER.info("{} SessionFactory set to {}", this.getClass().getSimpleName(), sessionFactory.getClass().getSimpleName());

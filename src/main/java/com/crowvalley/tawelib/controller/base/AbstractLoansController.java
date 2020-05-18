@@ -90,7 +90,7 @@ public abstract class AbstractLoansController implements InitializableFXControll
     private ObservableList<Loan> searchInternal() {
         LocalDate startDate = dateStart.getValue();
         if (startDate == null) {
-            return searchInternal(null, null);
+            return searchByDate(null, null);
         }
 
         LocalDate endDate = dateEnd.getValue() != null ? dateEnd.getValue() : LocalDate.now();
@@ -102,10 +102,10 @@ public abstract class AbstractLoansController implements InitializableFXControll
         LocalDateTime startDateTime = LocalDateTime.of(dateStart.getValue(), LocalTime.MIDNIGHT);
         LocalDateTime endDateTime = LocalDateTime.of(endDate, LocalTime.of(23, 59, 59));
 
-        return searchInternal(startDateTime, endDateTime);
+        return searchByDate(startDateTime, endDateTime);
     }
 
-    protected abstract ObservableList<Loan> searchInternal(LocalDateTime startDate, LocalDateTime endDate);
+    protected abstract ObservableList<Loan> searchByDate(LocalDateTime startDate, LocalDateTime endDate);
 
     @FXML
     private void clearDate() {

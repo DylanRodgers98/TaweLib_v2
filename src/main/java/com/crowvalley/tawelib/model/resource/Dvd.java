@@ -1,7 +1,9 @@
 package com.crowvalley.tawelib.model.resource;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.apache.commons.lang3.StringUtils;
+
+import javax.persistence.*;
+import java.util.*;
 
 /**
  * Dvd class for creating objects to store information about DVDs
@@ -19,19 +21,21 @@ public class Dvd extends Resource {
 
     private Integer runtime;
 
-    private String subLang;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Column(name = "subtitle_language")
+    private Set<String> subtitleLanguages;
 
-    public Dvd(String title, String year, String imageUrl,
-               String director, String language, Integer runtime, String subLang) {
+    public Dvd(String title, String year, String imageUrl, String director,
+               String language, Integer runtime, Set<String> subtitleLanguages) {
         super(ResourceType.DVD, title, year, imageUrl);
         this.director = director;
         this.language = language;
         this.runtime = runtime;
-        this.subLang = subLang;
+        this.subtitleLanguages = subtitleLanguages;
     }
 
     public Dvd() {
-        super();
+        super(ResourceType.DVD, null, null, null);
     }
 
     @Override
@@ -55,12 +59,28 @@ public class Dvd extends Resource {
         this.runtime = runtime;
     }
 
-    public String getSubLang() {
-        return subLang;
+    public Set<String> getSubtitleLanguages() {
+        return subtitleLanguages;
     }
 
-    public void setSubLang(String subLang) {
-        this.subLang = subLang;
+    public String getSubtitleLanguageString() {
+        if (subtitleLanguages == null) {
+            return StringUtils.EMPTY;
+        }
+        List<String> subtitleLanguagesList = new ArrayList<>(subtitleLanguages);
+        Collections.sort(subtitleLanguagesList);
+        return String.join(", ", subtitleLanguagesList);
+    }
+
+    public void setSubtitleLanguages(Set<String> subtitleLanguages) {
+        this.subtitleLanguages = subtitleLanguages;
+    }
+
+    public void addSubtitleLanguage(String subtitleLanguage) {
+        if (subtitleLanguages == null) {
+            subtitleLanguages = new HashSet<>();
+        }
+        subtitleLanguages.add(subtitleLanguage);
     }
 
     public String getDirector() {

@@ -2,6 +2,8 @@ package com.crowvalley.tawelib.model.resource;
 
 import org.springframework.util.Assert;
 
+import java.util.Set;
+
 /**
  * Factory class for creating {@link Resource} objects, as well as
  * {@link Copy} objects and {@link Loan} objects.
@@ -25,14 +27,14 @@ public class ResourceFactory {
 
     public static Dvd createDvd(String title, String year, String imageUrl,
                                 String director, String language, Integer runtime,
-                                String subtitleLang) {
+                                Set<String> subtitleLanguages) {
         Assert.hasText(title, "DVD must have a Title");
         Assert.hasText(year, "DVD must have a Year");
         Assert.hasText(director, "DVD must have an Director");
         Assert.hasText(language, "DVD must have a Language");
         Assert.notNull(runtime, "DVD must have a Runtime");
-        Assert.hasText(subtitleLang, "DVD must have a Subtitle Language");
-        return new Dvd(title, year, imageUrl, director, language, runtime, subtitleLang);
+        Assert.notNull(subtitleLanguages, "DVD must have a set of Subtitle Languages");
+        return new Dvd(title, year, imageUrl, director, language, runtime, subtitleLanguages);
     }
 
     public static Laptop createLaptop(String title, String year, String imageUrl,

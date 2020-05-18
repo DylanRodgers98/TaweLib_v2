@@ -11,12 +11,12 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox prefHeight="400.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.crowvalley.tawelib.controller.user.UserViewResourceController">
+      fx:controller="com.crowvalley.tawelib.controller.user.UserViewResourceController" fx:id="userViewResource">
     <BorderPane prefHeight="200.0" prefWidth="200.0">
         <center>
             <AnchorPane prefHeight="389.0" prefWidth="309.0" BorderPane.alignment="CENTER">
-                <Label layoutX="102.0" layoutY="181.0" text="Title:"/>
-                <Label layoutX="102.0" layoutY="212.0" text="Year:"/>
+                <Label fx:id="lblTitle" layoutX="102.0" layoutY="181.0" text="Title:"/>
+                <Label fx:id="lblYear" layoutX="102.0" layoutY="212.0" text="Year:"/>
                 <Label fx:id="lblOptional1" layoutX="88.0" layoutY="243.0" visible="false"/>
                 <Label fx:id="lblOptional2" layoutX="76.0" layoutY="274.0" visible="false"/>
                 <Label fx:id="lblOptional3" layoutX="93.0" layoutY="305.0" visible="false"/>
@@ -37,9 +37,9 @@
         </center>
         <left>
             <AnchorPane prefHeight="389.0" prefWidth="314.0" BorderPane.alignment="CENTER">
-                <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" text="&lt;&lt; Back" onAction="#goBack"/>
-                <TableView fx:id="tblCopies" layoutX="14.0" layoutY="54.0" prefHeight="300.0" prefWidth="354.0"
-                           onMouseClicked="#enableButtonsIfResourceSelected">
+                <Button fx:id="btnBack" layoutX="14.0" layoutY="14.0" onAction="#goBack" text="&lt;&lt; Back"/>
+                <TableView fx:id="tblCopies" layoutX="14.0" layoutY="54.0"
+                           onMouseClicked="#enableButtonsIfCopySelected" prefHeight="300.0" prefWidth="354.0">
                     <columns>
                         <TableColumn fx:id="colLoanDuration" prefWidth="85.0" text="Loan Duration"/>
                         <TableColumn fx:id="colLocation" prefWidth="77.0" text="Location"/>
@@ -47,8 +47,8 @@
                         <TableColumn fx:id="colInfo" prefWidth="120.0" text="Additional Info"/>
                     </columns>
                 </TableView>
-                <Button fx:id="btnMakeRequest" disable="true" layoutX="145.0" layoutY="362.0" text="Make Request"
-                        onAction="#makeRequest"/>
+                <Button fx:id="btnMakeOrCancelRequest" disable="true" layoutX="141.0" layoutY="362.0"
+                        onAction="#makeOrCancelRequest" prefHeight="25.0" prefWidth="100.0" text="Make Request"/>
             </AnchorPane>
         </left>
     </BorderPane>

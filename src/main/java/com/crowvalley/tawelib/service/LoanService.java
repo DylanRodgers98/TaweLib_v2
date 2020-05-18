@@ -40,5 +40,9 @@ public interface LoanService {
 
     List<Loan> search(String username, LocalDateTime startDate, LocalDateTime endDate);
 
+    Loan.Status getLoanStatusForUser(Copy copy, String username);
+
+    long getNumberOfDaysLate(Long loanId);
+
     void setLoanDAO(LoanDAO loanDAO);
 }

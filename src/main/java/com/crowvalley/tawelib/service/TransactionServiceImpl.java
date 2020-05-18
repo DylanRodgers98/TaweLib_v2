@@ -58,16 +58,6 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Optional<Copy> getCopyFromFine(Fine fine) {
-        Optional<Loan> optionalLoan = loanService.get(fine.getLoanId());
-        if (optionalLoan.isPresent()) {
-            Loan loan = optionalLoan.get();
-            return copyService.get(loan.getCopyId());
-        }
-        return Optional.empty();
-    }
-
-    @Override
     public List<OutstandingFinesDTO> getAllUsersWithOutstandingFines() {
         List<OutstandingFinesDTO> usersWithOutstandingFines = new ArrayList<>();
         for (String username : userService.getAllUsernames()) {

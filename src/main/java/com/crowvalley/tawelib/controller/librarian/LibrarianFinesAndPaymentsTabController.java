@@ -53,7 +53,7 @@ public class LibrarianFinesAndPaymentsTabController extends AbstractFinesAndPaym
     }
 
     @Override
-    protected ObservableList<Transaction> searchInternal(LocalDateTime startDate, LocalDateTime endDate) {
+    protected ObservableList<Transaction> searchByDate(LocalDateTime startDate, LocalDateTime endDate) {
         List<Transaction> queryResult;
         if (StringUtils.isNotBlank(txtSearch.getText())) {
             queryResult = transactionService.search(txtSearch.getText(), startDate, endDate);

@@ -46,9 +46,9 @@ public class Loan {
 
     public static Comparator<Loan> getComparator() {
         return (loan1, loan2) -> ComparisonChain.start()
-                .compare(loan1.getReturnDate(), loan2.getReturnDate(), Ordering.natural().nullsFirst())
-                .compare(loan1.getEndDate(), loan2.getEndDate())
-                .compare(loan1.getStartDate(), loan2.getStartDate())
+                .compare(loan1.getReturnDate(), loan2.getReturnDate(), Ordering.natural().reverse().nullsFirst())
+                .compare(loan1.getEndDate(), loan2.getEndDate(), Ordering.natural().reverse())
+                .compare(loan1.getStartDate(), loan2.getStartDate(), Ordering.natural().reverse())
                 .result();
     }
 
@@ -80,4 +80,20 @@ public class Loan {
         this.returnDate = returnDate;
     }
 
+    public enum Status {
+        AVAILABLE("Available"),
+        ON_LOAN("On loan"),
+        ON_LOAN_TO_YOU("On loan to you");
+
+        private final String toString;
+
+        Status(String toString) {
+            this.toString = toString;
+        }
+
+        @Override
+        public String toString() {
+            return toString;
+        }
+    }
 }

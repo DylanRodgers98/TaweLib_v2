@@ -5,6 +5,7 @@ import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.ResourceService;
 import com.crowvalley.tawelib.util.FXMLUtils;
 import com.crowvalley.tawelib.util.ImageUtils;
+import com.google.common.collect.Sets;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -187,10 +188,10 @@ public class AddResourceController implements FXController {
         } catch (NumberFormatException e) {
             FXMLUtils.displayErrorDialogBox("Error Saving DVD", "Runtime must be numeric");
         }
-        String subLang = txtOptional4.getText();
+        String[] subtitleLanguages = txtOptional4.getText().split(",\\s*");
 
         try {
-            Dvd dvd = ResourceFactory.createDvd(title, year, imageUrl, director, language, runtime, subLang);
+            Dvd dvd = ResourceFactory.createDvd(title, year, imageUrl, director, language, runtime, Sets.newHashSet(subtitleLanguages));
             resourceService.saveOrUpdate(dvd);
             FXMLUtils.loadNewScene(LIBRARIAN_HOME_FXML);
         } catch (Exception e) {

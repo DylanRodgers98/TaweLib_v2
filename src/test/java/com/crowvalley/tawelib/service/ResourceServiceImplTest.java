@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -125,8 +126,20 @@ public class ResourceServiceImplTest {
 
     @Test
     public void testDeleteWithId() {
+        when(mockResourceDAO.getWithId(ID, Resource.class)).thenReturn(Optional.of(mockBook));
+
         resourceService.deleteWithId(ID);
-        verify(mockResourceDAO).deleteWithId(ID, Resource.class);
+
+        verify(mockResourceDAO).delete(mockBook);
+    }
+
+    @Test
+    public void testDeleteWithId_ResourceNotFound() {
+        when(mockResourceDAO.getWithId(ID, Resource.class)).thenReturn(Optional.empty());
+
+        assertThatCode(() -> resourceService.deleteWithId(ID))
+                .as("Exception throw because resource with given ID not found in database")
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test

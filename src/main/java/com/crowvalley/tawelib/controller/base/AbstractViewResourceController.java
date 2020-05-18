@@ -5,6 +5,7 @@ import com.crowvalley.tawelib.model.resource.*;
 import com.crowvalley.tawelib.service.CopyService;
 import com.crowvalley.tawelib.service.LoanService;
 import com.crowvalley.tawelib.util.FXMLUtils;
+import com.crowvalley.tawelib.util.ImageUtils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableStringValue;
@@ -18,6 +19,9 @@ import javafx.scene.image.ImageView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 public abstract class AbstractViewResourceController implements SelectionAwareFXController<Resource> {
@@ -52,6 +56,12 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
     private TextField txtOptional5;
 
     @FXML
+    private Label lblTitle;
+
+    @FXML
+    private Label lblYear;
+
+    @FXML
     private Label lblOptional1;
 
     @FXML
@@ -80,9 +90,6 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
 
     @FXML
     private TableColumn<Copy, Integer> colNumOfRequests;
-
-    @FXML
-    private Button btnBack;
 
     @Override
     public void initialize() {
@@ -113,7 +120,10 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
         ResourceType resourceType = selectedResource.getResourceType();
 
         txtTitle.setText(selectedResource.getTitle());
+        lblTitle.setTooltip(new Tooltip(selectedResource.getTitle()));
         txtYear.setText(selectedResource.getYear());
+        lblYear.setTooltip(new Tooltip(selectedResource.getYear()));
+
         loadResourcePic(selectedResource);
 
         if (resourceType.equals(ResourceType.BOOK)) {
@@ -127,17 +137,22 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
 
     private void loadResourcePic(Resource resource) {
         Optional<String> imageUrl = resource.getImageUrl();
-        imageUrl.ifPresent(e -> imgResourcePic.setImage(new Image(e)));
+        imageUrl.ifPresent(url -> imgResourcePic.setImage(ImageUtils.getImage(url)));
     }
 
     private void populateBookFields() {
         showTextFieldsAndLabelsForBook();
         Book book = (Book) selectedResource;
         txtOptional1.setText(book.getAuthor());
+        lblOptional1.setTooltip(new Tooltip(book.getAuthor()));
         txtOptional2.setText(book.getPublisher());
+        lblOptional2.setTooltip(new Tooltip(book.getPublisher()));
         txtOptional3.setText(book.getGenre());
+        lblOptional3.setTooltip(new Tooltip(book.getGenre()));
         txtOptional4.setText(book.getIsbn());
+        lblOptional4.setTooltip(new Tooltip(book.getIsbn()));
         txtOptional5.setText(book.getLanguage());
+        lblOptional5.setTooltip(new Tooltip(book.getLanguage()));
     }
 
     private void showTextFieldsAndLabelsForBook() {
@@ -159,9 +174,13 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
         showTextFieldsAndLabelsForDvd();
         Dvd dvd = (Dvd) selectedResource;
         txtOptional1.setText(dvd.getDirector());
+        lblOptional1.setTooltip(new Tooltip(dvd.getDirector()));
         txtOptional2.setText(dvd.getLanguage());
+        lblOptional2.setTooltip(new Tooltip(dvd.getLanguage()));
         txtOptional3.setText(String.valueOf(dvd.getRuntime()));
-        txtOptional4.setText(dvd.getSubLang());
+        lblOptional4.setTooltip(new Tooltip(String.valueOf(dvd.getRuntime())));
+        txtOptional4.setText(dvd.getSubtitleLanguageString());
+        lblOptional4.setTooltip(new Tooltip(dvd.getSubtitleLanguageString()));
     }
 
     private void showTextFieldsAndLabelsForDvd() {
@@ -173,7 +192,7 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
         lblOptional2.setLayoutX(73.0);
         lblOptional3.setText("Runtime:");
         lblOptional3.setLayoutX(80.0);
-        lblOptional4.setText("Subtitle Language:");
+        lblOptional4.setText("Subtitle Languages:");
         lblOptional4.setLayoutX(29.0);
     }
 
@@ -181,8 +200,11 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
         showTextFieldsAndLabelsForLaptop();
         Laptop laptop = (Laptop) selectedResource;
         txtOptional1.setText(laptop.getManufacturer());
+        lblOptional1.setTooltip(new Tooltip(laptop.getManufacturer()));
         txtOptional2.setText(laptop.getModel());
+        lblOptional2.setTooltip(new Tooltip(laptop.getManufacturer()));
         txtOptional3.setText(laptop.getOs());
+        lblOptional3.setTooltip(new Tooltip(laptop.getOs()));
     }
 
     private void showTextFieldsAndLabelsForLaptop() {
@@ -197,9 +219,14 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
     }
 
     @FXML
+    protected abstract void enableButtonsIfCopySelected();
+
+    @FXML
     private void goBack() {
         FXMLUtils.loadNewScene(getBackButtonFxml());
     }
+
+    protected abstract String getBackButtonFxml();
 
     protected Copy getSelectedCopy() {
         return tblCopies.getSelectionModel().getSelectedItem();
@@ -209,11 +236,6 @@ public abstract class AbstractViewResourceController implements SelectionAwareFX
     public void setSelectedItem(Resource selectedItem) {
         this.selectedResource = selectedItem;
     }
-
-    protected abstract String getBackButtonFxml();
-
-    @FXML
-    protected abstract void enableButtonsIfResourceSelected();
     
     public void setCopyService(CopyService copyService) {
         this.copyService = copyService;

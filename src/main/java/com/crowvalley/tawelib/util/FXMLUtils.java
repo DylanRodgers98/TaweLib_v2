@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -49,7 +50,7 @@ public class FXMLUtils {
         return loader;
     }
 
-    private static void loadNewScene(Stage stage, FXMLLoader loader) {
+    static void loadNewScene(Stage stage, FXMLLoader loader) {
         try {
             Scene scene = new Scene(loader.load());
             stage.setScene(scene);

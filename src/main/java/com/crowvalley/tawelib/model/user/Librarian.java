@@ -42,6 +42,7 @@ public class Librarian extends User {
 
     public Librarian() {
         super();
+        staffNum = new StaffNumber();
     }
 
     public LocalDate getEmploymentDate() {
