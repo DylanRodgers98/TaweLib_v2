@@ -37,7 +37,7 @@
     <properties>
         <assertj.version>3.13.2</assertj.version>
         <commons-dbcp.version>1.4</commons-dbcp.version>
-        <commons-io.version>2.6</commons-io.version>
+        <commons-io.version>2.7</commons-io.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <guava.version>28.2-jre</guava.version>
         <hibernate.version>5.4.13.Final</hibernate.version>
